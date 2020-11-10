@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 20.0),
               tarjeta('Tags', 'Add , delete or edit tags', tagIcon(40, colorMedico)),
               SizedBox(height: 20.0),
-              tarjeta('Rooms', 'Mannage the rooms ', roomIcon(40, colorMedico)),
+              tarjeta('Rooms', 'Mannage the rooms ', roomIcon(40)),
             ],
           ),
         ),

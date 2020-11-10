@@ -15,6 +15,7 @@ class _MusicPageState extends State<MusicPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        
         body: Container(
           color: colorBackGround,
           child: Column(
@@ -52,8 +53,10 @@ class _MusicPageState extends State<MusicPage> {
             ],
           ),
         ),
+        bottomNavigationBar: BotomBar(),
       ),
     );
+    
   }
 
   
