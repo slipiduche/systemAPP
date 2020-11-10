@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily:'Roboto'),
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'iniciandoPage',
+      initialRoute: 'musicPage',
       routes: getAppRoutes(),
       onGenerateRoute: (RouteSettings settings) {
         print('ruta llamada ${settings.name}');

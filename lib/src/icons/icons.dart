@@ -29,3 +29,17 @@ Widget tagIcon(double size, Color color) {
       height: size,
       color: color);
 }
+Widget addIcon(double size, Color color) {
+  return Image(
+      image: AssetImage('assets/add.png'),
+      width: size,
+      height: size,
+      );
+}
+Widget deleteIcon(double size, Color color) {
+  return Image(
+      image: AssetImage('assets/delete.png'),
+      width: size,
+      height: size,
+      color: color);
+}

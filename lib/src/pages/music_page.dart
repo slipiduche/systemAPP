@@ -32,11 +32,11 @@ class _MusicPageState extends State<MusicPage> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100.0)),
-                child: homeIcon(98.0, colorMedico),
+                child: musicIcon(98.0, colorMedico),
               ),
               SizedBox(height: 8.0),
               Text(
-                'Home',
+                'Music',
                 style: TextStyle(
                   color: colorVN,
                   fontSize: 40.0,
@@ -44,11 +44,11 @@ class _MusicPageState extends State<MusicPage> {
                 ),
               ),
               SizedBox(height: 40.0),
-              tarjeta('Music', 'Add new songs or delete old ones', musicIcon(40, colorMedico)),
+              tarjeta('Add songs', 'Add new songs', addIcon(40, colorMedico)),
               SizedBox(height: 20.0),
-              tarjeta('Tags', 'Add , delete or edit tags', tagIcon(40, colorMedico)),
+              tarjeta('Delete songs', 'Delete old songs', deleteIcon(40, colorMedico)),
               SizedBox(height: 20.0),
-              tarjeta('Rooms', 'Mannage the rooms ', roomIcon(40, colorMedico)),
+              tarjeta('Change Default', 'Select a new default song', addIcon(40, colorMedico)),
             ],
           ),
         ),
