@@ -38,6 +38,13 @@ dependency_overrides:
 
 
 flutter:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Light.ttf
+        
 
   uses-material-design: true
   assets:

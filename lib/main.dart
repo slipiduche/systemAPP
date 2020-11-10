@@ -13,9 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily:'Roboto'),
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'iniciandoPage',
+      initialRoute: 'homePage',
       routes: getAppRoutes(),
       onGenerateRoute: (RouteSettings settings) {
         print('ruta llamada ${settings.name}');

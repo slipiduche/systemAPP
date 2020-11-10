@@ -23,25 +23,12 @@ class _IniciandoPageState extends State<IniciandoPage> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if ((prefs.token == '') || (prefs.token == null)) {
-    //     Navigator.pushReplacementNamed(context, 'login');
-    //   }
-    // });
+   
   }
 
   @override
   Widget build(BuildContext context) {
-    // return WillPopScope(
-    //   onWillPop: (){
-    //     print('cerrando');
-    //     if (_ruta==0||_ruta==6) {
-    //       print('ruta igual a 0');
-    //       return SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    //     }
-
-    //   },
-    //       child:
+    
     return Container(
       child: _rutaInicial(context),
     );

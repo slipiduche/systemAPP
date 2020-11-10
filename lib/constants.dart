@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 final String serverUri = "broker.hivemq.com";
 final int port = 1883;
-final String topicName = "SDR/#";
+final String topicName = "server/#";
 // final String topicIn = "SDR/c4d7ba3a7d80/out";
 // final String topicOut = "SDR/c4d7ba3a7d80/in";
 
 final Color colorResaltadoBoton=Color.fromRGBO(234, 234, 234, 1.0);
 final Color colorOrbittas=Color.fromRGBO(0, 122, 146, 1.0);
-final Color coloBackGround=Color.fromRGBO(229, 229, 229, 1.0);
+final Color colorVN=Color.fromRGBO(4, 61, 57, 1.0);
+final Color colorBackGround=Color.fromRGBO(251, 251, 251, 1.0);
 final Color colorMedico=Color.fromRGBO(67, 205, 197, 1.0);
 final Color colorMedico1=Color.fromRGBO(51, 232, 221, 1.0);
 final Color colorMedico2=Color.fromRGBO(49, 188, 180, 1.0);
@@ -22,6 +23,11 @@ final BoxShadow boxShadow1= BoxShadow(
                     blurRadius: 4.0,
                     spreadRadius: 0.0,
                     offset: Offset(0, 4.0));
+final LinearGradient gradiente= LinearGradient(
+                colors: [colorMedico3, colorMedico2, colorMedico1, colorMedico],
+                stops: [0.0, 0.651, 0.9999, 1.0],
+                begin: FractionalOffset.topCenter,
+                end: FractionalOffset.bottomCenter);
 // final List dispositivos = [{   "id":0,
 //     "nombreDispositivo":"SDRVEN",
 //     "chipID":"XXXXXXXXXXXX"
