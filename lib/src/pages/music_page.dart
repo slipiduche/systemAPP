@@ -3,14 +3,14 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+class MusicPage extends StatefulWidget {
+  MusicPage({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MusicPageState createState() => _MusicPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MusicPageState extends State<MusicPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
