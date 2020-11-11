@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 
 Widget tarjeta(String label, description, Widget icon) {
@@ -35,6 +36,43 @@ Widget tarjeta(String label, description, Widget icon) {
           width: 43.48,
         )
       ]),
+    ),
+  );
+}
+
+Widget gradientBar(bool selected) {
+  if (selected) {
+    return Container(
+      height: 10.0,
+      width: 90,
+      decoration: BoxDecoration(
+        //color: colorMedico,
+        gradient: gradiente,
+      ),
+    );
+  } else {
+    return Container(
+      height: 10.0,
+      width: 90,
+      color: colorBackGround,
+    );
+  }
+}
+
+Widget gradientBar2(int index) {
+  return Container(
+    height: 10.0,
+    width: double.infinity,
+    child: Row(
+      children: [
+        gradientBar(index == 0),
+        Expanded(child: Container()),
+        gradientBar(index == 1),
+        Expanded(child: Container()),
+        gradientBar(index == 2),
+        Expanded(child: Container()),
+        gradientBar(index == 3),
+      ],
     ),
   );
 }

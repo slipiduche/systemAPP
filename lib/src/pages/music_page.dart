@@ -15,7 +15,7 @@ class _MusicPageState extends State<MusicPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
+
         body: Container(
           color: colorBackGround,
           child: Column(
@@ -50,7 +50,10 @@ class _MusicPageState extends State<MusicPage> {
               tarjeta('Delete songs', 'Delete old songs', deleteIcon(40, colorMedico)),
               SizedBox(height: 20.0),
               tarjeta('Change Default', 'Select a new default song', addIcon(40, colorMedico)),
+              Expanded(child: Container()),
+              gradientBar2(3),
             ],
+            
           ),
         ),
         bottomNavigationBar: BotomBar(),

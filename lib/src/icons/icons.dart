@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:systemAPP/src/widgets/widgets.dart';
 
 Widget homeIcon(double size, Color color) {
   return Image(
@@ -7,12 +8,13 @@ Widget homeIcon(double size, Color color) {
       height: size,
       color: color);
 }
+
 Widget homeBarIcon(double size) {
   return Image(
-      image: AssetImage('assets/homebar.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/homebar.png'),
+    width: size,
+    height: size,
+  );
 }
 
 Widget musicIcon(double size, Color color) {
@@ -22,56 +24,63 @@ Widget musicIcon(double size, Color color) {
       height: size,
       color: color);
 }
+
 Widget musicBarIcon(double size) {
   return Image(
-      image: AssetImage('assets/musicbar.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/musicbar.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget musicBarIconS(double size) {
   return Image(
-      image: AssetImage('assets/musicbarS.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/musicbarS.png'),
+    width: size,
+    height: size,
+  );
 }
 
 Widget roomIcon(double size) {
   return Image(
-      image: AssetImage('assets/rooms.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/rooms.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget roomBarIcon(double size) {
   return Image(
-      image: AssetImage('assets/roomsbar.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/roomsbar.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget roomBarIconS(double size) {
   return Image(
-      image: AssetImage('assets/roomsbarS.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/roomsbarS.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget tagBarIcon(double size) {
   return Image(
-      image: AssetImage('assets/tagbar.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/tagbar.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget tagBarIconS(double size) {
   return Image(
-      image: AssetImage('assets/tagbarS.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/tagbarS.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget tagIcon(double size, Color color) {
   return Image(
       image: AssetImage('assets/tag.png'),
@@ -79,13 +88,15 @@ Widget tagIcon(double size, Color color) {
       height: size,
       color: color);
 }
+
 Widget addIcon(double size, Color color) {
   return Image(
-      image: AssetImage('assets/add.png'),
-      width: size,
-      height: size,
-      );
+    image: AssetImage('assets/add.png'),
+    width: size,
+    height: size,
+  );
 }
+
 Widget deleteIcon(double size, Color color) {
   return Image(
       image: AssetImage('assets/delete.png'),
