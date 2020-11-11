@@ -1,42 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
+ void _moveTo(index, context)async{
+if (index == 0) {
+      await Navigator.pushReplacementNamed(context, 'roomsPage',
+          arguments: null);
+    }
 
-Widget tarjeta(String label, description, Widget icon) {
-  return Card(
-    elevation: 5.0,
-    color: Colors.white,
-    child: Container(
-      height: 105,
-      child: Row(children: [
-        SizedBox(width: 30.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 36.0,
-                  fontWeight: FontWeight.w100),
-            ),
-            Text(
-              description,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w100),
-            )
-          ],
-        ),
-        Expanded(child: Container()),
-        icon,
-        SizedBox(
-          width: 43.48,
-        )
-      ]),
+    if (index == 1) {
+      await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
+    }
+    if (index == 2) {
+      await Navigator.pushReplacementNamed(context, 'homePage',
+          arguments: null);
+    }
+    if (index == 3) {
+      await Navigator.pushReplacementNamed(context, 'musicPage',
+          arguments: null);
+    }
+}
+
+Widget tarjeta(String label, description, Widget icon,int index,dynamic context ) {
+  return GestureDetector(
+      
+      child: Card(
+      elevation: 5.0,
+      color: Colors.white,
+      child: Container(
+        height: 105,
+        child: Row(children: [
+          SizedBox(width: 30.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 36.0,
+                    fontWeight: FontWeight.w100),
+              ),
+              Text(
+                description,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100),
+              )
+            ],
+          ),
+          Expanded(child: Container()),
+          icon,
+          SizedBox(
+            width: 43.48,
+          )
+        ]),
+      ),
     ),
+    onTap: ()async{
+      if (index == 0) {
+      await Navigator.pushReplacementNamed(context, 'roomsPage',
+          arguments: null);
+    }
+
+    if (index == 1) {
+      await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
+    }
+    if (index == 2) {
+      await Navigator.pushReplacementNamed(context, 'homePage',
+          arguments: null);
+    }
+    if (index == 3) {
+      await Navigator.pushReplacementNamed(context, 'musicPage',
+          arguments: null);
+    }
+    },
   );
 }
 
@@ -117,11 +156,26 @@ class _BotomBarState extends State<BotomBar> {
     );
   }
 
-  void _onItemTapped(index) {
+  void _onItemTapped(index) async {
     _itemselected = index;
     print('presionaste:');
     print(index);
+    if (index == 0) {
+      await Navigator.pushReplacementNamed(context, 'roomsPage',
+          arguments: null);
+    }
 
-    setState(() {});
+    if (index == 1) {
+      await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
+    }
+    if (index == 2) {
+      await Navigator.pushReplacementNamed(context, 'homePage',
+          arguments: null);
+    }
+    if (index == 3) {
+      await Navigator.pushReplacementNamed(context, 'musicPage',
+          arguments: null);
+    }
+    
   }
 }
