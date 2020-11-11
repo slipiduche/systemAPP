@@ -42,10 +42,15 @@ Widget musicBarIconS(double size) {
 }
 
 Widget roomIcon(double size) {
-  return Image(
-    image: AssetImage('assets/rooms.png'),
-    width: size,
-    height: size,
+  return Row(
+    children: [
+      SizedBox(width: 25.0,),
+      Image(
+        image: AssetImage('assets/rooms.png'),
+        width: size,
+        height: size,
+      ),
+    ],
   );
 }
 
@@ -100,6 +105,13 @@ Widget addIcon(double size, Color color) {
 Widget deleteIcon(double size, Color color) {
   return Image(
       image: AssetImage('assets/delete.png'),
+      width: size,
+      height: size,
+      color: color);
+}
+Widget editIcon(double size, Color color) {
+  return Image(
+      image: AssetImage('assets/edit.png'),
       width: size,
       height: size,
       color: color);
