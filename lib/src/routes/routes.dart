@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:systemAPP/src/pages/addSongs_page.dart';
 import 'package:systemAPP/src/pages/home_page.dart';
 import 'package:systemAPP/src/pages/iniciando_page.dart';
 import 'package:systemAPP/src/pages/music_page.dart';
@@ -10,6 +11,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     
     'homePage': (BuildContext context) => HomePage(),
     'musicPage': (BuildContext context) => MusicPage(),
+    'addSongsPage': (BuildContext context) => AddSongsPage(),
     'tagPage': (BuildContext context) => TagsPage(),
     'roomsPage': (BuildContext context) => RoomsPage(),
     

@@ -116,3 +116,10 @@ Widget editIcon(double size, Color color) {
       height: size,
       color: color);
 }
+Widget songIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/songs.png'),
+    width: size,
+    height: size,
+  );
+}

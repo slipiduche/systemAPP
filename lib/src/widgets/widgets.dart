@@ -59,8 +59,8 @@ Widget tarjeta(String label, description, Widget icon,int index,dynamic context 
       ),
     ),
     onTap: ()async{
-      if (index == 0) {
-      await Navigator.pushReplacementNamed(context, 'roomsPage',
+      if (index == 5) {
+      await Navigator.pushReplacementNamed(context, 'addSongsPage',
           arguments: null);
     }
 
