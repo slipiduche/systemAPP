@@ -150,7 +150,10 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                         child: Text("Pick folder"),
                       ),
                       RaisedButton(
-                        onPressed: () => _clearCachedFiles(),
+                        onPressed: () { _clearCachedFiles();
+                        setState(() {
+                          
+                        });},
                         child: Text("Clear temporary files"),
                       ),
                     ],

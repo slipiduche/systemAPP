@@ -52,8 +52,9 @@ Widget tarjeta(String label, description, Widget icon,int index,dynamic context 
           ),
           Expanded(child: Container()),
           icon,
+          
           SizedBox(
-            width: 43.48,
+            width: 23.48,
           )
         ]),
       ),

@@ -15,7 +15,6 @@ class _TagsPageState extends State<TagsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
         body: Container(
           color: colorBackGround,
           child: Column(
@@ -26,41 +25,46 @@ class _TagsPageState extends State<TagsPage> {
                   decoration: BoxDecoration(
                     gradient: gradiente,
                   )),
-              SizedBox(height: 26.0),
-              Container(
-                height: 123,
-                width: 123,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100.0)),
-                child: tagIcon(98.0, colorMedico),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Tags',
-                style: TextStyle(
-                  color: colorVN,
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.w400
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 26.0),
+                      Container(
+                        height: 123,
+                        width: 123,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(100.0)),
+                        child: tagIcon(98.0, colorMedico),
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        'Tags',
+                        style: TextStyle(
+                            color: colorVN,
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: 40.0),
+                      tarjeta('Add tag', 'Add new tag',
+                          addIcon(40, colorMedico), 8, context),
+                      SizedBox(height: 20.0),
+                      tarjeta('Edit tag', 'Edit a tag',
+                          editIcon(40, colorMedico), 9, context),
+                      SizedBox(height: 20.0),
+                      tarjeta('Delete tag', 'Delete a tag',
+                          deleteIcon(40, colorMedico), 10, context),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 40.0),
-              tarjeta('Add tag', 'Add new tag', addIcon(40, colorMedico),8,context),
-              SizedBox(height: 20.0),
-              tarjeta('Edit tag', 'Edit a tag', editIcon(40, colorMedico),9,context),
-              SizedBox(height: 20.0),
-              tarjeta('Delete tag', 'Delete a tag', deleteIcon(40, colorMedico),10,context),
-              Expanded(child: Container()),
               gradientBar2(1),
             ],
-            
           ),
         ),
         bottomNavigationBar: BottomBar(1),
       ),
     );
-    
   }
-
-  
 }
