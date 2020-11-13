@@ -56,7 +56,7 @@ class _MusicPageState extends State<MusicPage> {
             
           ),
         ),
-        bottomNavigationBar: BotomBar(),
+        bottomNavigationBar: BottomBar(3),
       ),
     );
     

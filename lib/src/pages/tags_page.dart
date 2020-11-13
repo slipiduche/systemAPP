@@ -56,7 +56,7 @@ class _TagsPageState extends State<TagsPage> {
             
           ),
         ),
-        bottomNavigationBar: BotomBar(),
+        bottomNavigationBar: BottomBar(1),
       ),
     );
     

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
+import 'package:systemAPP/src/provider/file_provider.dart';
+
 
 class AddSongsPage extends StatefulWidget {
   AddSongsPage({Key key}) : super(key: key);
@@ -11,6 +13,7 @@ class AddSongsPage extends StatefulWidget {
 }
 
 class _AddSongsPageState extends State<AddSongsPage> {
+  FilePickerDemo filePicker= new FilePickerDemo();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,27 +48,28 @@ class _AddSongsPageState extends State<AddSongsPage> {
                 ),
               ),
               SizedBox(height: 40.0),
-              tarjeta('Add songs', 'Add new songs', addIcon(40, colorMedico),5,context),
-              SizedBox(height: 20.0),
-              tarjeta('Delete songs', 'Delete old songs', deleteIcon(40, colorMedico),6,context),
-              SizedBox(height: 20.0),
-              tarjeta('Change Default', 'Select a new default song', addIcon(40, colorMedico),7,context),
-              Expanded(child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      
-                    ],
-                  ),
+              
+              Expanded(
+                              child: Container(
+                  height: 400.0,
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        FilePickerDemo(),
+                        
+                      ],
+                    ),
 
+                  ),
                 ),
-              )),
+              ),
               gradientBar2(3),
             ],
             
           ),
         ),
-        bottomNavigationBar: BotomBar(),
+        bottomNavigationBar: BottomBar(3),
       ),
     );
     

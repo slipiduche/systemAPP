@@ -62,7 +62,7 @@ class _RoomsPageState extends State<RoomsPage> {
             
           ),
         ),
-        bottomNavigationBar: BotomBar(),
+        bottomNavigationBar: BottomBar(0),
       ),
     );
     

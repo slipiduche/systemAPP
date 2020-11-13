@@ -143,7 +143,7 @@ class _IniciandoPageState extends State<IniciandoPage> {
                 title: Center(child: Text('Error')),
                 content: Container(
                   child: Text(
-                    "No se pudo establecer conexión con el servidor. ¿Desea intentar de nuevo?",
+                    "Server is not available. Try again?",
                     textAlign: TextAlign.center,
                   ),
                 ),

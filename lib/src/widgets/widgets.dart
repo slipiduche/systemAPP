@@ -116,15 +116,19 @@ Widget gradientBar2(int index) {
   );
 }
 
-class BotomBar extends StatefulWidget {
-  BotomBar({Key key}) : super(key: key);
+class BottomBar extends StatefulWidget {
+  
+  int index;
+  BottomBar(this.index,{Key key} ) : super(key: key);
+  
 
   @override
-  _BotomBarState createState() => _BotomBarState();
+  _BottomBarState createState() => _BottomBarState(index);
 }
 
-class _BotomBarState extends State<BotomBar> {
-  int _itemselected = 0;
+class _BottomBarState extends State<BottomBar> {
+  int _itemselected;
+  _BottomBarState( this._itemselected );
   @override
   Widget build(BuildContext context) {
     return botomBar();
