@@ -53,7 +53,7 @@ class _AddSongsPageState extends State<AddSongsPage> {
                               child: Container(
                   height: 400.0,
                   width: double.infinity,
-                  child: SingleChildScrollView(
+                  
                     child: Column(
                       children: [
                         FilePickerDemo(),
@@ -62,7 +62,7 @@ class _AddSongsPageState extends State<AddSongsPage> {
                     ),
 
                   ),
-                ),
+                
               ),
               gradientBar2(3),
             ],

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:id3/id3.dart';
+import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
+import 'package:systemAPP/src/widgets/widgets.dart';
 class FilePickerDemo extends StatefulWidget {
   @override
   _FilePickerDemoState createState() => _FilePickerDemoState();
@@ -173,8 +177,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                             )
                           : _paths != null
                               ? Container(
-                                  padding: const EdgeInsets.only(bottom: 30.0),
-                                  width: MediaQuery.of(context).size.width-30,
+                                  //spadding: const EdgeInsets.only(bottom: 30.0),
+                                  width: MediaQuery.of(context).size.width,
                                   height:
                                       MediaQuery.of(context).size.height * 0.50,
                                   
@@ -198,21 +202,16 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           .toList()[index]
                                           .toString();
                                       final _selected=index;
+                                      //MP3Instance id3=MP3Instance(_paths[index].path);
+                                      String author;//=id3.getMetaTags()['Artist'];
+                                      //print(id3.getMetaTags());
+                                      if (author==null){
+                                        author="Unknown";
+                                      }
+                                      print(author);
 
-                                      return GestureDetector(
-                                        onTap: (){
-                                          print(_paths[index].name);
-                                          print(_paths[index].path);
-                                          UploadProvider().upload(_paths[index].path);
-                                          
-                                        },
-                                                                              child: ListTile(
-                                          title: Text(
-                                            name,
-                                          ),
-                                          subtitle: Text(path),
-                                        ),
-                                      );
+
+                                      return twoIconCard(_paths[index].name, author, songIcon(30.0, colorMedico), addIcon(30.0, colorMedico), path, context);
                                     },
                                     separatorBuilder:
                                         (BuildContext context, int index) =>

@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
- void _moveTo(index, context)async{
-if (index == 0) {
-      await Navigator.pushReplacementNamed(context, 'roomsPage',
-          arguments: null);
-    }
+import 'package:systemAPP/src/provider/upload_provider.dart';
 
-    if (index == 1) {
-      await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
-    }
-    if (index == 2) {
-      await Navigator.pushReplacementNamed(context, 'homePage',
-          arguments: null);
-    }
-    if (index == 3) {
-      await Navigator.pushReplacementNamed(context, 'musicPage',
-          arguments: null);
-    }
+void _moveTo(index, context) async {
+  if (index == 0) {
+    await Navigator.pushReplacementNamed(context, 'roomsPage', arguments: null);
+  }
+
+  if (index == 1) {
+    await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
+  }
+  if (index == 2) {
+    await Navigator.pushReplacementNamed(context, 'homePage', arguments: null);
+  }
+  if (index == 3) {
+    await Navigator.pushReplacementNamed(context, 'musicPage', arguments: null);
+  }
 }
 
-Widget tarjeta(String label, description, Widget icon,int index,dynamic context ) {
+Widget tarjeta(
+    String label, description, Widget icon, int index, dynamic context) {
   return GestureDetector(
-      
-      child: Card(
+    child: Card(
       elevation: 5.0,
       color: Colors.white,
       child: Container(
@@ -52,31 +51,80 @@ Widget tarjeta(String label, description, Widget icon,int index,dynamic context 
           ),
           Expanded(child: Container()),
           icon,
-          
           SizedBox(
             width: 23.48,
           )
         ]),
       ),
     ),
-    onTap: ()async{
+    onTap: () async {
       if (index == 5) {
-      await Navigator.pushReplacementNamed(context, 'addSongsPage',
-          arguments: null);
-    }
+        await Navigator.pushReplacementNamed(context, 'addSongsPage',
+            arguments: null);
+      }
 
-    if (index == 1) {
-      await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
-    }
-    if (index == 2) {
-      await Navigator.pushReplacementNamed(context, 'homePage',
-          arguments: null);
-    }
-    if (index == 3) {
-      await Navigator.pushReplacementNamed(context, 'musicPage',
-          arguments: null);
-    }
+      if (index == 1) {
+        await Navigator.pushReplacementNamed(context, 'tagPage',
+            arguments: null);
+      }
+      if (index == 2) {
+        await Navigator.pushReplacementNamed(context, 'homePage',
+            arguments: null);
+      }
+      if (index == 3) {
+        await Navigator.pushReplacementNamed(context, 'musicPage',
+            arguments: null);
+      }
     },
+  );
+}
+
+Widget twoIconCard(String label, description, Widget icon, icon1, String path,
+    dynamic context) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      height: 105,
+      width: MediaQuery.of(context).size.width-30,
+      child: Row(children: [
+        Expanded(child: Container()),
+        icon,
+        Expanded(child: Container()),
+        Container(
+          width: MediaQuery.of(context).size.width-120,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w100,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                description,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100),
+              )
+            ],
+          ),
+        ),
+        Expanded(child: Container()),
+        GestureDetector(
+            onTap: () async {
+              await UploadProvider().upload(path);
+            },
+            child: icon1),
+        Expanded(child: Container()),
+      ]),
+    ),
   );
 }
 
@@ -118,10 +166,8 @@ Widget gradientBar2(int index) {
 }
 
 class BottomBar extends StatefulWidget {
-  
   int index;
-  BottomBar(this.index,{Key key} ) : super(key: key);
-  
+  BottomBar(this.index, {Key key}) : super(key: key);
 
   @override
   _BottomBarState createState() => _BottomBarState(index);
@@ -129,7 +175,7 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _itemselected;
-  _BottomBarState( this._itemselected );
+  _BottomBarState(this._itemselected);
   @override
   Widget build(BuildContext context) {
     return botomBar();
@@ -181,6 +227,5 @@ class _BottomBarState extends State<BottomBar> {
       await Navigator.pushReplacementNamed(context, 'musicPage',
           arguments: null);
     }
-    
   }
 }
