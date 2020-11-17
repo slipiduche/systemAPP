@@ -18,6 +18,8 @@ final Color colorMedico2=Color.fromRGBO(49, 188, 180, 1.0);
 final Color colorMedico3=Color.fromRGBO(13, 148, 140, 1.0);
 final Color colorBordeBotton=Color.fromRGBO(196, 196, 196, 1.0);
 final Color colorShadow=Color.fromRGBO(0,0,0, 0.25);
+final Color colorBordeSearch=Color.fromRGBO(229, 229, 229, 1.0);
+final Color colorLetraSearch=Color.fromRGBO(142, 142, 142, 1.0);
 final BoxShadow boxShadow1= BoxShadow(
                     color: colorShadow,
                     blurRadius: 4.0,

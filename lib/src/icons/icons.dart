@@ -123,3 +123,10 @@ Widget songIcon(double size, Color color) {
     height: size,
   );
 }
+Widget searchIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/search.png'),
+    width: size,
+    height: size,
+  );
+}

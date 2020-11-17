@@ -6,6 +6,7 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
+
 class FilePickerDemo extends StatefulWidget {
   @override
   _FilePickerDemoState createState() => _FilePickerDemoState();
@@ -18,8 +19,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   String _directoryPath;
   String _extension;
   bool _loadingPath = false;
-  bool _multiPick = false;
-  FileType _pickingType = FileType.any;
+  bool _multiPick = true;
+  FileType _pickingType = FileType.audio;
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -73,157 +74,132 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-            child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: DropdownButton(
-                      hint: Text('LOAD PATH FROM'),
-                      value: _pickingType,
-                      items: <DropdownMenuItem>[
-                        DropdownMenuItem(
-                          child: Text('FROM AUDIO'),
-                          value: FileType.audio,
-                        ),
-                        DropdownMenuItem(
-                          child: Text('FROM IMAGE'),
-                          value: FileType.image,
-                        ),
-                        DropdownMenuItem(
-                          child: Text('FROM VIDEO'),
-                          value: FileType.video,
-                        ),
-                        DropdownMenuItem(
-                          child: Text('FROM MEDIA'),
-                          value: FileType.media,
-                        ),
-                        DropdownMenuItem(
-                          child: Text('FROM ANY'),
-                          value: FileType.any,
-                        ),
-                        DropdownMenuItem(
-                          child: Text('CUSTOM FORMAT'),
-                          value: FileType.custom,
-                        ),
-                      ],
-                      onChanged: (value) => setState(() {
-                            _pickingType = value;
-                            if (_pickingType != FileType.custom) {
-                              _controller.text = _extension = '';
-                            }
-                          })),
-                ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints.tightFor(width: 100.0),
-                  child: _pickingType == FileType.custom
-                      ? TextFormField(
-                          maxLength: 15,
-                          //autovalidateMode: AutovalidateMode.always,
-                          controller: _controller,
-                          decoration:
-                              InputDecoration(labelText: 'File extension'),
-                          keyboardType: TextInputType.text,
-                          textCapitalization: TextCapitalization.none,
-                        )
-                      : const SizedBox(),
-                ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints.tightFor(width: 200.0),
-                  child: SwitchListTile.adaptive(
-                    title:
-                        Text('Pick multiple files', textAlign: TextAlign.right),
-                    onChanged: (bool value) =>
-                        setState(() => _multiPick = value),
-                    value: _multiPick,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0, bottom: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      RaisedButton(
-                        onPressed: () => _openFileExplorer(),
-                        child: Text("Open file picker"),
-                      ),
-                      RaisedButton(
-                        onPressed: () => _selectFolder(),
-                        child: Text("Pick folder"),
-                      ),
-                      RaisedButton(
-                        onPressed: () { _clearCachedFiles();
-                        setState(() {
-                          
-                        });},
-                        child: Text("Clear temporary files"),
-                      ),
-                    ],
-                  ),
-                ),
-                Builder(
-                  builder: (BuildContext context) => _loadingPath
-                      ? Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: const CircularProgressIndicator(),
-                        )
-                      : _directoryPath != null
-                          ? ListTile(
-                              title: Text('Directory path'),
-                              subtitle: Text(_directoryPath),
-                            )
-                          : _paths != null
-                              ? Container(
-                                  //spadding: const EdgeInsets.only(bottom: 30.0),
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.50,
-                                  
-                                      child: ListView.separated(
-                                    itemCount:
-                                        _paths != null && _paths.isNotEmpty
-                                            ? _paths.length
-                                            : 1,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final bool isMultiPath =
-                                          _paths != null && _paths.isNotEmpty;
-                                      final String name = 'File $index: ' +
-                                          (isMultiPath
-                                              ? _paths
-                                                  .map((e) => e.name)
-                                                  .toList()[index]
-                                              : _fileName ?? '...');
-                                      final path = _paths
-                                          .map((e) => e.path)
-                                          .toList()[index]
-                                          .toString();
-                                      final _selected=index;
-                                      //MP3Instance id3=MP3Instance(_paths[index].path);
-                                      String author;//=id3.getMetaTags()['Artist'];
-                                      //print(id3.getMetaTags());
-                                      if (author==null){
-                                        author="Unknown";
-                                      }
-                                      print(author);
-
-
-                                      return twoIconCard(_paths[index].name, author, songIcon(30.0, colorMedico), addIcon(30.0, colorMedico), path, context);
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            const Divider(),
-                                  ),
-                                )
-                              : const SizedBox(),
-                ),
-              ],
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Select  the song you want to delete',
+              style: TextStyle(fontSize: 24),
+              overflow: TextOverflow.clip,
+              textAlign: TextAlign.center,
             ),
-          ),
-        
+            SizedBox(
+              height: 5.0,
+            ),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      _clearCachedFiles();
+
+                      _openFileExplorer();
+                    },
+                    child: Container(
+                      height: 41.0,
+                      width: MediaQuery.of(context).size.width - 52.0,
+                      child: Expanded(
+                          child: Row(
+                        children: [
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          searchIcon(20.0, colorMedico),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            "Search for a song",
+                            style: TextStyle(
+                                color: colorLetraSearch, fontSize: 24),
+                          ),
+                        ],
+                      )),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: colorBordeSearch,
+                            style: BorderStyle.solid,
+                          )),
+                    ),
+                  ),
+                  // RaisedButton(
+                  //   onPressed: () => _selectFolder(),
+                  //   child: Text("Pick folder"),
+                  // ),
+                  // RaisedButton(
+                  //   onPressed: () { _clearCachedFiles();
+                  //   setState(() {
+
+                  //   });},
+                  //   child: Text("Clear temporary files"),
+                  // ),
+                ],
+              ),
+            ),
+            Builder(
+              builder: (BuildContext context) => _loadingPath
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: const CircularProgressIndicator(),
+                    )
+                  : _directoryPath != null
+                      ? ListTile(
+                          title: Text('Directory path'),
+                          subtitle: Text(_directoryPath),
+                        )
+                      : _paths != null
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.36,
+                              child: ListView.separated(
+                                itemCount: _paths != null && _paths.isNotEmpty
+                                    ? _paths.length
+                                    : 1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final bool isMultiPath =
+                                      _paths != null && _paths.isNotEmpty;
+                                  final String name = 'File $index: ' +
+                                      (isMultiPath
+                                          ? _paths
+                                              .map((e) => e.name)
+                                              .toList()[index]
+                                          : _fileName ?? '...');
+                                  final path = _paths
+                                      .map((e) => e.path)
+                                      .toList()[index]
+                                      .toString();
+                                  final _selected = index;
+                                  //MP3Instance id3=MP3Instance(_paths[index].path);
+                                  String author; //=id3.getMetaTags()['Artist'];
+                                  //print(id3.getMetaTags());
+                                  if (author == null) {
+                                    author = "Unknown";
+                                  }
+                                  print(author);
+
+                                  return twoIconCard(
+                                      _paths[index].name,
+                                      author,
+                                      songIcon(30.0, colorMedico),
+                                      addIcon(30.0, colorMedico),
+                                      path,
+                                      context);
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const Divider(),
+                              ),
+                            )
+                          : const SizedBox(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

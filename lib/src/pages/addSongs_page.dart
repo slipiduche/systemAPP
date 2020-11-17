@@ -40,14 +40,14 @@ class _AddSongsPageState extends State<AddSongsPage> {
               ),
               SizedBox(height: 8.0),
               Text(
-                'AddSongs',
+                'Songs',
                 style: TextStyle(
                   color: colorVN,
                   fontSize: 40.0,
                   fontWeight: FontWeight.w400
                 ),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 30.0),
               
               Expanded(
                               child: Container(
