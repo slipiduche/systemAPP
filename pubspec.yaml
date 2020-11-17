@@ -19,6 +19,8 @@ dependencies:
   path_provider: ^1.6.7
   http:
   file_picker: 
+  mime_type:
+  id3:
 
   
 

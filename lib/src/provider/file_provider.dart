@@ -71,7 +71,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     return  Center(
             child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: SingleChildScrollView(
+          
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -173,9 +173,10 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                           : _paths != null
                               ? Container(
                                   padding: const EdgeInsets.only(bottom: 30.0),
+                                  width: MediaQuery.of(context).size.width-30,
                                   height:
                                       MediaQuery.of(context).size.height * 0.50,
-                                  child: Scrollbar(
+                                  
                                       child: ListView.separated(
                                     itemCount:
                                         _paths != null && _paths.isNotEmpty
@@ -196,24 +197,29 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           .toList()[index]
                                           .toString();
 
-                                      return ListTile(
-                                        title: Text(
-                                          name,
+                                      return GestureDetector(
+                                        onTap: (){
+                                          
+                                        },
+                                                                              child: ListTile(
+                                          title: Text(
+                                            name,
+                                          ),
+                                          subtitle: Text(path),
                                         ),
-                                        subtitle: Text(path),
                                       );
                                     },
                                     separatorBuilder:
                                         (BuildContext context, int index) =>
                                             const Divider(),
-                                  )),
+                                  ),
                                 )
                               : const SizedBox(),
                 ),
               ],
             ),
           ),
-        )
+        
     );
   }
 }
