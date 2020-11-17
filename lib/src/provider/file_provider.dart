@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:systemAPP/src/provider/upload_provider.dart';
 class FilePickerDemo extends StatefulWidget {
   @override
   _FilePickerDemoState createState() => _FilePickerDemoState();
@@ -196,9 +197,13 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           .map((e) => e.path)
                                           .toList()[index]
                                           .toString();
+                                      final _selected=index;
 
                                       return GestureDetector(
                                         onTap: (){
+                                          print(_paths[index].name);
+                                          print(_paths[index].path);
+                                          UploadProvider().upload(_paths[index].path);
                                           
                                         },
                                                                               child: ListTile(
