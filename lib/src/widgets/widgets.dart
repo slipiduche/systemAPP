@@ -58,10 +58,15 @@ Widget tarjeta(
       ),
     ),
     onTap: () async {
-      if (index == 5) {
+      if (index == 9) {
         await Navigator.pushReplacementNamed(context, 'addSongsPage',
             arguments: null);
       }
+      if (index == 5) {
+        await Navigator.pushReplacementNamed(context, 'songsPage',
+            arguments: null);
+      }
+
 
       if (index == 1) {
         await Navigator.pushReplacementNamed(context, 'tagPage',

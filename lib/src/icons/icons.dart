@@ -123,6 +123,20 @@ Widget songIcon(double size, Color color) {
     height: size,
   );
 }
+Widget addSongIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/addSong.png'),
+    width: size,
+    height: size,
+  );
+}
+Widget addSongsIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/addSongs.png'),
+    width: size,
+    height: size,
+  );
+}
 Widget searchIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/search.png'),
