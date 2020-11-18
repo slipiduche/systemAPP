@@ -4,7 +4,6 @@ import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/provider/file_provider.dart';
 
-
 class AddSongsPage extends StatefulWidget {
   AddSongsPage({Key key}) : super(key: key);
 
@@ -13,12 +12,11 @@ class AddSongsPage extends StatefulWidget {
 }
 
 class _AddSongsPageState extends State<AddSongsPage> {
-  FilePickerDemo filePicker= new FilePickerDemo();
+  FilePickerDemo filePicker = new FilePickerDemo();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
         body: Container(
           color: colorBackGround,
           child: Column(
@@ -42,38 +40,26 @@ class _AddSongsPageState extends State<AddSongsPage> {
               Text(
                 'Songs',
                 style: TextStyle(
-                  color: colorVN,
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.w400
-                ),
+                    color: colorVN,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 30.0),
-              
               Expanded(
-                              child: Container(
-                  height: 400.0,
-                  width: double.infinity,
-                  
-                    child: Column(
-                      children: [
-                        FilePickerDemo(),
-                        
-                      ],
-                    ),
+                child:Container(
+                        //height: 200.0,
+                        //width: double.infinity,
 
-                  ),
-                
+                        child: FilePickerDemo(),
+                      ),
+                  
               ),
               gradientBar2(3),
             ],
-            
           ),
         ),
         bottomNavigationBar: BottomBar(3),
       ),
     );
-    
   }
-
-  
 }

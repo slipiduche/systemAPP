@@ -81,7 +81,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Select  the song you want to delete',
+              'Select  the song you want to bind',
               style: TextStyle(fontSize: 24),
               overflow: TextOverflow.clip,
               textAlign: TextAlign.center,
@@ -143,9 +143,14 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
             ),
             Builder(
               builder: (BuildContext context) => _loadingPath
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: const CircularProgressIndicator(),
+                  ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: const CircularProgressIndicator(),
+                        ),
+                        Expanded(child: Container()),
+                      ],
                     )
                   : _directoryPath != null
                       ? ListTile(
@@ -153,52 +158,94 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                           subtitle: Text(_directoryPath),
                         )
                       : _paths != null
-                          ? Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.36,
-                              child: ListView.separated(
-                                itemCount: _paths != null && _paths.isNotEmpty
-                                    ? _paths.length
-                                    : 1,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final bool isMultiPath =
-                                      _paths != null && _paths.isNotEmpty;
-                                  final String name = 'File $index: ' +
-                                      (isMultiPath
-                                          ? _paths
-                                              .map((e) => e.name)
-                                              .toList()[index]
-                                          : _fileName ?? '...');
-                                  final path = _paths
-                                      .map((e) => e.path)
-                                      .toList()[index]
-                                      .toString();
-                                  final _selected = index;
-                                  //MP3Instance id3=MP3Instance(_paths[index].path);
-                                  String author; //=id3.getMetaTags()['Artist'];
-                                  //print(id3.getMetaTags());
-                                  if (author == null) {
-                                    author = "Unknown";
-                                  }
-                                  print(author);
+                          ? Expanded(
+                              //   width: MediaQuery.of(context).size.width,
+                              // height: MediaQuery.of(context).size.height,
 
-                                  return twoIconCard(
-                                      _paths[index].name,
-                                      author,
-                                      songIcon(30.0, colorMedico),
-                                      addIcon(30.0, colorMedico),
-                                      path,
-                                      context);
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                        const Divider(),
+                              child: SingleChildScrollView(
+                                child: Builder(
+                                  // itemCount: _paths != null && _paths.isNotEmpty
+                                  //     ? _paths.length
+                                  //     : 1,
+                                  builder: (BuildContext context) {
+                                    final itemCount =
+                                        _paths != null && _paths.isNotEmpty
+                                            ? _paths.length
+                                            : 1;
+                                    final bool isMultiPath =
+                                        _paths != null && _paths.isNotEmpty;
+                                    List<Widget> column = [Container()];
+
+                                    for (var i = 0; i < itemCount; i++) {
+                                      final path = _paths
+                                          .map((e) => e.path)
+                                          .toList()[i]
+                                          .toString();
+                                      final _selected = i;
+                                      //MP3Instance id3=MP3Instance(_paths[index].path);
+                                      String
+                                          author; //=id3.getMetaTags()['Artist'];
+                                      //print(id3.getMetaTags());
+                                      if (author == null) {
+                                        author = "Unknown";
+                                      }
+                                      print(author);
+                                      column.add(twoIconCard(
+                                          _paths[i].name,
+                                          author,
+                                          songIcon(30.0, colorMedico),
+                                          addIcon(30.0, colorMedico),
+                                          path,
+                                          context));
+                                    }
+
+                                    return Column(
+                                      children: column,
+                                    );
+                                  },
+                                ),
                               ),
                             )
-                          : const SizedBox(),
+                          : Expanded(child: const SizedBox()),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget otro() {
+    return Container(
+      //   width: MediaQuery.of(context).size.width,
+      // height: MediaQuery.of(context).size.height,
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: _paths != null && _paths.isNotEmpty ? _paths.length : 1,
+        itemBuilder: (BuildContext context, int index) {
+          final bool isMultiPath = _paths != null && _paths.isNotEmpty;
+          final String name = 'File $index: ' +
+              (isMultiPath
+                  ? _paths.map((e) => e.name).toList()[index]
+                  : _fileName ?? '...');
+          final path = _paths.map((e) => e.path).toList()[index].toString();
+          final _selected = index;
+          //MP3Instance id3=MP3Instance(_paths[index].path);
+          String author; //=id3.getMetaTags()['Artist'];
+          //print(id3.getMetaTags());
+          if (author == null) {
+            author = "Unknown";
+          }
+          print(author);
+
+          return twoIconCard(
+              _paths[index].name,
+              author,
+              songIcon(30.0, colorMedico),
+              addIcon(30.0, colorMedico),
+              path,
+              context);
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
     );
   }
