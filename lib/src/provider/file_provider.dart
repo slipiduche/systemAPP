@@ -17,10 +17,10 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   String _fileName;
   List<PlatformFile> _paths;
   String _directoryPath;
-  String _extension;
+  String _extension='mp3';
   bool _loadingPath = false;
   bool _multiPick = true;
-  FileType _pickingType = FileType.audio;
+  FileType _pickingType = FileType.custom;
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -34,11 +34,9 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     try {
       _directoryPath = null;
       _paths = (await FilePicker.platform.pickFiles(
-        type: _pickingType,
+        type: FileType.custom,
         allowMultiple: _multiPick,
-        allowedExtensions: (_extension?.isNotEmpty ?? false)
-            ? _extension?.replaceAll(' ', '')?.split(',')
-            : null,
+        allowedExtensions: ['mp3'],
       ))
           ?.files;
     } on PlatformException catch (e) {
@@ -167,6 +165,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                   // itemCount: _paths != null && _paths.isNotEmpty
                                   //     ? _paths.length
                                   //     : 1,
+
                                   builder: (BuildContext context) {
                                     final itemCount =
                                         _paths != null && _paths.isNotEmpty

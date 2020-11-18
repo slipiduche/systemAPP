@@ -81,6 +81,8 @@ Widget tarjeta(
 
 Widget twoIconCard(String label, description, Widget icon, icon1, String path,
     dynamic context) {
+      String _path=path; 
+      print(_path);
   return Card(
     elevation: 5.0,
     color: Colors.white,
@@ -119,7 +121,8 @@ Widget twoIconCard(String label, description, Widget icon, icon1, String path,
         Expanded(child: Container()),
         GestureDetector(
             onTap: () async {
-              await UploadProvider().upload(path);
+              print(_path);
+              await UploadProvider().upload(_path);
             },
             child: icon1),
         Expanded(child: Container()),

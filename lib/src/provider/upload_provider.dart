@@ -7,15 +7,17 @@ import 'package:http_parser/http_parser.dart';
 
 class UploadProvider {
   Future<Map> upload(String audioPath) async {
+    print(audioPath);
     final url = Uri.parse(
         'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
-    final mimeType = mime(audioPath).split('/'); //image/jpeg
-
+    // print(mime(audioPath));
+    // final mimeType = mime(audioPath).split('/'); //image/jpeg
+    // print(mimeType);
     final imageUploadRequest = http.MultipartRequest('POST', url);
 
     final file = await http.MultipartFile.fromPath('file', audioPath,
-        contentType: MediaType(mimeType[0], mimeType[1]));
-        print(file);
+        contentType: MediaType('audio', 'mpeg'));
+
     imageUploadRequest.files.add(file);
 
     final streamResponse = await imageUploadRequest.send();
