@@ -59,7 +59,11 @@ Widget tarjeta(
     ),
     onTap: () async {
       if (index == 9) {
-        await Navigator.pushReplacementNamed(context, 'addSongsPage',
+        await Navigator.pushNamed(context, 'addSongsPage',
+            arguments: null);
+      }
+      if (index == 8) {
+        await Navigator.pushNamed(context, 'addSongPPage',
             arguments: null);
       }
       if (index == 5) {
@@ -78,6 +82,10 @@ Widget tarjeta(
       }
       if (index == 3) {
         await Navigator.pushReplacementNamed(context, 'musicPage',
+            arguments: null);
+      }
+      if (index == 0) {
+        await Navigator.pushReplacementNamed(context, 'roomsPage',
             arguments: null);
       }
     },

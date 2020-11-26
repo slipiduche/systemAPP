@@ -13,14 +13,14 @@ class UploadProvider {
     // print(mime(audioPath));
     // final mimeType = mime(audioPath).split('/'); //image/jpeg
     // print(mimeType);
-    final imageUploadRequest = http.MultipartRequest('POST', url);
+    final audioUploadRequest = http.MultipartRequest('POST', url);
 
     final file = await http.MultipartFile.fromPath('file', audioPath,
         contentType: MediaType('audio', 'mpeg'));
 
-    imageUploadRequest.files.add(file);
+    audioUploadRequest.files.add(file);
 
-    final streamResponse = await imageUploadRequest.send();
+    final streamResponse = await audioUploadRequest.send();
     final resp = await http.Response.fromStream(streamResponse);
 
     if (resp.statusCode != 200 && resp.statusCode != 201) {

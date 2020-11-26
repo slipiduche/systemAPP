@@ -9,17 +9,21 @@ import 'package:systemAPP/src/widgets/widgets.dart';
 
 class FilePickerDemo extends StatefulWidget {
   @override
-  _FilePickerDemoState createState() => _FilePickerDemoState();
+   bool multiple;
+   FilePickerDemo(this.multiple, {Key key}) : super(key: key);
+  _FilePickerDemoState createState() => _FilePickerDemoState(multiple);
 }
 
 class _FilePickerDemoState extends State<FilePickerDemo> {
+  bool _multiPick;
+  _FilePickerDemoState(this._multiPick);
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _fileName;
   List<PlatformFile> _paths;
   String _directoryPath;
   String _extension='mp3';
   bool _loadingPath = false;
-  bool _multiPick = true;
+  //bool _multiPick = _multiple;
   FileType _pickingType = FileType.custom;
   TextEditingController _controller = TextEditingController();
 
