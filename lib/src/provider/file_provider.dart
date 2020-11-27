@@ -10,13 +10,15 @@ import 'package:systemAPP/src/widgets/widgets.dart';
 class FilePickerDemo extends StatefulWidget {
   @override
    bool multiple;
-   FilePickerDemo(this.multiple, {Key key}) : super(key: key);
-  _FilePickerDemoState createState() => _FilePickerDemoState(multiple);
+   String _text1,_text2;
+   FilePickerDemo(this.multiple,this._text1,this._text2, {Key key}) : super(key: key);
+  _FilePickerDemoState createState() => _FilePickerDemoState(multiple,_text1,_text2);
 }
 
 class _FilePickerDemoState extends State<FilePickerDemo> {
   bool _multiPick;
-  _FilePickerDemoState(this._multiPick);
+  String _text1,_text2;
+  _FilePickerDemoState(this._multiPick,this._text1,this._text2,);
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _fileName;
   List<PlatformFile> _paths;
@@ -83,7 +85,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Select  the song you want to bind',
+              _text1,
               style: TextStyle(fontSize: 24),
               overflow: TextOverflow.clip,
               textAlign: TextAlign.center,
@@ -114,7 +116,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                             width: 10.0,
                           ),
                           Text(
-                            "Search for a song",
+                            _text2,
                             style: TextStyle(
                                 color: colorLetraSearch, fontSize: 24),
                           ),

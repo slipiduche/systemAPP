@@ -58,19 +58,19 @@ Widget tarjeta(
       ),
     ),
     onTap: () async {
+      if (index == 10) {
+        await Navigator.pushNamed(context, 'editSongPage', arguments: null);
+      }
       if (index == 9) {
-        await Navigator.pushNamed(context, 'addSongsPage',
-            arguments: null);
+        await Navigator.pushNamed(context, 'addSongsPage', arguments: null);
       }
       if (index == 8) {
-        await Navigator.pushNamed(context, 'addSongPPage',
-            arguments: null);
+        await Navigator.pushNamed(context, 'addSongPage', arguments: null);
       }
       if (index == 5) {
         await Navigator.pushReplacementNamed(context, 'songsPage',
             arguments: null);
       }
-
 
       if (index == 1) {
         await Navigator.pushReplacementNamed(context, 'tagPage',
@@ -94,20 +94,20 @@ Widget tarjeta(
 
 Widget twoIconCard(String label, description, Widget icon, icon1, String path,
     dynamic context) {
-      String _path=path; 
-      print(_path);
+  String _path = path;
+  print(_path);
   return Card(
     elevation: 5.0,
     color: Colors.white,
     child: Container(
       height: 105,
-      width: MediaQuery.of(context).size.width-30,
+      width: MediaQuery.of(context).size.width - 30,
       child: Row(children: [
         Expanded(child: Container()),
         icon,
         Expanded(child: Container()),
         Container(
-          width: MediaQuery.of(context).size.width-120,
+          width: MediaQuery.of(context).size.width - 120,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

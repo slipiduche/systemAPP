@@ -4,14 +4,14 @@ import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/provider/file_provider.dart';
 
-class AddSongPage extends StatefulWidget {
-  AddSongPage({Key key}) : super(key: key);
+class EditSongPage extends StatefulWidget {
+  EditSongPage({Key key}) : super(key: key);
 
   @override
-  _AddSongPageState createState() => _AddSongPageState();
+  _EditSongPageState createState() => _EditSongPageState();
 }
 
-class _AddSongPageState extends State<AddSongPage> {
+class _EditSongPageState extends State<EditSongPage> {
   //FilePickerDemo filePicker = new FilePickerDemo();
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _AddSongPageState extends State<AddSongPage> {
                         //height: 200.0,
                         //width: double.infinity,
 
-                        child: FilePickerDemo(false,"Select the song you want to add", "Search for a song"),
+                        //child: FilePickerDemo(false),
                       ),
                   
               ),
