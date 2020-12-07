@@ -15,6 +15,7 @@ class _AddSongPageState extends State<AddSongPage> {
   //FilePickerDemo filePicker = new FilePickerDemo();
   @override
   Widget build(BuildContext context) {
+    awaitUpload=0;
     return SafeArea(
       child: Scaffold(
         body: Container(

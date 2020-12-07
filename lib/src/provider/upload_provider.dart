@@ -8,7 +8,7 @@ import 'package:systemAPP/constants.dart';
 
 
 class UploadProvider {
-  Future<Map> upload(String audioPath) async {
+  Future<int> upload(String audioPath) async {
     print(audioPath);
     final url = Uri.parse(
         //'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
@@ -30,12 +30,12 @@ class UploadProvider {
     if (resp.statusCode != 200 && resp.statusCode != 201) {
       print('Something wrong');
       print(resp.body);
-      return null;
+      return 0;
     }
 
     final respData = json.decode(resp.body);
     print(respData);
 
-    return respData;
+    return 2;
   }
 }

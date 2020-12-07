@@ -3,6 +3,8 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
+int awaitUpload=0;
+
 void _moveTo(index, context) async {
   if (index == 0) {
     await Navigator.pushReplacementNamed(context, 'roomsPage', arguments: null);
@@ -92,10 +94,58 @@ Widget tarjeta(
   );
 }
 
-Widget twoIconCard(String label, description, Widget icon, icon1, String path,
+class TwoIconCard extends StatefulWidget {
+  @override
+  String label, description;
+   Widget icon, icon1;
+   String path;
+    dynamic context;
+  TwoIconCard(this.label, this.description, this.icon, this.icon1, this.path,
+    this.context, {Key key}) : super(key: key);
+  _TwoIconCardState createState() => _TwoIconCardState(label, description, icon, icon1, path,
+    context);
+}
+
+class _TwoIconCardState extends State<TwoIconCard> {
+  @override
+  String label, description;
+   Widget icon, icon1;
+   String path;
+    dynamic contexto;
+    _TwoIconCardState(this.label, this.description, this.icon, this.icon1, this.path,
+    this.contexto);
+
+  Widget build(BuildContext context) {
+    if (awaitUpload==0)
+    {return twoIconCard(label, description, icon, icon1, path, contexto);}
+    else if(awaitUpload==1){
+     return Column(
+       children: <Widget>[
+         SizedBox(height: 20.0,),
+         CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(colorMedico),),
+       ],
+     );
+    }
+    else if(awaitUpload==2){
+      awaitUpload=0;
+      return Center(child: Column(
+        children: <Widget>[
+          SizedBox(height: 30.0,),
+          Container(
+            child: Text('Agregada exitosamente',
+            style: TextStyle(
+                               fontSize: 24),
+                          ),
+          ),
+        ],
+      ));
+    }
+  }
+  Widget twoIconCard(String label, description, Widget icon, icon1, String path,
     dynamic context) {
   String _path = path;
   print(_path);
+  
   return Card(
     elevation: 5.0,
     color: Colors.white,
@@ -135,7 +185,12 @@ Widget twoIconCard(String label, description, Widget icon, icon1, String path,
         GestureDetector(
             onTap: () async {
               print(_path);
-              await UploadProvider().upload(_path);
+              
+              awaitUpload=await UploadProvider().upload(_path);
+              setState(() {
+                
+              });
+              
             },
             child: icon1),
         Expanded(child: Container()),
@@ -143,6 +198,9 @@ Widget twoIconCard(String label, description, Widget icon, icon1, String path,
     ),
   );
 }
+}
+
+
 
 Widget gradientBar(bool selected) {
   if (selected) {

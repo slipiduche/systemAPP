@@ -195,7 +195,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                         author = "Unknown";
                                       }
                                       print(author);
-                                      column.add(twoIconCard(
+                                      column.add(TwoIconCard(
                                           _paths[i].name,
                                           author,
                                           songIcon(30.0, colorMedico),
@@ -242,7 +242,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           }
           print(author);
 
-          return twoIconCard(
+          return TwoIconCard(
               _paths[index].name,
               author,
               songIcon(30.0, colorMedico),
