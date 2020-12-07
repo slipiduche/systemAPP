@@ -9,14 +9,16 @@ class UploadProvider {
   Future<Map> upload(String audioPath) async {
     print(audioPath);
     final url = Uri.parse(
-        'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
+        //'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
+        'http://192.168.1.103:8081/upload-audio');
     // print(mime(audioPath));
     // final mimeType = mime(audioPath).split('/'); //image/jpeg
-    // print(mimeType);
+     print(url.port);
     final audioUploadRequest = http.MultipartRequest('POST', url);
 
-    final file = await http.MultipartFile.fromPath('file', audioPath,
+    final file = await http.MultipartFile.fromPath('audio', audioPath,
         contentType: MediaType('audio', 'mpeg'));
+    audioUploadRequest.fields['details']='{”song”:”Impulse”,”artist”:”Andrew Rayek”}';
 
     audioUploadRequest.files.add(file);
 
