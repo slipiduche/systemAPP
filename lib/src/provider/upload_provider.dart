@@ -4,13 +4,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:systemAPP/constants.dart';
+
 
 class UploadProvider {
   Future<Map> upload(String audioPath) async {
     print(audioPath);
     final url = Uri.parse(
         //'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
-        'http://192.168.1.103:8081/upload-audio');
+        'http://$serverUri:$uploadPort/upload-audio');
     // print(mime(audioPath));
     // final mimeType = mime(audioPath).split('/'); //image/jpeg
      print(url.port);

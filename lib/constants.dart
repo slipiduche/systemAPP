@@ -1,9 +1,9 @@
-import 'package:systemAPP/src/models/dispositivos_model.dart';
 import 'package:flutter/material.dart';
 
 
-final String serverUri = "broker.hivemq.com";
-final int port = 1883;
+final String serverUri = "192.168.1.103";
+final int mqttPort = 3000;
+final String uploadPort = '8081';
 final String topicName = "server/#";
 // final String topicIn = "SDR/c4d7ba3a7d80/out";
 // final String topicOut = "SDR/c4d7ba3a7d80/in";
