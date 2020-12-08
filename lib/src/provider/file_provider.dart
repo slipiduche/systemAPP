@@ -292,7 +292,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   void sendSongs(songsCount) async {
     print('enviando');
-    uploading(0, songsCount);
+    uploading(0, songsCount,context);
     int sendsCount = 0, sended = 0;
 
     for (var i = 0; i < songsCount; i++) {
@@ -301,7 +301,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
         sendsCount++;
         sended = 0;
         Navigator.pop(context);
-        uploading(sendsCount, songsCount);
+        uploading(sendsCount, songsCount,context);
       }
     }
     if (sendsCount == songsCount) {
@@ -344,27 +344,5 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     }
   }
 
-  void uploading(int i, songsCount) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            content: Container(
-              height: 100.0,
-              child: Column(
-                children: <Widget>[
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
-                  ),
-                  Text(
-                    'Uploading...$i of $songsCount',
-                    style: TextStyle(fontSize: 20.0),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  
 }

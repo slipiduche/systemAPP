@@ -214,8 +214,9 @@ class _TwoIconCardState extends State<TwoIconCard> {
               return GestureDetector(
                   onTap: () async {
                     print(_path);
-
+                    uploading(1,1, context);
                     awaitUpload = await UploadProvider().upload(_path,name);
+                    Navigator.pop(context);
                     setState(() {});
                   },
                   child: icon1);
@@ -227,6 +228,29 @@ class _TwoIconCardState extends State<TwoIconCard> {
     );
   }
 }
+void uploading(int i, songsCount,BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            content: Container(
+              height: 100.0,
+              child: Column(
+                children: <Widget>[
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+                  ),
+                  Text(
+                    'Uploading...$i of $songsCount',
+                    style: TextStyle(fontSize: 20.0),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
 Widget gradientBar(bool selected) {
   if (selected) {
