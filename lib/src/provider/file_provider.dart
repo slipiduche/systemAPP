@@ -291,6 +291,59 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   void sendSongs(songsCount) async {
     print('enviando');
+    uploading(0, songsCount);
+    int sendsCount = 0, sended = 0;
+
+    for (var i = 0; i < songsCount; i++) {
+      sended = await UploadProvider().upload(_paths[i].path.toString());
+      if (sended == 2) {
+        sendsCount++;
+        sended = 0;
+        Navigator.pop(context);
+        uploading(sendsCount, songsCount);
+      }
+    }
+    if (sendsCount == songsCount) {
+      print('enviadas');
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return AlertDialog(
+              content: Container(
+                height: 80.0,
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.check,
+                      size: 50.0,
+                      color: colorMedico,
+                    ),
+                    Text(
+                      'Uploaded...$songsCount of $songsCount',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                  ],
+                ),
+              ),
+              actionsPadding: EdgeInsets.symmetric(horizontal:100.0),
+              actions: <Widget>[
+                Expanded(
+                  child: Center(
+                    child: submitButton('OK', () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, 'addSongsPage');
+                    }),
+                  ),
+                ),
+              ],
+            );
+          });
+    }
+  }
+
+  void uploading(int i, songsCount) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -303,25 +356,14 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                   CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
                   ),
-                  Text('Uploading'),
+                  Text(
+                    'Uploading...$i of $songsCount',
+                    style: TextStyle(fontSize: 20.0),
+                  )
                 ],
               ),
             ),
           );
         });
-    int sendsCount=0,sended=0;
-  
-    for (var i = 0; i < songsCount; i++) {
-      sended = await UploadProvider().upload(_paths[i].path.toString());
-      if (sended==2){
-        sendsCount++;
-        sended=0;
-
-      }
-    }
-    if (sendsCount == songsCount) {
-      print('enviadas');
-      Navigator.pop(context);
-    }
   }
 }

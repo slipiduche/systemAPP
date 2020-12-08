@@ -21,6 +21,20 @@ void _moveTo(index, context) async {
   }
 }
 
+Widget submitButton(text, void Function() function) {
+  return RaisedButton(
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 22, color: Colors.white),
+      ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(color: colorMedico)),
+      elevation: 4.0,
+      color: colorMedico,
+      onPressed: function);
+}
+
 Widget tarjeta(
     String label, description, Widget icon, int index, dynamic context) {
   return GestureDetector(
@@ -143,7 +157,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
           ),
           Container(
             child: Text(
-              'Agregada exitosamente',
+              'Uploaded.',
               style: TextStyle(fontSize: 24),
             ),
           ),
