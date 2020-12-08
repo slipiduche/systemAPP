@@ -9,30 +9,47 @@ import 'package:systemAPP/src/widgets/widgets.dart';
 
 class FilePickerDemo extends StatefulWidget {
   @override
-   bool multiple;
-   String _text1,_text2;
-   FilePickerDemo(this.multiple,this._text1,this._text2, {Key key}) : super(key: key);
-  _FilePickerDemoState createState() => _FilePickerDemoState(multiple,_text1,_text2);
+  bool multiple;
+  String _text1, _text2;
+  FilePickerDemo(this.multiple, this._text1, this._text2, {Key key})
+      : super(key: key);
+  _FilePickerDemoState createState() =>
+      _FilePickerDemoState(multiple, _text1, _text2);
 }
 
 class _FilePickerDemoState extends State<FilePickerDemo> {
   bool _multiPick;
-  String _text1,_text2;
-  _FilePickerDemoState(this._multiPick,this._text1,this._text2,);
+  String _text1, _text2;
+  _FilePickerDemoState(
+    this._multiPick,
+    this._text1,
+    this._text2,
+  );
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _fileName;
   List<PlatformFile> _paths;
   String _directoryPath;
-  String _extension='mp3';
+  String _extension = 'mp3';
   bool _loadingPath = false;
   //bool _multiPick = _multiple;
   FileType _pickingType = FileType.custom;
   TextEditingController _controller = TextEditingController();
+  ScrollController controller;
 
   @override
   void initState() {
+    //WidgetsBinding.instance.addPostFrameCallback(autoScroll);
     super.initState();
+
     _controller.addListener(() => _extension = _controller.text);
+    controller = ScrollController();
+    controller.addListener(() {
+      if (controller.position.pixels == controller.position.maxScrollExtent) {
+        // _agregar10();
+        print("llego al final");
+      }
+    });
+    //     );
   }
 
   void _openFileExplorer() async {
@@ -59,15 +76,14 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   void _clearCachedFiles() {
     FilePicker.platform.clearTemporaryFiles().then((result) {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          backgroundColor: result ? Colors.green : Colors.red,
-          content: Text((result
-              ? 'Temporary files removed with success.'
-              : 'Failed to clean temporary files')),
-        ),
-      );
+      print("borrada cache");
     });
+  }
+
+  void autoScroll(index) {
+    controller.animateTo(index * 50,
+        curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
+    print('autoScroll');
   }
 
   void _selectFolder() {
@@ -145,6 +161,9 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 5.0,
+            ),
             Builder(
               builder: (BuildContext context) => _loadingPath
                   ? Column(
@@ -167,6 +186,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                               // height: MediaQuery.of(context).size.height,
 
                               child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                controller: controller,
                                 child: Builder(
                                   // itemCount: _paths != null && _paths.isNotEmpty
                                   //     ? _paths.length
@@ -195,13 +216,62 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                         author = "Unknown";
                                       }
                                       print(author);
-                                      column.add(TwoIconCard(
-                                          _paths[i].name,
-                                          author,
-                                          songIcon(30.0, colorMedico),
-                                          addIcon(30.0, colorMedico),
-                                          path,
-                                          context));
+                                      if (_multiPick == false) {
+                                        print('dibujar icono');
+                                        column.add(TwoIconCard(
+                                            _paths[i].name,
+                                            author,
+                                            songIcon(30.0, colorMedico),
+                                            addIcon(30.0, colorMedico),
+                                            path,
+                                            context));
+                                      } else {
+                                        print('dejar vacío');
+                                        column.add(TwoIconCard(
+                                            _paths[i].name,
+                                            author,
+                                            songIcon(30.0, colorMedico),
+                                            false,
+                                            path,
+                                            context));
+                                        if (i == (itemCount - 1)) {
+                                          column.add(GestureDetector(
+                                            child: Container(
+                                              height: 40.0,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3,
+                                              child: Expanded(
+                                                child: RaisedButton(
+                                                    child: Text(
+                                                      'Upload',
+                                                      style: TextStyle(
+                                                          fontSize: 22,
+                                                          color: Colors.white),
+                                                    ),
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        side: BorderSide(
+                                                            color:
+                                                                colorMedico)),
+                                                    elevation: 4.0,
+                                                    color: colorMedico,
+                                                    onPressed: () =>
+                                                        sendSongs(itemCount)),
+                                              ),
+                                            ),
+                                          ));
+                                          column.add(SizedBox(
+                                            height: 20.0,
+                                          ));
+                                          //print(controller.position.toString());
+
+                                          autoScroll(itemCount.toDouble());
+                                        }
+                                      }
                                     }
 
                                     return Column(
@@ -219,39 +289,39 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     );
   }
 
-  Widget otro() {
-    return Container(
-      //   width: MediaQuery.of(context).size.width,
-      // height: MediaQuery.of(context).size.height,
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: _paths != null && _paths.isNotEmpty ? _paths.length : 1,
-        itemBuilder: (BuildContext context, int index) {
-          final bool isMultiPath = _paths != null && _paths.isNotEmpty;
-          final String name = 'File $index: ' +
-              (isMultiPath
-                  ? _paths.map((e) => e.name).toList()[index]
-                  : _fileName ?? '...');
-          final path = _paths.map((e) => e.path).toList()[index].toString();
-          final _selected = index;
-          //MP3Instance id3=MP3Instance(_paths[index].path);
-          String author; //=id3.getMetaTags()['Artist'];
-          //print(id3.getMetaTags());
-          if (author == null) {
-            author = "Unknown";
-          }
-          print(author);
+  void sendSongs(songsCount) async {
+    print('enviando');
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            content: Container(
+              height: 100.0,
+              child: Column(
+                children: <Widget>[
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+                  ),
+                  Text('Uploading'),
+                ],
+              ),
+            ),
+          );
+        });
+    int sendsCount=0,sended=0;
+  
+    for (var i = 0; i < songsCount; i++) {
+      sended = await UploadProvider().upload(_paths[i].path.toString());
+      if (sended==2){
+        sendsCount++;
+        sended=0;
 
-          return TwoIconCard(
-              _paths[index].name,
-              author,
-              songIcon(30.0, colorMedico),
-              addIcon(30.0, colorMedico),
-              path,
-              context);
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
-    );
+      }
+    }
+    if (sendsCount == songsCount) {
+      print('enviadas');
+      Navigator.pop(context);
+    }
   }
 }

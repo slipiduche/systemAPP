@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   mqtt_client: ^5.6.2
+ 
   
   # A mixture between dependency injection (DI) and state management,
   # built with widgets for widgets.

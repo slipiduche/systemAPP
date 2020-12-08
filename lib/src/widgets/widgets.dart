@@ -3,7 +3,7 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
-int awaitUpload=0;
+int awaitUpload = 0;
 
 void _moveTo(index, context) async {
   if (index == 0) {
@@ -97,110 +97,122 @@ Widget tarjeta(
 class TwoIconCard extends StatefulWidget {
   @override
   String label, description;
-   Widget icon, icon1;
-   String path;
-    dynamic context;
+  Widget icon;
+  dynamic icon1;
+  String path;
+  dynamic context;
   TwoIconCard(this.label, this.description, this.icon, this.icon1, this.path,
-    this.context, {Key key}) : super(key: key);
-  _TwoIconCardState createState() => _TwoIconCardState(label, description, icon, icon1, path,
-    context);
+      this.context,
+      {Key key})
+      : super(key: key);
+  _TwoIconCardState createState() =>
+      _TwoIconCardState(label, description, icon, icon1, path, context);
 }
 
 class _TwoIconCardState extends State<TwoIconCard> {
   @override
   String label, description;
-   Widget icon, icon1;
-   String path;
-    dynamic contexto;
-    _TwoIconCardState(this.label, this.description, this.icon, this.icon1, this.path,
-    this.contexto);
+  Widget icon;
+  dynamic icon1;
+  String path;
+  dynamic contexto;
+  _TwoIconCardState(this.label, this.description, this.icon, this.icon1,
+      this.path, this.contexto);
 
   Widget build(BuildContext context) {
-    if (awaitUpload==0)
-    {return twoIconCard(label, description, icon, icon1, path, contexto);}
-    else if(awaitUpload==1){
-     return Column(
-       children: <Widget>[
-         SizedBox(height: 20.0,),
-         CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(colorMedico),),
-       ],
-     );
-    }
-    else if(awaitUpload==2){
-      awaitUpload=0;
-      return Center(child: Column(
+    if (awaitUpload == 0) {
+      return twoIconCard(label, description, icon, icon1, path, contexto);
+    } else if (awaitUpload == 1) {
+      return Column(
         children: <Widget>[
-          SizedBox(height: 30.0,),
+          SizedBox(
+            height: 20.0,
+          ),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+          ),
+        ],
+      );
+    } else if (awaitUpload == 2) {
+      awaitUpload = 0;
+      return Center(
+          child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 30.0,
+          ),
           Container(
-            child: Text('Agregada exitosamente',
-            style: TextStyle(
-                               fontSize: 24),
-                          ),
+            child: Text(
+              'Agregada exitosamente',
+              style: TextStyle(fontSize: 24),
+            ),
           ),
         ],
       ));
     }
   }
-  Widget twoIconCard(String label, description, Widget icon, icon1, String path,
-    dynamic context) {
-  String _path = path;
-  print(_path);
-  
-  return Card(
-    elevation: 5.0,
-    color: Colors.white,
-    child: Container(
-      height: 105,
-      width: MediaQuery.of(context).size.width - 30,
-      child: Row(children: [
-        Expanded(child: Container()),
-        icon,
-        Expanded(child: Container()),
-        Container(
-          width: MediaQuery.of(context).size.width - 120,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w100,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                description,
-                style: TextStyle(
+
+  Widget twoIconCard(String label, description, Widget icon, dynamic icon1,
+      String path, dynamic context) {
+    String _path = path;
+    print(_path);
+
+    return Card(
+      elevation: 5.0,
+      color: Colors.white,
+      child: Container(
+        height: 105,
+        width: MediaQuery.of(context).size.width - 30,
+        child: Row(children: [
+          Expanded(child: Container()),
+          icon,
+          Expanded(child: Container()),
+          Container(
+            width: MediaQuery.of(context).size.width - 120,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w100),
-              )
-            ],
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w100,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  description,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w100),
+                )
+              ],
+            ),
           ),
-        ),
-        Expanded(child: Container()),
-        GestureDetector(
-            onTap: () async {
-              print(_path);
-              
-              awaitUpload=await UploadProvider().upload(_path);
-              setState(() {
-                
-              });
-              
-            },
-            child: icon1),
-        Expanded(child: Container()),
-      ]),
-    ),
-  );
-}
-}
+          Expanded(child: Container()),
+          Builder(builder: (context) {
+            if (icon1 == false) {
+              return GestureDetector(onTap: null, child: Container());
+            } else {
+              return GestureDetector(
+                  onTap: () async {
+                    print(_path);
 
-
+                    awaitUpload = await UploadProvider().upload(_path);
+                    setState(() {});
+                  },
+                  child: icon1);
+            }
+          }),
+          Expanded(child: Container()),
+        ]),
+      ),
+    );
+  }
+}
 
 Widget gradientBar(bool selected) {
   if (selected) {

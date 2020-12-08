@@ -46,7 +46,7 @@ class _AddSongsPageState extends State<AddSongsPage> {
                     fontSize: 40.0,
                     fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 30.0),
+              SizedBox(height: 25.0),
               Expanded(
                 child:Container(
                         //height: 200.0,
