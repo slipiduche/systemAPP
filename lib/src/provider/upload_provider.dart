@@ -8,7 +8,7 @@ import 'package:systemAPP/constants.dart';
 
 
 class UploadProvider {
-  Future<int> upload(String audioPath) async {
+  Future<int> upload(String audioPath,String name) async {
     print(audioPath);
     final url = Uri.parse(
         //'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
@@ -20,7 +20,7 @@ class UploadProvider {
 
     final file = await http.MultipartFile.fromPath('audio', audioPath,
         contentType: MediaType('audio', 'mpeg'));
-    audioUploadRequest.fields['details']='{”song”:”Impulse”,”artist”:”Andrew Rayek”}';
+    audioUploadRequest.fields['details']='{”song”:”${name.substring(0,name.length-4)}”,”artist”:”Unknown”}';
 
     audioUploadRequest.files.add(file);
 

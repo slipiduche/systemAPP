@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:systemAPP/constants.dart';
 
-import 'package:systemAPP/src/bloc/error_bloc.dart';
+
 import 'package:systemAPP/src/models/dispositivos_model.dart';
 import 'package:systemAPP/src/pages/home_page.dart';
 
@@ -18,7 +18,7 @@ class IniciandoPage extends StatefulWidget {
 class _IniciandoPageState extends State<IniciandoPage> {
   final prefs = new PreferenciasUsuario();
 
-  final errorBloc = ErrorBloc();
+  
   int _ruta;
   @override
   void initState() {
@@ -35,47 +35,7 @@ class _IniciandoPageState extends State<IniciandoPage> {
   }
 
   Widget _rutaInicial(BuildContext context) {
-    return StreamBuilder(
-        stream: errorBloc.ErrorStream,
-        builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-          WidgetsBinding.instance
-              .addPostFrameCallback((_) => onAfterBuild(context));
-          print('redibujando');
-          if (!snapshot.hasData) {
-            //dispBloc.obtenerDispositivos();
-            _ruta = 0;
-            return _iniciandoPage(context);
-          } else {
-            final _error = snapshot.data;
-            if (_error.length == 0) {
-              //dispBloc.obtenerDispositivos();
-              _ruta = 0;
-              return _iniciandoPage(context);
-            }
-            if ((_error.length > 2) && (_ruta != 5)) {
-              if ((prefs.token != '') && (_error["Error"] != true)) {
-                if (prefs.dispositivoSeleccionado != null) {
-                  // Navigator.pop(context);
-                  //Navigator.pushReplacementNamed(context, 'homePage');
-                  _ruta = 1;
-                  return _iniciandoPage(context); //HomePage();
-                } else {
-                  // Navigator.pop(context);
-                  //Navigator.pushReplacementNamed(context, 'perfilPage');
-                  _ruta = 2;
-                  return _iniciandoPage(context); //PerfilPage();
-                }
-              } else {
-                //Navigator.pop(context);
-                _ruta = 3;
-                return _iniciandoPage(context); //LoginPage();
-              }
-            } else {
-              _ruta = 3;
-              return _iniciandoPage(context); //LoginPage();
-            }
-          }
-        });
+    return _iniciandoPage(context);
   }
 
   Widget _iniciandoPage(BuildContext context) {

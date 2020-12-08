@@ -113,14 +113,14 @@ class TwoIconCard extends StatefulWidget {
   String label, description;
   Widget icon;
   dynamic icon1;
-  String path;
+  String path,name;
   dynamic context;
   TwoIconCard(this.label, this.description, this.icon, this.icon1, this.path,
-      this.context,
+      this.context,this.name,
       {Key key})
       : super(key: key);
   _TwoIconCardState createState() =>
-      _TwoIconCardState(label, description, icon, icon1, path, context);
+      _TwoIconCardState(label, description, icon, icon1, path, context,name);
 }
 
 class _TwoIconCardState extends State<TwoIconCard> {
@@ -128,14 +128,14 @@ class _TwoIconCardState extends State<TwoIconCard> {
   String label, description;
   Widget icon;
   dynamic icon1;
-  String path;
+  String path,name;
   dynamic contexto;
   _TwoIconCardState(this.label, this.description, this.icon, this.icon1,
-      this.path, this.contexto);
+      this.path, this.contexto,this.name);
 
   Widget build(BuildContext context) {
     if (awaitUpload == 0) {
-      return twoIconCard(label, description, icon, icon1, path, contexto);
+      return twoIconCard(label, description, icon, icon1, path, contexto,name);
     } else if (awaitUpload == 1) {
       return Column(
         children: <Widget>[
@@ -167,7 +167,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
   }
 
   Widget twoIconCard(String label, description, Widget icon, dynamic icon1,
-      String path, dynamic context) {
+      String path, dynamic context,String name) {
     String _path = path;
     print(_path);
 
@@ -215,7 +215,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
                   onTap: () async {
                     print(_path);
 
-                    awaitUpload = await UploadProvider().upload(_path);
+                    awaitUpload = await UploadProvider().upload(_path,name);
                     setState(() {});
                   },
                   child: icon1);

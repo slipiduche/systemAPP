@@ -208,10 +208,11 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           .toList()[i]
                                           .toString();
                                       final _selected = i;
-                                      //MP3Instance id3=MP3Instance(_paths[index].path);
+                                      MP3Instance id3=MP3Instance(_paths[i].path);
                                       String
-                                          author; //=id3.getMetaTags()['Artist'];
-                                      //print(id3.getMetaTags());
+                                          author=id3.getMetaTags()['Artist'];
+                                      print(id3.getMetaTags());
+                                      print(author);
                                       if (author == null) {
                                         author = "Unknown";
                                       }
@@ -224,7 +225,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             songIcon(30.0, colorMedico),
                                             addIcon(30.0, colorMedico),
                                             path,
-                                            context));
+                                            context,_paths[i].name));
                                       } else {
                                         print('dejar vacío');
                                         column.add(TwoIconCard(
@@ -233,7 +234,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             songIcon(30.0, colorMedico),
                                             false,
                                             path,
-                                            context));
+                                            context,_paths[i].name));
                                         if (i == (itemCount - 1)) {
                                           column.add(GestureDetector(
                                             child: Container(
@@ -295,7 +296,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     int sendsCount = 0, sended = 0;
 
     for (var i = 0; i < songsCount; i++) {
-      sended = await UploadProvider().upload(_paths[i].path.toString());
+      sended = await UploadProvider().upload(_paths[i].path,_paths[i].name);
       if (sended == 2) {
         sendsCount++;
         sended = 0;
