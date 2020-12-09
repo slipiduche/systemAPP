@@ -20,9 +20,10 @@ class UploadProvider {
 
     final file = await http.MultipartFile.fromPath('audio', audioPath,
         contentType: MediaType('audio', 'mpeg'));
-    audioUploadRequest.fields['details']='{”song”:”${name.substring(0,name.length-4)}”,”artist”:”Unknown”}';
-
+    final object=audioUploadRequest.fields['details']='{"TOKEN":"$TOKEN","song":"${name.substring(0,name.length-4)}","artist":"Unknown"}';
+    print(object);
     audioUploadRequest.files.add(file);
+    print(audioUploadRequest);
 
     final streamResponse = await audioUploadRequest.send();
     final resp = await http.Response.fromStream(streamResponse);

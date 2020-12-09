@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:systemAPP/constants.dart';
 
 
-import 'package:systemAPP/src/models/dispositivos_model.dart';
+
 import 'package:systemAPP/src/pages/home_page.dart';
 
 import 'package:flutter/material.dart';
