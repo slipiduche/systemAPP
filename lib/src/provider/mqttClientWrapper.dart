@@ -32,11 +32,13 @@ class MQTTClientWrapper {
     _mqttStreamController?.close();
   }
 
-  void prepareMqttClient(String _topicIn) async {
+  void prepareMqttClient(String _topicIn,String _topicIn2) async {
     _setupMqttClient();
     await _connectClient();
     if(_topicIn!='NoSelecccionado'){
-    subscribeToTopic(_topicIn);}
+    subscribeToTopic(_topicIn);
+    subscribeToTopic(_topicIn2);
+    }
   }
 
   void publishData(String data,String topico) {
@@ -68,8 +70,8 @@ class MQTTClientWrapper {
 
   void _setupMqttClient() {
     String _id=Random(300).nextInt(300).toDouble().toString();
-    print('MQTTClientWrapper::Connecting with id SDR/app$_id');
-    client = MqttClient.withPort(Constants.serverUri, 'SDR/app$_id', Constants.mqttPort);
+    print('MQTTClientWrapper::Connecting with id systemApp/$_id');
+    client = MqttClient.withPort(Constants.serverUri, 'systemApp/$_id', Constants.mqttPort);
     client.logging(on: false);
     client.keepAlivePeriod = 60;
     client.onDisconnected = _onDisconnected;

@@ -7,10 +7,10 @@ final String uploadPort = '8081';
 final String topicName = "server/#";
 // final String topicIn = "SDR/c4d7ba3a7d80/out";
 // final String topicOut = "SDR/c4d7ba3a7d80/in";
-//{"USER": "APP","PASS":"0R81TT45","NEW":"NO"}
+final String credentials='{"USER": "APP","PASS":"0R81TT45","NEW":"NO"}';
 //{"STATUS":"SUCCESS","TOKEN":"mBwZ7WnVHAntfDWL"}
 //{"STATUS":"SUCCESS","TOKEN":"8BQKEiSqaKrGlWBV"}
-final String TOKEN ="XIc1xcfz8oM6lJMl";
+final String TOKEN ="Fkg7xzrTHL4eYEFp";
 final Color colorResaltadoBoton=Color.fromRGBO(234, 234, 234, 1.0);
 final Color colorOrbittas=Color.fromRGBO(0, 122, 146, 1.0);
 final Color colorVN=Color.fromRGBO(4, 61, 57, 1.0);
