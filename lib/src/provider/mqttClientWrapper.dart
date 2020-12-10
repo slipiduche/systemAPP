@@ -12,7 +12,6 @@ import 'package:systemAPP/src/models/mqtt_models.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 
 class MQTTClientWrapper {
-
   MqttClient client;
   // LocationToJsonConverter locationToJsonConverter = LocationToJsonConverter();
   // JsonToLocationConverter jsonToLocationConverter = JsonToLocationConverter();
@@ -21,29 +20,26 @@ class MQTTClientWrapper {
   MqttSubscriptionState subscriptionState = MqttSubscriptionState.IDLE;
 
   final VoidCallback onConnectedCallback;
-  final Function(dynamic data,String topic) onDeviceDataReceivedCallback;
+  final Function(dynamic data, String topic) onDeviceDataReceivedCallback;
 
-  MQTTClientWrapper(this.onConnectedCallback, this.onDeviceDataReceivedCallback);
+  MQTTClientWrapper(
+      this.onConnectedCallback, this.onDeviceDataReceivedCallback);
   final _mqttStreamController = StreamController<dynamic>.broadcast();
-  Function(ServerData) get mqttSink=>_mqttStreamController.sink.add;
+  Function(ServerData) get mqttSink => _mqttStreamController.sink.add;
 
-  Stream<dynamic> get mqttStream=> _mqttStreamController.stream;
+  Stream<dynamic> get mqttStream => _mqttStreamController.stream;
   void disposeStreams() {
     _mqttStreamController?.close();
   }
 
-  void prepareMqttClient(String _topicIn,String _topicIn2) async {
+  Future prepareMqttClient() async {
     _setupMqttClient();
     await _connectClient();
-    if(_topicIn!='NoSelecccionado'){
-    subscribeToTopic(_topicIn);
-    subscribeToTopic(_topicIn2);
-    }
   }
 
-  void publishData(String data,String topico) {
-    
+  bool publishData(String data, String topico) {
     _publishMessage(data, topico);
+    return true;
   }
 
   Future<void> _connectClient() async {
@@ -69,9 +65,10 @@ class MQTTClientWrapper {
   }
 
   void _setupMqttClient() {
-    String _id=Random(300).nextInt(300).toDouble().toString();
+    String _id = Random(300).nextInt(300).toDouble().toString();
     print('MQTTClientWrapper::Connecting with id systemApp/$_id');
-    client = MqttClient.withPort(Constants.serverUri, 'systemApp/$_id', Constants.mqttPort);
+    client = MqttClient.withPort(
+        Constants.serverUri, 'systemApp/$_id', Constants.mqttPort);
     client.logging(on: false);
     client.keepAlivePeriod = 60;
     client.onDisconnected = _onDisconnected;
@@ -85,17 +82,24 @@ class MQTTClientWrapper {
 
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage recMess = c[0].payload;
-      final String serverDataJson =
-      MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      final String serverDataJsonString =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       //final decodedData = json.decode(resp.body.toString());
-     // if()
-      ServerData decodedData= ServerData.fromJson(json.decode(serverDataJson));
+      // if()
+      final serverDataJson = json.decode(serverDataJsonString);
+      if (serverDataJson["TOKEN"] != null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
+      }
+      if (serverDataJson["MUSIC"] != null) {
+        Songs decodedData = Songs.fromJsonList(serverDataJson["MUSIC"]);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
+      }
       print("MQTTClientWrapper::GOT A NEW MESSAGE $serverDataJson");
-      
-       if (decodedData != null) onDeviceDataReceivedCallback(decodedData,topicName);
     });
   }
-
 
   void _publishMessage(String message, String topicO) {
     final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
@@ -111,9 +115,11 @@ class MQTTClientWrapper {
   }
 
   void _onDisconnected() {
-    print('MQTTClientWrapper::OnDisconnected client callback - Client disconnection');
+    print(
+        'MQTTClientWrapper::OnDisconnected client callback - Client disconnection');
     if (client.connectionStatus.returnCode == MqttConnectReturnCode.solicited) {
-      print('MQTTClientWrapper::OnDisconnected callback is solicited, this is correct');
+      print(
+          'MQTTClientWrapper::OnDisconnected callback is solicited, this is correct');
     }
     connectionState = MqttCurrentConnectionState.DISCONNECTED;
   }
@@ -124,5 +130,4 @@ class MQTTClientWrapper {
         'MQTTClientWrapper::OnConnected client callback - Client connection was sucessful');
     onConnectedCallback();
   }
-
 }

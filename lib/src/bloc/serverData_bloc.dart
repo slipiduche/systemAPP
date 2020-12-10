@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/models/mqtt_models.dart';
 import 'package:systemAPP/src/provider/mqttClientWrapper.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:systemAPP/src/models/serverData_model.dart';
 
 class ServerDataBloc {
+  String token;
   static final ServerDataBloc _singleton = new ServerDataBloc._internal();
 
   factory ServerDataBloc() {
@@ -14,7 +16,7 @@ class ServerDataBloc {
   }
 
   ServerDataBloc._internal() {
-    serverConnect();
+    serverConnect("SERVER/AUTHORIZE", "SERVER/RESPONSE");
   }
 
   final _serverDataController = new BehaviorSubject<List<ServerData>>();
@@ -25,28 +27,51 @@ class ServerDataBloc {
   Stream<List<ServerData>> get productosStream => _serverDataController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
 
-  void serverConnect() {
-    _serverDataProvider = MQTTClientWrapper(() {
-      _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+  void serverConnect(String _topicIn, String _topicIn2) async {
+    _serverDataProvider = MQTTClientWrapper(() async {
+      if (_topicIn != 'NoSelecccionado') {
+        await _serverDataProvider.subscribeToTopic(_topicIn);
+        await _serverDataProvider.subscribeToTopic(_topicIn2);
+        if (_serverDataProvider.subscriptionState ==
+            MqttSubscriptionState.SUBSCRIBED)
+          _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+      }
     }, (dynamic data, String topic) {
-      if (topic == "SERVER/AUTHORIZE") {
+      if (topic == 'SERVER/AUTHORIZE') {
         print('respondio server/authorize');
         print(data);
+        print(data.token);
+        token=data.token;
+      }
+      if (topic == 'SERVER/RESPONSE') {
+        print('respondio server/response');
+        print(data);
+        
       }
     });
-    _serverDataProvider.prepareMqttClient(
-        "SERVER/AUTHORIZE", "SERVER/RESPONSE");
+    await _serverDataProvider.prepareMqttClient();
   }
 
-  void cargarData() async {
-    // final data = await _serverDataProvider.cargarProductos();
+  bool login()  {
+    if (_serverDataProvider.subscriptionState ==
+            MqttSubscriptionState.SUBSCRIBED)
+     {final resp =  _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+      return resp;
+     
+     }
+     else{
+      final resp=false;
+      return resp;
+     }
+     
+
     // _productosController.sink.add( productos );
   }
 
-  void agregarProducto(ServerData producto) async {
-    // _cargandoController.sink.add(true);
-    // await _productosProvider.crearProducto(producto);
-    // _cargandoController.sink.add(false);
+  void requestSongs() async {
+     _cargandoController.sink.add(true);
+     _serverDataProvider.publishData('{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
+     //_cargandoController.sink.add(false);
   }
 
   Future<String> subirFoto(File foto) async {

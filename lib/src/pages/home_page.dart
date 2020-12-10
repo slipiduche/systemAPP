@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
+  ServerDataBloc serverDataBloc=ServerDataBloc();
   @override
   Widget build(BuildContext context) {
     return SafeArea(

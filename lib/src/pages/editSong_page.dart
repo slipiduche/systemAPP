@@ -18,6 +18,12 @@ class _EditSongPageState extends State<EditSongPage> {
   ServerDataBloc serverDataBloc=ServerDataBloc();
   @override
   Widget build(BuildContext context) {
+    if ((serverDataBloc.token!='')||(serverDataBloc.token!=null))
+    {
+     serverDataBloc.requestSongs();
+    }
+    else
+    {serverDataBloc.login();}
     return SafeArea(
       child: Scaffold(
         body: Container(
