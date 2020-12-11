@@ -5,7 +5,6 @@ import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-
 class EditSongPage extends StatefulWidget {
   EditSongPage({Key key}) : super(key: key);
 
@@ -15,15 +14,9 @@ class EditSongPage extends StatefulWidget {
 
 class _EditSongPageState extends State<EditSongPage> {
   //FilePickerDemo filePicker = new FilePickerDemo();
-  ServerDataBloc serverDataBloc=ServerDataBloc();
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
-    if ((serverDataBloc.token!='')||(serverDataBloc.token!=null))
-    {
-     serverDataBloc.requestSongs();
-    }
-    else
-    {serverDataBloc.login();}
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -55,13 +48,29 @@ class _EditSongPageState extends State<EditSongPage> {
               ),
               SizedBox(height: 30.0),
               Expanded(
-                child:Container(
-                        //height: 200.0,
-                        //width: double.infinity,
+                child: Container(
+                  //height: 200.0,
+                  //width: double.infinity,
 
-                        //child: FilePickerDemo(false),
-                      ),
-                  
+                  child: StreamBuilder(
+                    stream: serverDataBloc.serverDataStream,
+                    // initialData: initialData ,
+                    builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
+                      
+                      if (!snapshot.hasData) {
+                        if((serverDataBloc.token==null)||(serverDataBloc.token=='')) {
+                          serverDataBloc.login();
+                        }
+                        return Container(child: CircularProgressIndicator());
+                      } else { print(snapshot.data[0].songName);
+                      
+                        return Container(
+                          child: Text('llego'),
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
               gradientBar2(3),
             ],

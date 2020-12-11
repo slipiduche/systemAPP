@@ -19,12 +19,12 @@ class ServerDataBloc {
     serverConnect("SERVER/AUTHORIZE", "SERVER/RESPONSE");
   }
 
-  final _serverDataController = new BehaviorSubject<List<ServerData>>();
+  final _serverDataController = new BehaviorSubject<List<Music>>();
   final _cargandoController = new BehaviorSubject<bool>();
 
   MQTTClientWrapper _serverDataProvider;
 
-  Stream<List<ServerData>> get productosStream => _serverDataController.stream;
+  Stream<List<Music>> get serverDataStream => _serverDataController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
 
   void serverConnect(String _topicIn, String _topicIn2) async {
@@ -36,42 +36,49 @@ class ServerDataBloc {
             MqttSubscriptionState.SUBSCRIBED)
           _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       }
-    }, (dynamic data, String topic) {
-      if (topic == 'SERVER/AUTHORIZE') {
+    }, (ServerData data, String topic) {
+      if ((data.token != null) && (data.token != '')) {
         print('respondio server/authorize');
         print(data);
         print(data.token);
-        token=data.token;
-      }
-      if (topic == 'SERVER/RESPONSE') {
-        print('respondio server/response');
-        print(data);
-        
+        token = data.token;
+        print('request songs');
+        requestSongs();
+        return;
+      } else if (data.status != 'SUCCESS') {
+        print(data.status);
+        return;
+      } else if (data.songs.items.length > 0) {
+        print(data.songs.items.length);
+        print(data.songs.items);
+        _serverDataController.add(data.songs.items);
+        return;
+      } else {
+        print('maybe rooms');
       }
     });
     await _serverDataProvider.prepareMqttClient();
   }
 
-  bool login()  {
+  bool login() {
     if (_serverDataProvider.subscriptionState ==
-            MqttSubscriptionState.SUBSCRIBED)
-     {final resp =  _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+        MqttSubscriptionState.SUBSCRIBED) {
+      final resp =
+          _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       return resp;
-     
-     }
-     else{
-      final resp=false;
+    } else {
+      final resp = false;
       return resp;
-     }
-     
+    }
 
     // _productosController.sink.add( productos );
   }
 
   void requestSongs() async {
-     _cargandoController.sink.add(true);
-     _serverDataProvider.publishData('{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
-     //_cargandoController.sink.add(false);
+    _cargandoController.sink.add(true);
+    _serverDataProvider.publishData(
+        '{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
+    //_cargandoController.sink.add(false);
   }
 
   Future<String> subirFoto(File foto) async {

@@ -20,7 +20,7 @@ class MQTTClientWrapper {
   MqttSubscriptionState subscriptionState = MqttSubscriptionState.IDLE;
 
   final VoidCallback onConnectedCallback;
-  final Function(dynamic data, String topic) onDeviceDataReceivedCallback;
+  final Function(ServerData data, String topic) onDeviceDataReceivedCallback;
 
   MQTTClientWrapper(
       this.onConnectedCallback, this.onDeviceDataReceivedCallback);
@@ -86,19 +86,34 @@ class MQTTClientWrapper {
           MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       //final decodedData = json.decode(resp.body.toString());
       // if()
+
       final serverDataJson = json.decode(serverDataJsonString);
-      if (serverDataJson["TOKEN"] != null) {
-        ServerData decodedData = ServerData.fromJson(serverDataJson);
-        if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
-      }
-      if (serverDataJson["MUSIC"] != null) {
-        Songs decodedData = Songs.fromJsonList(serverDataJson["MUSIC"]);
-        if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
-      }
-      print("MQTTClientWrapper::GOT A NEW MESSAGE $serverDataJson");
+      print("MQTTClientWrapper::GOT A NEW MESSAGE $serverDataJsonString");
+      _preData(serverDataJson,topicName);
+      
     });
+  }
+  void _preData(serverDataJson,topicName){
+    if ((serverDataJson["STATUS"] == "LOGIN") ||
+          (serverDataJson["STATUS"] == "INVALID")) {
+        publishData(Constants.credentials, 'APP/CREDENTIALS');
+        return;
+      } else {
+        if (serverDataJson["TOKEN"] != null) {
+          ServerData decodedData = ServerData.fromJson(serverDataJson);
+          if (decodedData != null)
+            onDeviceDataReceivedCallback(decodedData, topicName);
+            return;
+        }
+        else if (serverDataJson["MUSIC"] != null) {
+          ServerData decodedData = ServerData.fromJson(serverDataJson);
+          print(decodedData.songs.items);
+          if (decodedData != null)
+            onDeviceDataReceivedCallback(decodedData, topicName);
+            return;
+        }
+      }
+
   }
 
   void _publishMessage(String message, String topicO) {

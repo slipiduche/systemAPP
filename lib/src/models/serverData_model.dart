@@ -1,11 +1,13 @@
 class ServerData {
-  ServerData({this.status, this.token});
+  ServerData({this.status, this.token, this.songs});
 
   String status;
   String token;
+  Songs songs;
+  
 
   factory ServerData.fromJson(Map<String, dynamic> json) =>
-      ServerData(token: json["TOKEN"], status: json["STATUS"]);
+      ServerData(token: json["TOKEN"], status: json["STATUS"], songs:Songs.fromJsonList(json["MUSIC"]));
 }
 class Songs {
   List<Music> items = new List();
