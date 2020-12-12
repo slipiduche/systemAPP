@@ -65,7 +65,7 @@ class _EditSongPageState extends State<EditSongPage> {
                       } else { print(snapshot.data[0].songName);
                       
                         return Container(
-                          child: makeSongsList(context, snapshot.data, editIcon(20.0, colorMedico)),
+                          child: makeSongsList(context, snapshot.data, editIcon(40.0, colorMedico)),
                         );
                       }
                     },

@@ -236,7 +236,7 @@ Widget makeSongsList(BuildContext context, List<Music> list,Widget icon3) {
         itemBuilder: (BuildContext context, int index) {
           print(index);
           
-          return twoIconCardSingle(list[index].songName,list[index].artist,songIcon(20.0, colorMedico),icon3,list[index].id.toString(),context,list[index].songName);
+          return twoIconCardSingle(list[index].songName,list[index].artist,songIcon(40.0, colorMedico),icon3,list[index].id.toString(),context,list[index].songName);
         });
   }
 

@@ -222,8 +222,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                         column.add(TwoIconCard(
                                             _paths[i].name,
                                             author,
-                                            songIcon(30.0, colorMedico),
-                                            addIcon(30.0, colorMedico),
+                                            songIcon(40.0, colorMedico),
+                                            addIcon(40.0, colorMedico),
                                             path,
                                             context,_paths[i].name));
                                       } else {
@@ -231,7 +231,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                         column.add(TwoIconCard(
                                             _paths[i].name,
                                             author,
-                                            songIcon(30.0, colorMedico),
+                                            songIcon(40.0, colorMedico),
                                             false,
                                             path,
                                             context,_paths[i].name));
