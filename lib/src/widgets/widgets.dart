@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
+import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
 int awaitUpload = 0;
@@ -113,14 +114,14 @@ class TwoIconCard extends StatefulWidget {
   String label, description;
   Widget icon;
   dynamic icon1;
-  String path,name;
+  String path, name;
   dynamic context;
   TwoIconCard(this.label, this.description, this.icon, this.icon1, this.path,
-      this.context,this.name,
+      this.context, this.name,
       {Key key})
       : super(key: key);
   _TwoIconCardState createState() =>
-      _TwoIconCardState(label, description, icon, icon1, path, context,name);
+      _TwoIconCardState(label, description, icon, icon1, path, context, name);
 }
 
 class _TwoIconCardState extends State<TwoIconCard> {
@@ -128,14 +129,14 @@ class _TwoIconCardState extends State<TwoIconCard> {
   String label, description;
   Widget icon;
   dynamic icon1;
-  String path,name;
+  String path, name;
   dynamic contexto;
   _TwoIconCardState(this.label, this.description, this.icon, this.icon1,
-      this.path, this.contexto,this.name);
+      this.path, this.contexto, this.name);
 
   Widget build(BuildContext context) {
     if (awaitUpload == 0) {
-      return twoIconCard(label, description, icon, icon1, path, contexto,name);
+      return twoIconCard(label, description, icon, icon1, path, contexto, name);
     } else if (awaitUpload == 1) {
       return Column(
         children: <Widget>[
@@ -167,7 +168,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
   }
 
   Widget twoIconCard(String label, description, Widget icon, dynamic icon1,
-      String path, dynamic context,String name) {
+      String path, dynamic context, String name) {
     String _path = path;
     print(_path);
 
@@ -214,8 +215,8 @@ class _TwoIconCardState extends State<TwoIconCard> {
               return GestureDetector(
                   onTap: () async {
                     print(_path);
-                    uploading(1,1, context);
-                    awaitUpload = await UploadProvider().upload(_path,name);
+                    uploading(1, 1, context);
+                    awaitUpload = await UploadProvider().upload(_path, name);
                     Navigator.pop(context);
                     setState(() {});
                   },
@@ -228,29 +229,98 @@ class _TwoIconCardState extends State<TwoIconCard> {
     );
   }
 }
-void uploading(int i, songsCount,BuildContext context) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            content: Container(
-              height: 100.0,
-              child: Column(
-                children: <Widget>[
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
-                  ),
-                  Text(
-                    'Uploading...$i of $songsCount',
-                    style: TextStyle(fontSize: 20.0),
-                  )
-                ],
-              ),
-            ),
-          );
+Widget makeSongsList(BuildContext context, List<Music> list,Widget icon3) {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (list.length),
+        itemBuilder: (BuildContext context, int index) {
+          print(index);
+          
+          return twoIconCardSingle(list[index].songName,list[index].artist,songIcon(20.0, colorMedico),icon3,list[index].id.toString(),context,list[index].songName);
         });
   }
+
+  Widget twoIconCardSingle(String label, description, Widget icon, dynamic icon1,
+      String path, dynamic context,String name) {
+    String _path = path;
+    print(_path);
+
+    return Card(
+      elevation: 5.0,
+      color: Colors.white,
+      child: Container(
+        height: 105,
+        width: MediaQuery.of(context).size.width - 30,
+        child: Row(children: [
+          Expanded(child: Container()),
+          icon,
+          Expanded(child: Container()),
+          Container(
+            width: MediaQuery.of(context).size.width - 120,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w100,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  description,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w100),
+                )
+              ],
+            ),
+          ),
+          Expanded(child: Container()),
+          Builder(builder: (context) {
+            if (icon1 == false) {
+              return GestureDetector(onTap: null, child: Container());
+            } else {
+              return GestureDetector(
+                  onTap: () async {
+                    
+                  },
+                  child: icon1);
+            }
+          }),
+          Expanded(child: Container()),
+        ]),
+      ),
+    );
+  }
+
+void uploading(int i, songsCount, BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Container(
+            height: 100.0,
+            child: Column(
+              children: <Widget>[
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+                ),
+                Text(
+                  'Uploading...$i of $songsCount',
+                  style: TextStyle(fontSize: 20.0),
+                )
+              ],
+            ),
+          ),
+        );
+      });
+}
 
 Widget gradientBar(bool selected) {
   if (selected) {
