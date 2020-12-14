@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:id3/id3.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
@@ -296,7 +297,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     int sendsCount = 0, sended = 0;
 
     for (var i = 0; i < songsCount; i++) {
-      sended = await UploadProvider().upload(_paths[i].path,_paths[i].name);
+      sended = await ServerDataBloc().uploadSong(_paths[i].path,_paths[i].name);
       if (sended == 2) {
         sendsCount++;
         sended = 0;

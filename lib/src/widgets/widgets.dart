@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
@@ -216,7 +217,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
                   onTap: () async {
                     print(_path);
                     uploading(1, 1, context);
-                    awaitUpload = await UploadProvider().upload(_path, name);
+                    awaitUpload = await ServerDataBloc().uploadSong(_path, name);
                     Navigator.pop(context);
                     setState(() {});
                   },
@@ -229,74 +230,189 @@ class _TwoIconCardState extends State<TwoIconCard> {
     );
   }
 }
-Widget makeSongsList(BuildContext context, List<Music> list,Widget icon3) {
-    return ListView.builder(
-        //controller: _scrollController,
-        itemCount: (list.length),
-        itemBuilder: (BuildContext context, int index) {
-          print(index);
-          
-          return twoIconCardSingle(list[index].songName,list[index].artist,songIcon(40.0, colorMedico),icon3,list[index].id.toString(),context,list[index].songName);
-        });
-  }
 
-  Widget twoIconCardSingle(String label, description, Widget icon, dynamic icon1,
-      String path, dynamic context,String name) {
-    String _path = path;
-    print(_path);
+Widget makeSongsList(BuildContext context, List<Music> list, Widget icon3) {
+  return ListView.builder(
+      //controller: _scrollController,
+      itemCount: (list.length),
+      itemBuilder: (BuildContext context, int index) {
+        print(index);
 
-    return Card(
-      elevation: 5.0,
-      color: Colors.white,
-      child: Container(
-        height: 105,
-        width: MediaQuery.of(context).size.width - 30,
-        child: Row(children: [
-          Expanded(child: Container()),
-          icon,
-          Expanded(child: Container()),
-          Container(
-            width: MediaQuery.of(context).size.width - 120,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w100,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+        return twoIconCardSingle(
+            list[index], songIcon(40.0, colorMedico), icon3, context);
+      });
+}
+
+Widget twoIconCardSingle(
+    Music song, Widget icon, dynamic icon1, dynamic context) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      height: 105,
+      width: MediaQuery.of(context).size.width - 30,
+      child: Row(children: [
+        Expanded(child: Container()),
+        icon,
+        Expanded(child: Container()),
+        Container(
+          width: MediaQuery.of(context).size.width - 120,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                song.songName,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w100,
                 ),
-                Text(
-                  description,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w100),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                song.artist,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100),
+              )
+            ],
+          ),
+        ),
+        Expanded(child: Container()),
+        Builder(builder: (context) {
+          if (icon1 == false) {
+            return GestureDetector(onTap: null, child: Container());
+          } else {
+            return GestureDetector(
+                onTap: () async {
+                  print('presionaste id ');
+                  print(song.id);
+                  editing(song, context);
+                },
+                child: icon1);
+          }
+        }),
+        Expanded(child: Container()),
+      ]),
+    ),
+  );
+}
+
+void editing(Music song, BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Container(
+          width: MediaQuery.of(context).size.width - 20,
+          child: Dialog(
+            //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  height: 30.0,
+                  color: colorMedico,
+                  child: Center(child: Text('Edit the song',style: TextStyle(fontSize: 20.0, color: Colors.white),)),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                // mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Text(
+                                    'Song name',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  _deviceInput('Name', song.songName),
+                                  Text('Artist',
+                                      style: TextStyle(fontSize: 25.0)),
+                                  _deviceInput('Artist', song.artist),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                ]),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          submitButton('Done', () {}),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
           ),
-          Expanded(child: Container()),
-          Builder(builder: (context) {
-            if (icon1 == false) {
-              return GestureDetector(onTap: null, child: Container());
-            } else {
-              return GestureDetector(
-                  onTap: () async {
-                    
-                  },
-                  child: icon1);
-            }
-          }),
-          Expanded(child: Container()),
-        ]),
-      ),
-    );
+        );
+      });
+}
+
+Widget _deviceInput(String hintText, String textValue) {
+  final _textValue = new TextEditingController(text: textValue);
+  if (hintText == 'MAC') {
+    //_macNueva = textValue;
+  } else {
+    //_nombreNuevo = textValue;
   }
+
+  return Container(
+      // width: _screenSize.width -48.0,
+      //padding: EdgeInsets.all(25.0),
+      margin: EdgeInsets.symmetric(vertical: 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: colorBordeBotton,
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(12.0),
+        color: Colors.white,
+      ),
+      child: TextField(
+        //autofocus: true,
+        //textCapitalization: TextCapitalization.sentences,
+        controller: _textValue,
+        scrollPadding: EdgeInsets.all(5.0),
+
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText,
+        ),
+        onChanged: (valor) {
+          // _opcionSeleccionada = null;
+          // prefs.dispositivoSeleccionado = null;
+          if (hintText == 'MAC') {
+            // _macNueva = valor;
+          } else {
+            // _nombreNuevo = valor;
+          }
+          //setState(() {});
+        },
+      ));
+}
 
 void uploading(int i, songsCount, BuildContext context) {
   showDialog(

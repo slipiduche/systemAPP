@@ -46,7 +46,14 @@ class _EditSongPageState extends State<EditSongPage> {
                     fontSize: 40.0,
                     fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 30.0),
+              SizedBox(height: 15.0),
+              Text(
+                'Select  the song do you want to edit',
+                style: TextStyle(
+                  fontSize: 24.0,
+                ),
+              ),
+              SizedBox(height: 5.0),
               Expanded(
                 child: Container(
                   //height: 200.0,
@@ -55,17 +62,31 @@ class _EditSongPageState extends State<EditSongPage> {
                   child: StreamBuilder(
                     stream: serverDataBloc.serverDataStream,
                     // initialData: initialData ,
-                    builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
-                      
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Music>> snapshot) {
                       if (!snapshot.hasData) {
-                        if((serverDataBloc.token==null)||(serverDataBloc.token=='')) {
+                        if ((serverDataBloc.token == null) ||
+                            (serverDataBloc.token == '')) {
                           serverDataBloc.login();
                         }
-                        return Container(child: CircularProgressIndicator());
-                      } else { print(snapshot.data[0].songName);
-                      
+                        return Stack(
+                          children: <Widget>[
+                            Container(
+                              height: 40.0,
+                              width: 40.0,
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(colorMedico),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        print(snapshot.data[0].songName);
+
                         return Container(
-                          child: makeSongsList(context, snapshot.data, editIcon(40.0, colorMedico)),
+                          child: makeSongsList(context, snapshot.data,
+                              editIcon(40.0, colorMedico)),
                         );
                       }
                     },

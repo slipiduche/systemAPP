@@ -6,6 +6,7 @@ import 'package:systemAPP/src/provider/mqttClientWrapper.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/provider/upload_provider.dart';
 
 class ServerDataBloc {
   String token;
@@ -26,7 +27,7 @@ class ServerDataBloc {
 
   Stream<List<Music>> get serverDataStream => _serverDataController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
-
+  //String get tokenS => token;
   void serverConnect(String _topicIn, String _topicIn2) async {
     _serverDataProvider = MQTTClientWrapper(() async {
       if (_topicIn != 'NoSelecccionado') {
@@ -58,6 +59,12 @@ class ServerDataBloc {
       }
     });
     await _serverDataProvider.prepareMqttClient();
+  }
+  Future uploadSong (audioPath, name) async
+  { 
+    return await UploadProvider().upload(audioPath, name, token);
+  
+
   }
 
   bool login() {

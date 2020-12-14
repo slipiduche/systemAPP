@@ -10,7 +10,7 @@ final String topicName = "server/#";
 final String credentials='{"USER": "APP","PASS":"0R81TT45","NEW":"NO"}';
 //{"STATUS":"SUCCESS","TOKEN":"mBwZ7WnVHAntfDWL"}
 //{"STATUS":"SUCCESS","TOKEN":"8BQKEiSqaKrGlWBV"}
-final String TOKEN ="Fkg7xzrTHL4eYEFp";
+//final String TOKEN ="Fkg7xzrTHL4eYEFp";
 final Color colorResaltadoBoton=Color.fromRGBO(234, 234, 234, 1.0);
 final Color colorOrbittas=Color.fromRGBO(0, 122, 146, 1.0);
 final Color colorVN=Color.fromRGBO(4, 61, 57, 1.0);
