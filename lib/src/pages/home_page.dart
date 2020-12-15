@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     if ((serverDataBloc.token == null) || (serverDataBloc.token == '')) {
       serverDataBloc.login();
+      print('before');
     }
     return SafeArea(
       child: Scaffold(

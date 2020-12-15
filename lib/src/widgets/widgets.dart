@@ -92,6 +92,10 @@ Widget tarjeta(
       if (index == 5) {
         await Navigator.of(context).pushNamed('songsPage', arguments: null);
       }
+      if (index == 6) {
+        await Navigator.of(context)
+            .pushNamed('deleteSongPage', arguments: null);
+      }
 
       if (index == 1) {
         await Navigator.of(context)
@@ -235,7 +239,8 @@ class _TwoIconCardState extends State<TwoIconCard> {
   }
 }
 
-Widget makeSongsList(BuildContext context, List<Music> list, Widget icon3) {
+Widget makeSongsList(
+    BuildContext context, List<Music> list, Widget icon3, String mode) {
   return ListView.builder(
       //controller: _scrollController,
       itemCount: (list.length),
@@ -243,12 +248,12 @@ Widget makeSongsList(BuildContext context, List<Music> list, Widget icon3) {
         print(index);
 
         return twoIconCardSingle(
-            list[index], songIcon(40.0, colorMedico), icon3, context);
+            list[index], songIcon(40.0, colorMedico), icon3, context, mode);
       });
 }
 
 Widget twoIconCardSingle(
-    Music song, Widget icon, dynamic icon1, dynamic context) {
+    Music song, Widget icon, dynamic icon1, dynamic context, String mode) {
   return Card(
     elevation: 5.0,
     color: Colors.white,
@@ -293,7 +298,11 @@ Widget twoIconCardSingle(
                 onTap: () async {
                   print('presionaste id ');
                   print(song.id);
-                  editing(song, context);
+                  if (mode == 'edit') {
+                    editing(song, context);
+                  } else if (mode == 'delete') {
+                    deleting(song, context);
+                  }
                 },
                 child: icon1);
           }
@@ -302,6 +311,70 @@ Widget twoIconCardSingle(
       ]),
     ),
   );
+}
+
+void deleting(Music song, BuildContext context) {
+  Music upSong = song;
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Container(
+          width: MediaQuery.of(context).size.width - 20,
+          child: Dialog(
+            //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  height: 30.0,
+                  color: colorMedico,
+                  child: Center(
+                      child: Text(
+                    'Delete the song?',
+                    style: TextStyle(fontSize: 20.0, color: Colors.white),
+                  )),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 10.0,),
+                      Text(song.songName, style: TextStyle(fontSize: 20.0)),
+                      SizedBox(height: 10.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          submitButton('Delete', () async {
+                            Navigator.pop(context);
+                            updating(context, 'Deleting');
+                            //print(upSong.toJson());
+                            final resp =
+                                await ServerDataBloc().deleteSong(song);
+                            if (resp) {
+                              print('deleted');
+                              Navigator.pop(context);
+                              updated(context, 'Deleted');
+                            } else {
+                              print('error');
+                              Navigator.pop(context);
+                              errorPopUp(context, 'Error');
+                            }
+                          }),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }
 
 void editing(Music song, BuildContext context) {
@@ -376,14 +449,14 @@ void editing(Music song, BuildContext context) {
                         children: [
                           submitButton('Done', () async {
                             Navigator.pop(context);
-                            updating(context);
+                            updating(context, 'updating');
                             print(upSong.toJson());
                             final resp =
                                 await ServerDataBloc().updateSong(upSong);
                             if (resp) {
                               print('updated');
                               Navigator.pop(context);
-                              updated(context);
+                              updated(context, 'Updated');
                             } else {
                               print('error');
                               Navigator.pop(context);
@@ -402,7 +475,7 @@ void editing(Music song, BuildContext context) {
       });
 }
 
-void updating(BuildContext context) {
+void updating(BuildContext context, String message) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -416,7 +489,7 @@ void updating(BuildContext context) {
                   valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
                 ),
                 Text(
-                  'Updating...',
+                  '$message...',
                   style: TextStyle(fontSize: 20.0),
                 )
               ],
@@ -426,7 +499,7 @@ void updating(BuildContext context) {
       });
 }
 
-void updated(BuildContext context) {
+void updated(BuildContext context, String message) {
   showDialog(
       context: context,
       barrierDismissible: true,
@@ -442,7 +515,7 @@ void updated(BuildContext context) {
                   color: colorMedico,
                 ),
                 Text(
-                  'Updated',
+                  message,
                   style: TextStyle(fontSize: 20.0),
                 )
               ],
@@ -454,7 +527,12 @@ void updated(BuildContext context) {
               child: Center(
                 child: submitButton('OK', () {
                   Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, 'addSongsPage');
+                  if (message == "Updated") {
+                    Navigator.of(context).pushReplacementNamed('editSongPage');
+                  } else if (message == "Deleted") {
+                    Navigator.of(context)
+                        .pushReplacementNamed('deleteSongPage');
+                  }
                 }),
               ),
             ),

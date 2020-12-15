@@ -54,23 +54,41 @@ class ServerDataBloc {
         print(data.songs.items);
         _serverDataController.add(data.songs.items);
         return;
-      } else if(data.status=='INVALID'||data.status=='LOGIN'){
+      } else if (data.status == 'INVALID' || data.status == 'LOGIN') {
         login();
-        
+        return;
+      } else if (data.status == 'SUCCESS') {
+        print('success');
+        requestSongs();
+        return;
       }
     });
     await _serverDataProvider.prepareMqttClient();
   }
 
   Future<int> uploadSong(audioPath, name) async {
-    final resp = await UploadProvider().upload(audioPath, name, token);
-    requestSongs();
-    return resp;
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+
+      if (token != '' && token != null) {
+        final resp = await UploadProvider().upload(audioPath, name, token);
+        if (resp == 1) requestSongs();
+        return resp;
+      }
+      return 0;
+    } else {
+      final resp = await UploadProvider().upload(audioPath, name, token);
+      if (resp == 1) requestSongs();
+      return resp;
+    }
   }
 
   Future<bool> updateSong(song) async {
-    final postData = '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
+    final postData =
+        '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+    await Future.delayed(Duration(seconds: 1));
     requestSongs();
     return resp;
   }
@@ -99,5 +117,13 @@ class ServerDataBloc {
   dispose() {
     _serverDataController?.close();
     _cargandoController?.close();
+  }
+
+  Future<bool> deleteSong(Music song) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.id}"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
+    //await Future.delayed(Duration(seconds: 1));
+    return resp;
   }
 }

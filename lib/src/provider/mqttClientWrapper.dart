@@ -99,7 +99,8 @@ class MQTTClientWrapper {
         publishData(Constants.credentials, 'APP/CREDENTIALS');
         return;
       } else {
-        if (serverDataJson["TOKEN"] != null) {
+        
+         if (serverDataJson["TOKEN"] != null) {
           ServerData decodedData = ServerData.fromJson(serverDataJson);
           if (decodedData != null)
             onDeviceDataReceivedCallback(decodedData, topicName);
@@ -111,6 +112,14 @@ class MQTTClientWrapper {
           if (decodedData != null)
             onDeviceDataReceivedCallback(decodedData, topicName);
             return;
+        }
+        else if(serverDataJson["STATUS"]=='SUCCESS'){
+          ServerData decodedData = ServerData.fromJson(serverDataJson);
+          print(decodedData.status);
+          if (decodedData != null)
+            onDeviceDataReceivedCallback(decodedData, topicName);
+            return;
+
         }
       }
 

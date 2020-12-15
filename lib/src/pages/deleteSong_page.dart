@@ -5,14 +5,14 @@ import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-class EditSongPage extends StatefulWidget {
-  EditSongPage({Key key}) : super(key: key);
+class DeleteSongPage extends StatefulWidget {
+  DeleteSongPage({Key key}) : super(key: key);
 
   @override
-  _EditSongPageState createState() => _EditSongPageState();
+  _DeleteSongPageState createState() => _DeleteSongPageState();
 }
 
-class _EditSongPageState extends State<EditSongPage> {
+class _DeleteSongPageState extends State<DeleteSongPage> {
   @override
   void dispose() {
     // TODO: implement dispose
@@ -55,7 +55,7 @@ class _EditSongPageState extends State<EditSongPage> {
               ),
               SizedBox(height: 15.0),
               Text(
-                'Select  the song do you want to edit',
+                'Select  the song do you want to delete',
                 style: TextStyle(
                   fontSize: 24.0,
                 ),
@@ -95,7 +95,7 @@ class _EditSongPageState extends State<EditSongPage> {
 
                         return Container(
                           child: makeSongsList(context, snapshot.data,
-                              editIcon(40.0, colorMedico),'edit'),
+                              deleteIcon(40.0, colorMedico),'delete'),
                         );
                       }
                     },
