@@ -19,6 +19,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'addSongPage': (BuildContext context) => AddSongPage(),
     'editSongPage': (BuildContext context) => EditSongPage(),
     'deleteSongPage': (BuildContext context) => DeleteSongPage(),
+    'changeDefaultSongPage': (BuildContext context) => DeleteSongPage(),
     'songsPage': (BuildContext context) => SongsPage(),
     'tagPage': (BuildContext context) => TagsPage(),
     'roomsPage': (BuildContext context) => RoomsPage(),
