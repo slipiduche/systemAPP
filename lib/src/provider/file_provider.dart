@@ -148,17 +148,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                           )),
                     ),
                   ),
-                  // RaisedButton(
-                  //   onPressed: () => _selectFolder(),
-                  //   child: Text("Pick folder"),
-                  // ),
-                  // RaisedButton(
-                  //   onPressed: () { _clearCachedFiles();
-                  //   setState(() {
-
-                  //   });},
-                  //   child: Text("Clear temporary files"),
-                  // ),
+                  
                 ],
               ),
             ),
@@ -183,16 +173,13 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                         )
                       : _paths != null
                           ? Expanded(
-                              //   width: MediaQuery.of(context).size.width,
-                              // height: MediaQuery.of(context).size.height,
+                              
 
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 controller: controller,
                                 child: Builder(
-                                  // itemCount: _paths != null && _paths.isNotEmpty
-                                  //     ? _paths.length
-                                  //     : 1,
+                                 
 
                                   builder: (BuildContext context) {
                                     final itemCount =

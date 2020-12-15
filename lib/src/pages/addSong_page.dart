@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/provider/file_provider.dart';
@@ -12,10 +13,18 @@ class AddSongPage extends StatefulWidget {
 }
 
 class _AddSongPageState extends State<AddSongPage> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   //FilePickerDemo filePicker = new FilePickerDemo();
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
-    awaitUpload=0;
+    awaitUpload = 0;
+    
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -47,13 +56,13 @@ class _AddSongPageState extends State<AddSongPage> {
               ),
               SizedBox(height: 30.0),
               Expanded(
-                child:Container(
-                        //height: 200.0,
-                        //width: double.infinity,
+                child: Container(
+                  //height: 200.0,
+                  //width: double.infinity,
 
-                        child: FilePickerDemo(false,"Select the song you want to add", "Search for a song"),
-                      ),
-                  
+                  child: FilePickerDemo(false,
+                      "Select the song you want to add", "Search for a song"),
+                ),
               ),
               gradientBar2(3),
             ],

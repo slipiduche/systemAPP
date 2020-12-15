@@ -54,17 +54,25 @@ class ServerDataBloc {
         print(data.songs.items);
         _serverDataController.add(data.songs.items);
         return;
-      } else {
-        print('maybe rooms');
+      } else if(data.status=='INVALID'||data.status=='LOGIN'){
+        login();
+        
       }
     });
     await _serverDataProvider.prepareMqttClient();
   }
-  Future uploadSong (audioPath, name) async
-  { 
-    return await UploadProvider().upload(audioPath, name, token);
-  
 
+  Future<int> uploadSong(audioPath, name) async {
+    final resp = await UploadProvider().upload(audioPath, name, token);
+    requestSongs();
+    return resp;
+  }
+
+  Future<bool> updateSong(song) async {
+    final postData = '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+    requestSongs();
+    return resp;
   }
 
   bool login() {
@@ -86,24 +94,6 @@ class ServerDataBloc {
     _serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
     //_cargandoController.sink.add(false);
-  }
-
-  Future<String> subirFoto(File foto) async {
-    // _cargandoController.sink.add(true);
-    // final fotoUrl = await _productosProvider.subirImagen(foto);
-    // _cargandoController.sink.add(false);
-
-    // return fotoUrl;
-  }
-
-  void editarProducto(ServerData producto) async {
-    // _cargandoController.sink.add(true);
-    // await _productosProvider.editarProducto(producto);
-    // _cargandoController.sink.add(false);
-  }
-
-  void borrarProducto(String id) async {
-    // await _productosProvider.borrarProducto(id);
   }
 
   dispose() {

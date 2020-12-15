@@ -12,10 +12,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  ServerDataBloc serverDataBloc=ServerDataBloc();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
+    if ((serverDataBloc.token == null) || (serverDataBloc.token == '')) {
+      serverDataBloc.login();
+    }
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -41,23 +49,22 @@ class _HomePageState extends State<HomePage> {
               Text(
                 'Home',
                 style: TextStyle(
-                  color: colorVN,
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.w400
-                ),
+                    color: colorVN,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 40.0),
-              tarjeta('Music', 'Add new songs or delete old ones', musicIcon(40, colorMedico),3,context),
+              tarjeta('Music', 'Add new songs or delete old ones',
+                  musicIcon(40, colorMedico), 3, context),
               SizedBox(height: 20.0),
-              tarjeta('Tags', 'Add , delete or edit tags', tagIcon(40, colorMedico),1,context),
+              tarjeta('Tags', 'Add , delete or edit tags',
+                  tagIcon(40, colorMedico), 1, context),
               SizedBox(height: 20.0),
-              tarjeta('Rooms', 'Mannage the rooms ', roomIcon(40),0,context),
+              tarjeta('Rooms', 'Mannage the rooms ', roomIcon(40), 0, context),
             ],
           ),
         ),
       ),
     );
   }
-
-  
 }

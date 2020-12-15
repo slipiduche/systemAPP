@@ -13,10 +13,17 @@ class EditSongPage extends StatefulWidget {
 }
 
 class _EditSongPageState extends State<EditSongPage> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   //FilePickerDemo filePicker = new FilePickerDemo();
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -52,6 +59,8 @@ class _EditSongPageState extends State<EditSongPage> {
                 style: TextStyle(
                   fontSize: 24.0,
                 ),
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 5.0),
               Expanded(

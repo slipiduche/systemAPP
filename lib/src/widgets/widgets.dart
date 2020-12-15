@@ -9,17 +9,21 @@ int awaitUpload = 0;
 
 void _moveTo(index, context) async {
   if (index == 0) {
-    await Navigator.pushReplacementNamed(context, 'roomsPage', arguments: null);
+    await Navigator.of(context)
+        .pushReplacementNamed('roomsPage', arguments: null);
   }
 
   if (index == 1) {
-    await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
+    await Navigator.of(context)
+        .pushReplacementNamed('tagPage', arguments: null);
   }
   if (index == 2) {
-    await Navigator.pushReplacementNamed(context, 'homePage', arguments: null);
+    await Navigator.of(context)
+        .pushReplacementNamed('homePage', arguments: null);
   }
   if (index == 3) {
-    await Navigator.pushReplacementNamed(context, 'musicPage', arguments: null);
+    await Navigator.of(context)
+        .pushReplacementNamed('musicPage', arguments: null);
   }
 }
 
@@ -77,34 +81,33 @@ Widget tarjeta(
     ),
     onTap: () async {
       if (index == 10) {
-        await Navigator.pushNamed(context, 'editSongPage', arguments: null);
+        await Navigator.of(context).pushNamed('editSongPage', arguments: null);
       }
       if (index == 9) {
-        await Navigator.pushNamed(context, 'addSongsPage', arguments: null);
+        await Navigator.of(context).pushNamed('addSongsPage', arguments: null);
       }
       if (index == 8) {
-        await Navigator.pushNamed(context, 'addSongPage', arguments: null);
+        await Navigator.of(context).pushNamed('addSongPage', arguments: null);
       }
       if (index == 5) {
-        await Navigator.pushReplacementNamed(context, 'songsPage',
-            arguments: null);
+        await Navigator.of(context).pushNamed('songsPage', arguments: null);
       }
 
       if (index == 1) {
-        await Navigator.pushReplacementNamed(context, 'tagPage',
-            arguments: null);
+        await Navigator.of(context)
+            .pushReplacementNamed('tagPage', arguments: null);
       }
       if (index == 2) {
-        await Navigator.pushReplacementNamed(context, 'homePage',
-            arguments: null);
+        await Navigator.of(context)
+            .pushReplacementNamed('homePage', arguments: null);
       }
       if (index == 3) {
-        await Navigator.pushReplacementNamed(context, 'musicPage',
-            arguments: null);
+        await Navigator.of(context)
+            .pushReplacementNamed('musicPage', arguments: null);
       }
       if (index == 0) {
-        await Navigator.pushReplacementNamed(context, 'roomsPage',
-            arguments: null);
+        await Navigator.of(context)
+            .pushReplacementNamed('roomsPage', arguments: null);
       }
     },
   );
@@ -217,7 +220,8 @@ class _TwoIconCardState extends State<TwoIconCard> {
                   onTap: () async {
                     print(_path);
                     uploading(1, 1, context);
-                    awaitUpload = await ServerDataBloc().uploadSong(_path, name);
+                    awaitUpload =
+                        await ServerDataBloc().uploadSong(_path, name);
                     Navigator.pop(context);
                     setState(() {});
                   },
@@ -301,6 +305,7 @@ Widget twoIconCardSingle(
 }
 
 void editing(Music song, BuildContext context) {
+  Music upSong = song;
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -318,7 +323,11 @@ void editing(Music song, BuildContext context) {
                   width: double.infinity,
                   height: 30.0,
                   color: colorMedico,
-                  child: Center(child: Text('Edit the song',style: TextStyle(fontSize: 20.0, color: Colors.white),)),
+                  child: Center(
+                      child: Text(
+                    'Edit the song',
+                    style: TextStyle(fontSize: 20.0, color: Colors.white),
+                  )),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
@@ -342,10 +351,18 @@ void editing(Music song, BuildContext context) {
                                     'Song name',
                                     style: TextStyle(fontSize: 25.0),
                                   ),
-                                  _deviceInput('Name', song.songName),
+                                  _deviceInput('Name', song.songName,
+                                      (String name) {
+                                    upSong.songName = name;
+                                    print('name:$name');
+                                  }),
                                   Text('Artist',
                                       style: TextStyle(fontSize: 25.0)),
-                                  _deviceInput('Artist', song.artist),
+                                  _deviceInput('Artist', song.artist,
+                                      (String artist) {
+                                    upSong.artist = artist;
+                                    print('artist:$artist');
+                                  }),
                                   SizedBox(
                                     height: 5.0,
                                   ),
@@ -357,7 +374,22 @@ void editing(Music song, BuildContext context) {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          submitButton('Done', () {}),
+                          submitButton('Done', () async {
+                            Navigator.pop(context);
+                            updating(context);
+                            print(upSong.toJson());
+                            final resp =
+                                await ServerDataBloc().updateSong(upSong);
+                            if (resp) {
+                              print('updated');
+                              Navigator.pop(context);
+                              updated(context);
+                            } else {
+                              print('error');
+                              Navigator.pop(context);
+                              errorPopUp(context, 'Error');
+                            }
+                          }),
                         ],
                       ),
                     ],
@@ -370,7 +402,105 @@ void editing(Music song, BuildContext context) {
       });
 }
 
-Widget _deviceInput(String hintText, String textValue) {
+void updating(BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Container(
+            height: 100.0,
+            child: Column(
+              children: <Widget>[
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+                ),
+                Text(
+                  'Updating...',
+                  style: TextStyle(fontSize: 20.0),
+                )
+              ],
+            ),
+          ),
+        );
+      });
+}
+
+void updated(BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          content: Container(
+            height: 100.0,
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.check,
+                  size: 50.0,
+                  color: colorMedico,
+                ),
+                Text(
+                  'Updated',
+                  style: TextStyle(fontSize: 20.0),
+                )
+              ],
+            ),
+          ),
+          actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
+          actions: <Widget>[
+            Expanded(
+              child: Center(
+                child: submitButton('OK', () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, 'addSongsPage');
+                }),
+              ),
+            ),
+          ],
+        );
+      });
+}
+
+void errorPopUp(BuildContext context, String message) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Container(
+            height: 100.0,
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.error_outline,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+                Text(
+                  message,
+                  style: TextStyle(fontSize: 20.0),
+                )
+              ],
+            ),
+          ),
+          actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
+          actions: <Widget>[
+            Expanded(
+              child: Center(
+                child: submitButton('OK', () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, 'addSongsPage');
+                }),
+              ),
+            ),
+          ],
+        );
+      });
+}
+
+Widget _deviceInput(String hintText, String textValue, Function update) {
   final _textValue = new TextEditingController(text: textValue);
   if (hintText == 'MAC') {
     //_macNueva = textValue;
@@ -404,9 +534,10 @@ Widget _deviceInput(String hintText, String textValue) {
         onChanged: (valor) {
           // _opcionSeleccionada = null;
           // prefs.dispositivoSeleccionado = null;
-          if (hintText == 'MAC') {
-            // _macNueva = valor;
+          if (hintText == 'Name') {
+            update(valor);
           } else {
+            update(valor);
             // _nombreNuevo = valor;
           }
           //setState(() {});
@@ -522,20 +653,21 @@ class _BottomBarState extends State<BottomBar> {
     print('presionaste:');
     print(index);
     if (index == 0) {
-      await Navigator.pushReplacementNamed(context, 'roomsPage',
-          arguments: null);
+      await Navigator.of(context)
+          .pushReplacementNamed('roomsPage', arguments: null);
     }
 
     if (index == 1) {
-      await Navigator.pushReplacementNamed(context, 'tagPage', arguments: null);
+      await Navigator.of(context)
+          .pushReplacementNamed('tagPage', arguments: null);
     }
     if (index == 2) {
-      await Navigator.pushReplacementNamed(context, 'homePage',
-          arguments: null);
+      await Navigator.of(context)
+          .pushReplacementNamed('homePage', arguments: null);
     }
     if (index == 3) {
-      await Navigator.pushReplacementNamed(context, 'musicPage',
-          arguments: null);
+      await Navigator.of(context)
+          .pushReplacementNamed('musicPage', arguments: null);
     }
   }
 }
