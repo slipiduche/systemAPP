@@ -73,13 +73,13 @@ class ServerDataBloc {
 
       if (token != '' && token != null) {
         final resp = await UploadProvider().upload(audioPath, name, token);
-        if (resp == 1) requestSongs();
+        if (resp == 2) requestSongs();
         return resp;
       }
       return 0;
     } else {
       final resp = await UploadProvider().upload(audioPath, name, token);
-      if (resp == 1) requestSongs();
+      if (resp == 2) requestSongs();
       return resp;
     }
   }
