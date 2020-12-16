@@ -1,9 +1,11 @@
 class ServerData {
-  ServerData({this.status, this.token, this.songs});
+  ServerData({this.status, this.token, this.songs,this.tag,});
 
   String status;
   String token;
   Songs songs;
+  String tag;
+  
   
 
   factory ServerData.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +36,7 @@ class Music {
     this.artist,
     this.flName,
     this.status,
+    
   });
 
   int id;
@@ -41,6 +44,7 @@ class Music {
   String artist;
   String flName;
   String status;
+  
 
   factory Music.fromJson(Map<String, dynamic> json) => Music(
         id: json["ID"],

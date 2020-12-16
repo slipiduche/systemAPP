@@ -12,6 +12,7 @@ class AddTagsPage extends StatefulWidget {
 }
 
 class _AddTagsPageState extends State<AddTagsPage> {
+  bool tagHere=false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,7 +61,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      SizedBox(height: 15.0),
+                      SizedBox(height: 25.0),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 25.0),
                         alignment: Alignment.topLeft,
@@ -76,21 +77,25 @@ class _AddTagsPageState extends State<AddTagsPage> {
                               // overflow: TextOverflow.clip,
                               // textAlign: TextAlign.left,
                             ),
-                            SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
                             StreamBuilder(
                               stream: ServerDataBloc().tagStream,
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
-                                  return textBoxForm(snapshot.data,context);
-                                }
-                                else{
-                                  return textBoxForm('',context);
-
+                                  tagHere=true;
+                                  return textBoxForm(snapshot.data, context);
+                                } else {
+                                  return textBoxForm(
+                                      'The tag will appear here', context);
                                 }
                               },
                             ),
-                            SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
                             Text(
                               'Bind a song',
                               style: TextStyle(
@@ -99,7 +104,31 @@ class _AddTagsPageState extends State<AddTagsPage> {
                               // overflow: TextOverflow.clip,
                               // textAlign: TextAlign.left,
                             ),
-                            SizedBox(height: 10.0,),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            GestureDetector(
+                              onTap: tagHere?(){
+                                print('search song');
+                              }:null,
+                              child: StreamBuilder(
+                                stream: ServerDataBloc().tagStream,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return searchBoxForm(
+                                        snapshot.data, context);
+                                  } else {
+                                    return searchBoxForm(
+                                        'Select a song from the list', context);
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Center(child: submitButton('Done', () {})),
                           ],
                         ),
                       )

@@ -785,13 +785,14 @@ Widget textBoxForm(String content, BuildContext context) {
   );
 }
 
-Widget serarchBoxForm(String content, BuildContext context) {
+Widget searchBoxForm(String content, BuildContext context) {
   return Container(
     child: Container(
       height: 41.0,
       width: MediaQuery.of(context).size.width - 52.0,
       child: Expanded(
           child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
             width: 10.0,
@@ -800,9 +801,12 @@ Widget serarchBoxForm(String content, BuildContext context) {
             content,
             style: TextStyle(color: colorLetraSearch, fontSize: 24),
           ),
+          SizedBox(
+            width: 5.0,
+          ),
           searchIcon(20.0, colorMedico),
           SizedBox(
-            width: 10.0,
+            width: 5.0,
           ),
         ],
       )),

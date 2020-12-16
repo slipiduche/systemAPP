@@ -17,7 +17,7 @@ class ServerDataBloc {
   }
 
   ServerDataBloc._internal() {
-    serverConnect("SERVER/AUTHORIZE", "SERVER/RESPONSE");
+    serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
   }
 
   final _serverDataController = new BehaviorSubject<List<Music>>();
@@ -30,16 +30,22 @@ class ServerDataBloc {
   Stream<bool> get cargando => _cargandoController.stream;
   Stream<String> get tagStream => _tagController.stream;
   //String get tokenS => token;
-  void serverConnect(String _topicIn, String _topicIn2) async {
+  void serverConnect(
+      String _topicIn, String _topicIn2, String _topicIn3) async {
     _serverDataProvider = MQTTClientWrapper(() async {
       if (_topicIn != 'NoSelecccionado') {
         await _serverDataProvider.subscribeToTopic(_topicIn);
         await _serverDataProvider.subscribeToTopic(_topicIn2);
+        await _serverDataProvider.subscribeToTopic(_topicIn3);
         if (_serverDataProvider.subscriptionState ==
             MqttSubscriptionState.SUBSCRIBED)
           _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       }
     }, (ServerData data, String topic) {
+      if(data.tag!=null){
+        _tagController.add(data.tag);
+        return;
+      }
       if ((data.token != null) && (data.token != '')) {
         print('respondio server/authorize');
         print(data);
