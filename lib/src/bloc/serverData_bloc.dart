@@ -42,8 +42,9 @@ class ServerDataBloc {
           _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       }
     }, (ServerData data, String topic) {
-      if(data.tag!=null){
+      if (data.tag != null) {
         _tagController.add(data.tag);
+
         return;
       }
       if ((data.token != null) && (data.token != '')) {

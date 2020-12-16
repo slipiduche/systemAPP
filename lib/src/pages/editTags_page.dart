@@ -4,14 +4,14 @@ import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-class AddTagsPage extends StatefulWidget {
-  AddTagsPage({Key key}) : super(key: key);
+class EditTagsPage extends StatefulWidget {
+  EditTagsPage({Key key}) : super(key: key);
 
   @override
-  _AddTagsPageState createState() => _AddTagsPageState();
+  _EditTagsPageState createState() => _EditTagsPageState();
 }
 
-class _AddTagsPageState extends State<AddTagsPage> {
+class _EditTagsPageState extends State<EditTagsPage> {
   bool tagHere=false,songHere=false;
   @override
   Widget build(BuildContext context) {
@@ -48,12 +48,12 @@ class _AddTagsPageState extends State<AddTagsPage> {
                             fontSize: 40.0,
                             fontWeight: FontWeight.w400),
                       ),
-                      //Scan the tag  you want to add using your register device
+                      //Scan the tag  you want to Edit using your register device
                       SizedBox(height: 15.0),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
-                          'Scan the tag  you want to add using your register device',
+                          'Scan the tag  you want to edit using your register device',
                           style: TextStyle(
                             fontSize: 24.0,
                           ),

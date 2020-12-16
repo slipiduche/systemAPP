@@ -80,6 +80,9 @@ Widget tarjeta(
       ),
     ),
     onTap: () async {
+      if (index == 12) {
+        await Navigator.of(context).pushNamed('editTagsPage', arguments: null);
+      }
       if (index == 11) {
         await Navigator.of(context).pushNamed('addTagsPage', arguments: null);
       }
