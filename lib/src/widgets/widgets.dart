@@ -80,6 +80,9 @@ Widget tarjeta(
       ),
     ),
     onTap: () async {
+      if (index == 11) {
+        await Navigator.of(context).pushNamed('addTagsPage', arguments: null);
+      }
       if (index == 10) {
         await Navigator.of(context).pushNamed('editSongPage', arguments: null);
       }
@@ -342,9 +345,13 @@ void deleting(Music song, BuildContext context) {
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 10.0,),
+                      SizedBox(
+                        height: 10.0,
+                      ),
                       Text(song.songName, style: TextStyle(fontSize: 20.0)),
-                      SizedBox(height: 10.0,),
+                      SizedBox(
+                        height: 10.0,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -748,4 +755,64 @@ class _BottomBarState extends State<BottomBar> {
           .pushReplacementNamed('musicPage', arguments: null);
     }
   }
+}
+
+Widget textBoxForm(String content, BuildContext context) {
+  return Container(
+    child: Container(
+      height: 41.0,
+      width: MediaQuery.of(context).size.width - 52.0,
+      child: Expanded(
+          child: Row(
+        children: [
+          SizedBox(
+            width: 10.0,
+          ),
+          Text(
+            content,
+            style: TextStyle(color: colorLetraSearch, fontSize: 24),
+          ),
+        ],
+      )),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          color: Colors.white,
+          border: Border.all(
+            color: colorBordeSearch,
+            style: BorderStyle.solid,
+          )),
+    ),
+  );
+}
+
+Widget serarchBoxForm(String content, BuildContext context) {
+  return Container(
+    child: Container(
+      height: 41.0,
+      width: MediaQuery.of(context).size.width - 52.0,
+      child: Expanded(
+          child: Row(
+        children: [
+          SizedBox(
+            width: 10.0,
+          ),
+          Text(
+            content,
+            style: TextStyle(color: colorLetraSearch, fontSize: 24),
+          ),
+          searchIcon(20.0, colorMedico),
+          SizedBox(
+            width: 10.0,
+          ),
+        ],
+      )),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          color: Colors.white,
+          border: Border.all(
+            color: colorBordeSearch,
+            style: BorderStyle.solid,
+          )),
+    ),
+  );
 }

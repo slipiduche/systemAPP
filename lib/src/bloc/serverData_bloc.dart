@@ -22,11 +22,13 @@ class ServerDataBloc {
 
   final _serverDataController = new BehaviorSubject<List<Music>>();
   final _cargandoController = new BehaviorSubject<bool>();
+  final _tagController = new BehaviorSubject<String>();
 
   MQTTClientWrapper _serverDataProvider;
 
   Stream<List<Music>> get serverDataStream => _serverDataController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
+  Stream<String> get tagStream => _tagController.stream;
   //String get tokenS => token;
   void serverConnect(String _topicIn, String _topicIn2) async {
     _serverDataProvider = MQTTClientWrapper(() async {
