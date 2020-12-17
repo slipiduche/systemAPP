@@ -1,16 +1,12 @@
 # flutter_systemAPP
 
-A new Flutter application for remote control implementing MQTT as a communication protocol.
+A new Flutter application for speaker Server implementing MQTT and HTTP as a communication protocol.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+[√] Flutter (Channel stable, v1.17.5, on Microsoft Windows [VersiÃ³n 10.0.19041.685], locale     
+    es-VE)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[√] Android toolchain - develop for Android devices (Android SDK version 30.0.2)
+[√] Android Studio (version 4.0)
+[√] VS Code (version 1.52.0)

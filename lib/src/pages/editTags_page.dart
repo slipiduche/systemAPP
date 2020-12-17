@@ -109,6 +109,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                             ),
                             GestureDetector(
                               onTap: tagHere?(){
+                                Navigator.of(context).pushNamed('bindSong');
                                 print('search song');
                               }:null,
                               child: StreamBuilder(

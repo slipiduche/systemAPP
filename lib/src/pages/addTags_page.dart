@@ -109,10 +109,11 @@ class _AddTagsPageState extends State<AddTagsPage> {
                             ),
                             GestureDetector(
                               onTap: tagHere?(){
+                                Navigator.of(context).pushNamed('bindSong');
                                 print('search song');
                               }:null,
                               child: StreamBuilder(
-                                stream: ServerDataBloc().tagStream,
+                                stream: ServerDataBloc().songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
