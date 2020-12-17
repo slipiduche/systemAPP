@@ -23,14 +23,14 @@ class ServerDataBloc {
   final _serverDataController = new BehaviorSubject<List<Music>>();
   final _cargandoController = new BehaviorSubject<bool>();
   final _tagController = new BehaviorSubject<String>();
-  final _songController = new BehaviorSubject<String>();
+  final _songController = new BehaviorSubject<Music>();
 
   MQTTClientWrapper _serverDataProvider;
 
   Stream<List<Music>> get serverDataStream => _serverDataController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
   Stream<String> get tagStream => _tagController.stream;
-  Stream<String> get songStream => _songController.stream;
+  Stream<Music> get songStream => _songController.stream;
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
@@ -125,6 +125,10 @@ class ServerDataBloc {
     //_cargandoController.sink.add(false);
   }
 
+  void bindSong(Music song) {
+    _songController.add(song);
+  }
+
   dispose() {
     _serverDataController?.close();
     _cargandoController?.close();
@@ -135,6 +139,14 @@ class ServerDataBloc {
         '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.id}"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
     //await Future.delayed(Duration(seconds: 1));
+    return resp;
+  }
+
+  Future<bool> addTag(String tag, String songId)async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+    await Future.delayed(Duration(seconds: 1));
     return resp;
   }
 }

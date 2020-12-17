@@ -89,40 +89,40 @@ class MQTTClientWrapper {
 
       final serverDataJson = json.decode(serverDataJsonString);
       print("MQTTClientWrapper::GOT A NEW MESSAGE $serverDataJsonString");
-      _preData(serverDataJson,topicName);
-      
+      _preData(serverDataJson, topicName);
     });
   }
-  void _preData(serverDataJson,topicName){
+
+  void _preData(serverDataJson, topicName) {
     if ((serverDataJson["STATUS"] == "LOGIN") ||
-          (serverDataJson["STATUS"] == "INVALID")) {
-        publishData(Constants.credentials, 'APP/CREDENTIALS');
+        (serverDataJson["STATUS"] == "INVALID")) {
+      publishData(Constants.credentials, 'APP/CREDENTIALS');
+      return;
+    } else {
+      if (serverDataJson["TOKEN"] != null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
         return;
-      } else {
-        
-         if (serverDataJson["TOKEN"] != null) {
-          ServerData decodedData = ServerData.fromJson(serverDataJson);
-          if (decodedData != null)
-            onDeviceDataReceivedCallback(decodedData, topicName);
-            return;
-        }
-        else if (serverDataJson["MUSIC"] != null) {
-          ServerData decodedData = ServerData.fromJson(serverDataJson);
-          print(decodedData.songs.items);
-          if (decodedData != null)
-            onDeviceDataReceivedCallback(decodedData, topicName);
-            return;
-        }
-        else if(serverDataJson["STATUS"]=='SUCCESS'){
-          ServerData decodedData = ServerData.fromJson(serverDataJson);
-          print(decodedData.status);
-          if (decodedData != null)
-            onDeviceDataReceivedCallback(decodedData, topicName);
-            return;
-
-        }
+      } else if (serverDataJson["MUSIC"] != null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print(decodedData.songs.items);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
+        return;
+      } else if (serverDataJson["STATUS"] == 'SUCCESS') {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print(decodedData.status);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
+        return;
+      } else if (serverDataJson["TAG"] != null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print(decodedData.tag);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
       }
-
+    }
   }
 
   void _publishMessage(String message, String topicO) {

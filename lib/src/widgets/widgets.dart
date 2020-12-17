@@ -80,6 +80,10 @@ Widget tarjeta(
       ),
     ),
     onTap: () async {
+      if (index == 13) {
+        await Navigator.of(context)
+            .pushNamed('deleteTagsPage', arguments: null);
+      }
       if (index == 12) {
         await Navigator.of(context).pushNamed('editTagsPage', arguments: null);
       }
@@ -308,6 +312,10 @@ Widget twoIconCardSingle(
                     editing(song, context);
                   } else if (mode == 'delete') {
                     deleting(song, context);
+                  } else if (mode == 'add') {
+                    print('binding');
+                    ServerDataBloc().bindSong(song);
+                    Navigator.of(context).pop();
                   }
                 },
                 child: icon1);
@@ -774,6 +782,7 @@ Widget textBoxForm(String content, BuildContext context) {
           Text(
             content,
             style: TextStyle(color: colorLetraSearch, fontSize: 24),
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       )),
@@ -800,9 +809,13 @@ Widget searchBoxForm(String content, BuildContext context) {
           SizedBox(
             width: 10.0,
           ),
-          Text(
-            content,
-            style: TextStyle(color: colorLetraSearch, fontSize: 24),
+          Container(
+            width: MediaQuery.of(context).size.width-100,
+            child: Text(
+              content,
+              style: TextStyle(color: colorLetraSearch, fontSize: 24),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           SizedBox(
             width: 5.0,

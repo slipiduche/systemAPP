@@ -97,7 +97,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                               height: 10.0,
                             ),
                             Text(
-                              'Bind a song',
+                              'Song Binded',
                               style: TextStyle(
                                 fontSize: 25.0,
                               ),
@@ -113,16 +113,16 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                 print('nothing to do');
                               }:null,
                               child: StreamBuilder(
-                                stream: ServerDataBloc().tagStream,
+                                stream: ServerDataBloc().songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     songHere=true;
-                                    return searchBoxForm(
+                                    return textBoxForm(
                                         snapshot.data, context);
                                   } else {
-                                    return searchBoxForm(
-                                        'Select a song from the list', context);
+                                    return textBoxForm(
+                                        'The song will appear here', context);
                                   }
                                 },
                               ),
@@ -130,7 +130,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            Center(child: submitButton('Done', tagHere?(songHere?(){
+                            Center(child: submitButton('Delete', tagHere?(songHere?(){
                               print('send new tag');
                             }:(){}):(){}),)
                           ],

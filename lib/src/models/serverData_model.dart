@@ -9,7 +9,7 @@ class ServerData {
   
 
   factory ServerData.fromJson(Map<String, dynamic> json) =>
-      ServerData(token: json["TOKEN"], status: json["STATUS"], songs:Songs.fromJsonList(json["MUSIC"]));
+      ServerData(token: json["TOKEN"], status: json["STATUS"], songs:Songs.fromJsonList(json["MUSIC"]),tag:json["TAG"]);
 }
 class Songs {
   List<Music> items = new List();

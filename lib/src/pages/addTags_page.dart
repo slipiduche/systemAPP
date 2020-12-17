@@ -12,7 +12,8 @@ class AddTagsPage extends StatefulWidget {
 }
 
 class _AddTagsPageState extends State<AddTagsPage> {
-  bool tagHere=false,songHere=false;
+  bool tagHere = false, songHere = false;
+  String tag = '', songId = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -85,9 +86,11 @@ class _AddTagsPageState extends State<AddTagsPage> {
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
-                                  tagHere=true;
+                                  tagHere = true;
+                                  tag = snapshot.data;
                                   return textBoxForm(snapshot.data, context);
                                 } else {
+                                  tag = '';
                                   return textBoxForm(
                                       'The tag will appear here', context);
                                 }
@@ -107,32 +110,85 @@ class _AddTagsPageState extends State<AddTagsPage> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            GestureDetector(
-                              onTap: tagHere?(){
-                                Navigator.of(context).pushNamed('bindSong');
-                                print('search song');
-                              }:null,
-                              child: StreamBuilder(
-                                stream: ServerDataBloc().songStream,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    songHere=true;
-                                    return searchBoxForm(
-                                        snapshot.data, context);
-                                  } else {
-                                    return searchBoxForm(
-                                        'Select a song from the list', context);
-                                  }
-                                },
-                              ),
+                            StreamBuilder(
+                              stream: ServerDataBloc().tagStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return GestureDetector(
+                                    onTap: tagHere
+                                        ? () {
+                                            Navigator.of(context)
+                                                .pushNamed('bindSongPage');
+                                            print('search song');
+                                          }
+                                        : null,
+                                    child: StreamBuilder(
+                                      stream: ServerDataBloc().songStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.hasData) {
+                                          songId = snapshot.data.id.toString();
+                                          songHere = true;
+                                          return searchBoxForm(
+                                              snapshot.data.songName, context);
+                                        } else {
+                                          return searchBoxForm(
+                                              'Select a song from the list',
+                                              context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return GestureDetector(
+                                    onTap: tagHere
+                                        ? () {
+                                            Navigator.of(context)
+                                                .pushNamed('bindSong');
+                                            print('search song');
+                                          }
+                                        : null,
+                                    child: StreamBuilder(
+                                      stream: ServerDataBloc().songStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.hasData) {
+                                          songHere = true;
+                                          return searchBoxForm(
+                                              snapshot.data.songName, context);
+                                        } else {
+                                          return searchBoxForm(
+                                              'Select a song from the list',
+                                              context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
-                            Center(child: submitButton('Done', tagHere?(songHere?(){
-                              print('send new tag');
-                            }:(){}):(){}),)
+                            StreamBuilder(
+                              stream: ServerDataBloc().songStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return Center(
+                                      child: submitButton('Done', () {
+                                    action(tag, songId);
+                                  }));
+                                } else {
+                                  return Center(
+                                    child: submitButton('Done', () {
+                                      action(tag, songId);
+                                    }),
+                                  );
+                                }
+                              },
+                            ),
                           ],
                         ),
                       )
@@ -147,5 +203,16 @@ class _AddTagsPageState extends State<AddTagsPage> {
         bottomNavigationBar: BottomBar(1),
       ),
     );
+  }
+
+  void action(String _tag, String _songId) async {
+    if (tagHere && songHere) {
+      print('send tag');
+      print(_tag);
+      print(_songId);
+      await ServerDataBloc().addTag(_tag, _songId);
+    } else {
+      print('do nothing');
+    }
   }
 }

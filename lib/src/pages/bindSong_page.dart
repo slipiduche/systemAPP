@@ -23,7 +23,6 @@ class _BindSongPageState extends State<BindSongPage> {
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -95,7 +94,7 @@ class _BindSongPageState extends State<BindSongPage> {
 
                         return Container(
                           child: makeSongsList(context, snapshot.data,
-                              addIcon(40.0, colorMedico),'add'),
+                              addIcon(40.0, colorMedico), 'add'),
                         );
                       }
                     },

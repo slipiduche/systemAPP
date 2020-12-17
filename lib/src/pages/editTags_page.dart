@@ -113,7 +113,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 print('search song');
                               }:null,
                               child: StreamBuilder(
-                                stream: ServerDataBloc().tagStream,
+                                stream: ServerDataBloc().songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
@@ -130,7 +130,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            Center(child: submitButton('Done', tagHere?(songHere?(){
+                            Center(child: submitButton('Edit', tagHere?(songHere?(){
                               print('send new tag');
                             }:(){}):(){}),)
                           ],
