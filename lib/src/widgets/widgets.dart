@@ -550,6 +550,8 @@ void updated(BuildContext context, String message) {
                   } else if (message == "Deleted") {
                     Navigator.of(context)
                         .pushReplacementNamed('deleteSongPage');
+                  } else if (message == "Added") {
+                    Navigator.of(context).pushReplacementNamed('addTagsPage');
                   }
                 }),
               ),
@@ -586,8 +588,17 @@ void errorPopUp(BuildContext context, String message) {
             Expanded(
               child: Center(
                 child: submitButton('OK', () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, 'addSongsPage');
+                  if (message == 'Not updated') {
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, 'editTagsPage');
+                  }else 
+                  if (message == 'Not added') {
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, 'addTagsPage');
+                  } else {
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, 'addSongsPage');
+                  }
                 }),
               ),
             ),
@@ -810,7 +821,7 @@ Widget searchBoxForm(String content, BuildContext context) {
             width: 10.0,
           ),
           Container(
-            width: MediaQuery.of(context).size.width-100,
+            width: MediaQuery.of(context).size.width - 100,
             child: Text(
               content,
               style: TextStyle(color: colorLetraSearch, fontSize: 24),

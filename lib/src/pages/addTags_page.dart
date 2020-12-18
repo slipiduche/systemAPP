@@ -12,6 +12,7 @@ class AddTagsPage extends StatefulWidget {
 }
 
 class _AddTagsPageState extends State<AddTagsPage> {
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   bool tagHere = false, songHere = false;
   String tag = '', songId = '';
   @override
@@ -82,12 +83,15 @@ class _AddTagsPageState extends State<AddTagsPage> {
                               height: 10.0,
                             ),
                             StreamBuilder(
-                              stream: ServerDataBloc().tagStream,
+                              stream: serverDataBloc.tagStream,
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
                                   tagHere = true;
                                   tag = snapshot.data;
+                                  serverDataBloc.requestTags();
+                                  serverDataBloc.requestSongs();
+
                                   return textBoxForm(snapshot.data, context);
                                 } else {
                                   tag = '';
@@ -111,7 +115,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                               height: 10.0,
                             ),
                             StreamBuilder(
-                              stream: ServerDataBloc().tagStream,
+                              stream: serverDataBloc.tagStream,
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
@@ -124,7 +128,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                           }
                                         : null,
                                     child: StreamBuilder(
-                                      stream: ServerDataBloc().songStream,
+                                      stream: serverDataBloc.songStream,
                                       builder: (BuildContext context,
                                           AsyncSnapshot snapshot) {
                                         if (snapshot.hasData) {
@@ -150,7 +154,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                           }
                                         : null,
                                     child: StreamBuilder(
-                                      stream: ServerDataBloc().songStream,
+                                      stream: serverDataBloc.songStream,
                                       builder: (BuildContext context,
                                           AsyncSnapshot snapshot) {
                                         if (snapshot.hasData) {
@@ -172,18 +176,18 @@ class _AddTagsPageState extends State<AddTagsPage> {
                               height: 10.0,
                             ),
                             StreamBuilder(
-                              stream: ServerDataBloc().songStream,
+                              stream: serverDataBloc.songStream,
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
                                   return Center(
                                       child: submitButton('Done', () {
-                                    action(tag, songId);
+                                    _action(tag, songId, context);
                                   }));
                                 } else {
                                   return Center(
                                     child: submitButton('Done', () {
-                                      action(tag, songId);
+                                      _action(tag, songId, context);
                                     }),
                                   );
                                 }
@@ -205,12 +209,20 @@ class _AddTagsPageState extends State<AddTagsPage> {
     );
   }
 
-  void action(String _tag, String _songId) async {
+  void _action(String _tag, String _songId, BuildContext context) async {
     if (tagHere && songHere) {
       print('send tag');
       print(_tag);
       print(_songId);
-      await ServerDataBloc().addTag(_tag, _songId);
+      updating(context, 'Adding');
+      final resp = await serverDataBloc.addTag(_tag, _songId);
+      if (resp) {
+        Navigator.of(context).pop();
+        updated(context, 'Added');
+      } else {
+        Navigator.of(context).pop();
+        errorPopUp(context, 'Not added');
+      }
     } else {
       print('do nothing');
     }

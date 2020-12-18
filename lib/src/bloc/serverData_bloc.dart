@@ -21,16 +21,23 @@ class ServerDataBloc {
   }
 
   final _serverDataController = new BehaviorSubject<List<Music>>();
+  final _serverTagsController = new BehaviorSubject<List<Tag>>();
+  final _serverTagController = new BehaviorSubject<Tag>();
   final _cargandoController = new BehaviorSubject<bool>();
   final _tagController = new BehaviorSubject<String>();
   final _songController = new BehaviorSubject<Music>();
+  final _tokenController = new BehaviorSubject<String>();
 
   MQTTClientWrapper _serverDataProvider;
+  ServerData response;
 
   Stream<List<Music>> get serverDataStream => _serverDataController.stream;
+  Stream<List<Tag>> get serverTagsStream => _serverTagsController.stream;
+  Stream<Tag> get serverTagStream => _serverTagController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
   Stream<String> get tagStream => _tagController.stream;
   Stream<Music> get songStream => _songController.stream;
+  Stream<String> get tokenStream => _tokenController.stream;
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
@@ -43,10 +50,9 @@ class ServerDataBloc {
             MqttSubscriptionState.SUBSCRIBED)
           _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       }
-    }, (ServerData data, String topic) {
+    }, (ServerData data, String topic) async {
       if (data.tag != null) {
         _tagController.add(data.tag);
-
         return;
       }
       if ((data.token != null) && (data.token != '')) {
@@ -54,23 +60,47 @@ class ServerDataBloc {
         print(data);
         print(data.token);
         token = data.token;
-        print('request songs');
-        requestSongs();
-        return;
-      } else if (data.status != 'SUCCESS') {
-        print(data.status);
+        _tokenController.add(token);
+        //print('request songs');
+        // requestSongs();
+        // await Future.delayed(Duration(seconds: 1));
+        // requestTags();
+        // await Future.delayed(Duration(seconds: 1));
         return;
       } else if (data.songs.items.length > 0) {
         print(data.songs.items.length);
         print(data.songs.items);
         _serverDataController.add(data.songs.items);
         return;
+      } else if (data.tags.items.length > 0) {
+        print(data.tags.items.length);
+        print(data.tags.items);
+        _serverTagsController.add(data.tags.items);
+        data.tags.items.forEach((element) {
+          if (element.tag == _tagController.stream.value) {
+            final _songId = element.songId;
+            _serverTagController.add(element);
+            _serverDataController.stream.value.forEach((element) {
+              if (_songId == element.id) {
+                _songController.add(element);
+              }
+            });
+          }
+        });
+        return;
       } else if (data.status == 'INVALID' || data.status == 'LOGIN') {
         login();
+
         return;
       } else if (data.status == 'SUCCESS') {
         print('success');
-        requestSongs();
+
+        response = data;
+        return;
+      } else if (data.status == 'FAILURE') {
+        print('failure here');
+
+        response = data;
         return;
       }
     });
@@ -96,12 +126,27 @@ class ServerDataBloc {
   }
 
   Future<bool> updateSong(song) async {
-    final postData =
-        '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
-    await Future.delayed(Duration(seconds: 1));
-    requestSongs();
-    return resp;
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+
+      if (token != '' && token != null) {
+        final postData =
+            '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
+        final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+        await Future.delayed(Duration(seconds: 1));
+        requestSongs();
+        return resp;
+      }
+    } else {
+      final postData =
+          '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
+      final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+      await Future.delayed(Duration(seconds: 1));
+      requestSongs();
+      return resp;
+    }
+    return false;
   }
 
   bool login() {
@@ -119,9 +164,24 @@ class ServerDataBloc {
   }
 
   void requestSongs() async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
     _cargandoController.sink.add(true);
     _serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
+    //_cargandoController.sink.add(false);
+  }
+
+  void requestTags() async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    _cargandoController.sink.add(true);
+    _serverDataProvider.publishData(
+        '{"TOKEN":"$token","TARGET":"TAGS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
@@ -135,6 +195,10 @@ class ServerDataBloc {
   }
 
   Future<bool> deleteSong(Music song) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
     final postData =
         '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.id}"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
@@ -142,11 +206,59 @@ class ServerDataBloc {
     return resp;
   }
 
-  Future<bool> addTag(String tag, String songId)async {
+  Future<bool> addTag(String tag, String songId) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+      if (token != '' && token != null) {
+        final postData =
+            '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
+        final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+        await Future.delayed(Duration(seconds: 1));
+        if (response.status != null) {
+          if (response.status == 'SUCCESS') {
+            return resp;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+    } else {
+      final postData =
+          '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
+      final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+      await Future.delayed(Duration(seconds: 1));
+      if (response.status != null) {
+        if (response.status == 'SUCCESS') {
+          return resp;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  }
+
+  Future<bool> editTag(String tag, String songId, String tagId) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
     final postData =
-        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId","FIELD3":"$tagId"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
-    return resp;
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 }

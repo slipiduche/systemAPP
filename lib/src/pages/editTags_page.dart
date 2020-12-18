@@ -12,7 +12,9 @@ class EditTagsPage extends StatefulWidget {
 }
 
 class _EditTagsPageState extends State<EditTagsPage> {
-  bool tagHere=false,songHere=false;
+  ServerDataBloc serverDataBloc = ServerDataBloc();
+  bool tagHere = false, songHere = false;
+  String tag = '', songId = '', tagId = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -85,9 +87,14 @@ class _EditTagsPageState extends State<EditTagsPage> {
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
-                                  tagHere=true;
+                                  tagHere = true;
+                                  tag = snapshot.data;
+                                  //tagId=
+                                  serverDataBloc.requestTags();
+                                  serverDataBloc.requestSongs();
                                   return textBoxForm(snapshot.data, context);
                                 } else {
+                                  tagHere = false;
                                   return textBoxForm(
                                       'The tag will appear here', context);
                                 }
@@ -108,19 +115,24 @@ class _EditTagsPageState extends State<EditTagsPage> {
                               height: 10.0,
                             ),
                             GestureDetector(
-                              onTap: tagHere?(){
-                                Navigator.of(context).pushNamed('bindSong');
-                                print('search song');
-                              }:null,
+                              onTap: tagHere
+                                  ? () {
+                                      Navigator.of(context)
+                                          .pushNamed('bindSong');
+                                      print('search song');
+                                    }
+                                  : null,
                               child: StreamBuilder(
                                 stream: ServerDataBloc().songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
-                                    songHere=true;
+                                    songHere = true;
+                                    songId = snapshot.data.id.toString();
                                     return searchBoxForm(
-                                        snapshot.data, context);
+                                        snapshot.data.songName, context);
                                   } else {
+                                    songHere = false;
                                     return searchBoxForm(
                                         'Select a song from the list', context);
                                   }
@@ -130,9 +142,11 @@ class _EditTagsPageState extends State<EditTagsPage> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            Center(child: submitButton('Edit', tagHere?(songHere?(){
-                              print('send new tag');
-                            }:(){}):(){}),)
+                            Center(
+                              child: submitButton('Edit', () {
+                                _action(tag, songId, tagId, context);
+                              }),
+                            )
                           ],
                         ),
                       )
@@ -147,5 +161,25 @@ class _EditTagsPageState extends State<EditTagsPage> {
         bottomNavigationBar: BottomBar(1),
       ),
     );
+  }
+
+  void _action(
+      String _tag, String _songId, String _tagId, BuildContext context) async {
+    if (tagHere && songHere) {
+      print('send tag');
+      print(_tag);
+      print(_songId);
+      updating(context, 'Updating');
+      final resp = await ServerDataBloc().editTag(_tag, _songId, _tagId);
+      if (resp) {
+        Navigator.of(context).pop();
+        updated(context, 'Updated');
+      } else {
+        Navigator.of(context).pop();
+        errorPopUp(context, 'Not updated');
+      }
+    } else {
+      print('do nothing');
+    }
   }
 }

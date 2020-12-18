@@ -12,6 +12,7 @@ class DeleteTagsPage extends StatefulWidget {
 }
 
 class _DeleteTagsPageState extends State<DeleteTagsPage> {
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   bool tagHere=false,songHere=false;
   @override
   Widget build(BuildContext context) {

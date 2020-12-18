@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart' as Constants;
 
 import 'package:mqtt_client/mqtt_client.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 
 import 'package:systemAPP/src/models/mqtt_models.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
@@ -121,6 +122,11 @@ class MQTTClientWrapper {
         print(decodedData.tag);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
+      } else if (serverDataJson["STATUS"] == 'FAILURE') {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print(decodedData.status);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
       }
     }
   }
@@ -136,6 +142,9 @@ class MQTTClientWrapper {
   void _onSubscribed(String topic) {
     print('MQTTClientWrapper::Subscription confirmed for topic $topic');
     subscriptionState = MqttSubscriptionState.SUBSCRIBED;
+    if (topic == 'SERVER/RESPONSE') {
+      ServerDataBloc().login();
+    }
   }
 
   void _onDisconnected() {
@@ -146,6 +155,8 @@ class MQTTClientWrapper {
           'MQTTClientWrapper::OnDisconnected callback is solicited, this is correct');
     }
     connectionState = MqttCurrentConnectionState.DISCONNECTED;
+    ServerDataBloc()
+        .serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
   }
 
   void _onConnected() {

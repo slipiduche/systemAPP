@@ -78,6 +78,9 @@ class _EditSongPageState extends State<EditSongPage> {
                             (serverDataBloc.token == '')) {
                           serverDataBloc.login();
                         }
+                        else{
+                          serverDataBloc.requestSongs();
+                        }
                         return Stack(
                           children: <Widget>[
                             Container(

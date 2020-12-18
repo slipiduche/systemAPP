@@ -76,6 +76,8 @@ class _BindSongPageState extends State<BindSongPage> {
                         if ((serverDataBloc.token == null) ||
                             (serverDataBloc.token == '')) {
                           serverDataBloc.login();
+                        } else {
+                          serverDataBloc.requestSongs();
                         }
                         return Stack(
                           children: <Widget>[

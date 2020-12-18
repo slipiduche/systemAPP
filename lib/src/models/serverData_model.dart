@@ -1,32 +1,33 @@
 class ServerData {
-  ServerData({this.status, this.token, this.songs,this.tag,});
+  ServerData({this.status, this.token, this.songs, this.tag, this.tags});
 
   String status;
   String token;
   Songs songs;
   String tag;
-  
-  
+  Tags tags;
 
-  factory ServerData.fromJson(Map<String, dynamic> json) =>
-      ServerData(token: json["TOKEN"], status: json["STATUS"], songs:Songs.fromJsonList(json["MUSIC"]),tag:json["TAG"]);
+  factory ServerData.fromJson(Map<String, dynamic> json) => ServerData(
+      token: json["TOKEN"],
+      status: json["STATUS"],
+      songs: Songs.fromJsonList(json["MUSIC"]),
+      tag: json["TAG"],
+      tags: Tags.fromJsonList(json["TAGS"]));
 }
+
 class Songs {
   List<Music> items = new List();
 
   Songs();
 
-  Songs.fromJsonList( List<dynamic> jsonList  ) {
+  Songs.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
 
-    if ( jsonList == null ) return;
-
-    for ( var item in jsonList  ) {
+    for (var item in jsonList) {
       final song = new Music.fromJson(item);
-      items.add( song );
+      items.add(song);
     }
-
   }
-
 }
 
 class Music {
@@ -36,7 +37,6 @@ class Music {
     this.artist,
     this.flName,
     this.status,
-    
   });
 
   int id;
@@ -44,7 +44,6 @@ class Music {
   String artist;
   String flName;
   String status;
-  
 
   factory Music.fromJson(Map<String, dynamic> json) => Music(
         id: json["ID"],
@@ -89,6 +88,21 @@ class Room {
         "READER_ID": readerId,
         "SPEAKER_ID": speakerId,
       };
+}
+
+class Tags {
+  List<Tag> items = new List();
+
+  Tags();
+
+  Tags.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final tag = new Tag.fromJson(item);
+      items.add(tag);
+    }
+  }
 }
 
 class Tag {
