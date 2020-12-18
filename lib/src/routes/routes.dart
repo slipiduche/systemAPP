@@ -13,6 +13,7 @@ import 'package:systemAPP/src/pages/addTags_page.dart';
 import 'package:systemAPP/src/pages/editTags_page.dart';
 import 'package:systemAPP/src/pages/deleteTags_page.dart';
 import 'package:systemAPP/src/pages/rooms_page.dart';
+import 'package:systemAPP/src/pages/addRooms_page.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
@@ -31,5 +32,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'editTagsPage': (BuildContext context) => EditTagsPage(),
     'deleteTagsPage': (BuildContext context) => DeleteTagsPage(),
     'roomsPage': (BuildContext context) => RoomsPage(),
+    'addRoomsPage': (BuildContext context) => AddRoomsPage(),
   };
 }

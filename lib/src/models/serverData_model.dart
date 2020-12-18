@@ -1,18 +1,21 @@
 class ServerData {
-  ServerData({this.status, this.token, this.songs, this.tag, this.tags});
+  ServerData(
+      {this.status, this.token, this.songs, this.tag, this.tags, this.rooms});
 
   String status;
   String token;
   Songs songs;
   String tag;
   Tags tags;
+  Rooms rooms;
 
   factory ServerData.fromJson(Map<String, dynamic> json) => ServerData(
       token: json["TOKEN"],
       status: json["STATUS"],
       songs: Songs.fromJsonList(json["MUSIC"]),
       tag: json["TAG"],
-      tags: Tags.fromJsonList(json["TAGS"]));
+      tags: Tags.fromJsonList(json["TAGS"]),
+      rooms: Rooms.fromJsonList(json["ROOMS"]));
 }
 
 class Songs {
@@ -60,6 +63,21 @@ class Music {
         "FL_NAME": flName,
         "STATUS": status,
       };
+}
+
+class Rooms {
+  List<Room> items = new List();
+
+  Rooms();
+
+  Rooms.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final room = new Room.fromJson(item);
+      items.add(room);
+    }
+  }
 }
 
 class Room {

@@ -625,6 +625,45 @@ void errorPopUp(BuildContext _context, String message) {
       });
 }
 
+Widget roomInput(String hintText, String textValue, Function update) {
+  final _textValue = new TextEditingController(text: textValue);
+  return Container(
+      // width: _screenSize.width -48.0,
+      //padding: EdgeInsets.all(25.0),
+      margin: EdgeInsets.symmetric(vertical: 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: colorBordeBotton,
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(12.0),
+        color: Colors.white,
+      ),
+      child: TextField(
+        //autofocus: true,
+        //textCapitalization: TextCapitalization.sentences,
+        controller: _textValue,
+        scrollPadding: EdgeInsets.all(5.0),
+
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText,
+        ),
+        onChanged: (valor) {
+          // _opcionSeleccionada = null;
+          // prefs.dispositivoSeleccionado = null;
+
+          update(valor);
+
+          update(valor);
+          // _nombreNuevo = valor;
+        }
+        //setState(() {});
+        ,
+      ));
+}
+
 Widget _deviceInput(String hintText, String textValue, Function update) {
   final _textValue = new TextEditingController(text: textValue);
   if (hintText == 'MAC') {

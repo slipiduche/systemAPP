@@ -111,9 +111,15 @@ class MQTTClientWrapper {
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
         return;
-      } else if (serverDataJson["STATUS"] == 'SUCCESS') {
+      } else if (serverDataJson["MUSIC"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
-        print(decodedData.status);
+        print(decodedData.songs.items);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
+        return;
+      } else if (serverDataJson["ROOMS"]!=null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print(decodedData.rooms.items);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
         return;

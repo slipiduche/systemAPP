@@ -38,6 +38,7 @@ class ServerDataBloc {
   final _tagController = new BehaviorSubject<String>();
   final _songController = new BehaviorSubject<Music>();
   final _tokenController = new BehaviorSubject<String>();
+  final _serverRoomsController = new BehaviorSubject<List<Room>>();
 
   MQTTClientWrapper _serverDataProvider;
   ServerData response;
@@ -49,6 +50,7 @@ class ServerDataBloc {
   Stream<String> get tagStream => _tagController.stream;
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
+  Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
@@ -98,6 +100,12 @@ class ServerDataBloc {
             });
           }
         });
+        return;
+      } else if (data.rooms.items.length >= 0) {
+        print(data.rooms.items.length);
+        print(data.rooms.items);
+        _serverRoomsController.add(data.rooms.items);
+
         return;
       } else if (data.status == 'INVALID' || data.status == 'LOGIN') {
         login();
@@ -196,6 +204,17 @@ class ServerDataBloc {
     //_cargandoController.sink.add(false);
   }
 
+  void requestRooms() async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    _cargandoController.sink.add(true);
+    _serverDataProvider.publishData(
+        '{"TOKEN":"$token","TARGET":"ROOMS"}', 'APP/GET');
+    //_cargandoController.sink.add(false);
+  }
+
   void bindSong(Music song) {
     _songController.add(song);
   }
@@ -286,7 +305,8 @@ class ServerDataBloc {
       return false;
     }
   }
-  void deleteData(){
+
+  void deleteData() {
     _serverTagController.add(null);
     _serverTagsController.add(null);
     _songController.add(null);
