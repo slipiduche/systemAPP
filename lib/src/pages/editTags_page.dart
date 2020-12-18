@@ -114,39 +114,87 @@ class _EditTagsPageState extends State<EditTagsPage> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            GestureDetector(
-                              onTap: tagHere
-                                  ? () {
-                                      Navigator.of(context)
-                                          .pushNamed('bindSong');
-                                      print('search song');
-                                    }
-                                  : null,
-                              child: StreamBuilder(
-                                stream: ServerDataBloc().songStream,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    songHere = true;
-                                    songId = snapshot.data.id.toString();
-                                    return searchBoxForm(
-                                        snapshot.data.songName, context);
-                                  } else {
-                                    songHere = false;
-                                    return searchBoxForm(
-                                        'Select a song from the list', context);
-                                  }
-                                },
-                              ),
+                            StreamBuilder(
+                              stream: serverDataBloc.tagStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return GestureDetector(
+                                    onTap: tagHere
+                                        ? () {
+                                            Navigator.of(context)
+                                                .pushNamed('bindSongPage');
+                                            print('search song');
+                                          }
+                                        : null,
+                                    child: StreamBuilder(
+                                      stream: serverDataBloc.songStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.hasData) {
+                                          songId = snapshot.data.id.toString();
+                                          songHere = true;
+                                          return searchBoxForm(
+                                              snapshot.data.songName, context);
+                                        } else {
+                                          return searchBoxForm(
+                                              'Select a song from the list',
+                                              context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return GestureDetector(
+                                    onTap: tagHere
+                                        ? () {
+                                            Navigator.of(context)
+                                                .pushNamed('bindSong');
+                                            print('search song');
+                                          }
+                                        : null,
+                                    child: StreamBuilder(
+                                      stream: serverDataBloc.songStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.hasData) {
+                                          songHere = true;
+                                          return searchBoxForm(
+                                              snapshot.data.songName, context);
+                                        } else {
+                                          return searchBoxForm(
+                                              'Select a song from the list',
+                                              context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
-                            Center(
-                              child: submitButton('Edit', () {
-                                _action(tag, songId, tagId, context);
-                              }),
-                            )
+                            StreamBuilder(
+                              stream: serverDataBloc.serverTagStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return Center(
+                                    child: submitButton('Edit', () {
+                                      _action(songId,
+                                          snapshot.data.id.toString(), context);
+                                    }),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: submitButton('Edit', () {
+                                      //_action(tag, songId, tagId, context);
+                                    }),
+                                  );
+                                }
+                              },
+                            ),
                           ],
                         ),
                       )
@@ -163,14 +211,13 @@ class _EditTagsPageState extends State<EditTagsPage> {
     );
   }
 
-  void _action(
-      String _tag, String _songId, String _tagId, BuildContext context) async {
+  void _action(String _songId, String _tagId, BuildContext context) async {
     if (tagHere && songHere) {
       print('send tag');
-      print(_tag);
+
       print(_songId);
       updating(context, 'Updating');
-      final resp = await ServerDataBloc().editTag(_tag, _songId, _tagId);
+      final resp = await ServerDataBloc().editTag(_songId, _tagId);
       if (resp) {
         Navigator.of(context).pop();
         updated(context, 'Updated');

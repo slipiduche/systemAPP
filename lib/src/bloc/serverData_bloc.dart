@@ -242,13 +242,13 @@ class ServerDataBloc {
     }
   }
 
-  Future<bool> editTag(String tag, String songId, String tagId) async {
+  Future<bool> editTag(String songId, String tagId) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId","FIELD3":"$tagId"}';
+        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1"::"$songId","FIELD2":"$tagId"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
