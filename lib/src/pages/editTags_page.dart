@@ -221,7 +221,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
       final resp = await ServerDataBloc().editTag(_songId, _tagId);
       if (resp) {
         Navigator.of(context).pop();
-        updated(context, 'Updated');
+        updated(context, 'Tag updated');
       } else {
         Navigator.of(context).pop();
         errorPopUp(context, 'Not updated');

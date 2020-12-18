@@ -13,6 +13,7 @@ class EditSongPage extends StatefulWidget {
 }
 
 class _EditSongPageState extends State<EditSongPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -26,6 +27,7 @@ class _EditSongPageState extends State<EditSongPage> {
     
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         body: Container(
           color: colorBackGround,
           child: Column(
@@ -97,7 +99,7 @@ class _EditSongPageState extends State<EditSongPage> {
                         print(snapshot.data[0].songName);
 
                         return Container(
-                          child: makeSongsList(context, snapshot.data,
+                          child: makeSongsList(_scaffoldKey.currentContext, snapshot.data,
                               editIcon(40.0, colorMedico),'edit'),
                         );
                       }

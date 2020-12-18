@@ -12,8 +12,9 @@ class DeleteTagsPage extends StatefulWidget {
 }
 
 class _DeleteTagsPageState extends State<DeleteTagsPage> {
+  String tag = '', songId = '', tagId = '';
   ServerDataBloc serverDataBloc = ServerDataBloc();
-  bool tagHere=false,songHere=false;
+  bool tagHere = false, songHere = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -86,7 +87,9 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                               builder: (BuildContext context,
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
-                                  tagHere=true;
+                                  tagHere = true;
+                                  serverDataBloc.requestSongs();
+                                  serverDataBloc.requestTags();
                                   return textBoxForm(snapshot.data, context);
                                 } else {
                                   return textBoxForm(
@@ -108,32 +111,79 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            GestureDetector(
-                              onTap: tagHere?(){
-                                //Navigator.of(context).pushNamed('bindSong');
-                                print('nothing to do');
-                              }:null,
-                              child: StreamBuilder(
-                                stream: ServerDataBloc().songStream,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    songHere=true;
-                                    return textBoxForm(
-                                        snapshot.data, context);
-                                  } else {
-                                    return textBoxForm(
-                                        'The song will appear here', context);
-                                  }
-                                },
-                              ),
+                            StreamBuilder(
+                              stream: serverDataBloc.tagStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return GestureDetector(
+                                    onTap: tagHere
+                                        ? () {
+                                            Navigator.of(context)
+                                                .pushNamed('bindSongPage');
+                                            print('search song');
+                                          }
+                                        : null,
+                                    child: StreamBuilder(
+                                      stream: serverDataBloc.songStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.hasData) {
+                                          songId = snapshot.data.id.toString();
+                                          songHere = true;
+                                          return textBoxForm(
+                                              snapshot.data.songName, context);
+                                        } else {
+                                          return textBoxForm(
+                                              'Song will appear here', context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return GestureDetector(
+                                    onTap: null,
+                                    child: StreamBuilder(
+                                      stream: serverDataBloc.songStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.hasData) {
+                                          songHere = true;
+                                          return textBoxForm(
+                                              snapshot.data.songName, context);
+                                        } else {
+                                          return textBoxForm(
+                                              'Song will appear here', context);
+                                        }
+                                      },
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
-                            Center(child: submitButton('Delete', tagHere?(songHere?(){
-                              print('send new tag');
-                            }:(){}):(){}),)
+                            StreamBuilder(
+                              stream: serverDataBloc.serverTagStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return Center(
+                                    child: submitButton('Delete', () {
+                                      _action(
+                                          snapshot.data.id.toString(), context);
+                                    }),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: submitButton('Delete', () {
+                                      //_action(tag, songId, tagId, context);
+                                    }),
+                                  );
+                                }
+                              },
+                            ),
                           ],
                         ),
                       )
@@ -148,5 +198,24 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
         bottomNavigationBar: BottomBar(1),
       ),
     );
+  }
+
+  void _action(String _tagId, BuildContext context) async {
+    if (tagHere && songHere) {
+      print('send tag');
+
+      print(_tagId);
+      updating(context, 'Deleting');
+      final resp = await ServerDataBloc().deleteTag(_tagId);
+      if (resp) {
+        Navigator.of(context).pop();
+        updated(context, 'Tag deleted');
+      } else {
+        Navigator.of(context).pop();
+        errorPopUp(context, 'Not deleted');
+      }
+    } else {
+      print('do nothing');
+    }
   }
 }

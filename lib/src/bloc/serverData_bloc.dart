@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:provider/provider.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/models/mqtt_models.dart';
 import 'package:systemAPP/src/provider/mqttClientWrapper.dart';
@@ -9,6 +10,16 @@ import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
 class ServerDataBloc {
+  dispose() {
+    _serverTagsController?.close();
+    _serverTagController?.close();
+    _serverDataController?.close();
+    _cargandoController?.close();
+    _tagController?.close();
+    _songController?.close();
+    _tokenController?.close();
+  }
+
   String token;
   static final ServerDataBloc _singleton = new ServerDataBloc._internal();
 
@@ -20,9 +31,9 @@ class ServerDataBloc {
     serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
   }
 
-  final _serverDataController = new BehaviorSubject<List<Music>>();
   final _serverTagsController = new BehaviorSubject<List<Tag>>();
   final _serverTagController = new BehaviorSubject<Tag>();
+  final _serverDataController = new BehaviorSubject<List<Music>>();
   final _cargandoController = new BehaviorSubject<bool>();
   final _tagController = new BehaviorSubject<String>();
   final _songController = new BehaviorSubject<Music>();
@@ -135,7 +146,7 @@ class ServerDataBloc {
             '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
         final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
         await Future.delayed(Duration(seconds: 1));
-        requestSongs();
+
         return resp;
       }
     } else {
@@ -143,7 +154,7 @@ class ServerDataBloc {
           '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
       final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
       await Future.delayed(Duration(seconds: 1));
-      requestSongs();
+
       return resp;
     }
     return false;
@@ -187,11 +198,6 @@ class ServerDataBloc {
 
   void bindSong(Music song) {
     _songController.add(song);
-  }
-
-  dispose() {
-    _serverDataController?.close();
-    _cargandoController?.close();
   }
 
   Future<bool> deleteSong(Music song) async {
@@ -260,5 +266,31 @@ class ServerDataBloc {
     } else {
       return false;
     }
+  }
+
+  deleteTag(String tagId) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    final postData = '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tagId"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+  void deleteData(){
+    _serverTagController.add(null);
+    _serverTagsController.add(null);
+    _songController.add(null);
+    _tagController.add(null);
+    _serverDataController.add(null);
   }
 }

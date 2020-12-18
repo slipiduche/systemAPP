@@ -6,7 +6,7 @@ import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
 int awaitUpload = 0;
-
+BuildContext _updatingContext, _deletingContext;
 void _moveTo(index, context) async {
   if (index == 0) {
     await Navigator.of(context)
@@ -250,32 +250,32 @@ class _TwoIconCardState extends State<TwoIconCard> {
 }
 
 Widget makeSongsList(
-    BuildContext context, List<Music> list, Widget icon3, String mode) {
+    BuildContext _context, List<Music> list, Widget icon3, String mode) {
   return ListView.builder(
       //controller: _scrollController,
       itemCount: (list.length),
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (BuildContext _context, int index) {
         print(index);
 
         return twoIconCardSingle(
-            list[index], songIcon(40.0, colorMedico), icon3, context, mode);
+            list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
       });
 }
 
-Widget twoIconCardSingle(
-    Music song, Widget icon, dynamic icon1, dynamic context, String mode) {
+Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
+    BuildContext _context, String mode) {
   return Card(
     elevation: 5.0,
     color: Colors.white,
     child: Container(
       height: 105,
-      width: MediaQuery.of(context).size.width - 30,
+      width: MediaQuery.of(_context).size.width - 30,
       child: Row(children: [
         Expanded(child: Container()),
         icon,
         Expanded(child: Container()),
         Container(
-          width: MediaQuery.of(context).size.width - 120,
+          width: MediaQuery.of(_context).size.width - 120,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -300,7 +300,7 @@ Widget twoIconCardSingle(
           ),
         ),
         Expanded(child: Container()),
-        Builder(builder: (context) {
+        Builder(builder: (_context) {
           if (icon1 == false) {
             return GestureDetector(onTap: null, child: Container());
           } else {
@@ -309,13 +309,13 @@ Widget twoIconCardSingle(
                   print('presionaste id ');
                   print(song.id);
                   if (mode == 'edit') {
-                    editing(song, context);
+                    editing(song, _context);
                   } else if (mode == 'delete') {
-                    deleting(song, context);
+                    deleting(song, _context);
                   } else if (mode == 'add') {
                     print('binding');
                     ServerDataBloc().bindSong(song);
-                    Navigator.of(context).pop();
+                    Navigator.of(_context).pop();
                   }
                 },
                 child: icon1);
@@ -327,12 +327,15 @@ Widget twoIconCardSingle(
   );
 }
 
-void deleting(Music song, BuildContext context) {
+void deleting(Music song, BuildContext _context) {
   Music upSong = song;
+  BuildContext dialogContext;
   showDialog(
-      context: context,
+      context: _context,
       barrierDismissible: false,
       builder: (context) {
+        dialogContext = _context;
+
         return Container(
           width: MediaQuery.of(context).size.width - 20,
           child: Dialog(
@@ -368,19 +371,21 @@ void deleting(Music song, BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           submitButton('Delete', () async {
-                            Navigator.pop(context);
+                            print('deleting');
+                            Navigator.of(dialogContext).pop();
                             updating(context, 'Deleting');
                             //print(upSong.toJson());
                             final resp =
                                 await ServerDataBloc().deleteSong(song);
+                            await Future.delayed(Duration(seconds: 1));
                             if (resp) {
                               print('deleted');
-                              Navigator.pop(context);
-                              updated(context, 'Deleted');
+                              Navigator.of(_updatingContext).pop();
+                              updated(dialogContext, 'Deleted');
                             } else {
                               print('error');
-                              Navigator.pop(context);
-                              errorPopUp(context, 'Error');
+                              Navigator.of(_updatingContext).pop();
+                              errorPopUp(dialogContext, 'Error');
                             }
                           }),
                         ],
@@ -395,12 +400,14 @@ void deleting(Music song, BuildContext context) {
       });
 }
 
-void editing(Music song, BuildContext context) {
+void editing(Music song, BuildContext _context) {
   Music upSong = song;
+  BuildContext dialogContext;
   showDialog(
-      context: context,
+      context: _context,
       barrierDismissible: false,
       builder: (context) {
+        dialogContext = _context;
         return Container(
           width: MediaQuery.of(context).size.width - 20,
           child: Dialog(
@@ -466,19 +473,19 @@ void editing(Music song, BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           submitButton('Done', () async {
-                            Navigator.pop(context);
+                            Navigator.of(dialogContext).pop();
                             updating(context, 'updating');
                             print(upSong.toJson());
                             final resp =
                                 await ServerDataBloc().updateSong(upSong);
                             if (resp) {
                               print('updated');
-                              Navigator.pop(context);
-                              updated(context, 'Updated');
+                              Navigator.of(_updatingContext).pop();
+                              updated(dialogContext, 'Updated');
                             } else {
                               print('error');
-                              Navigator.pop(context);
-                              errorPopUp(context, 'Error');
+                              Navigator.of(_updatingContext).pop();
+                              errorPopUp(dialogContext, 'Error');
                             }
                           }),
                         ],
@@ -493,11 +500,12 @@ void editing(Music song, BuildContext context) {
       });
 }
 
-void updating(BuildContext context, String message) {
+void updating(BuildContext _context, String message) {
   showDialog(
-      context: context,
+      context: _context,
       barrierDismissible: false,
-      builder: (context) {
+      builder: (_context) {
+        _updatingContext = _context;
         return AlertDialog(
           content: Container(
             height: 100.0,
@@ -517,11 +525,13 @@ void updating(BuildContext context, String message) {
       });
 }
 
-void updated(BuildContext context, String message) {
+void updated(BuildContext _context, String message) {
+  BuildContext dialogContext;
   showDialog(
-      context: context,
+      context: _context,
       barrierDismissible: true,
       builder: (context) {
+        dialogContext = _context;
         return AlertDialog(
           content: Container(
             height: 100.0,
@@ -544,14 +554,22 @@ void updated(BuildContext context, String message) {
             Expanded(
               child: Center(
                 child: submitButton('OK', () {
-                  Navigator.pop(context);
+                  Navigator.of(dialogContext).pop();
+                  ServerDataBloc().deleteData();
                   if (message == "Updated") {
+                    ServerDataBloc().requestSongs();
                     Navigator.of(context).pushReplacementNamed('editSongPage');
                   } else if (message == "Deleted") {
+                    ServerDataBloc().requestSongs();
                     Navigator.of(context)
                         .pushReplacementNamed('deleteSongPage');
                   } else if (message == "Added") {
                     Navigator.of(context).pushReplacementNamed('addTagsPage');
+                  } else if (message == "Tag updated") {
+                    Navigator.of(context).pushReplacementNamed('editTagsPage');
+                  } else if (message == "Tag deleted") {
+                    Navigator.of(context)
+                        .pushReplacementNamed('deleteTagsPage');
                   }
                 }),
               ),
@@ -561,9 +579,9 @@ void updated(BuildContext context, String message) {
       });
 }
 
-void errorPopUp(BuildContext context, String message) {
+void errorPopUp(BuildContext _context, String message) {
   showDialog(
-      context: context,
+      context: _context,
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
@@ -588,15 +606,15 @@ void errorPopUp(BuildContext context, String message) {
             Expanded(
               child: Center(
                 child: submitButton('OK', () {
+                  ServerDataBloc().deleteData();
                   if (message == 'Not updated') {
-                    Navigator.pop(context);
-                    Navigator.pushReplacementNamed(context, 'editTagsPage');
-                  }else 
-                  if (message == 'Not added') {
-                    Navigator.pop(context);
+                    Navigator.of(_context).pop();
+                    Navigator.pushReplacementNamed(_context, 'editTagsPage');
+                  } else if (message == 'Not added') {
+                    Navigator.of(_context).pop();
                     Navigator.pushReplacementNamed(context, 'addTagsPage');
                   } else {
-                    Navigator.pop(context);
+                    Navigator.of(_context).pop();
                     Navigator.pushReplacementNamed(context, 'addSongsPage');
                   }
                 }),
@@ -790,10 +808,13 @@ Widget textBoxForm(String content, BuildContext context) {
           SizedBox(
             width: 10.0,
           ),
-          Text(
-            content,
-            style: TextStyle(color: colorLetraSearch, fontSize: 24),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            width: MediaQuery.of(context).size.width - 100,
+            child: Text(
+              content,
+              style: TextStyle(color: colorLetraSearch, fontSize: 24),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       )),
