@@ -248,7 +248,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1"::"$songId","FIELD2":"$tagId"}';
+        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$songId","FIELD2":"$tagId"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
