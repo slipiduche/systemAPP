@@ -89,8 +89,8 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 if (snapshot.hasData) {
                                   tagHere = true;
                                   tag = snapshot.data;
-                                  serverDataBloc.requestTags();
                                   serverDataBloc.requestSongs();
+                                  serverDataBloc.requestTags();
 
                                   return textBoxForm(snapshot.data, context);
                                 } else {

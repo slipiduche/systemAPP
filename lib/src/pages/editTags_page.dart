@@ -90,8 +90,9 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                   tagHere = true;
                                   tag = snapshot.data;
                                   //tagId=
-                                  serverDataBloc.requestTags();
                                   serverDataBloc.requestSongs();
+                                  serverDataBloc.requestTags();
+
                                   return textBoxForm(snapshot.data, context);
                                 } else {
                                   tagHere = false;
