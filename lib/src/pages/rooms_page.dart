@@ -97,6 +97,7 @@ class _RoomsPageState extends State<RoomsPage> {
                                               child: GestureDetector(
                                             onTap: () {
                                               print('add room');
+                                              Navigator.of(context).pushNamed('addRoomsPage');
                                             },
                                             child:
                                                 addRoomIcon(50.0, colorMedico),

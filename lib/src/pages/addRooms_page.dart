@@ -84,7 +84,9 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
       elevation: 5.0,
       color: Colors.white,
       child: Container(
+        margin: EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               'Room Name',
@@ -97,7 +99,37 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             SizedBox(
               height: 10.0,
             ),
-            roomInput('Type room name ex: Room1', '', () {})
+            roomInput('Type room name ex: Room1', '', () {}),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Select Room Speaker',
+              style: TextStyle(
+                fontSize: 25.0,
+              ),
+              // overflow: TextOverflow.clip,
+              // textAlign: TextAlign.left,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            searchBoxFormRooms('select a speaker from the list', context),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Select Room Reader',
+              style: TextStyle(
+                fontSize: 25.0,
+              ),
+              // overflow: TextOverflow.clip,
+              // textAlign: TextAlign.left,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            searchBoxFormRooms('select a reader from the list', context),
           ],
         ),
       ),

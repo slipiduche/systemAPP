@@ -630,37 +630,45 @@ Widget roomInput(String hintText, String textValue, Function update) {
   return Container(
       // width: _screenSize.width -48.0,
       //padding: EdgeInsets.all(25.0),
-      margin: EdgeInsets.symmetric(vertical: 5.0),
+      //margin: EdgeInsets.symmetric(vertical: 5.0),
+      height: 40.0,
       decoration: BoxDecoration(
         border: Border.all(
-          color: colorBordeBotton,
+          color: colorBordeSearch,
           width: 1.0,
         ),
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(4.0),
         color: Colors.white,
       ),
-      child: TextField(
-        //autofocus: true,
-        //textCapitalization: TextCapitalization.sentences,
-        controller: _textValue,
-        scrollPadding: EdgeInsets.all(5.0),
+      child: Center(
+        child: TextField(
+          //autofocus: true,
+          //textCapitalization: TextCapitalization.sentences,
+          style: TextStyle(
+            fontSize: 24,
+          ),
 
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: hintText,
+          controller: _textValue,
+          scrollPadding: EdgeInsets.symmetric(horizontal: 5.0),
+
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: hintText,
+              hintStyle: TextStyle(fontSize: 24, color: colorLetraSearch),
+              contentPadding: EdgeInsets.symmetric(horizontal: 15.0)),
+          onChanged: (valor) {
+            // _opcionSeleccionada = null;
+            // prefs.dispositivoSeleccionado = null;
+
+            update(valor);
+
+            update(valor);
+            // _nombreNuevo = valor;
+          }
+          //setState(() {});
+          ,
         ),
-        onChanged: (valor) {
-          // _opcionSeleccionada = null;
-          // prefs.dispositivoSeleccionado = null;
-
-          update(valor);
-
-          update(valor);
-          // _nombreNuevo = valor;
-        }
-        //setState(() {});
-        ,
       ));
 }
 
@@ -873,6 +881,46 @@ Widget searchBoxForm(String content, BuildContext context) {
     child: Container(
       height: 41.0,
       width: MediaQuery.of(context).size.width - 52.0,
+      child: Expanded(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 10.0,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width - 100,
+            child: Text(
+              content,
+              style: TextStyle(color: colorLetraSearch, fontSize: 24),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(
+            width: 5.0,
+          ),
+          searchIcon(20.0, colorMedico),
+          SizedBox(
+            width: 5.0,
+          ),
+        ],
+      )),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          color: Colors.white,
+          border: Border.all(
+            color: colorBordeSearch,
+            style: BorderStyle.solid,
+          )),
+    ),
+  );
+}
+
+Widget searchBoxFormRooms(String content, BuildContext context) {
+  return Container(
+    child: Container(
+      height: 41.0,
+      width: MediaQuery.of(context).size.width,
       child: Expanded(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
