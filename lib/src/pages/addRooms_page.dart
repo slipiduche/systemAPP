@@ -58,12 +58,14 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                       fontSize: 40.0,
                       fontWeight: FontWeight.w400),
                 ),
-                SizedBox(height: 40.0),
+                SizedBox(height: 30.0),
                 Expanded(
                     child: Container(
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Text('Create a new room',style:TextStyle(fontSize: 20.0)),
+                        SizedBox(height: 10.0),
                         roomCard(context),
                       ],
                     ),
@@ -114,7 +116,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             SizedBox(
               height: 10.0,
             ),
-            searchBoxFormRooms('select a speaker from the list', context),
+            searchBoxFormRooms('Select a speaker from the list', context),
             SizedBox(
               height: 20.0,
             ),
@@ -129,7 +131,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             SizedBox(
               height: 10.0,
             ),
-            searchBoxFormRooms('select a reader from the list', context),
+            searchBoxFormRooms('Select a reader from the list', context),
           ],
         ),
       ),

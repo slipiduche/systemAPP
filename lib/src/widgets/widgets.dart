@@ -656,7 +656,7 @@ Widget roomInput(String hintText, String textValue, Function update) {
               border: InputBorder.none,
               hintText: hintText,
               hintStyle: TextStyle(fontSize: 24, color: colorLetraSearch),
-              contentPadding: EdgeInsets.symmetric(horizontal: 15.0)),
+              contentPadding: EdgeInsets.symmetric(horizontal: 15.0,vertical: 8.0)),
           onChanged: (valor) {
             // _opcionSeleccionada = null;
             // prefs.dispositivoSeleccionado = null;
