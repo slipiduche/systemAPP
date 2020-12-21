@@ -133,6 +133,20 @@ Widget songIcon(double size, Color color) {
     height: size,
   );
 }
+Widget speakerIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/speakers.png'),
+    width: size,
+    height: size,
+  );
+}
+Widget readerIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/readers.png'),
+    width: size,
+    height: size,
+  );
+}
 Widget addSongIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/addSong.png'),

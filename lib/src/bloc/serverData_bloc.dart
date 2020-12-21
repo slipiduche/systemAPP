@@ -39,6 +39,7 @@ class ServerDataBloc {
   final _songController = new BehaviorSubject<Music>();
   final _tokenController = new BehaviorSubject<String>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
+  final _serverDevicesController = new BehaviorSubject<List<Device>>();
 
   MQTTClientWrapper _serverDataProvider;
   ServerData response;
@@ -51,6 +52,7 @@ class ServerDataBloc {
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
+  Stream<List<Device>> get serverDevicesStream => _serverDevicesController.stream;
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
@@ -313,4 +315,6 @@ class ServerDataBloc {
     _tagController.add(null);
     _serverDataController.add(null);
   }
+
+  void requestSpeakers() {}
 }

@@ -249,6 +249,19 @@ class _TwoIconCardState extends State<TwoIconCard> {
   }
 }
 
+Widget makeDevicesList(
+    BuildContext _context, List<Device> list, Widget icon3, String mode) {
+  return ListView.builder(
+      //controller: _scrollController,
+      itemCount: (list.length),
+      itemBuilder: (BuildContext _context, int index) {
+        print(index);
+
+        return twoIconCardDevices(
+            list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
+      });
+}
+
 Widget makeSongsList(
     BuildContext _context, List<Music> list, Widget icon3, String mode) {
   return ListView.builder(
@@ -260,6 +273,71 @@ Widget makeSongsList(
         return twoIconCardSingle(
             list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
       });
+}
+
+Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
+    BuildContext _context, String mode) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      height: 105,
+      width: MediaQuery.of(_context).size.width - 30,
+      child: Row(children: [
+        Expanded(child: Container()),
+        icon,
+        Expanded(child: Container()),
+        Container(
+          width: MediaQuery.of(_context).size.width - 120,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                device.deviceName,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w100,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                device.chipId.toString(),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100),
+              )
+            ],
+          ),
+        ),
+        Expanded(child: Container()),
+        Builder(builder: (_context) {
+          if (icon1 == false) {
+            return GestureDetector(onTap: null, child: Container());
+          } else {
+            return GestureDetector(
+                onTap: () async {
+                  print('presionaste id ');
+                  print(device.chipId);
+                  if (mode == 'edit') {
+                    // editing(song, _context);
+                  } else if (mode == 'delete') {
+                    // deleting(song, _context);
+                  } else if (mode == 'add') {
+                    // print('binding');
+                    // ServerDataBloc().bindSong(song);
+                    Navigator.of(_context).pop();
+                  }
+                },
+                child: icon1);
+          }
+        }),
+        Expanded(child: Container()),
+      ]),
+    ),
+  );
 }
 
 Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
@@ -656,7 +734,8 @@ Widget roomInput(String hintText, String textValue, Function update) {
               border: InputBorder.none,
               hintText: hintText,
               hintStyle: TextStyle(fontSize: 24, color: colorLetraSearch),
-              contentPadding: EdgeInsets.symmetric(horizontal: 15.0,vertical: 8.0)),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0)),
           onChanged: (valor) {
             // _opcionSeleccionada = null;
             // prefs.dispositivoSeleccionado = null;

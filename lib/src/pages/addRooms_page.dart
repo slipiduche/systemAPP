@@ -64,7 +64,8 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Text('Create a new room',style:TextStyle(fontSize: 20.0)),
+                        Text('Create a new room',
+                            style: TextStyle(fontSize: 20.0)),
                         SizedBox(height: 10.0),
                         roomCard(context),
                       ],
@@ -116,7 +117,12 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             SizedBox(
               height: 10.0,
             ),
-            searchBoxFormRooms('Select a speaker from the list', context),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('bindSpeakerPage');
+                },
+                child: searchBoxFormRooms(
+                    'Select a speaker from the list', context)),
             SizedBox(
               height: 20.0,
             ),
@@ -132,6 +138,10 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
               height: 10.0,
             ),
             searchBoxFormRooms('Select a reader from the list', context),
+            SizedBox(
+              height: 10.0,
+            ),
+            Center(child: submitButton('Done', () {})),
           ],
         ),
       ),
