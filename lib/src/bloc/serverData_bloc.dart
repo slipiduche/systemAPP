@@ -67,6 +67,8 @@ class ServerDataBloc {
       }
     }, (ServerData data, String topic) async {
       if (data.tag != null) {
+        print('newTag');
+        deleteData();
         _tagController.add(data.tag);
         return;
       }
@@ -103,12 +105,6 @@ class ServerDataBloc {
           }
         });
         return;
-      } else if (data.rooms.items.length >= 0) {
-        print(data.rooms.items.length);
-        print(data.rooms.items);
-        _serverRoomsController.add(data.rooms.items);
-
-        return;
       } else if (data.status == 'INVALID' || data.status == 'LOGIN') {
         login();
 
@@ -117,6 +113,13 @@ class ServerDataBloc {
         print('success');
 
         response = data;
+        if (data.rooms.items.length >= 0) {
+        print(data.rooms.items.length);
+        print(data.rooms.items);
+        _serverRoomsController.add(data.rooms.items);
+
+        return;
+      } 
         return;
       } else if (data.status == 'FAILURE') {
         print('failure here');

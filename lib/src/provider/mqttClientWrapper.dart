@@ -134,6 +134,12 @@ class MQTTClientWrapper {
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
       }
+      else if (serverDataJson["STATUS"] == 'SUCCESS') {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print(decodedData.status);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName);
+      }
     }
   }
 

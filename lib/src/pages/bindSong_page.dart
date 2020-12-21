@@ -103,11 +103,11 @@ class _BindSongPageState extends State<BindSongPage> {
                   ),
                 ),
               ),
-              gradientBar2(3),
+              gradientBar2(1),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(3),
+        bottomNavigationBar: BottomBar(1),
       ),
     );
   }
