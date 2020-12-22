@@ -15,7 +15,7 @@ class EditRoomsPage extends StatefulWidget {
 
 class _EditRoomsPageState extends State<EditRoomsPage> {
   String _roomName;
-  String _readerId, _speakerId,_roomId;
+  String _readerId, _speakerId;
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   void dispose() {
@@ -25,7 +25,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //serverDataBloc.requestRooms();
+    
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -61,10 +61,27 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text('Create a new room',
-                          style: TextStyle(fontSize: 20.0)),
+                      Text('Edit room', style: TextStyle(fontSize: 20.0)),
                       SizedBox(height: 10.0),
-                      roomCard(context),
+                      StreamBuilder(
+                        stream: serverDataBloc.roomStream,
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            
+                            return roomCard(context,snapshot.data);
+                          } else {
+                            return Container(
+                              height: 40.0,
+                              width: 40.0,
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(colorMedico),
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -78,7 +95,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
     );
   }
 
-  Widget roomCard(BuildContext _context) {
+  Widget roomCard(BuildContext _context,Room room) {
+    _roomName=room.roomName;
     return Card(
       elevation: 5.0,
       color: Colors.white,
@@ -98,7 +116,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
             SizedBox(
               height: 10.0,
             ),
-            roomInput('Type room name ex: Room1', _roomName, (valor) {
+            roomInput('Type room name ex: Room1', room.roomName, (valor) {
               _roomName = valor;
             }),
             SizedBox(
@@ -171,8 +189,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
               height: 10.0,
             ),
             Center(
-                child: submitButton('Done', () {
-              _action(_roomName, _speakerId, _readerId,_roomId ,context);
+                child: submitButton('Edit', () {
+              _action(_roomName, _speakerId, _readerId, room.id.toString(), context);
             })),
           ],
         ),
@@ -180,13 +198,14 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
     );
   }
 
-  void _action(String roomName, String speakerId, String readerId,String roomId,
-      BuildContext _context) async {
+  void _action(String roomName, String speakerId, String readerId,
+      String roomId, BuildContext _context) async {
     if ((roomName.length > 0) &&
         (speakerId.length > 0) &&
         (readerId.length > 0)) {
       updating(_context, 'Updating room');
-      final resp = await serverDataBloc.editRoom(roomName, speakerId, readerId,roomId);
+      final resp =
+          await serverDataBloc.editRoom(roomName, speakerId, readerId, roomId);
       if (resp) {
         updated(_context, 'Room updated');
         serverDataBloc.deleteData();

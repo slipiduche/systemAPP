@@ -14,6 +14,7 @@ import 'package:systemAPP/src/pages/editTags_page.dart';
 import 'package:systemAPP/src/pages/deleteTags_page.dart';
 import 'package:systemAPP/src/pages/rooms_page.dart';
 import 'package:systemAPP/src/pages/addRooms_page.dart';
+import 'package:systemAPP/src/pages/editRooms_page.dart';
 import 'package:systemAPP/src/pages/bindReader_page.dart';
 import 'package:systemAPP/src/pages/bindSpeaker_page.dart';
 
@@ -35,6 +36,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'deleteTagsPage': (BuildContext context) => DeleteTagsPage(),
     'roomsPage': (BuildContext context) => RoomsPage(),
     'addRoomsPage': (BuildContext context) => AddRoomsPage(),
+    'editRoomsPage': (BuildContext context) => EditRoomsPage(),
     'bindSpeakerPage': (BuildContext context) => BindSpeakerPage(),
     'bindReaderPage': (BuildContext context) => BindReaderPage(),
   };

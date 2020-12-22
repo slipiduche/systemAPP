@@ -42,6 +42,7 @@ class ServerDataBloc {
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
   final _speakerController = new BehaviorSubject<Device>();
   final _readerController = new BehaviorSubject<Device>();
+  final _roomController = new BehaviorSubject<Room>();
 
   MQTTClientWrapper _serverDataProvider;
   ServerData response;
@@ -58,6 +59,7 @@ class ServerDataBloc {
       _serverDevicesController.stream;
   Stream<Device> get speakerStream => _speakerController.stream;
   Stream<Device> get readerStream => _readerController.stream;
+  Stream<Room> get roomStream => _roomController.stream;
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
@@ -93,6 +95,22 @@ class ServerDataBloc {
         print('devices');
         print(data.devices.items.length);
         print(data.devices.items);
+
+        print(_roomController.value.speakerId);
+        if (_cargandoController.value) {
+          data.devices.items.forEach((element) {
+            if (_roomController.hasValue) {
+              print('finding');
+              if (element.chipId == _roomController.value.speakerId) {
+                _speakerController.add(element);
+              }
+              if (element.chipId == _roomController.value.readerId) {
+                _readerController.add(element);
+              }
+            }
+          });
+          _cargandoController.add(false);
+        }
         _serverDevicesController.add(data.devices.items);
         return;
       } else if (data.songs.items.length > 0) {
@@ -210,7 +228,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    _cargandoController.sink.add(true);
+
     _serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
     //_cargandoController.sink.add(false);
@@ -221,7 +239,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    _cargandoController.sink.add(true);
+
     _serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"TAGS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
@@ -232,7 +250,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    _cargandoController.sink.add(true);
+
     _serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"ROOMS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
@@ -248,6 +266,14 @@ class ServerDataBloc {
 
   void bindReader(Device reader) {
     _readerController.add(reader);
+  }
+
+  void roomToModify(Room room) {
+    _roomController.add(room);
+  }
+
+  void loadingEdit() {
+    _cargandoController.add(true);
   }
 
   Future<bool> deleteSong(Music song) async {
@@ -345,6 +371,7 @@ class ServerDataBloc {
     _serverDataController.add(null);
     _speakerController.add(null);
     _readerController.add(null);
+    _roomController.add(null);
   }
 
   void requestDevices() async {
@@ -354,7 +381,7 @@ class ServerDataBloc {
     }
     final postData = '{"REQUEST":"INFO"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/INFO');
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 5));
     // if (response.status != null) {
     //   if (response.status == 'SUCCESS') {
     //     return resp;
@@ -373,7 +400,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$speakerId","FIELD3":"$readerId"}';
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -387,14 +414,35 @@ class ServerDataBloc {
     }
   }
 
-  Future<bool> editRoom(String roomName, String speakerId, String readerId, String roomId) async{
+  Future<bool> editRoom(
+      String roomName, String speakerId, String readerId, String roomId) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$speakerId","FIELD3":"$readerId","Field4":$roomId}';
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","Field4":"$roomId"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deleteRoom(Room room) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    final postData =
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"${room.id}"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
