@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:systemAPP/src/pages/bindSpeaker_page.dart';
 import 'package:systemAPP/src/pages/home_page.dart';
 import 'package:systemAPP/src/pages/iniciando_page.dart';
 import 'package:systemAPP/src/pages/music_page.dart';
@@ -15,6 +14,8 @@ import 'package:systemAPP/src/pages/editTags_page.dart';
 import 'package:systemAPP/src/pages/deleteTags_page.dart';
 import 'package:systemAPP/src/pages/rooms_page.dart';
 import 'package:systemAPP/src/pages/addRooms_page.dart';
+import 'package:systemAPP/src/pages/bindReader_page.dart';
+import 'package:systemAPP/src/pages/bindSpeaker_page.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
@@ -35,5 +36,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'roomsPage': (BuildContext context) => RoomsPage(),
     'addRoomsPage': (BuildContext context) => AddRoomsPage(),
     'bindSpeakerPage': (BuildContext context) => BindSpeakerPage(),
+    'bindReaderPage': (BuildContext context) => BindReaderPage(),
   };
 }

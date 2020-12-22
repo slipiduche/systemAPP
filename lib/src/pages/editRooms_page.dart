@@ -6,16 +6,16 @@ import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 
-class AddRoomsPage extends StatefulWidget {
-  AddRoomsPage({Key key}) : super(key: key);
+class EditRoomsPage extends StatefulWidget {
+  EditRoomsPage({Key key}) : super(key: key);
 
   @override
-  _AddRoomsPageState createState() => _AddRoomsPageState();
+  _EditRoomsPageState createState() => _EditRoomsPageState();
 }
 
-class _AddRoomsPageState extends State<AddRoomsPage> {
+class _EditRoomsPageState extends State<EditRoomsPage> {
   String _roomName;
-  String _readerId, _speakerId;
+  String _readerId, _speakerId,_roomId;
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   void dispose() {
@@ -124,10 +124,11 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
-                      _speakerId=snapshot.data.chipId;
+                      _speakerId = snapshot.data.chipId;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
-                    } else {_speakerId='';
+                    } else {
+                      _speakerId = '';
                       return searchBoxFormRooms(
                           'Select a speaker from the list', context);
                     }
@@ -156,10 +157,11 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
-                      _readerId=snapshot.data.chipId;
+                      _readerId = snapshot.data.chipId;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
-                    } else {_readerId='';
+                    } else {
+                      _readerId = '';
                       return searchBoxFormRooms(
                           'Select a reader from the list', context);
                     }
@@ -170,7 +172,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             ),
             Center(
                 child: submitButton('Done', () {
-              _action(_roomName, _speakerId, _readerId, context);
+              _action(_roomName, _speakerId, _readerId,_roomId ,context);
             })),
           ],
         ),
@@ -178,19 +180,18 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
     );
   }
 
-  void _action(String roomName, String speakerId, String readerId,
+  void _action(String roomName, String speakerId, String readerId,String roomId,
       BuildContext _context) async {
     if ((roomName.length > 0) &&
         (speakerId.length > 0) &&
         (readerId.length > 0)) {
-      updating(_context, 'Adding room');
-      final resp = await serverDataBloc.addRoom(roomName, speakerId, readerId);
+      updating(_context, 'Updating room');
+      final resp = await serverDataBloc.editRoom(roomName, speakerId, readerId,roomId);
       if (resp) {
-        updated(_context, 'Room added');
+        updated(_context, 'Room updated');
         serverDataBloc.deleteData();
-
       } else {
-        errorPopUp(_context, 'Room not added');
+        errorPopUp(_context, 'Room not updated');
         serverDataBloc.deleteData();
       }
     }

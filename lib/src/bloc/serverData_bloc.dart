@@ -28,7 +28,7 @@ class ServerDataBloc {
   }
 
   ServerDataBloc._internal() {
-    serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
+    serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'SERVER/INFO');
   }
 
   final _serverTagsController = new BehaviorSubject<List<Tag>>();
@@ -40,6 +40,8 @@ class ServerDataBloc {
   final _tokenController = new BehaviorSubject<String>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
+  final _speakerController = new BehaviorSubject<Device>();
+  final _readerController = new BehaviorSubject<Device>();
 
   MQTTClientWrapper _serverDataProvider;
   ServerData response;
@@ -52,7 +54,10 @@ class ServerDataBloc {
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
-  Stream<List<Device>> get serverDevicesStream => _serverDevicesController.stream;
+  Stream<List<Device>> get serverDevicesStream =>
+      _serverDevicesController.stream;
+  Stream<Device> get speakerStream => _speakerController.stream;
+  Stream<Device> get readerStream => _readerController.stream;
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
@@ -84,12 +89,20 @@ class ServerDataBloc {
         // requestTags();
         // await Future.delayed(Duration(seconds: 1));
         return;
+      } else if (data.devices.items.length > 0) {
+        print('devices');
+        print(data.devices.items.length);
+        print(data.devices.items);
+        _serverDevicesController.add(data.devices.items);
+        return;
       } else if (data.songs.items.length > 0) {
+        print('songs');
         print(data.songs.items.length);
         print(data.songs.items);
         _serverDataController.add(data.songs.items);
         return;
       } else if (data.tags.items.length > 0) {
+        print('tags');
         print(data.tags.items.length);
         print(data.tags.items);
         _serverTagsController.add(data.tags.items);
@@ -114,17 +127,22 @@ class ServerDataBloc {
 
         response = data;
         if (data.rooms.items.length >= 0) {
-        print(data.rooms.items.length);
-        print(data.rooms.items);
-        _serverRoomsController.add(data.rooms.items);
+          print(data.rooms.items.length);
+          print(data.rooms.items);
+          _serverRoomsController.add(data.rooms.items);
 
-        return;
-      } 
+          return;
+        }
         return;
       } else if (data.status == 'FAILURE') {
         print('failure here');
 
         response = data;
+        return;
+      } else if (data.status == 'EMPTY') {
+        print('EMPTY here');
+        _serverRoomsController.add([]);
+
         return;
       }
     });
@@ -224,6 +242,14 @@ class ServerDataBloc {
     _songController.add(song);
   }
 
+  void bindSpeaker(Device speaker) {
+    _speakerController.add(speaker);
+  }
+
+  void bindReader(Device reader) {
+    _readerController.add(reader);
+  }
+
   Future<bool> deleteSong(Music song) async {
     if (token == '' || token == null) {
       login();
@@ -317,7 +343,67 @@ class ServerDataBloc {
     _songController.add(null);
     _tagController.add(null);
     _serverDataController.add(null);
+    _speakerController.add(null);
+    _readerController.add(null);
   }
 
-  void requestSpeakers() {}
+  void requestDevices() async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    final postData = '{"REQUEST":"INFO"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/INFO');
+    await Future.delayed(Duration(seconds: 1));
+    // if (response.status != null) {
+    //   if (response.status == 'SUCCESS') {
+    //     return resp;
+    //   } else {
+    //     return false;
+    //   }
+    // } else {
+    //   return false;
+    // }
+  }
+
+  Future<bool> addRoom(
+      String roomName, String speakerId, String readerId) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    final postData =
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$speakerId","FIELD3":"$readerId"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> editRoom(String roomName, String speakerId, String readerId, String roomId) async{
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    final postData =
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$speakerId","FIELD3":"$readerId","Field4":$roomId}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }

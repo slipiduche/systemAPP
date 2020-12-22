@@ -5,14 +5,14 @@ import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-class BindSpeakerPage extends StatefulWidget {
-  BindSpeakerPage({Key key}) : super(key: key);
+class BindReaderPage extends StatefulWidget {
+  BindReaderPage({Key key}) : super(key: key);
 
   @override
-  _BindSpeakerPageState createState() => _BindSpeakerPageState();
+  _BindReaderPageState createState() => _BindReaderPageState();
 }
 
-class _BindSpeakerPageState extends State<BindSpeakerPage> {
+class _BindReaderPageState extends State<BindReaderPage> {
   @override
   void dispose() {
     // TODO: implement dispose
@@ -42,11 +42,11 @@ class _BindSpeakerPageState extends State<BindSpeakerPage> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100.0)),
-                child: speakerIcon(98.0, colorMedico),
+                child: readerIcon(98.0, colorMedico),
               ),
               SizedBox(height: 8.0),
               Text(
-                'Speakers',
+                'Readers',
                 style: TextStyle(
                     color: colorVN,
                     fontSize: 40.0,
@@ -54,7 +54,7 @@ class _BindSpeakerPageState extends State<BindSpeakerPage> {
               ),
               SizedBox(height: 15.0),
               Text(
-                'Select the speaker do you want to Bind',
+                'Select the reader do you want to Bind',
                 style: TextStyle(
                   fontSize: 24.0,
                 ),
@@ -92,11 +92,11 @@ class _BindSpeakerPageState extends State<BindSpeakerPage> {
                           ],
                         );
                       } else {
-                        //print(snapshot.data[0].deviceName);
+                        print(snapshot.data[0].deviceName);
 
                         return Container(
                           child: makeDevicesList(context, snapshot.data,
-                              addIcon(40.0, colorMedico), 'bind','SPEAKER'),
+                              addIcon(40.0, colorMedico), 'bind','READER'),
                         );
                       }
                     },

@@ -178,7 +178,8 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                 } else {
                                   return Center(
                                     child: submitButton('Delete', () {
-                                      //_action(tag, songId, tagId, context);
+                                      _action(
+                                          snapshot.data.id.toString(), context);
                                     }),
                                   );
                                 }

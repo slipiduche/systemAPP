@@ -107,35 +107,40 @@ class MQTTClientWrapper {
         return;
       } else if (serverDataJson["MUSIC"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print('music');
         print(decodedData.songs.items);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
         return;
-      } else if (serverDataJson["MUSIC"] != null) {
+      } else if (serverDataJson["DEVICES"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
-        print(decodedData.songs.items);
+        print('DEVICES');
+        print(decodedData.devices.items);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
         return;
-      } else if (serverDataJson["ROOMS"]!=null) {
+      } else if (serverDataJson["ROOMS"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print('Rooms');
         print(decodedData.rooms.items);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
         return;
       } else if (serverDataJson["TAG"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print('tag');
         print(decodedData.tag);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
       } else if (serverDataJson["STATUS"] == 'FAILURE') {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print("failure");
         print(decodedData.status);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);
-      }
-      else if (serverDataJson["STATUS"] == 'SUCCESS') {
+      } else if (serverDataJson["STATUS"] == 'SUCCESS') {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print("succes wraper");
         print(decodedData.status);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName);

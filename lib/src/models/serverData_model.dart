@@ -22,7 +22,8 @@ class ServerData {
       songs: Songs.fromJsonList(json["MUSIC"]),
       tag: json["TAG"],
       tags: Tags.fromJsonList(json["TAGS"]),
-      rooms: Rooms.fromJsonList(json["ROOMS"]));
+      rooms: Rooms.fromJsonList(json["ROOMS"]),
+      devices: Devices.fromJsonList(json["DEVICES"]));
 }
 
 class Devices {
@@ -45,23 +46,25 @@ class Device {
     this.chipId,
     this.deviceName,
     this.type,
+    this.status
   });
 
-  int chipId;
+  String chipId;
   String deviceName;
   String type;
+  String status;
 
   factory Device.fromJson(Map<String, dynamic> json) => Device(
-        chipId: json["ID"],
-        deviceName: json["SONG_NAME"],
-        
+        chipId: json["CHIP_ID"],
+        deviceName: json["NAME"],
+        type: json["TYPE"],
+        status:json["STATUS"],
       );
 
   Map<String, dynamic> toJson() => {
-        "CHIPID": chipId,
-        "DEVICENAME": deviceName,
+        "CHIP_ID": chipId,
+        "NAME": deviceName,
         "TYPE": type,
-        
       };
 }
 

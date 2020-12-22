@@ -190,7 +190,8 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 } else {
                                   return Center(
                                     child: submitButton('Edit', () {
-                                      //_action(tag, songId, tagId, context);
+                                      _action(songId,
+                                          snapshot.data.id.toString(), context);
                                     }),
                                   );
                                 }

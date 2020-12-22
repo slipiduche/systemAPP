@@ -249,16 +249,31 @@ class _TwoIconCardState extends State<TwoIconCard> {
   }
 }
 
-Widget makeDevicesList(
-    BuildContext _context, List<Device> list, Widget icon3, String mode) {
+Widget makeDevicesList(BuildContext _context, List<Device> list, Widget icon3,
+    String mode, String type) {
   return ListView.builder(
       //controller: _scrollController,
       itemCount: (list.length),
       itemBuilder: (BuildContext _context, int index) {
+        print('makedeviceslist');
         print(index);
-
-        return twoIconCardDevices(
-            list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
+        if (type == "SPEAKER") {
+          if (list[index].type == "SPEAKER" &&
+              list[index].status == 'UNASSIGNED') {
+            return twoIconCardDevices(list[index],
+                speakerIcon(40.0, colorMedico), icon3, _context, mode);
+          } else {
+            return Container();
+          }
+        } else {
+          if (list[index].type == "READER" &&
+              list[index].status == 'UNASSIGNED') {
+            return twoIconCardDevices(list[index],
+                readerIcon(40.0, colorMedico), icon3, _context, mode);
+          } else {
+            return Container();
+          }
+        }
       });
 }
 
@@ -284,8 +299,10 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
       height: 105,
       width: MediaQuery.of(_context).size.width - 30,
       child: Row(children: [
+        SizedBox(width: 10.0),
         Expanded(child: Container()),
         icon,
+        SizedBox(width: 10.0),
         Expanded(child: Container()),
         Container(
           width: MediaQuery.of(_context).size.width - 120,
@@ -303,7 +320,7 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                device.chipId.toString(),
+                device.chipId,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
@@ -321,13 +338,14 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
                 onTap: () async {
                   print('presionaste id ');
                   print(device.chipId);
-                  if (mode == 'edit') {
-                    // editing(song, _context);
-                  } else if (mode == 'delete') {
-                    // deleting(song, _context);
-                  } else if (mode == 'add') {
+                  if (mode == 'bind') {
                     // print('binding');
                     // ServerDataBloc().bindSong(song);
+                    if (device.type == 'SPEAKER') {
+                      ServerDataBloc().bindSpeaker(device);
+                    } else {
+                      ServerDataBloc().bindReader(device);
+                    }
                     Navigator.of(_context).pop();
                   }
                 },
@@ -335,6 +353,7 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
           }
         }),
         Expanded(child: Container()),
+        SizedBox(width: 10.0),
       ]),
     ),
   );
@@ -648,6 +667,8 @@ void updated(BuildContext _context, String message) {
                   } else if (message == "Tag deleted") {
                     Navigator.of(context)
                         .pushReplacementNamed('deleteTagsPage');
+                  } else if (message == "Room added") {
+                    Navigator.of(context).pushReplacementNamed('roomsPage');
                   }
                 }),
               ),
@@ -1033,4 +1054,147 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
           )),
     ),
   );
+}
+
+Widget makeRoomsList(List<Room> _rooms, BuildContext context) {
+  return ListView.builder(
+      //controller: _scrollController,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: (_rooms.length),
+      itemBuilder: (BuildContext _context, int index) {
+        print(index);
+        if (_rooms.length == index + 1) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              threeIconCard(
+                  _rooms[index],
+                  roomIcon(40.0),
+                  editIcon(40.0, colorMedico),
+                  deleteIcon(40.0, colorMedico),
+                  _context),
+              SizedBox(
+                height: 10.0,
+              ),
+              Center(
+                child: Text(
+                  'Add rooms',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Center(
+                child: Container(
+                    height: 70.0,
+                    width: MediaQuery.of(context).size.width - 40,
+                    child: Expanded(
+                        child: GestureDetector(
+                      onTap: () {
+                        print('add room');
+                        Navigator.of(context).pushNamed('addRoomsPage');
+                      },
+                      child: addRoomIcon(50.0, colorMedico),
+                    ))),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              threeIconCard(
+                  _rooms[index],
+                  roomIcon(40.0),
+                  editIcon(40.0, colorMedico),
+                  deleteIcon(40.0, colorMedico),
+                  _context),
+              Divider(),
+            ],
+          );
+        }
+      });
+}
+
+Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
+    Widget deleteIcon, BuildContext context) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      height: 260,
+      width: MediaQuery.of(context).size.width - 30,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            room.roomName,
+            style: TextStyle(
+              fontSize: 28.0,
+            ),
+            textAlign: TextAlign.start,
+          ),
+          Container(
+            height: 3.0,
+            color: colorMedico4,
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Text(
+            'Speaker',
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+            textAlign: TextAlign.start,
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          textBoxForm(room.speakerId, context),
+          Text(
+            'Reader',
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+            textAlign: TextAlign.start,
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          textBoxForm(room.readerId, context),
+          SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(),
+              ),
+              deleteIcon,
+              SizedBox(
+                width: 10.0,
+              ),
+              editIcon,
+              SizedBox(
+                width: 35.0,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+        ]),
+      ),
+    ),
+  );
+
+  // Container(
+  //   child: Center(child: Text(room.roomName)),
+  // );
 }
