@@ -1069,13 +1069,15 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
   );
 }
 
-Widget makeRoomsList(List<Room> _rooms, BuildContext context) {
+Widget makeRoomsList(List<Room> _rooms, BuildContext _context) {
+  BuildContext listContext = _context;
   return ListView.builder(
       //controller: _scrollController,
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: (_rooms.length),
-      itemBuilder: (BuildContext _context, int index) {
+      itemBuilder: (context, int index) {
+        BuildContext itemContext = listContext;
         print(index);
         if (_rooms.length == index + 1) {
           return Column(
@@ -1086,7 +1088,7 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext context) {
                   roomIcon(40.0),
                   editIcon(40.0, colorMedico),
                   deleteIcon(40.0, colorMedico),
-                  _context),
+                  itemContext),
               SizedBox(
                 height: 10.0,
               ),
@@ -1102,12 +1104,12 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext context) {
               Center(
                 child: Container(
                     height: 70.0,
-                    width: MediaQuery.of(context).size.width - 40,
+                    width: MediaQuery.of(itemContext).size.width - 40,
                     child: Expanded(
                         child: GestureDetector(
                       onTap: () {
                         print('add room');
-                        Navigator.of(context).pushNamed('addRoomsPage');
+                        Navigator.of(itemContext).pushNamed('addRoomsPage');
                       },
                       child: addRoomIcon(50.0, colorMedico),
                     ))),
@@ -1135,13 +1137,13 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext context) {
 }
 
 Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
-    Widget deleteIcon, BuildContext context) {
+    Widget deleteIcon, BuildContext _context) {
   return Card(
     elevation: 5.0,
     color: Colors.white,
     child: Container(
       height: 260,
-      width: MediaQuery.of(context).size.width - 30,
+      width: MediaQuery.of(_context).size.width - 30,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1169,7 +1171,7 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
           SizedBox(
             height: 10.0,
           ),
-          textBoxForm(room.speakerId, context),
+          textBoxForm(room.speakerId, _context),
           Text(
             'Reader',
             style: TextStyle(
@@ -1180,7 +1182,7 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
           SizedBox(
             height: 10.0,
           ),
-          textBoxForm(room.readerId, context),
+          textBoxForm(room.readerId, _context),
           SizedBox(
             height: 10.0,
           ),
@@ -1191,11 +1193,12 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
               ),
               GestureDetector(
                   onTap: () {
+                    BuildContext dialogContext;
                     showDialog(
-                        context: context,
+                        context: _context,
                         barrierDismissible: false,
                         builder: (BuildContext context) {
-                          BuildContext dialogContext = context;
+                          dialogContext = _context;
                           return Container(
                             width: MediaQuery.of(context).size.width - 20,
                             child: Dialog(
@@ -1249,14 +1252,12 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                                 print('deleted');
                                                 Navigator.of(_updatingContext)
                                                     .pop();
-                                                updated(
-                                                    dialogContext, 'Deleted');
+                                                updated(dialogContext, 'Room deleted');
                                               } else {
                                                 print('error');
                                                 Navigator.of(_updatingContext)
                                                     .pop();
-                                                errorPopUp(
-                                                    dialogContext, 'Error');
+                                                errorPopUp(dialogContext, 'Error');
                                               }
                                             }),
                                           ],
@@ -1279,7 +1280,7 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(context).pushNamed('editRoomsPage');
+                    Navigator.of(_context).pushNamed('editRoomsPage');
                   },
                   child: editIcon),
               SizedBox(

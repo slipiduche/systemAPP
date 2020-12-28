@@ -14,6 +14,7 @@ class RoomsPage extends StatefulWidget {
 }
 
 class _RoomsPageState extends State<RoomsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   void dispose() {
@@ -26,6 +27,7 @@ class _RoomsPageState extends State<RoomsPage> {
     serverDataBloc.requestRooms();
 
     return SafeArea(
+      key: _scaffoldKey,
       child: Scaffold(
         body: Container(
           color: colorBackGround,
@@ -102,7 +104,7 @@ class _RoomsPageState extends State<RoomsPage> {
                               );
                             } else {
                               return Expanded(
-                                  child: makeRoomsList(snapshot.data, context));
+                                  child: makeRoomsList(snapshot.data, _scaffoldKey.currentContext));
                             }
                           } else {
                             return Container(

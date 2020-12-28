@@ -117,6 +117,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             ),
             GestureDetector(
                 onTap: () {
+                  serverDataBloc.bindLoading();
                   Navigator.of(context).pushNamed('bindSpeakerPage');
                 },
                 child: StreamBuilder(
@@ -124,10 +125,11 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
-                      _speakerId=snapshot.data.chipId;
+                      _speakerId = snapshot.data.chipId;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
-                    } else {_speakerId='';
+                    } else {
+                      _speakerId = '';
                       return searchBoxFormRooms(
                           'Select a speaker from the list', context);
                     }
@@ -149,6 +151,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             ),
             GestureDetector(
                 onTap: () {
+                  serverDataBloc.bindLoading();
                   Navigator.of(context).pushNamed('bindReaderPage');
                 },
                 child: StreamBuilder(
@@ -156,10 +159,11 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
-                      _readerId=snapshot.data.chipId;
+                      _readerId = snapshot.data.chipId;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
-                    } else {_readerId='';
+                    } else {
+                      _readerId = '';
                       return searchBoxFormRooms(
                           'Select a reader from the list', context);
                     }
@@ -188,7 +192,6 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
       if (resp) {
         updated(_context, 'Room added');
         serverDataBloc.deleteData();
-
       } else {
         errorPopUp(_context, 'Room not added');
         serverDataBloc.deleteData();

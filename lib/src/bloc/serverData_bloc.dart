@@ -96,7 +96,7 @@ class ServerDataBloc {
         print(data.devices.items.length);
         print(data.devices.items);
 
-        print(_roomController.value.speakerId);
+        //print(_roomController.value.speakerId);
         if (_cargandoController.value) {
           data.devices.items.forEach((element) {
             if (_roomController.hasValue) {
@@ -275,6 +275,10 @@ class ServerDataBloc {
   void loadingEdit() {
     _cargandoController.add(true);
   }
+  void bindLoading() {
+    _cargandoController.add(false);
+    
+  }
 
   Future<bool> deleteSong(Music song) async {
     if (token == '' || token == null) {
@@ -421,7 +425,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","Field4":"$roomId"}';
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$roomId"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -454,4 +458,6 @@ class ServerDataBloc {
       return false;
     }
   }
+
+  
 }
