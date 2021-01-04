@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:systemAPP/src/pages/changeDefault_page.dart';
 import 'package:systemAPP/src/pages/home_page.dart';
 import 'package:systemAPP/src/pages/iniciando_page.dart';
 import 'package:systemAPP/src/pages/music_page.dart';
+import 'package:systemAPP/src/pages/playSong_page.dart';
 import 'package:systemAPP/src/pages/songs_page.dart';
 import 'package:systemAPP/src/pages/addSong_page.dart';
 import 'package:systemAPP/src/pages/addSongs_page.dart';
@@ -17,6 +19,7 @@ import 'package:systemAPP/src/pages/addRooms_page.dart';
 import 'package:systemAPP/src/pages/editRooms_page.dart';
 import 'package:systemAPP/src/pages/bindReader_page.dart';
 import 'package:systemAPP/src/pages/bindSpeaker_page.dart';
+import 'package:systemAPP/src/provider/player_provider.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
@@ -39,5 +42,8 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'editRoomsPage': (BuildContext context) => EditRoomsPage(),
     'bindSpeakerPage': (BuildContext context) => BindSpeakerPage(),
     'bindReaderPage': (BuildContext context) => BindReaderPage(),
+    'playerPage': (BuildContext context) => Player(),
+    'playSongPage': (BuildContext context) => PlaySongPage(),
+    'changeDefaultPage': (BuildContext context) => ChangeDefaultPage(),
   };
 }

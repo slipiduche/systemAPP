@@ -232,7 +232,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                                       .size
                                                       .width /
                                                   3,
-                                              child: Expanded(
+                                              child: Container(
                                                 child: RaisedButton(
                                                     child: Text(
                                                       'Upload',

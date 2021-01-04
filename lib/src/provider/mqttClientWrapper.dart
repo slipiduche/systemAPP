@@ -94,10 +94,11 @@ class MQTTClientWrapper {
     });
   }
 
-  void _preData(serverDataJson, topicName) {
+  void _preData(serverDataJson, topicName) async {
     if ((serverDataJson["STATUS"] == "LOGIN") ||
         (serverDataJson["STATUS"] == "INVALID")) {
       publishData(Constants.credentials, 'APP/CREDENTIALS');
+      await Future.delayed(Duration(seconds: 2));
       return;
     } else {
       if (serverDataJson["TOKEN"] != null) {
@@ -164,7 +165,7 @@ class MQTTClientWrapper {
     }
   }
 
-  void _onDisconnected() {
+  void _onDisconnected() async {
     print(
         'MQTTClientWrapper::OnDisconnected client callback - Client disconnection');
     if (client.connectionStatus.returnCode == MqttConnectReturnCode.solicited) {
@@ -174,6 +175,7 @@ class MQTTClientWrapper {
     connectionState = MqttCurrentConnectionState.DISCONNECTED;
     ServerDataBloc()
         .serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
+    await Future.delayed(Duration(seconds: 2));
   }
 
   void _onConnected() {

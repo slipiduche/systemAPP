@@ -99,6 +99,9 @@ Widget tarjeta(
       if (index == 8) {
         await Navigator.of(context).pushNamed('addSongPage', arguments: null);
       }
+      if (index == 7) {
+        await Navigator.of(context).pushNamed('changeDefaultPage', arguments: null);
+      }
       if (index == 5) {
         await Navigator.of(context).pushNamed('songsPage', arguments: null);
       }
@@ -283,7 +286,7 @@ Widget makeSongsList(
       //controller: _scrollController,
       itemCount: (list.length),
       itemBuilder: (BuildContext _context, int index) {
-        print(index);
+        //print(index);
 
         return twoIconCardSingle(
             list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
@@ -648,7 +651,7 @@ void updated(BuildContext _context, String message) {
           ),
           actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
           actions: <Widget>[
-            Expanded(
+            Container(
               child: Center(
                 child: submitButton('OK', () {
                   Navigator.of(dialogContext).pop();
@@ -962,7 +965,7 @@ Widget textBoxForm(String content, BuildContext context) {
     child: Container(
       height: 41.0,
       width: MediaQuery.of(context).size.width - 52.0,
-      child: Expanded(
+      child: Container(
           child: Row(
         children: [
           SizedBox(
@@ -994,7 +997,7 @@ Widget searchBoxForm(String content, BuildContext context) {
     child: Container(
       height: 41.0,
       width: MediaQuery.of(context).size.width - 52.0,
-      child: Expanded(
+      child: Container(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -1034,7 +1037,7 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
     child: Container(
       height: 41.0,
       width: MediaQuery.of(context).size.width,
-      child: Expanded(
+      child: Container(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -1105,7 +1108,7 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext _context) {
                 child: Container(
                     height: 70.0,
                     width: MediaQuery.of(itemContext).size.width - 40,
-                    child: Expanded(
+                    child: Container(
                         child: GestureDetector(
                       onTap: () {
                         print('add room');
@@ -1252,12 +1255,14 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                                 print('deleted');
                                                 Navigator.of(_updatingContext)
                                                     .pop();
-                                                updated(dialogContext, 'Room deleted');
+                                                updated(dialogContext,
+                                                    'Room deleted');
                                               } else {
                                                 print('error');
                                                 Navigator.of(_updatingContext)
                                                     .pop();
-                                                errorPopUp(dialogContext, 'Error');
+                                                errorPopUp(
+                                                    dialogContext, 'Error');
                                               }
                                             }),
                                           ],

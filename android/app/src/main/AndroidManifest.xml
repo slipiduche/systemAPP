@@ -45,4 +45,12 @@
             android:value="2" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--  Permissions for the plugin  -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--  Services for the plugin  -->
+    <application android:usesCleartextTraffic="true">
+        <service android:name=".core.StreamingCore"/>
+    </application>
 </manifest>

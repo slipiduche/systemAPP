@@ -58,7 +58,6 @@ class _RoomsPageState extends State<RoomsPage> {
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 40.0),
-
               Expanded(
                 child: Column(
                   children: [
@@ -110,12 +109,21 @@ class _RoomsPageState extends State<RoomsPage> {
                             }
                           } else {
                             return Container(
-                              height: 40.0,
-                              width: 40,
-                              margin: EdgeInsets.all(6.0),
-                              child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(colorMedico),
+                              height: 100.0,
+                              width: 100,
+                              //margin: EdgeInsets.all(6.0),
+                              //padding: EdgeInsets.all(25.0),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40.0,
+                                    width: 40,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          colorMedico),
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           }
@@ -125,8 +133,6 @@ class _RoomsPageState extends State<RoomsPage> {
                   ],
                 ),
               ),
-
-              //Expanded(child: Container()),
               gradientBar2(0),
             ],
           ),

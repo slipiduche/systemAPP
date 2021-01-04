@@ -5,14 +5,14 @@ import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-class DeleteSongPage extends StatefulWidget {
-  DeleteSongPage({Key key}) : super(key: key);
+class PlaySongPage extends StatefulWidget {
+  PlaySongPage({Key key}) : super(key: key);
 
   @override
-  _DeleteSongPageState createState() => _DeleteSongPageState();
+  _PlaySongPageState createState() => _PlaySongPageState();
 }
 
-class _DeleteSongPageState extends State<DeleteSongPage> {
+class _PlaySongPageState extends State<PlaySongPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
@@ -57,7 +57,7 @@ class _DeleteSongPageState extends State<DeleteSongPage> {
               ),
               SizedBox(height: 15.0),
               Text(
-                'Select  the song do you want to delete',
+                'Select  the song',
                 style: TextStyle(
                   fontSize: 24.0,
                 ),
@@ -100,7 +100,7 @@ class _DeleteSongPageState extends State<DeleteSongPage> {
 
                         return Container(
                           child: makeSongsList(_scaffoldKey.currentContext, snapshot.data,
-                              deleteIcon(40.0, colorMedico),'delete'),
+                              speakerIcon(40.0, colorMedico),'changeDefault'),
                         );
                       }
                     },

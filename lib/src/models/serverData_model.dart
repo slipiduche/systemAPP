@@ -6,7 +6,7 @@ class ServerData {
       this.tag,
       this.tags,
       this.rooms,
-      this.devices});
+      this.devices,this.sdefault});
 
   String status;
   String token;
@@ -15,15 +15,18 @@ class ServerData {
   Tags tags;
   Rooms rooms;
   Devices devices;
+  int sdefault;
 
   factory ServerData.fromJson(Map<String, dynamic> json) => ServerData(
+    
       token: json["TOKEN"],
       status: json["STATUS"],
       songs: Songs.fromJsonList(json["MUSIC"]),
       tag: json["TAG"],
       tags: Tags.fromJsonList(json["TAGS"]),
       rooms: Rooms.fromJsonList(json["ROOMS"]),
-      devices: Devices.fromJsonList(json["DEVICES"]));
+      devices: Devices.fromJsonList(json["DEVICES"]),
+      sdefault:(json["DEFAULT"]!=null)?int.parse(json["DEFAULT"]):null);
 }
 
 class Devices {

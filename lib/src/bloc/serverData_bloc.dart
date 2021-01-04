@@ -18,6 +18,7 @@ class ServerDataBloc {
     _tagController?.close();
     _songController?.close();
     _tokenController?.close();
+    _defaultController?.close();
   }
 
   String token;
@@ -38,6 +39,7 @@ class ServerDataBloc {
   final _tagController = new BehaviorSubject<String>();
   final _songController = new BehaviorSubject<Music>();
   final _tokenController = new BehaviorSubject<String>();
+  final _defaultController = new BehaviorSubject<int>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
   final _speakerController = new BehaviorSubject<Device>();
@@ -54,6 +56,7 @@ class ServerDataBloc {
   Stream<String> get tagStream => _tagController.stream;
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
+  Stream<int> get defaultStream => _defaultController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
   Stream<List<Device>> get serverDevicesStream =>
       _serverDevicesController.stream;
@@ -117,6 +120,10 @@ class ServerDataBloc {
         print('songs');
         print(data.songs.items.length);
         print(data.songs.items);
+        print('default:');
+        print(data.sdefault);
+        print(':default');
+        _defaultController.add(data.sdefault);
         _serverDataController.add(data.songs.items);
         return;
       } else if (data.tags.items.length > 0) {
@@ -138,6 +145,7 @@ class ServerDataBloc {
         return;
       } else if (data.status == 'INVALID' || data.status == 'LOGIN') {
         login();
+        await Future.delayed(Duration(seconds: 2));
 
         return;
       } else if (data.status == 'SUCCESS') {
@@ -209,11 +217,12 @@ class ServerDataBloc {
     return false;
   }
 
-  bool login() {
+  Future<bool> login() async{
     if (_serverDataProvider.subscriptionState ==
         MqttSubscriptionState.SUBSCRIBED) {
       final resp =
           _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+          await Future.delayed(Duration(seconds: 1));
       return resp;
     } else {
       final resp = false;
@@ -275,9 +284,9 @@ class ServerDataBloc {
   void loadingEdit() {
     _cargandoController.add(true);
   }
+
   void bindLoading() {
     _cargandoController.add(false);
-    
   }
 
   Future<bool> deleteSong(Music song) async {
@@ -347,6 +356,25 @@ class ServerDataBloc {
       return false;
     }
   }
+  Future<bool> changeDefault(String songId, String tagId) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+    final postData =
+        '{"TOKEN":"$token","ID":"$songId"}';
+    final resp = _serverDataProvider.publishData(postData, 'APP/DEFAULT');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   deleteTag(String tagId) async {
     if (token == '' || token == null) {
@@ -376,6 +404,7 @@ class ServerDataBloc {
     _speakerController.add(null);
     _readerController.add(null);
     _roomController.add(null);
+    _defaultController.add(null);
   }
 
   void requestDevices() async {
@@ -458,6 +487,4 @@ class ServerDataBloc {
       return false;
     }
   }
-
-  
 }
