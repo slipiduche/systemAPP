@@ -31,6 +31,7 @@ class _RoomsPageState extends State<RoomsPage> {
       child: Scaffold(
         body: Container(
           color: colorBackGround,
+          height: double.infinity,
           child: Column(
             children: [
               Container(
@@ -57,12 +58,12 @@ class _RoomsPageState extends State<RoomsPage> {
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 40.0),
+
               Expanded(
-                  child: Container(
-                child: Container(
-                  child: Column(
-                    children: [
-                      StreamBuilder(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: StreamBuilder(
                         stream: serverDataBloc.serverRoomsStream,
                         builder: (BuildContext context,
                             AsyncSnapshot<List<Room>> snapshot) {
@@ -90,7 +91,7 @@ class _RoomsPageState extends State<RoomsPage> {
                                         width:
                                             MediaQuery.of(context).size.width -
                                                 40,
-                                        child: Expanded(
+                                        child: Container(
                                             child: GestureDetector(
                                           onTap: () {
                                             print('add room');
@@ -103,8 +104,9 @@ class _RoomsPageState extends State<RoomsPage> {
                                 ],
                               );
                             } else {
-                              return Expanded(
-                                  child: makeRoomsList(snapshot.data, _scaffoldKey.currentContext));
+                              return Container(
+                                  child: makeRoomsList(snapshot.data,
+                                      _scaffoldKey.currentContext));
                             }
                           } else {
                             return Container(
@@ -119,10 +121,12 @@ class _RoomsPageState extends State<RoomsPage> {
                           }
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )),
+              ),
+
+              //Expanded(child: Container()),
               gradientBar2(0),
             ],
           ),

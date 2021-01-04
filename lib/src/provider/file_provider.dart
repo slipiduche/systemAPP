@@ -81,8 +81,11 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     });
   }
 
-  void autoScroll(index) {
-    controller.animateTo(index * 50,
+  void autoScroll(index) async{
+    print(index);
+    double aux=index*40.0;
+    print (aux);
+    await controller.animateTo(aux,
         curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
     print('autoScroll');
   }
@@ -96,8 +99,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+      child: Container(
+        //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -122,7 +125,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                     child: Container(
                       height: 41.0,
                       width: MediaQuery.of(context).size.width - 52.0,
-                      child: Expanded(
+                      child: Container(//expanded
                           child: Row(
                         children: [
                           SizedBox(
@@ -148,7 +151,6 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                           )),
                     ),
                   ),
-                  
                 ],
               ),
             ),
@@ -159,8 +161,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
               builder: (BuildContext context) => _loadingPath
                   ? Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
+                        Container(
+                          //padding: const EdgeInsets.only(bottom: 10.0),
                           child: const CircularProgressIndicator(),
                         ),
                         Expanded(child: Container()),
@@ -173,14 +175,10 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                         )
                       : _paths != null
                           ? Expanded(
-                              
-
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 controller: controller,
                                 child: Builder(
-                                 
-
                                   builder: (BuildContext context) {
                                     final itemCount =
                                         _paths != null && _paths.isNotEmpty
@@ -196,9 +194,10 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           .toList()[i]
                                           .toString();
                                       final _selected = i;
-                                      MP3Instance id3=MP3Instance(_paths[i].path);
-                                      String
-                                          author=id3.getMetaTags()['Artist'];
+                                      MP3Instance id3 =
+                                          MP3Instance(_paths[i].path);
+                                      String author =
+                                          id3.getMetaTags()['Artist'];
                                       print(id3.getMetaTags());
                                       print(author);
                                       if (author == null) {
@@ -213,7 +212,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             songIcon(40.0, colorMedico),
                                             addIcon(40.0, colorMedico),
                                             path,
-                                            context,_paths[i].name));
+                                            context,
+                                            _paths[i].name));
                                       } else {
                                         print('dejar vacío');
                                         column.add(TwoIconCard(
@@ -222,7 +222,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             songIcon(40.0, colorMedico),
                                             false,
                                             path,
-                                            context,_paths[i].name));
+                                            context,
+                                            _paths[i].name));
                                         if (i == (itemCount - 1)) {
                                           column.add(GestureDetector(
                                             child: Container(
@@ -236,7 +237,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                                     child: Text(
                                                       'Upload',
                                                       style: TextStyle(
-                                                          fontSize: 22,
+                                                          fontSize: 22.0,
                                                           color: Colors.white),
                                                     ),
                                                     shape: RoundedRectangleBorder(
@@ -256,9 +257,9 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           column.add(SizedBox(
                                             height: 20.0,
                                           ));
-                                          //print(controller.position.toString());
+                                          print(itemCount);
 
-                                          autoScroll(itemCount.toDouble());
+                                          autoScroll(itemCount*1.0);
                                         }
                                       }
                                     }
@@ -280,16 +281,17 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   void sendSongs(songsCount) async {
     print('enviando');
-    uploading(0, songsCount,context);
+    uploading(0, songsCount, context);
     int sendsCount = 0, sended = 0;
 
     for (var i = 0; i < songsCount; i++) {
-      sended = await ServerDataBloc().uploadSong(_paths[i].path,_paths[i].name);
+      sended =
+          await ServerDataBloc().uploadSong(_paths[i].path, _paths[i].name);
       if (sended == 2) {
         sendsCount++;
         sended = 0;
         Navigator.pop(context);
-        uploading(sendsCount, songsCount,context);
+        uploading(sendsCount, songsCount, context);
       }
     }
     if (sendsCount == songsCount) {
@@ -316,7 +318,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                   ],
                 ),
               ),
-              actionsPadding: EdgeInsets.symmetric(horizontal:100.0),
+              actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
               actions: <Widget>[
                 Expanded(
                   child: Center(
@@ -331,6 +333,4 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           });
     }
   }
-
-  
 }

@@ -29,7 +29,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                   decoration: BoxDecoration(
                     gradient: gradiente,
                   )),
-              Expanded(
+              Container(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -204,6 +204,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                   ),
                 ),
               ),
+              Expanded(child: Container()),
               gradientBar2(1),
             ],
           ),

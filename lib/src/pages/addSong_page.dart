@@ -28,6 +28,7 @@ class _AddSongPageState extends State<AddSongPage> {
     return SafeArea(
       child: Scaffold(
         body: Container(
+          width: double.infinity,
           color: colorBackGround,
           child: Column(
             children: [
@@ -55,7 +56,7 @@ class _AddSongPageState extends State<AddSongPage> {
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 30.0),
-              Expanded(
+              Expanded( //container
                 child: Container(
                   //height: 200.0,
                   //width: double.infinity,

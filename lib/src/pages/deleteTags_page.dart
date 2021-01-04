@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
@@ -29,7 +30,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                   decoration: BoxDecoration(
                     gradient: gradiente,
                   )),
-              Expanded(
+              Container(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -192,6 +193,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                   ),
                 ),
               ),
+              Expanded(child: Container()),
               gradientBar2(1),
             ],
           ),

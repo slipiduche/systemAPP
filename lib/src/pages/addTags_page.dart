@@ -29,7 +29,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                   decoration: BoxDecoration(
                     gradient: gradiente,
                   )),
-              Expanded(
+              Container(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -200,6 +200,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                   ),
                 ),
               ),
+              Expanded(child: Container()),
               gradientBar2(1),
             ],
           ),
