@@ -37,9 +37,9 @@ class ServerDataBloc {
   Future<void> initRadioService() async {
     try {
       await songPlayer.init("Flutter Radio Example", "Live",
-          "http://192.168.1.103:8080/audio/0/default.mp3", "false");
+          "http://$serverUri:8080/audio/0/default.mp3", "false");
       songPlayer.setUrl(
-          "http://192.168.1.103:8080/audio/0/default.mp3", "false");
+          "http://$serverUri:8080/audio/0/default.mp3", "false");
     } on PlatformException {
       print("Exception occurred while trying to register the services.");
     }
