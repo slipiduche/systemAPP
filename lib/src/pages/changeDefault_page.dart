@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
+import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class ChangeDefaultPage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
     super.dispose();
   }
 
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -95,28 +98,65 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                       width: 10.0,
                                     ),
                                     Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'default',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                color: colorLetraSearch,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                          Text(
-                                            'GOOGLE TRANSLATE',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: colorLetraSearch),
-                                          ),
-                                        ],
+                                      child: StreamBuilder(
+                                        stream: ServerDataBloc().defaultStream,
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<Music> snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  snapshot.data.songName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: colorLetraSearch,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                Text(
+                                                  snapshot.data.artist,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: colorLetraSearch),
+                                                ),
+                                              ],
+                                            );
+                                          } else {
+                                            if ((serverDataBloc.token ==
+                                                    null) ||
+                                                (serverDataBloc.token == '')) {
+                                              serverDataBloc.login();
+                                            } else {
+                                              serverDataBloc.requestSongs();
+                                            }
+                                            return Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 40.0,
+                                                  width: 40.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(colorMedico),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
                                   ],
@@ -151,16 +191,46 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10.0),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pushNamed('playSongPage');
-                                      },
-                                      child: searchBoxForm(
-                                          'Select a song from the list',
-                                          context)),
+                                  child: StreamBuilder(
+                                    stream: ServerDataBloc().songStream,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<Music> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .pushNamed('playSongPage');
+                                            },
+                                            child: searchBoxForm(
+                                                snapshot.data.songName,
+                                                context));
+                                      } else {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .pushNamed('playSongPage');
+                                            },
+                                            child: searchBoxForm(
+                                                'Select a song from the list',
+                                                context));
+                                      }
+                                    },
+                                  ),
                                 ),
                                 SizedBox(height: 10.0),
-                                submitButton('Change', () {}),
+                                StreamBuilder(
+                                  stream: serverDataBloc.songStream,
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<Music> snapshot) {
+                                    return Container(
+                                      child: submitButton('Change', () {
+                                        if (snapshot.hasData) {
+                                          _action(snapshot.data, context);
+                                        } else {}
+                                      }),
+                                    );
+                                  },
+                                ),
                                 SizedBox(height: 10.0),
                               ],
                             ),
@@ -178,5 +248,19 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
         ),
       ),
     );
+  }
+
+  void _action(Music data, BuildContext _context) async {
+    updating(_context, 'Updating');
+    final resp = await ServerDataBloc().changeDefault(data.id.toString());
+    if (resp) {
+      Navigator.of(_context).pop();
+      updated(_context, 'Default updated');
+      serverDataBloc.deleteData();
+    } else {
+      Navigator.of(_context).pop();
+      errorPopUp(_context, 'Default not updated');
+      serverDataBloc.deleteData();
+    }
   }
 }

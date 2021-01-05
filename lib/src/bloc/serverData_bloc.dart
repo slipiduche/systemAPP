@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
+import 'package:flutter_radio_player/flutter_radio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/models/mqtt_models.dart';
@@ -27,9 +29,20 @@ class ServerDataBloc {
   factory ServerDataBloc() {
     return _singleton;
   }
-
+  FlutterRadioPlayer songPlayer = new FlutterRadioPlayer();
   ServerDataBloc._internal() {
     serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'SERVER/INFO');
+    initRadioService();
+  }
+  Future<void> initRadioService() async {
+    try {
+      await songPlayer.init("Flutter Radio Example", "Live",
+          "http://192.168.1.103:8080/audio/0/default.mp3", "false");
+      songPlayer.setUrl(
+          "http://192.168.1.103:8080/audio/0/default.mp3", "false");
+    } on PlatformException {
+      print("Exception occurred while trying to register the services.");
+    }
   }
 
   final _serverTagsController = new BehaviorSubject<List<Tag>>();
@@ -39,7 +52,7 @@ class ServerDataBloc {
   final _tagController = new BehaviorSubject<String>();
   final _songController = new BehaviorSubject<Music>();
   final _tokenController = new BehaviorSubject<String>();
-  final _defaultController = new BehaviorSubject<int>();
+  final _defaultController = new BehaviorSubject<Music>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
   final _speakerController = new BehaviorSubject<Device>();
@@ -56,7 +69,7 @@ class ServerDataBloc {
   Stream<String> get tagStream => _tagController.stream;
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
-  Stream<int> get defaultStream => _defaultController.stream;
+  Stream<Music> get defaultStream => _defaultController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
   Stream<List<Device>> get serverDevicesStream =>
       _serverDevicesController.stream;
@@ -123,7 +136,12 @@ class ServerDataBloc {
         print('default:');
         print(data.sdefault);
         print(':default');
-        _defaultController.add(data.sdefault);
+        data.songs.items.forEach((element) {
+          if (element.id == data.sdefault) {
+            _defaultController.add(element);
+          }
+        });
+
         _serverDataController.add(data.songs.items);
         return;
       } else if (data.tags.items.length > 0) {
@@ -217,12 +235,12 @@ class ServerDataBloc {
     return false;
   }
 
-  Future<bool> login() async{
+  Future<bool> login() async {
     if (_serverDataProvider.subscriptionState ==
         MqttSubscriptionState.SUBSCRIBED) {
       final resp =
           _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
-          await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 1));
       return resp;
     } else {
       final resp = false;
@@ -356,13 +374,13 @@ class ServerDataBloc {
       return false;
     }
   }
-  Future<bool> changeDefault(String songId, String tagId) async {
+
+  Future<bool> changeDefault(String songId) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData =
-        '{"TOKEN":"$token","ID":"$songId"}';
+    final postData = '{"TOKEN":"$token","ID":"$songId"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/DEFAULT');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {

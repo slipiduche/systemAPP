@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_radio_player/flutter_radio_player.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
+int songSelected;
 int awaitUpload = 0;
 BuildContext _updatingContext, _deletingContext;
 void _moveTo(index, context) async {
@@ -100,7 +102,8 @@ Widget tarjeta(
         await Navigator.of(context).pushNamed('addSongPage', arguments: null);
       }
       if (index == 7) {
-        await Navigator.of(context).pushNamed('changeDefaultPage', arguments: null);
+        await Navigator.of(context)
+            .pushNamed('changeDefaultPage', arguments: null);
       }
       if (index == 5) {
         await Navigator.of(context).pushNamed('songsPage', arguments: null);
@@ -280,6 +283,19 @@ Widget makeDevicesList(BuildContext _context, List<Device> list, Widget icon3,
       });
 }
 
+Widget makeSongsListPlay(BuildContext _context, List<Music> list, Widget icon1,
+    Widget icon2, String mode) {
+  return ListView.builder(
+      //controller: _scrollController,
+      itemCount: (list.length),
+      itemBuilder: (BuildContext _context, int index) {
+        //print(index);
+
+        return threeIconCardP(list[index], songIcon(40.0, colorMedico), icon1,
+            icon2, _context, mode);
+      });
+}
+
 Widget makeSongsList(
     BuildContext _context, List<Music> list, Widget icon3, String mode) {
   return ListView.builder(
@@ -357,6 +373,168 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
         }),
         Expanded(child: Container()),
         SizedBox(width: 10.0),
+      ]),
+    ),
+  );
+}
+
+Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
+    BuildContext _context, String mode) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      height: 105,
+      width: MediaQuery.of(_context).size.width - 30,
+      child: Row(children: [
+        Expanded(child: Container()),
+        icon,
+        Expanded(child: Container()),
+        Container(
+          width: MediaQuery.of(_context).size.width - 160,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                song.songName,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w100,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                song.artist,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100),
+              )
+            ],
+          ),
+        ),
+        Expanded(child: Container()),
+        StreamBuilder(
+            stream: ServerDataBloc().songPlayer.isPlayingStream,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                if ((snapshot.data ==
+                            FlutterRadioPlayer.flutter_radio_stopped ||
+                        snapshot.data ==
+                            FlutterRadioPlayer.flutter_radio_paused) &&
+                    song.id == songSelected) {
+                  return GestureDetector(
+                      onTap: () async {
+                        print('presionaste id ');
+                        print(song.id);
+                        songSelected = song.id;
+                        if (mode == 'changeDefault') {
+                          print('playing');
+                          if (song.id == 0 || song.id == 1) {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://192.168.1.103:8080/audio/0/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                          } else {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://192.168.1.103:8080/audio/1/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                            //ServerDataBloc().bindSong(song);
+                            //Navigator.of(_context).pop();
+                          }
+                        }
+                      },
+                      child: icon2);
+                }
+                if (snapshot.data == FlutterRadioPlayer.flutter_radio_playing &&
+                    song.id == songSelected) {
+                  return GestureDetector(
+                      onTap: () async {
+                        print('presionaste id ');
+                        print(song.id);
+                        songSelected = song.id;
+                        if (mode == 'changeDefault') {
+                          print('playing');
+                          if (song.id == 0 || song.id == 1) {
+                            await ServerDataBloc().songPlayer.pause();
+                          } else {
+                            await ServerDataBloc().songPlayer.pause();
+                            //ServerDataBloc().bindSong(song);
+                            //Navigator.of(_context).pop();
+                          }
+                        }
+                      },
+                      child: Icon(Icons.pause, color: colorMedico, size: 40.0));
+                } else {
+                  return GestureDetector(
+                      onTap: () async {
+                        print('presionaste id ');
+                        print(song.id);
+                        songSelected = song.id;
+                        if (mode == 'changeDefault') {
+                          print('playing');
+                          if (song.id == 0 || song.id == 1) {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://192.168.1.103:8080/audio/0/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                          } else {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://192.168.1.103:8080/audio/1/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                            //ServerDataBloc().bindSong(song);
+                            //Navigator.of(_context).pop();
+                          }
+                        }
+                      },
+                      child: icon2);
+                }
+              } else {
+                return GestureDetector(
+                    onTap: () async {
+                      print('presionaste id ');
+                      print(song.id);
+                      songSelected = song.id;
+                      if (mode == 'changeDefault') {
+                        print('playing');
+                        if (song.id == 0 || song.id == 1) {
+                          await ServerDataBloc().songPlayer.setUrl(
+                              'http://192.168.1.103:8080/audio/0/${song.flName}',
+                              'true');
+                          await ServerDataBloc().songPlayer.play();
+                        } else {
+                          await ServerDataBloc().songPlayer.setUrl(
+                              'http://192.168.1.103:8080/audio/1/${song.flName}',
+                              'true');
+                          await ServerDataBloc().songPlayer.play();
+                          //ServerDataBloc().bindSong(song);
+                          //Navigator.of(_context).pop();
+                        }
+                      }
+                    },
+                    child: icon2);
+              }
+            }),
+        SizedBox(width: 20.0),
+        Builder(builder: (_context) {
+          return GestureDetector(
+              onTap: () async {
+                print('presionaste id ');
+                print(song.id);
+                if (mode == 'changeDefault') {
+                  print('changing');
+                  ServerDataBloc().bindSong(song);
+                  //ServerDataBloc().bindSong(song);
+                  Navigator.of(_context).pop();
+                }
+              },
+              child: icon3);
+        }),
+        Expanded(child: Container()),
       ]),
     ),
   );
@@ -676,6 +854,9 @@ void updated(BuildContext _context, String message) {
                     Navigator.of(context).pushReplacementNamed('roomsPage');
                   } else if (message == "Room deleted") {
                     Navigator.of(context).pushReplacementNamed('roomsPage');
+                  } else if (message == "Default updated") {
+                    Navigator.of(context)
+                        .pushReplacementNamed('changeDefaultPage');
                   }
                 }),
               ),
@@ -728,6 +909,9 @@ void errorPopUp(BuildContext _context, String message) {
                   } else if (message == 'Room not deleted') {
                     Navigator.of(_context).pop();
                     Navigator.pushReplacementNamed(context, 'roomsPage');
+                  } else if (message == "Default not updated") {
+                    Navigator.of(context)
+                        .pushReplacementNamed('changeDefaultPage');
                   } else {
                     Navigator.of(_context).pop();
                     Navigator.pushReplacementNamed(context, 'addSongsPage');

@@ -31,9 +31,9 @@ class _PlayerState extends State<Player> {
   Future<void> initRadioService() async {
     try {
       await _flutterRadioPlayer.init("Flutter Radio Example", "Live",
-          "http://192.168.1.103:8080/audio/0/default.mp3", "true");
+          "http://192.168.1.103:8080/audio/0/default.mp3", "false");
       _flutterRadioPlayer.setUrl(
-          "http://192.168.1.103:8080/audio/0/default.mp3", "true");
+          "http://192.168.1.103:8080/audio/0/default.mp3", "false");
     } on PlatformException {
       print("Exception occurred while trying to register the services.");
     }
