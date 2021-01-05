@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final String serverUri = "192.168.1.103";
+final String serverUri = "192.168.0.103";
 final int mqttPort = 3000;
 final String uploadPort = '8081';
 final String topicName = "server/#";

@@ -434,12 +434,12 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                           print('playing');
                           if (song.id == 0 || song.id == 1) {
                             await ServerDataBloc().songPlayer.setUrl(
-                                'http://192.168.1.103:8080/audio/0/${song.flName}',
+                                'http://$serverUri:8080/audio/0/${song.flName}',
                                 'true');
                             await ServerDataBloc().songPlayer.play();
                           } else {
                             await ServerDataBloc().songPlayer.setUrl(
-                                'http://192.168.1.103:8080/audio/1/${song.flName}',
+                                'http://$serverUri:8080/audio/1/${song.flName}',
                                 'true');
                             await ServerDataBloc().songPlayer.play();
                             //ServerDataBloc().bindSong(song);
@@ -478,12 +478,12 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                           print('playing');
                           if (song.id == 0 || song.id == 1) {
                             await ServerDataBloc().songPlayer.setUrl(
-                                'http://192.168.1.103:8080/audio/0/${song.flName}',
+                                'http://$serverUri:8080/audio/0/${song.flName}',
                                 'true');
                             await ServerDataBloc().songPlayer.play();
                           } else {
                             await ServerDataBloc().songPlayer.setUrl(
-                                'http://192.168.1.103:8080/audio/1/${song.flName}',
+                                'http://$serverUri:8080/audio/1/${song.flName}',
                                 'true');
                             await ServerDataBloc().songPlayer.play();
                             //ServerDataBloc().bindSong(song);
@@ -503,12 +503,12 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                         print('playing');
                         if (song.id == 0 || song.id == 1) {
                           await ServerDataBloc().songPlayer.setUrl(
-                              'http://192.168.1.103:8080/audio/0/${song.flName}',
+                              'http://$serverUri:8080/audio/0/${song.flName}',
                               'true');
                           await ServerDataBloc().songPlayer.play();
                         } else {
                           await ServerDataBloc().songPlayer.setUrl(
-                              'http://192.168.1.103:8080/audio/1/${song.flName}',
+                              'http://$serverUri:8080/audio/1/${song.flName}',
                               'true');
                           await ServerDataBloc().songPlayer.play();
                           //ServerDataBloc().bindSong(song);
