@@ -320,13 +320,17 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
               ),
               actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
               actions: <Widget>[
-                Expanded(
-                  child: Center(
-                    child: submitButton('OK', () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, 'addSongsPage');
-                    }),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: submitButton('OK', () {
+                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(context, 'addSongsPage');
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             );
