@@ -890,34 +890,38 @@ void errorPopUp(BuildContext _context, String message) {
           ),
           actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
           actions: <Widget>[
-            Expanded(
-              child: Center(
-                child: submitButton('OK', () {
-                  ServerDataBloc().deleteData();
-                  if (message == 'Not updated') {
-                    Navigator.of(_context).pop();
-                    Navigator.pushReplacementNamed(_context, 'editTagsPage');
-                  } else if (message == 'Not added') {
-                    Navigator.of(_context).pop();
-                    Navigator.pushReplacementNamed(context, 'addTagsPage');
-                  } else if (message == 'Room not added') {
-                    Navigator.of(_context).pop();
-                    Navigator.pushReplacementNamed(context, 'roomsPage');
-                  } else if (message == 'Room not updated') {
-                    Navigator.of(_context).pop();
-                    Navigator.pushReplacementNamed(context, 'roomsPage');
-                  } else if (message == 'Room not deleted') {
-                    Navigator.of(_context).pop();
-                    Navigator.pushReplacementNamed(context, 'roomsPage');
-                  } else if (message == "Default not updated") {
-                    Navigator.of(context)
-                        .pushReplacementNamed('changeDefaultPage');
-                  } else {
-                    Navigator.of(_context).pop();
-                    Navigator.pushReplacementNamed(context, 'addSongsPage');
-                  }
-                }),
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: submitButton('OK', () {
+                      ServerDataBloc().deleteData();
+                      if (message == 'Not updated') {
+                        Navigator.of(_context).pop();
+                        Navigator.pushReplacementNamed(_context, 'editTagsPage');
+                      } else if (message == 'Not added') {
+                        Navigator.of(_context).pop();
+                        Navigator.pushReplacementNamed(context, 'addTagsPage');
+                      } else if (message == 'Room not added') {
+                        Navigator.of(_context).pop();
+                        Navigator.pushReplacementNamed(context, 'roomsPage');
+                      } else if (message == 'Room not updated') {
+                        Navigator.of(_context).pop();
+                        Navigator.pushReplacementNamed(context, 'roomsPage');
+                      } else if (message == 'Room not deleted') {
+                        Navigator.of(_context).pop();
+                        Navigator.pushReplacementNamed(context, 'roomsPage');
+                      } else if (message == "Default not updated") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('changeDefaultPage');
+                      } else {
+                        Navigator.of(_context).pop();
+                        Navigator.pushReplacementNamed(context, 'addSongsPage');
+                      }
+                    }),
+                  ),
+                ),
+              ],
             ),
           ],
         );
