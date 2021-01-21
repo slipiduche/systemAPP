@@ -5,7 +5,6 @@ import 'package:systemAPP/src/service/room_service.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class RoomSearchDelegate extends SearchDelegate {
-
   RoomSearchDelegate(this.rooms);
   List<Room> rooms;
   final roomService = RoomService();
@@ -35,7 +34,7 @@ class RoomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return FutureBuilder(
-      future: roomService.findRoom(this.query),
+      future: roomService.findRoom(this.query, rooms),
       builder: (BuildContext context, AsyncSnapshot<List<Room>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
@@ -65,7 +64,7 @@ class RoomSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder(
-      future: roomService.findRoom(this.query),
+      future: roomService.findRoom(this.query, rooms),
       builder: (BuildContext context, AsyncSnapshot<List<Room>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
