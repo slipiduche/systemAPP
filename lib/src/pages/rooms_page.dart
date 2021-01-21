@@ -15,6 +15,7 @@ class RoomsPage extends StatefulWidget {
 }
 
 class _RoomsPageState extends State<RoomsPage> {
+  List<Room> _rooms;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
@@ -89,8 +90,11 @@ class _RoomsPageState extends State<RoomsPage> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          showSearch(
-                              context: context, delegate: RoomSearchDelegate());
+                          if (_rooms.length > 0) {
+                            showSearch(
+                                context: context,
+                                delegate: RoomSearchDelegate(_rooms));
+                          } else {}
                         },
                         child: searchBoxForm('Search room', context)),
                     Expanded(

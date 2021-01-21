@@ -5,6 +5,9 @@ import 'package:systemAPP/src/service/room_service.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class RoomSearchDelegate extends SearchDelegate {
+
+  RoomSearchDelegate(this.rooms);
+  List<Room> rooms;
   final roomService = RoomService();
   @override
   List<Widget> buildActions(BuildContext context) {
