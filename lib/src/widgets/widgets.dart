@@ -1284,6 +1284,45 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
   );
 }
 
+Widget makeRoomsListSimple(List<Room> _rooms, BuildContext _context) {
+  BuildContext listContext = _context;
+  return ListView.builder(
+      //controller: _scrollController,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: (_rooms.length),
+      itemBuilder: (context, int index) {
+        BuildContext itemContext = listContext;
+        print(index);
+        if (_rooms.length == index + 1) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              threeIconCardSimple(
+                  _rooms[index],
+                  roomIcon(40.0),
+                  editIcon(40.0, colorMedico),
+                  deleteIcon(40.0, colorMedico),
+                  itemContext),
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              threeIconCardSimple(
+                  _rooms[index],
+                  roomIcon(40.0),
+                  editIcon(40.0, colorMedico),
+                  deleteIcon(40.0, colorMedico),
+                  _context),
+              Divider(),
+            ],
+          );
+        }
+      });
+}
+
 Widget makeRoomsList(List<Room> _rooms, BuildContext _context) {
   BuildContext listContext = _context;
   return ListView.builder(
@@ -1321,6 +1360,141 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext _context) {
           );
         }
       });
+}
+
+Widget threeIconCardSimple(Room room, Widget roomIcon, Widget editIcon,
+    Widget deleteIcon, BuildContext _context) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      width: MediaQuery.of(_context).size.width - 30,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(
+            height: 15.0,
+          ),
+          Row(
+            children: <Widget>[
+              Text(
+                room.roomName,
+                style: TextStyle(
+                  fontSize: 28.0,
+                ),
+                textAlign: TextAlign.start,
+              ),
+              Expanded(
+                child: Container(),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    BuildContext dialogContext;
+                    showDialog(
+                        context: _context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          dialogContext = _context;
+                          return Container(
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: Dialog(
+                              //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Container(
+                                    width: double.infinity,
+                                    height: 30.0,
+                                    color: colorMedico,
+                                    child: Center(
+                                        child: Text(
+                                      'Delete the room?',
+                                      style: TextStyle(
+                                          fontSize: 20.0, color: Colors.white),
+                                    )),
+                                  ),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(room.roomName,
+                                            style: TextStyle(fontSize: 20.0)),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            submitButton('Delete', () async {
+                                              print('deleting');
+                                              Navigator.of(dialogContext).pop();
+                                              updating(context, 'Deleting');
+                                              //print(upSong.toJson());
+                                              final resp =
+                                                  await ServerDataBloc()
+                                                      .deleteRoom(room);
+                                              await Future.delayed(
+                                                  Duration(seconds: 1));
+                                              if (resp) {
+                                                print('deleted');
+                                                Navigator.of(_updatingContext)
+                                                    .pop();
+                                                updated(dialogContext,
+                                                    'Room deleted');
+                                              } else {
+                                                print('error');
+                                                Navigator.of(_updatingContext)
+                                                    .pop();
+                                                errorPopUp(
+                                                    dialogContext, 'Error');
+                                              }
+                                            }),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  child: deleteIcon),
+              SizedBox(
+                width: 10.0,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    ServerDataBloc().roomToModify(room);
+                    ServerDataBloc().loadingEdit();
+                    ServerDataBloc().requestDevices();
+                    Navigator.of(_context).pushNamed('editRoomsPage');
+                  },
+                  child: editIcon),
+            ],
+          ),
+          Container(
+            height: 3.0,
+            color: colorMedico4,
+          ),
+        ]),
+      ),
+    ),
+  );
+
+  // Container(
+  //   child: Center(child: Text(room.roomName)),
+  // );
 }
 
 Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,

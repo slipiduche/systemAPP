@@ -88,15 +88,6 @@ class _RoomsPageState extends State<RoomsPage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    GestureDetector(
-                        onTap: () {
-                          if (_rooms.length > 0) {
-                            showSearch(
-                                context: context,
-                                delegate: RoomSearchDelegate(_rooms));
-                          } else {}
-                        },
-                        child: searchBoxForm('Search room', context)),
                     Expanded(
                       child: StreamBuilder(
                         stream: serverDataBloc.serverRoomsStream,
@@ -139,9 +130,25 @@ class _RoomsPageState extends State<RoomsPage> {
                                 ],
                               );
                             } else {
-                              return Container(
-                                  child: makeRoomsList(snapshot.data,
-                                      _scaffoldKey.currentContext));
+                              _rooms = snapshot.data;
+                              return Column(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        if (_rooms.length > 0) {
+                                          showSearch(
+                                              context: context,
+                                              delegate:
+                                                  RoomSearchDelegate(_rooms));
+                                        } else {}
+                                      },
+                                      child: searchBoxForm(
+                                          'Search room', context)),
+                                  Expanded(
+                                      child: makeRoomsListSimple(snapshot.data,
+                                          _scaffoldKey.currentContext)),
+                                ],
+                              );
                             }
                           } else {
                             return Container(
