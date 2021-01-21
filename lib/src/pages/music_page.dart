@@ -62,7 +62,7 @@ class _MusicPageState extends State<MusicPage> {
                                 fontWeight: FontWeight.w400),
                           ),
                           SizedBox(height: 40.0),
-                          tarjeta('Add songs', 'Add new songs',
+                          tarjeta('Songs', 'Edit and add new songs',
                               addIcon(40, colorMedico), 5, context),
                           SizedBox(height: 20.0),
                           tarjeta('Delete songs', 'Delete old songs',

@@ -203,17 +203,22 @@ class _TwoIconCardState extends State<TwoIconCard> {
         height: 105,
         width: MediaQuery.of(context).size.width - 30,
         child: Row(children: [
-          Expanded(child: Container()),
+          SizedBox(
+            width: 5.0,
+          ),
           icon,
-          Expanded(child: Container()),
-          Container(
-            width: MediaQuery.of(context).size.width - 120,
+          SizedBox(
+            width: 10.0,
+          ),
+          Expanded(
+            //width: MediaQuery.of(context).size.width - 120,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   label,
+                  textAlign: TextAlign.justify,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
@@ -223,6 +228,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
                 ),
                 Text(
                   description,
+                  textAlign: TextAlign.justify,
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16.0,
@@ -231,7 +237,9 @@ class _TwoIconCardState extends State<TwoIconCard> {
               ],
             ),
           ),
-          Expanded(child: Container()),
+          SizedBox(
+            width: 10.0,
+          ),
           Builder(builder: (context) {
             if (icon1 == false) {
               return GestureDetector(onTap: null, child: Container());
@@ -248,7 +256,9 @@ class _TwoIconCardState extends State<TwoIconCard> {
                   child: icon1);
             }
           }),
-          Expanded(child: Container()),
+          SizedBox(
+            width: 5.0,
+          ),
         ]),
       ),
     );
@@ -294,6 +304,19 @@ Widget makeSongsListPlay(BuildContext _context, List<Music> list, Widget icon1,
         return threeIconCardP(list[index], songIcon(40.0, colorMedico), icon1,
             icon2, _context, mode);
       });
+}
+
+Widget circularProgress() {
+  return Column(
+    children: <Widget>[
+      SizedBox(
+        height: 20.0,
+      ),
+      CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+      ),
+    ],
+  );
 }
 
 Widget makeSongsList(
@@ -898,7 +921,8 @@ void errorPopUp(BuildContext _context, String message) {
                       ServerDataBloc().deleteData();
                       if (message == 'Not updated') {
                         Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(_context, 'editTagsPage');
+                        Navigator.pushReplacementNamed(
+                            _context, 'editTagsPage');
                       } else if (message == 'Not added') {
                         Navigator.of(_context).pop();
                         Navigator.pushReplacementNamed(context, 'addTagsPage');
@@ -1280,34 +1304,6 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext _context) {
                   editIcon(40.0, colorMedico),
                   deleteIcon(40.0, colorMedico),
                   itemContext),
-              SizedBox(
-                height: 10.0,
-              ),
-              Center(
-                child: Text(
-                  'Add rooms',
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Center(
-                child: Container(
-                    height: 70.0,
-                    width: MediaQuery.of(itemContext).size.width - 40,
-                    child: Container(
-                        child: GestureDetector(
-                      onTap: () {
-                        print('add room');
-                        Navigator.of(itemContext).pushNamed('addRoomsPage');
-                      },
-                      child: addRoomIcon(50.0, colorMedico),
-                    ))),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
             ],
           );
         } else {

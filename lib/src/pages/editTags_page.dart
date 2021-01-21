@@ -55,7 +55,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
-                          'Scan the tag  you want to edit using your register device',
+                          'Scan your tag using your register device',
                           style: TextStyle(
                             fontSize: 24.0,
                           ),
@@ -182,17 +182,33 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
                                   return Center(
-                                    child: submitButton('Edit', () {
-                                      _action(songId,
-                                          snapshot.data.id.toString(), context);
-                                    }),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: submitButton('Edit', () {
+                                            _action(
+                                                songId,
+                                                snapshot.data.id.toString(),
+                                                context);
+                                          }),
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 } else {
                                   return Center(
-                                    child: submitButton('Edit', () {
-                                      _action(songId,
-                                          snapshot.data.id.toString(), context);
-                                    }),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: submitButton('Edit', () {
+                                            _action(
+                                                songId,
+                                                snapshot.data.id.toString(),
+                                                context);
+                                          }),
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 }
                               },

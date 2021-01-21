@@ -81,10 +81,10 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     });
   }
 
-  void autoScroll(index) async{
+  void autoScroll(index) async {
     print(index);
-    double aux=index*40.0;
-    print (aux);
+    double aux = index * 40.0;
+    print(aux);
     await controller.animateTo(aux,
         curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
     print('autoScroll');
@@ -125,7 +125,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                     child: Container(
                       height: 41.0,
                       width: MediaQuery.of(context).size.width - 52.0,
-                      child: Container(//expanded
+                      child: Container(
+                          //expanded
                           child: Row(
                         children: [
                           SizedBox(
@@ -210,7 +211,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             _paths[i].name,
                                             author,
                                             songIcon(40.0, colorMedico),
-                                            addIcon(40.0, colorMedico),
+                                            uploadIcon(40.0, colorMedico),
                                             path,
                                             context,
                                             _paths[i].name));
@@ -226,32 +227,43 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             _paths[i].name));
                                         if (i == (itemCount - 1)) {
                                           column.add(GestureDetector(
-                                            child: Container(
-                                              height: 40.0,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  3,
-                                              child: Container(
-                                                child: RaisedButton(
-                                                    child: Text(
-                                                      'Upload',
-                                                      style: TextStyle(
-                                                          fontSize: 22.0,
-                                                          color: Colors.white),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 15.0),
+                                                    height: 40.0,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            30,
+                                                    child: Container(
+                                                      child: RaisedButton(
+                                                          child: Text(
+                                                            'Upload',
+                                                            style: TextStyle(
+                                                                fontSize: 22.0,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                              side: BorderSide(
+                                                                  color:
+                                                                      colorMedico)),
+                                                          elevation: 4.0,
+                                                          color: colorMedico,
+                                                          onPressed: () =>
+                                                              sendSongs(
+                                                                  itemCount)),
                                                     ),
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                        side: BorderSide(
-                                                            color:
-                                                                colorMedico)),
-                                                    elevation: 4.0,
-                                                    color: colorMedico,
-                                                    onPressed: () =>
-                                                        sendSongs(itemCount)),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ));
                                           column.add(SizedBox(
@@ -259,7 +271,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                           ));
                                           print(itemCount);
 
-                                          autoScroll(itemCount*1.0);
+                                          autoScroll(itemCount * 1.0);
                                         }
                                       }
                                     }
@@ -326,7 +338,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                       child: Center(
                         child: submitButton('OK', () {
                           Navigator.pop(context);
-                          Navigator.pushReplacementNamed(context, 'addSongsPage');
+                          Navigator.pushReplacementNamed(
+                              context, 'addSongsPage');
                         }),
                       ),
                     ),

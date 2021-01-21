@@ -102,6 +102,14 @@ Widget addIcon(double size, Color color) {
     //fit: BoxFit.contain,
   );
 }
+Widget uploadIcon(double size, Color color) {
+  return Image(
+    image: AssetImage('assets/upload.png'),
+    width: size,
+    height: size,
+    //fit: BoxFit.contain,
+  );
+}
 
 Widget addRoomIcon(double size, Color color) {
   return Image(

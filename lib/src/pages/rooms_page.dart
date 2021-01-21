@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/search/room_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 
@@ -57,10 +58,41 @@ class _RoomsPageState extends State<RoomsPage> {
                     fontSize: 40.0,
                     fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 20.0),
               Expanded(
                 child: Column(
                   children: [
+                    Center(
+                      child: Text(
+                        'Add rooms',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Center(
+                      child: Container(
+                          height: 70.0,
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: Container(
+                              child: GestureDetector(
+                            onTap: () {
+                              print('add room');
+                              Navigator.of(context).pushNamed('addRoomsPage');
+                            },
+                            child: addRoomIcon(50.0, colorMedico),
+                          ))),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          showSearch(
+                              context: context, delegate: RoomSearchDelegate());
+                        },
+                        child: searchBoxForm('Search room', context)),
                     Expanded(
                       child: StreamBuilder(
                         stream: serverDataBloc.serverRoomsStream,
@@ -74,32 +106,32 @@ class _RoomsPageState extends State<RoomsPage> {
                                     'No rooms configured',
                                     style: TextStyle(fontSize: 30),
                                   ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  Text(
-                                    'Add rooms',
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  Center(
-                                    child: Container(
-                                        height: 70.0,
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                40,
-                                        child: Container(
-                                            child: GestureDetector(
-                                          onTap: () {
-                                            print('add room');
-                                            Navigator.of(context)
-                                                .pushNamed('addRoomsPage');
-                                          },
-                                          child: addRoomIcon(50.0, colorMedico),
-                                        ))),
-                                  ),
+                                  // SizedBox(
+                                  //   height: 10.0,
+                                  // ),
+                                  // Text(
+                                  //   'Add rooms',
+                                  //   style: TextStyle(fontSize: 15),
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 10.0,
+                                  // ),
+                                  // Center(
+                                  //   child: Container(
+                                  //       height: 70.0,
+                                  //       width:
+                                  //           MediaQuery.of(context).size.width -
+                                  //               40,
+                                  //       child: Container(
+                                  //           child: GestureDetector(
+                                  //         onTap: () {
+                                  //           print('add room');
+                                  //           Navigator.of(context)
+                                  //               .pushNamed('addRoomsPage');
+                                  //         },
+                                  //         child: addRoomIcon(50.0, colorMedico),
+                                  //       ))),
+                                  // ),
                                 ],
                               );
                             } else {
@@ -115,6 +147,7 @@ class _RoomsPageState extends State<RoomsPage> {
                               //padding: EdgeInsets.all(25.0),
                               child: Column(
                                 children: [
+                                  SizedBox(height: 20.0),
                                   SizedBox(
                                     height: 40.0,
                                     width: 40,

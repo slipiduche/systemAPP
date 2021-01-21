@@ -54,7 +54,7 @@ class _BindReaderPageState extends State<BindReaderPage> {
               ),
               SizedBox(height: 15.0),
               Text(
-                'Select the reader do you want to Bind',
+                'Select the reader you want to Bind',
                 style: TextStyle(
                   fontSize: 24.0,
                 ),

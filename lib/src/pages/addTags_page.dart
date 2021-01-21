@@ -55,7 +55,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
-                          'Scan the tag  you want to add using your register device',
+                          'Scan your tag using your register device',
                           style: TextStyle(
                             fontSize: 24.0,
                           ),
@@ -181,14 +181,26 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                   AsyncSnapshot snapshot) {
                                 if (snapshot.hasData) {
                                   return Center(
-                                      child: submitButton('Done', () {
-                                    _action(tag, songId, context);
-                                  }));
+                                      child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: submitButton('Done', () {
+                                          _action(tag, songId, context);
+                                        }),
+                                      ),
+                                    ],
+                                  ));
                                 } else {
                                   return Center(
-                                    child: submitButton('Done', () {
-                                      _action(tag, songId, context);
-                                    }),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: submitButton('Done', () {
+                                            _action(tag, songId, context);
+                                          }),
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 }
                               },
@@ -228,5 +240,4 @@ class _AddTagsPageState extends State<AddTagsPage> {
       print('do nothing');
     }
   }
-  
 }
