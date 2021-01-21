@@ -144,6 +144,7 @@ class _RoomsPageState extends State<RoomsPage> {
                                       },
                                       child: searchBoxForm(
                                           'Search room', context)),
+                                  SizedBox(height: 10.0,),
                                   Expanded(
                                       child: makeRoomsListSimple(snapshot.data,
                                           _scaffoldKey.currentContext)),

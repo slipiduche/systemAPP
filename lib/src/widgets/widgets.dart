@@ -1316,7 +1316,7 @@ Widget makeRoomsListSimple(List<Room> _rooms, BuildContext _context) {
                   editIcon(40.0, colorMedico),
                   deleteIcon(40.0, colorMedico),
                   _context),
-              Divider(),
+              //Divider(),
             ],
           );
         }
@@ -1482,10 +1482,6 @@ Widget threeIconCardSimple(Room room, Widget roomIcon, Widget editIcon,
                   },
                   child: editIcon),
             ],
-          ),
-          Container(
-            height: 3.0,
-            color: colorMedico4,
           ),
         ]),
       ),
