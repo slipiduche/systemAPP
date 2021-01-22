@@ -38,8 +38,7 @@ class ServerDataBloc {
     try {
       await songPlayer.init("Flutter Radio Example", "Live",
           "http://$serverUri:8080/audio/0/default.mp3", "false");
-      songPlayer.setUrl(
-          "http://$serverUri:8080/audio/0/default.mp3", "false");
+      songPlayer.setUrl("http://$serverUri:8080/audio/0/default.mp3", "false");
     } on PlatformException {
       print("Exception occurred while trying to register the services.");
     }
@@ -444,14 +443,14 @@ class ServerDataBloc {
     // }
   }
 
-  Future<bool> addRoom(
-      String roomName, String speakerId, String readerId) async {
+  Future<bool> addRoom(String roomName, String speakerId, String readerId,
+      String speakerName, String readerName) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId"}';
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName"}';
     final resp = _serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {

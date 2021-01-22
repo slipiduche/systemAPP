@@ -35,6 +35,16 @@ final LinearGradient gradiente = LinearGradient(
     stops: [0.0, 0.651, 0.9999, 1.0],
     begin: FractionalOffset.topCenter,
     end: FractionalOffset.bottomCenter);
+final Color gris = Color.fromRGBO(229, 229, 229, 1.0);
+final Color gris1 = Color.fromRGBO(142, 142, 142, 1.0);
+final Color gris2 = Color.fromRGBO(197, 197, 197, 1.0);
+final Color gris3 = Color.fromRGBO(169, 169, 169, 1.0);
+final LinearGradient gradiente1 = LinearGradient(
+  colors: [gris1, gris3, gris2, gris],
+  stops: [0.0, 0.651, 0.9999, 1.0],
+  begin: FractionalOffset.topCenter,
+  end: FractionalOffset.bottomCenter,
+);
 // final List dispositivos = [{   "id":0,
 //     "nombreDispositivo":"SDRVEN",
 //     "chipID":"XXXXXXXXXXXX"

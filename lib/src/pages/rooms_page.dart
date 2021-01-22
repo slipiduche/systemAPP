@@ -132,7 +132,7 @@ class _RoomsPageState extends State<RoomsPage> {
                             } else {
                               _rooms = snapshot.data;
                               return Container(
-                                margin: EdgeInsets.symmetric(horizontal:8.0),
+                                margin: EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Column(
                                   children: [
                                     GestureDetector(
@@ -145,14 +145,35 @@ class _RoomsPageState extends State<RoomsPage> {
                                           } else {}
                                         },
                                         child: Container(
-                                          margin: EdgeInsets.symmetric(horizontal:2.5),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 2.5),
                                           child: searchBoxForm(
                                               'Search for a room', context),
                                         )),
-                                    SizedBox(height: 10.0,),
+                                    SizedBox(
+                                      height: 10.0,
+                                    ),
                                     Expanded(
-                                        child: makeRoomsListSimple(snapshot.data,
-                                            _scaffoldKey.currentContext)),
+                                        child: StreamBuilder<List<Device>>(
+                                            stream: serverDataBloc
+                                                .serverDevicesStream,
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return makeRoomsListSimple(
+                                                    _rooms,
+                                                    snapshot.data,
+                                                    _scaffoldKey
+                                                        .currentContext);
+                                              } else {
+                                                serverDataBloc.requestDevices();
+                                                serverDataBloc.bindLoading();
+                                                return makeRoomsListSimple(
+                                                    _rooms,
+                                                    [],
+                                                    _scaffoldKey
+                                                        .currentContext);
+                                              }
+                                            })),
                                   ],
                                 ),
                               );

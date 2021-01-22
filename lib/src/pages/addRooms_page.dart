@@ -15,7 +15,7 @@ class AddRoomsPage extends StatefulWidget {
 
 class _AddRoomsPageState extends State<AddRoomsPage> {
   String _roomName;
-  String _readerId, _speakerId;
+  String _readerId, _speakerId, _speakerName, _readerName;
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   void dispose() {
@@ -126,6 +126,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
                       _speakerId = snapshot.data.chipId;
+                      _speakerName = snapshot.data.deviceName;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
                     } else {
@@ -160,6 +161,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
                       _readerId = snapshot.data.chipId;
+                      _readerName = snapshot.data.deviceName;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
                     } else {
@@ -174,7 +176,8 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             ),
             Center(
                 child: submitButton('Done', () {
-              _action(_roomName, _speakerId, _readerId, context);
+              _action(_roomName, _speakerId, _readerId, _speakerName,
+                  _readerName, context);
             })),
           ],
         ),
@@ -183,12 +186,13 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
   }
 
   void _action(String roomName, String speakerId, String readerId,
-      BuildContext _context) async {
+      String speakerName, String readerName, BuildContext _context) async {
     if ((roomName.length > 0) &&
         (speakerId.length > 0) &&
         (readerId.length > 0)) {
       updating(_context, 'Adding room');
-      final resp = await serverDataBloc.addRoom(roomName, speakerId, readerId);
+      final resp = await serverDataBloc.addRoom(
+          roomName, speakerId, readerId, speakerName, readerName);
       if (resp) {
         updated(_context, 'Room added');
         serverDataBloc.deleteData();

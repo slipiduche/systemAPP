@@ -319,6 +319,24 @@ Widget circularProgress() {
   );
 }
 
+Widget circularProgressSimple() {
+  return Container(
+    width: 25.0,
+    height: 25.0,
+    child: Column(
+      children: <Widget>[
+        Container(
+          width: 25.0,
+          height: 25.0,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget makeSongsList(
     BuildContext _context, List<Music> list, Widget icon3, String mode) {
   return ListView.builder(
@@ -326,14 +344,18 @@ Widget makeSongsList(
       itemCount: (list.length),
       itemBuilder: (BuildContext _context, int index) {
         //print(index);
-
-        return twoIconCardSingle(
-            list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
+        if ((mode == 'delete' || mode == 'edit') && list[index].id < 2) {
+          return Container();
+        } else {
+          return twoIconCardSingle(
+              list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
+        }
       });
 }
 
 Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
     BuildContext _context, String mode) {
+  ///
   return Card(
     elevation: 5.0,
     color: Colors.white,
@@ -1288,8 +1310,10 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
   );
 }
 
-Widget makeRoomsListSimple(List<Room> _rooms, BuildContext _context) {
+Widget makeRoomsListSimple(
+    List<Room> _rooms, List<Device> devices, BuildContext _context) {
   BuildContext listContext = _context;
+  List<int> roomStatus = [];
   return ListView.builder(
       //controller: _scrollController,
       scrollDirection: Axis.vertical,
@@ -1298,6 +1322,28 @@ Widget makeRoomsListSimple(List<Room> _rooms, BuildContext _context) {
       itemBuilder: (context, int index) {
         BuildContext itemContext = listContext;
         print(index);
+        if (index == 0) {
+          roomStatus.clear();
+        }
+        if (devices.length > 0) {
+          print('devices:${devices.length}');
+          int _roomStatus = 0;
+          devices.forEach((element) {
+            if (element.chipId == _rooms[index].readerId) {
+              if (element.chipId == _rooms[index].speakerId) {
+                _roomStatus = 1;
+              } else {
+                _roomStatus = 0;
+              }
+            } else {
+              _roomStatus = 0;
+            }
+          });
+          roomStatus.insert(index, _roomStatus);
+        } else {
+          roomStatus.insert(index, 2);
+        }
+        print(roomStatus);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1321,7 +1367,7 @@ Widget makeRoomsListSimple(List<Room> _rooms, BuildContext _context) {
               },
               child: threeIconCardSimple(
                   _rooms[index],
-                  roomIcon(40.0),
+                  roomStatus[index],
                   editIcon(40.0, colorMedico),
                   deleteIcon(40.0, colorMedico),
                   _context),
@@ -1371,8 +1417,35 @@ Widget makeRoomsList(List<Room> _rooms, BuildContext _context) {
       });
 }
 
-Widget threeIconCardSimple(Room room, Widget roomIcon, Widget editIcon,
+Widget statusIcon(double size, int status) {
+  LinearGradient _gradiente;
+  if (status == 1) {
+    _gradiente = gradiente;
+    print('status1');
+  } else {
+    _gradiente = gradiente1;
+    print('estatus0:$status');
+  }
+  return Container(
+    height: size,
+    width: size,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100.0), gradient: _gradiente),
+  );
+}
+
+Widget threeIconCardSimple(Room room, int status, Widget editIcon,
     Widget deleteIcon, BuildContext _context) {
+  Widget icon = Center(
+    child: Column(
+      children: [
+        Center(child: circularProgressSimple()),
+      ],
+    ),
+  );
+  if (status < 2) {
+    icon = statusIcon(25.0, status);
+  }
   return Card(
     elevation: 5.0,
     color: Colors.white,
@@ -1386,15 +1459,18 @@ Widget threeIconCardSimple(Room room, Widget roomIcon, Widget editIcon,
           ),
           Row(
             children: <Widget>[
-              Text(
-                room.roomName,
-                style: TextStyle(
-                  fontSize: 28.0,
-                ),
-                textAlign: TextAlign.start,
-              ),
               Expanded(
-                child: Container(),
+                child: Text(
+                  room.roomName,
+                  style: TextStyle(
+                    fontSize: 28.0,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              icon,
+              SizedBox(
+                width: 10.0,
               ),
               GestureDetector(
                   onTap: () {
