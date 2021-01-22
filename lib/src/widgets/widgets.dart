@@ -109,8 +109,7 @@ Widget tarjeta(
         await Navigator.of(context).pushNamed('songsPage', arguments: null);
       }
       if (index == 6) {
-        await Navigator.of(context)
-            .pushNamed('deleteSongPage', arguments: null);
+        await Navigator.of(context).pushNamed('listSongsPage', arguments: null);
       }
 
       if (index == 1) {
@@ -601,56 +600,61 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
   return Card(
     elevation: 5.0,
     color: Colors.white,
-    child: Container(
-      height: 105,
-      width: MediaQuery.of(_context).size.width - 30,
-      child: Row(children: [
-        Expanded(child: Container()),
-        songIcon(40.0, colorMedico),
-        Expanded(child: Container()),
+    child: Column(
+      children: [
         Container(
-          width: MediaQuery.of(_context).size.width - 120,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                song.songName,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w100,
-                ),
-                overflow: TextOverflow.ellipsis,
+          height: 105,
+          //width: MediaQuery.of(_context).size.width - 30,
+          child: Row(children: [
+            SizedBox(width: 5.0),
+            songIcon(40.0, colorMedico),
+            SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    song.songName,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w100,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    song.artist,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w100),
+                  )
+                ],
               ),
-              Text(
-                song.artist,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w100),
-              )
-            ],
-          ),
+            ),
+            SizedBox(width: 10.0),
+            GestureDetector(
+                onTap: () async {
+                  icon1;
+                },
+                child: deleteIcon(40.0, colorMedico)),
+            SizedBox(
+              width: 10.0,
+            ),
+            Builder(builder: (_context) {
+              return GestureDetector(
+                  onTap: () async {
+                    icon2;
+                  },
+                  child: editIcon(40.0, colorMedico));
+            }),
+            SizedBox(
+              width: 10.0,
+            ),
+          ]),
         ),
-        Expanded(child: Container()),
-        GestureDetector(
-            onTap: () async {
-              icon1;
-            },
-            child: deleteIcon(40.0, colorMedico)),
-        SizedBox(
-          width: 10.0,
-        ),
-        Builder(builder: (_context) {
-          GestureDetector(
-              onTap: () async {
-                icon2;
-              },
-              child: editIcon(40.0, colorMedico));
-        }),
-        Expanded(child: Container()),
-      ]),
+      ],
     ),
   );
 }
