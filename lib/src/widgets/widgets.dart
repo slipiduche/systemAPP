@@ -358,8 +358,11 @@ Widget makeSongsList2(BuildContext _context, List<Music> list) {
       itemCount: (list.length),
       itemBuilder: (BuildContext _context, int index) {
         //print(index);
-
-        return twoIconCardList(list[index], () {}, () {}, () {}, _context);
+        if (list[index].id > 1) {
+          return twoIconCardList(list[index], () {}, () {}, () {}, _context);
+        } else {
+          return Container();
+        }
       });
 }
 
