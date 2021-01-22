@@ -1208,7 +1208,7 @@ Widget searchBoxForm(String content, BuildContext context) {
   return Container(
     child: Container(
       height: 41.0,
-      width: MediaQuery.of(context).size.width - 52.0,
+      //width: MediaQuery.of(context).size.width - 52.0,
       child: Container(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1216,12 +1216,14 @@ Widget searchBoxForm(String content, BuildContext context) {
           SizedBox(
             width: 10.0,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width - 100,
-            child: Text(
-              content,
-              style: TextStyle(color: colorLetraSearch, fontSize: 24),
-              overflow: TextOverflow.ellipsis,
+          Expanded(
+            child: Container(
+              //width: MediaQuery.of(context).size.width - 100,
+              child: Text(
+                content,
+                style: TextStyle(color: colorLetraSearch, fontSize: 24),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           SizedBox(

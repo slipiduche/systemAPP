@@ -75,7 +75,7 @@ class _RoomsPageState extends State<RoomsPage> {
                     Center(
                       child: Container(
                           height: 70.0,
-                          width: MediaQuery.of(context).size.width - 40,
+                          //width: MediaQuery.of(context).size.width - 40,
                           child: Container(
                               child: GestureDetector(
                             onTap: () {
@@ -131,24 +131,30 @@ class _RoomsPageState extends State<RoomsPage> {
                               );
                             } else {
                               _rooms = snapshot.data;
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        if (_rooms.length > 0) {
-                                          showSearch(
-                                              context: context,
-                                              delegate:
-                                                  RoomSearchDelegate(_rooms));
-                                        } else {}
-                                      },
-                                      child: searchBoxForm(
-                                          'Search room', context)),
-                                  SizedBox(height: 10.0,),
-                                  Expanded(
-                                      child: makeRoomsListSimple(snapshot.data,
-                                          _scaffoldKey.currentContext)),
-                                ],
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal:8.0),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          if (_rooms.length > 0) {
+                                            showSearch(
+                                                context: context,
+                                                delegate:
+                                                    RoomSearchDelegate(_rooms));
+                                          } else {}
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(horizontal:2.5),
+                                          child: searchBoxForm(
+                                              'Search room', context),
+                                        )),
+                                    SizedBox(height: 10.0,),
+                                    Expanded(
+                                        child: makeRoomsListSimple(snapshot.data,
+                                            _scaffoldKey.currentContext)),
+                                  ],
+                                ),
                               );
                             }
                           } else {

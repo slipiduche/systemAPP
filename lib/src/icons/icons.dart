@@ -128,7 +128,7 @@ Widget addRoomIcon(double size, Color color) {
     image: AssetImage('assets/addRoom.png'),
     //width: size,
     height: size,
-    fit: BoxFit.cover,
+    fit: BoxFit.contain,
   );
 }
 
