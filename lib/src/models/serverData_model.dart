@@ -139,18 +139,24 @@ class Room {
     this.roomName,
     this.readerId,
     this.speakerId,
+    this.speakerName,
+    this.readerName,
   });
 
   int id;
   String roomName;
   String readerId;
   String speakerId;
+  String readerName;
+  String speakerName;
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
         id: json["ID"],
         roomName: json["ROOM_NAME"],
         readerId: json["READER_ID"],
         speakerId: json["SPEAKER_ID"],
+        readerName: json["READER_NAME"]!=null?json["READER_NAME"]:'noName',
+        speakerName: json["SPEAKER_NAME"]!=null?json["SPEAKER_NAME"]:'noName',
       );
 
   Map<String, dynamic> toJson() => {
@@ -158,6 +164,8 @@ class Room {
         "ROOM_NAME": roomName,
         "READER_ID": readerId,
         "SPEAKER_ID": speakerId,
+        "READER_NAME": readerName,
+        "SPEAKER_NAME": speakerName,
       };
 }
 

@@ -147,7 +147,7 @@ class _RoomsPageState extends State<RoomsPage> {
                                         child: Container(
                                           margin: EdgeInsets.symmetric(horizontal:2.5),
                                           child: searchBoxForm(
-                                              'Search room', context),
+                                              'Search for a room', context),
                                         )),
                                     SizedBox(height: 10.0,),
                                     Expanded(
