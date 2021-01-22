@@ -17,12 +17,12 @@ Widget homeBarIcon(double size) {
     height: size,
   );
 }
+
 Widget homeBarIconS(double size) {
   return Image(
-    image: AssetImage('assets/homebar.png'),
+    image: AssetImage('assets/homeBarIconS.png'),
     width: size,
     height: size,
-    color: colorMedico,
   );
 }
 
@@ -53,7 +53,9 @@ Widget musicBarIconS(double size) {
 Widget roomIcon(double size) {
   return Row(
     children: [
-      SizedBox(width: 25.0,),
+      SizedBox(
+        width: 25.0,
+      ),
       Image(
         image: AssetImage('assets/rooms.png'),
         width: size,
@@ -111,6 +113,7 @@ Widget addIcon(double size, Color color) {
     //fit: BoxFit.contain,
   );
 }
+
 Widget uploadIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/upload.png'),
@@ -136,6 +139,7 @@ Widget deleteIcon(double size, Color color) {
       height: size,
       color: color);
 }
+
 Widget editIcon(double size, Color color) {
   return Image(
       image: AssetImage('assets/edit.png'),
@@ -143,6 +147,7 @@ Widget editIcon(double size, Color color) {
       height: size,
       color: color);
 }
+
 Widget songIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/songs.png'),
@@ -150,6 +155,7 @@ Widget songIcon(double size, Color color) {
     height: size,
   );
 }
+
 Widget speakerIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/speakers.png'),
@@ -157,6 +163,7 @@ Widget speakerIcon(double size, Color color) {
     height: size,
   );
 }
+
 Widget readerIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/readers.png'),
@@ -164,6 +171,7 @@ Widget readerIcon(double size, Color color) {
     height: size,
   );
 }
+
 Widget addSongIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/addSong.png'),
@@ -171,6 +179,7 @@ Widget addSongIcon(double size, Color color) {
     height: size,
   );
 }
+
 Widget addSongsIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/addSongs.png'),
@@ -178,6 +187,7 @@ Widget addSongsIcon(double size, Color color) {
     height: size,
   );
 }
+
 Widget searchIcon(double size, Color color) {
   return Image(
     image: AssetImage('assets/search.png'),
