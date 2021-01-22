@@ -1462,6 +1462,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
               Expanded(
                 child: Text(
                   room.roomName,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 28.0,
                   ),
