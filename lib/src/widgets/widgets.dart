@@ -1330,15 +1330,18 @@ Widget makeRoomsListSimple(
           int _roomStatus = 0;
           devices.forEach((element) {
             if (element.chipId == _rooms[index].readerId) {
-              if (element.chipId == _rooms[index].speakerId) {
+              {
                 _roomStatus = 1;
-              } else {
-                _roomStatus = 0;
               }
-            } else {
-              _roomStatus = 0;
             }
           });
+          if (_roomStatus == 1) {
+            devices.forEach((element) {
+              if (element.chipId == _rooms[index].speakerId) {
+                _roomStatus = 1;
+              }
+            });
+          }
           roomStatus.insert(index, _roomStatus);
         } else {
           roomStatus.insert(index, 2);
