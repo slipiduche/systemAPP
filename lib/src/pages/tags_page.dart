@@ -59,11 +59,11 @@ class _TagsPageState extends State<TagsPage> {
                   ),
                 ),
               ),
-              gradientBar2(1),
+              gradientBar2(3),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(1),
+        bottomNavigationBar: BottomBar(3),
       ),
     );
   }

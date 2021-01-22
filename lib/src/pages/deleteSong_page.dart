@@ -107,11 +107,11 @@ class _DeleteSongPageState extends State<DeleteSongPage> {
                   ),
                 ),
               ),
-              gradientBar2(3),
+              gradientBar2(2),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(3),
+        bottomNavigationBar: BottomBar(2),
       ),
     );
   }

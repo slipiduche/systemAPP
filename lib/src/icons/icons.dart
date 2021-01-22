@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 Widget homeIcon(double size, Color color) {
@@ -14,6 +15,14 @@ Widget homeBarIcon(double size) {
     image: AssetImage('assets/homebar.png'),
     width: size,
     height: size,
+  );
+}
+Widget homeBarIconS(double size) {
+  return Image(
+    image: AssetImage('assets/homebar.png'),
+    width: size,
+    height: size,
+    color: colorMedico,
   );
 }
 

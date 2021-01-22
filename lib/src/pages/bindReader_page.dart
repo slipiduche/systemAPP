@@ -103,11 +103,11 @@ class _BindReaderPageState extends State<BindReaderPage> {
                   ),
                 ),
               ),
-              gradientBar2(0),
+              gradientBar2(1),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(0),
+        bottomNavigationBar: BottomBar(1),
       ),
     );
   }

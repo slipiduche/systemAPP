@@ -62,9 +62,12 @@ class _HomePageState extends State<HomePage> {
                   tagIcon(40, colorMedico), 1, context),
               SizedBox(height: 20.0),
               tarjeta('Rooms', 'Mannage the rooms ', roomIcon(40), 0, context),
+              Expanded(child: Container()),
+              gradientBar2(0),
             ],
           ),
         ),
+        bottomNavigationBar: BottomBar(0),
       ),
     );
   }

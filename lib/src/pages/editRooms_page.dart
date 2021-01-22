@@ -86,11 +86,11 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                   ),
                 ),
               )),
-              gradientBar2(0),
+              gradientBar2(1),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(0),
+        bottomNavigationBar: BottomBar(1),
       ),
     );
   }

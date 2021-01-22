@@ -240,11 +240,11 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                     ),
                   ),
                 ),
-                gradientBar2(3),
+                gradientBar2(2),
               ],
             ),
           ),
-          bottomNavigationBar: BottomBar(3),
+          bottomNavigationBar: BottomBar(2),
         ),
       ),
     );

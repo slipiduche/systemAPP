@@ -12,20 +12,20 @@ BuildContext _updatingContext, _deletingContext;
 void _moveTo(index, context) async {
   if (index == 0) {
     await Navigator.of(context)
-        .pushReplacementNamed('roomsPage', arguments: null);
+        .pushReplacementNamed('homePage', arguments: null);
   }
 
   if (index == 1) {
     await Navigator.of(context)
-        .pushReplacementNamed('tagPage', arguments: null);
+        .pushReplacementNamed('roomsPage', arguments: null);
   }
   if (index == 2) {
     await Navigator.of(context)
-        .pushReplacementNamed('homePage', arguments: null);
+        .pushReplacementNamed('musicPage', arguments: null);
   }
   if (index == 3) {
     await Navigator.of(context)
-        .pushReplacementNamed('musicPage', arguments: null);
+        .pushReplacementNamed('tagPage', arguments: null);
   }
 }
 
@@ -115,19 +115,19 @@ Widget tarjeta(
 
       if (index == 1) {
         await Navigator.of(context)
-            .pushReplacementNamed('tagPage', arguments: null);
+            .pushReplacementNamed('roomsPage', arguments: null);
       }
       if (index == 2) {
         await Navigator.of(context)
-            .pushReplacementNamed('homePage', arguments: null);
+            .pushReplacementNamed('musicPage', arguments: null);
       }
       if (index == 3) {
         await Navigator.of(context)
-            .pushReplacementNamed('musicPage', arguments: null);
+            .pushReplacementNamed('tagPage', arguments: null);
       }
       if (index == 0) {
         await Navigator.of(context)
-            .pushReplacementNamed('roomsPage', arguments: null);
+            .pushReplacementNamed('homePage', arguments: null);
       }
     },
   );
@@ -1126,21 +1126,21 @@ class _BottomBarState extends State<BottomBar> {
     return BottomNavigationBar(
       items: [
         BottomNavigationBarItem(
+            icon: homeBarIcon(25),
+            title: Container(),
+            activeIcon: homeBarIconS(25)),
+        BottomNavigationBarItem(
             icon: roomBarIcon(25),
             title: Container(),
             activeIcon: roomBarIconS(25)),
         BottomNavigationBarItem(
-            icon: tagBarIcon(25),
-            title: Container(),
-            activeIcon: tagBarIconS(25)),
-        BottomNavigationBarItem(
-          icon: homeBarIcon(25),
-          title: Container(),
-        ),
-        BottomNavigationBarItem(
             icon: musicBarIcon(25),
             title: Container(),
             activeIcon: musicBarIconS(25)),
+        BottomNavigationBarItem(
+            icon: tagBarIcon(25),
+            title: Container(),
+            activeIcon: tagBarIconS(25)),
       ],
       type: BottomNavigationBarType.fixed,
       currentIndex: _itemselected,
@@ -1154,20 +1154,20 @@ class _BottomBarState extends State<BottomBar> {
     print(index);
     if (index == 0) {
       await Navigator.of(context)
-          .pushReplacementNamed('roomsPage', arguments: null);
+          .pushReplacementNamed('homePage', arguments: null);
     }
 
     if (index == 1) {
       await Navigator.of(context)
-          .pushReplacementNamed('tagPage', arguments: null);
+          .pushReplacementNamed('roomsPage', arguments: null);
     }
     if (index == 2) {
       await Navigator.of(context)
-          .pushReplacementNamed('homePage', arguments: null);
+          .pushReplacementNamed('musicPage', arguments: null);
     }
     if (index == 3) {
       await Navigator.of(context)
-          .pushReplacementNamed('musicPage', arguments: null);
+          .pushReplacementNamed('tagPage', arguments: null);
     }
   }
 }

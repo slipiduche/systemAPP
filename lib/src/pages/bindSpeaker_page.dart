@@ -103,11 +103,11 @@ class _BindSpeakerPageState extends State<BindSpeakerPage> {
                   ),
                 ),
               ),
-              gradientBar2(0),
+              gradientBar2(1),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(0),
+        bottomNavigationBar: BottomBar(1),
       ),
     );
   }

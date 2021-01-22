@@ -118,11 +118,11 @@ class _PlaySongPageState extends State<PlaySongPage> {
                     ),
                   ),
                 ),
-                gradientBar2(3),
+                gradientBar2(2),
               ],
             ),
           ),
-          bottomNavigationBar: BottomBar(3),
+          bottomNavigationBar: BottomBar(2),
         ),
       ),
     );

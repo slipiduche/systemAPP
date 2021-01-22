@@ -178,11 +178,11 @@ class _RoomsPageState extends State<RoomsPage> {
                   ],
                 ),
               ),
-              gradientBar2(0),
+              gradientBar2(1),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(0),
+        bottomNavigationBar: BottomBar(1),
       ),
     );
   }

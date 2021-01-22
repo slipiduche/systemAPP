@@ -75,11 +75,11 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                 ),
-                gradientBar2(3),
+                gradientBar2(2),
               ],
             ),
           ),
-          bottomNavigationBar: BottomBar(3),
+          bottomNavigationBar: BottomBar(2),
         ),
       ),
     );

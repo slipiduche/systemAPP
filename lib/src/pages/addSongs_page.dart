@@ -63,11 +63,11 @@ class _AddSongsPageState extends State<AddSongsPage> {
                       "Select the songs you want to add", "Search for songs"),
                 ),
               ),
-              gradientBar2(3),
+              gradientBar2(2),
             ],
           ),
         ),
-        bottomNavigationBar: BottomBar(3),
+        bottomNavigationBar: BottomBar(2),
       ),
     );
   }
