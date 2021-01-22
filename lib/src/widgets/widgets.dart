@@ -353,6 +353,17 @@ Widget makeSongsList(
       });
 }
 
+Widget makeSongsList2(BuildContext _context, List<Music> list) {
+  return ListView.builder(
+      //controller: _scrollController,
+      itemCount: (list.length),
+      itemBuilder: (BuildContext _context, int index) {
+        //print(index);
+
+        return twoIconCardList(list[index], () {}, () {}, () {}, _context);
+      });
+}
+
 Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
     BuildContext _context, String mode) {
   ///
@@ -578,6 +589,65 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                 }
               },
               child: icon3);
+        }),
+        Expanded(child: Container()),
+      ]),
+    ),
+  );
+}
+
+Widget twoIconCardList(Music song, Function icon, Function icon1,
+    Function icon2, BuildContext _context) {
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      height: 105,
+      width: MediaQuery.of(_context).size.width - 30,
+      child: Row(children: [
+        Expanded(child: Container()),
+        songIcon(40.0, colorMedico),
+        Expanded(child: Container()),
+        Container(
+          width: MediaQuery.of(_context).size.width - 120,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                song.songName,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w100,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                song.artist,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100),
+              )
+            ],
+          ),
+        ),
+        Expanded(child: Container()),
+        GestureDetector(
+            onTap: () async {
+              icon1;
+            },
+            child: deleteIcon(40.0, colorMedico)),
+        SizedBox(
+          width: 10.0,
+        ),
+        Builder(builder: (_context) {
+          GestureDetector(
+              onTap: () async {
+                icon2;
+              },
+              child: editIcon(40.0, colorMedico));
         }),
         Expanded(child: Container()),
       ]),

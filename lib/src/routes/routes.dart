@@ -9,6 +9,7 @@ import 'package:systemAPP/src/pages/addSong_page.dart';
 import 'package:systemAPP/src/pages/addSongs_page.dart';
 import 'package:systemAPP/src/pages/editSong_page.dart';
 import 'package:systemAPP/src/pages/deleteSong_page.dart';
+import 'package:systemAPP/src/pages/listSong_page.dart';
 import 'package:systemAPP/src/pages/bindSong_page.dart';
 import 'package:systemAPP/src/pages/tags_page.dart';
 import 'package:systemAPP/src/pages/addTags_page.dart';
@@ -37,6 +38,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'addTagsPage': (BuildContext context) => AddTagsPage(),
     'editTagsPage': (BuildContext context) => EditTagsPage(),
     'deleteTagsPage': (BuildContext context) => DeleteTagsPage(),
+    'listSongsPage': (BuildContext context) => ListSongsPage(),
     'roomsPage': (BuildContext context) => RoomsPage(),
     'addRoomsPage': (BuildContext context) => AddRoomsPage(),
     'editRoomsPage': (BuildContext context) => EditRoomsPage(),
