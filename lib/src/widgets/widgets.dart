@@ -359,7 +359,11 @@ Widget makeSongsList2(BuildContext _context, List<Music> list) {
       itemBuilder: (BuildContext _context, int index) {
         //print(index);
         if (list[index].id > 1) {
-          return twoIconCardList(list[index], () {}, () {}, () {}, _context);
+          return twoIconCardList(list[index], () {}, () {
+            deleting(list[index], _context);
+          }, () {
+            editing(list[index], _context);
+          }, _context);
         } else {
           return Container();
         }
@@ -639,7 +643,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
             SizedBox(width: 10.0),
             GestureDetector(
                 onTap: () async {
-                  icon1;
+                  icon1();
                 },
                 child: deleteIcon(40.0, colorMedico)),
             SizedBox(
@@ -648,7 +652,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
             Builder(builder: (_context) {
               return GestureDetector(
                   onTap: () async {
-                    icon2;
+                    icon2();
                   },
                   child: editIcon(40.0, colorMedico));
             }),
@@ -785,7 +789,7 @@ void deleting(Music song, BuildContext _context) {
                             } else {
                               print('error');
                               Navigator.of(_updatingContext).pop();
-                              errorPopUp(dialogContext, 'Error');
+                              errorPopUp(dialogContext, 'Song not deleted');
                             }
                           }),
                         ],
@@ -885,7 +889,7 @@ void editing(Music song, BuildContext _context) {
                             } else {
                               print('error');
                               Navigator.of(_updatingContext).pop();
-                              errorPopUp(dialogContext, 'Error');
+                              errorPopUp(dialogContext, 'Song not edited');
                             }
                           }),
                         ],
@@ -945,45 +949,88 @@ void updated(BuildContext _context, String message) {
                 Text(
                   message,
                   style: TextStyle(fontSize: 20.0),
-                )
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Expanded(
+                  child: Center(
+                    child: submitButton('OK', () {
+                      Navigator.of(dialogContext).pop();
+                      ServerDataBloc().deleteData();
+                      if (message == "Updated") {
+                        ServerDataBloc().requestSongs();
+                        Navigator.of(context)
+                            .pushReplacementNamed('listSongsPage');
+                      } else if (message == "Deleted") {
+                        ServerDataBloc().requestSongs();
+                        Navigator.of(context)
+                            .pushReplacementNamed('listSongsPage');
+                      } else if (message == "Added") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('addTagsPage');
+                      } else if (message == "Tag updated") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('editTagsPage');
+                      } else if (message == "Tag deleted") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('deleteTagsPage');
+                      } else if (message == "Room added") {
+                        Navigator.of(context).pushReplacementNamed('roomsPage');
+                      } else if (message == "Room updated") {
+                        Navigator.of(context).pushReplacementNamed('roomsPage');
+                      } else if (message == "Room deleted") {
+                        Navigator.of(context).pushReplacementNamed('roomsPage');
+                      } else if (message == "Default updated") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('changeDefaultPage');
+                      }
+                    }),
+                  ),
+                ),
               ],
             ),
           ),
-          actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
-          actions: <Widget>[
-            Container(
-              child: Center(
-                child: submitButton('OK', () {
-                  Navigator.of(dialogContext).pop();
-                  ServerDataBloc().deleteData();
-                  if (message == "Updated") {
-                    ServerDataBloc().requestSongs();
-                    Navigator.of(context).pushReplacementNamed('editSongPage');
-                  } else if (message == "Deleted") {
-                    ServerDataBloc().requestSongs();
-                    Navigator.of(context)
-                        .pushReplacementNamed('deleteSongPage');
-                  } else if (message == "Added") {
-                    Navigator.of(context).pushReplacementNamed('addTagsPage');
-                  } else if (message == "Tag updated") {
-                    Navigator.of(context).pushReplacementNamed('editTagsPage');
-                  } else if (message == "Tag deleted") {
-                    Navigator.of(context)
-                        .pushReplacementNamed('deleteTagsPage');
-                  } else if (message == "Room added") {
-                    Navigator.of(context).pushReplacementNamed('roomsPage');
-                  } else if (message == "Room updated") {
-                    Navigator.of(context).pushReplacementNamed('roomsPage');
-                  } else if (message == "Room deleted") {
-                    Navigator.of(context).pushReplacementNamed('roomsPage');
-                  } else if (message == "Default updated") {
-                    Navigator.of(context)
-                        .pushReplacementNamed('changeDefaultPage');
-                  }
-                }),
-              ),
+        );
+      });
+}
+
+void errorPopUp1(BuildContext _context, String message, Function function) {
+  showDialog(
+      context: _context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          scrollable: true,
+          content: Container(
+            //height: 100.0,
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.error_outline,
+                  size: 50.0,
+                  color: Colors.red,
+                ),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: submitButton('OK', () {
+                        function();
+                      }),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         );
       });
 }
@@ -994,8 +1041,9 @@ void errorPopUp(BuildContext _context, String message) {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          scrollable: true,
           content: Container(
-            height: 100.0,
+            //height: 100.0,
             child: Column(
               children: <Widget>[
                 Icon(
@@ -1005,48 +1053,61 @@ void errorPopUp(BuildContext _context, String message) {
                 ),
                 Text(
                   message,
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20.0),
-                )
-              ],
-            ),
-          ),
-          actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
-          actions: <Widget>[
-            Row(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: submitButton('OK', () {
-                      ServerDataBloc().deleteData();
-                      if (message == 'Not updated') {
-                        Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(
-                            _context, 'editTagsPage');
-                      } else if (message == 'Not added') {
-                        Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(context, 'addTagsPage');
-                      } else if (message == 'Room not added') {
-                        Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(context, 'roomsPage');
-                      } else if (message == 'Room not updated') {
-                        Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(context, 'roomsPage');
-                      } else if (message == 'Room not deleted') {
-                        Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(context, 'roomsPage');
-                      } else if (message == "Default not updated") {
-                        Navigator.of(context)
-                            .pushReplacementNamed('changeDefaultPage');
-                      } else {
-                        Navigator.of(_context).pop();
-                        Navigator.pushReplacementNamed(context, 'addSongsPage');
-                      }
-                    }),
-                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  children: [
+                    Center(
+                      child: submitButton('OK', () {
+                        ServerDataBloc().deleteData();
+                        if (message == 'Not updated') {
+                          Navigator.of(_context).pop();
+                          Navigator.pushReplacementNamed(
+                              _context, 'editTagsPage');
+                        } else if (message == 'Not added') {
+                          Navigator.of(_context).pop();
+                          Navigator.pushReplacementNamed(
+                              context, 'addTagsPage');
+                        } else if (message == 'Room not added') {
+                          Navigator.of(_context).pop();
+                          Navigator.pushReplacementNamed(context, 'roomsPage');
+                        } else if (message == 'Room not updated') {
+                          Navigator.of(_context).pop();
+                          Navigator.pushReplacementNamed(context, 'roomsPage');
+                        } else if (message == 'Room not deleted') {
+                          Navigator.of(_context).pop();
+                          Navigator.pushReplacementNamed(context, 'roomsPage');
+                        } else if (message == "Default not updated") {
+                          Navigator.of(context)
+                              .pushReplacementNamed('changeDefaultPage');
+                        } else if (message == "Song not edited") {
+                          Navigator.of(context)
+                              .pushReplacementNamed('listSongsPage');
+                        } else if (message == "Song not deleted") {
+                          Navigator.of(context)
+                              .pushReplacementNamed('listSongsPage');
+                        } else if (message ==
+                            "Error connecting to server make sure your phone is connected in the same Wifi Network System") {
+                          Navigator.of(context).pop();
+                          ServerDataBloc().serverConnect('SERVER/AUTHORIZE',
+                              'SERVER/RESPONSE', 'SERVER/INFO');
+                          ServerDataBloc().initRadioService();
+                        } else {
+                          Navigator.of(_context).pop();
+                          Navigator.pushReplacementNamed(
+                              context, 'addSongsPage');
+                        }
+                      }),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         );
       });
 }

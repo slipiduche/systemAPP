@@ -21,7 +21,8 @@ class MQTTClientWrapper {
   MqttSubscriptionState subscriptionState = MqttSubscriptionState.IDLE;
 
   final VoidCallback onConnectedCallback;
-  final Function(ServerData data, String topic) onDeviceDataReceivedCallback;
+  final Function(ServerData data, String topic, String dataType)
+      onDeviceDataReceivedCallback;
 
   MQTTClientWrapper(
       this.onConnectedCallback, this.onDeviceDataReceivedCallback);
@@ -104,47 +105,47 @@ class MQTTClientWrapper {
       if (serverDataJson["TOKEN"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'TOKEN');
         return;
       } else if (serverDataJson["MUSIC"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print('music');
         print(decodedData.songs.items);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'MUSIC');
         return;
       } else if (serverDataJson["DEVICES"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print('DEVICES');
         print(decodedData.devices.items);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'DEVICES');
         return;
       } else if (serverDataJson["ROOMS"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print('Rooms');
         print(decodedData.rooms.items);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'ROOMS');
         return;
       } else if (serverDataJson["TAG"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print('tag');
         print(decodedData.tag);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'TAG');
       } else if (serverDataJson["STATUS"] == 'FAILURE') {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print("failure");
         print(decodedData.status);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'FAILURE');
       } else if (serverDataJson["STATUS"] == 'SUCCESS') {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print("succes wraper");
         print(decodedData.status);
         if (decodedData != null)
-          onDeviceDataReceivedCallback(decodedData, topicName);
+          onDeviceDataReceivedCallback(decodedData, topicName, 'SUCCESS');
       }
     }
   }
@@ -173,9 +174,9 @@ class MQTTClientWrapper {
           'MQTTClientWrapper::OnDisconnected callback is solicited, this is correct');
     }
     connectionState = MqttCurrentConnectionState.DISCONNECTED;
-    ServerDataBloc()
-        .serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
-    await Future.delayed(Duration(seconds: 2));
+    // ServerDataBloc()
+    //     .serverConnect('SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'REGISTER/INFO');
+    // await Future.delayed(Duration(seconds: 2));
   }
 
   void _onConnected() {

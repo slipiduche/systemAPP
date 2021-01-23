@@ -25,7 +25,6 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -68,8 +67,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
-                            
-                            return roomCard(context,snapshot.data);
+                            return roomCard(context, snapshot.data);
                           } else {
                             return Container(
                               height: 40.0,
@@ -95,8 +93,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
     );
   }
 
-  Widget roomCard(BuildContext _context,Room room) {
-    _roomName=room.roomName;
+  Widget roomCard(BuildContext _context, Room room) {
+    _roomName = room.roomName;
     return Card(
       elevation: 5.0,
       color: Colors.white,
@@ -139,6 +137,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                 },
                 child: StreamBuilder(
                   stream: serverDataBloc.speakerStream,
+                  initialData: Device(
+                      chipId: room.speakerId, deviceName: room.speakerName),
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
@@ -172,6 +172,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                 },
                 child: StreamBuilder(
                   stream: serverDataBloc.readerStream,
+                  initialData: Device(
+                      chipId: room.readerId, deviceName: room.readerName),
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
@@ -190,7 +192,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
             ),
             Center(
                 child: submitButton('Edit', () {
-              _action(_roomName, _speakerId, _readerId, room.id.toString(), context);
+              _action(_roomName, _speakerId, _readerId, room.id.toString(),
+                  context);
             })),
           ],
         ),

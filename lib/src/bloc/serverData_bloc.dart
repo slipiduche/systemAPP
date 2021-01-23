@@ -58,7 +58,7 @@ class ServerDataBloc {
   final _readerController = new BehaviorSubject<Device>();
   final _roomController = new BehaviorSubject<Room>();
 
-  MQTTClientWrapper _serverDataProvider;
+  MQTTClientWrapper serverDataProvider;
   ServerData response;
 
   Stream<List<Music>> get serverDataStream => _serverDataController.stream;
@@ -75,19 +75,21 @@ class ServerDataBloc {
   Stream<Device> get speakerStream => _speakerController.stream;
   Stream<Device> get readerStream => _readerController.stream;
   Stream<Room> get roomStream => _roomController.stream;
+  final timer = Stream.periodic(Duration(seconds: 7), (int count) => count)
+      .asBroadcastStream();
   //String get tokenS => token;
   void serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
-    _serverDataProvider = MQTTClientWrapper(() async {
+    serverDataProvider = MQTTClientWrapper(() async {
       if (_topicIn != 'NoSelecccionado') {
-        await _serverDataProvider.subscribeToTopic(_topicIn);
-        await _serverDataProvider.subscribeToTopic(_topicIn2);
-        await _serverDataProvider.subscribeToTopic(_topicIn3);
-        if (_serverDataProvider.subscriptionState ==
+        await serverDataProvider.subscribeToTopic(_topicIn);
+        await serverDataProvider.subscribeToTopic(_topicIn2);
+        await serverDataProvider.subscribeToTopic(_topicIn3);
+        if (serverDataProvider.subscriptionState ==
             MqttSubscriptionState.SUBSCRIBED)
-          _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+          serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       }
-    }, (ServerData data, String topic) async {
+    }, (ServerData data, String topic, String dataType) async {
       if (data.tag != null) {
         print('newTag');
         deleteData();
@@ -184,12 +186,23 @@ class ServerDataBloc {
         return;
       } else if (data.status == 'EMPTY') {
         print('EMPTY here');
-        _serverRoomsController.add([]);
+        if (dataType == 'DEVICES') {
+          _serverDevicesController.add([]);
+          print('DEVICES');
+        }
+        if (dataType == 'ROOMS') {
+          _serverRoomsController.add([]);
+          print('ROOMS');
+        }
+        if (dataType == 'MUSIC') {
+          _serverDataController.add([]);
+          print('MUSIC');
+        }
 
         return;
       }
     });
-    await _serverDataProvider.prepareMqttClient();
+    await serverDataProvider.prepareMqttClient();
   }
 
   Future<int> uploadSong(audioPath, name) async {
@@ -218,7 +231,7 @@ class ServerDataBloc {
       if (token != '' && token != null) {
         final postData =
             '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
-        final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+        final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
         await Future.delayed(Duration(seconds: 1));
 
         return resp;
@@ -226,7 +239,7 @@ class ServerDataBloc {
     } else {
       final postData =
           '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
-      final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+      final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
       await Future.delayed(Duration(seconds: 1));
 
       return resp;
@@ -235,10 +248,10 @@ class ServerDataBloc {
   }
 
   Future<bool> login() async {
-    if (_serverDataProvider.subscriptionState ==
+    if (serverDataProvider.subscriptionState ==
         MqttSubscriptionState.SUBSCRIBED) {
       final resp =
-          _serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
+          serverDataProvider.publishData(credentials, 'APP/CREDENTIALS');
       await Future.delayed(Duration(seconds: 1));
       return resp;
     } else {
@@ -255,7 +268,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
 
-    _serverDataProvider.publishData(
+    serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
@@ -266,7 +279,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
 
-    _serverDataProvider.publishData(
+    serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"TAGS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
@@ -277,7 +290,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
 
-    _serverDataProvider.publishData(
+    serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"ROOMS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
@@ -313,7 +326,7 @@ class ServerDataBloc {
     }
     final postData =
         '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.id}"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
+    final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     //await Future.delayed(Duration(seconds: 1));
     return resp;
   }
@@ -325,7 +338,7 @@ class ServerDataBloc {
       if (token != '' && token != null) {
         final postData =
             '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
-        final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+        final resp = serverDataProvider.publishData(postData, 'APP/POST');
         await Future.delayed(Duration(seconds: 1));
         if (response.status != null) {
           if (response.status == 'SUCCESS') {
@@ -340,7 +353,7 @@ class ServerDataBloc {
     } else {
       final postData =
           '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
-      final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+      final resp = serverDataProvider.publishData(postData, 'APP/POST');
       await Future.delayed(Duration(seconds: 1));
       if (response.status != null) {
         if (response.status == 'SUCCESS') {
@@ -361,7 +374,7 @@ class ServerDataBloc {
     }
     final postData =
         '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$songId","FIELD2":"$tagId"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+    final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
@@ -380,7 +393,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData = '{"TOKEN":"$token","ID":"$songId"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/DEFAULT');
+    final resp = serverDataProvider.publishData(postData, 'APP/DEFAULT');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
@@ -399,7 +412,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData = '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tagId"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
+    final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
@@ -430,7 +443,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData = '{"REQUEST":"INFO"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/INFO');
+    final resp = serverDataProvider.publishData(postData, 'APP/INFO');
     await Future.delayed(Duration(seconds: 5));
     // if (response.status != null) {
     //   if (response.status == 'SUCCESS') {
@@ -451,7 +464,7 @@ class ServerDataBloc {
     }
     final postData =
         '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/POST');
+    final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
@@ -472,7 +485,7 @@ class ServerDataBloc {
     }
     final postData =
         '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$roomId"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/UPDATE');
+    final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
@@ -492,7 +505,7 @@ class ServerDataBloc {
     }
     final postData =
         '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"${room.id}"}';
-    final resp = _serverDataProvider.publishData(postData, 'APP/DELETE');
+    final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {

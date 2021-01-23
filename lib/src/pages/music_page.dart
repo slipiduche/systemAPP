@@ -19,12 +19,14 @@ class _MusicPageState extends State<MusicPage> {
     // TODO: implement dispose
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
         //exit(0);
-         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        Navigator.of(context).pushReplacementNamed('homePage');
+        //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         print('poppop');
       }, // SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
       child: SafeArea(
@@ -68,8 +70,13 @@ class _MusicPageState extends State<MusicPage> {
                           tarjeta('Song list', 'View my current songs',
                               editIcon(40, colorMedico), 6, context),
                           SizedBox(height: 20.0),
-                          tarjeta('Change Default', 'Select a new default song',
-                              Icon(Icons.settings, color:colorMedico, size: 40.0), 7, context),
+                          tarjeta(
+                              'Change Default',
+                              'Select a new default song',
+                              Icon(Icons.settings,
+                                  color: colorMedico, size: 40.0),
+                              7,
+                              context),
                         ],
                       ),
                     ),

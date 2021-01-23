@@ -71,34 +71,59 @@ class _AddTagsPageState extends State<AddTagsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              'Tag code',
-                              style: TextStyle(
-                                fontSize: 25.0,
-                              ),
-                              // overflow: TextOverflow.clip,
-                              // textAlign: TextAlign.left,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            StreamBuilder(
-                              stream: serverDataBloc.tagStream,
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.hasData) {
-                                  tagHere = true;
-                                  tag = snapshot.data;
-                                  serverDataBloc.requestSongs();
-                                  serverDataBloc.requestTags();
+                            Row(
+                              children: [
+                                Text(
+                                  'Tag Present: ',
+                                  style: TextStyle(
+                                    fontSize: 25.0,
+                                  ),
+                                  // overflow: TextOverflow.clip,
+                                  // textAlign: TextAlign.left,
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                StreamBuilder(
+                                  stream: serverDataBloc.tagStream,
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData) {
+                                      tagHere = true;
+                                      tag = snapshot.data;
+                                      serverDataBloc.requestSongs();
+                                      serverDataBloc.requestTags();
 
-                                  return textBoxForm(snapshot.data, context);
-                                } else {
-                                  tag = '';
-                                  return textBoxForm(
-                                      'The tag will appear here', context);
-                                }
-                              },
+                                      return Row(
+                                        children: [
+                                          Text(
+                                            'Yes',
+                                            style: TextStyle(fontSize: 25),
+                                          ),
+                                          SizedBox(
+                                            width: 15.0,
+                                          ),
+                                          statusIcon(25.0, 1),
+                                        ],
+                                      );
+                                    } else {
+                                      tag = '';
+                                      return Row(
+                                        children: [
+                                          Text(
+                                            'No',
+                                            style: TextStyle(fontSize: 25),
+                                          ),
+                                          SizedBox(
+                                            width: 15.0,
+                                          ),
+                                          statusIcon(25.0, 0),
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 10.0,
