@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  bool _reconnect = false, _errorClosed = true;
+  bool _reconnect = false, _errorClosed = true, _firstTime = true;
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
             stream: serverDataBloc.tokenStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                _reconnect = false;
                 return Scaffold(
                   body: Container(
                     color: colorBackGround,
@@ -172,6 +173,9 @@ class _HomePageState extends State<HomePage> {
                                       return StreamBuilder<Object>(
                                           stream: serverDataBloc.timer,
                                           builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              _firstTime = false;
+                                            }
                                             if (serverDataBloc
                                                     .serverDataProvider
                                                     .connectionState ==
@@ -208,7 +212,8 @@ class _HomePageState extends State<HomePage> {
 
   onAfterBuild(BuildContext context) async {
     print('se construyó');
-    if (_reconnect) {
+    if (_reconnect && !_firstTime) {
+      _firstTime = false;
       _reconnect = false;
       _errorClosed = false;
       errorPopUp1(context,
