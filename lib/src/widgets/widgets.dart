@@ -1935,10 +1935,11 @@ Widget threeIconCardSimpleNoStatus(
               ),
               GestureDetector(
                   onTap: () {
+                    //ServerDataBloc().deleteRoomDevices();
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(_context).pushNamed('editRoomsPage');
+                    Navigator.of(_context).pushReplacementNamed('editRoomsPage');
                   },
                   child: editIcon),
             ],
@@ -2096,10 +2097,11 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
               ),
               GestureDetector(
                   onTap: () {
+                    //ServerDataBloc().deleteRoomDevices();
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(_context).pushNamed('editRoomsPage');
+                    Navigator.of(_context).pushReplacementNamed('editRoomsPage');
                   },
                   child: editIcon),
             ],
@@ -2277,10 +2279,11 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
             ),
             GestureDetector(
                 onTap: () {
+                  //ServerDataBloc().deleteRoomDevices();
                   ServerDataBloc().roomToModify(room);
                   ServerDataBloc().loadingEdit();
                   ServerDataBloc().requestDevices();
-                  Navigator.of(_context).pushNamed('editRoomsPage');
+                  Navigator.of(_context).pushReplacementNamed('editRoomsPage');
                 },
                 child: editIcon),
             SizedBox(
@@ -2455,10 +2458,11 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
               ),
               GestureDetector(
                   onTap: () {
+                    //ServerDataBloc().deleteRoomDevices();
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(_context).pushNamed('editRoomsPage');
+                    Navigator.of(_context).pushReplacementNamed('editRoomsPage');
                   },
                   child: editIcon),
               SizedBox(

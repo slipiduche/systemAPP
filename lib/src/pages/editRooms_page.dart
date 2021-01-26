@@ -25,70 +25,75 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          color: colorBackGround,
-          child: Column(
-            children: [
-              Container(
-                  height: 10.0,
-                  width: double.infinity,
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context).pushReplacementNamed('roomsPage');
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: Container(
+            color: colorBackGround,
+            child: Column(
+              children: [
+                Container(
+                    height: 10.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradiente,
+                    )),
+                SizedBox(height: 26.0),
+                Container(
+                  height: 123,
+                  width: 123,
                   decoration: BoxDecoration(
-                    gradient: gradiente,
-                  )),
-              SizedBox(height: 26.0),
-              Container(
-                height: 123,
-                width: 123,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100.0)),
-                child: roomIcon(98.0),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Rooms',
-                style: TextStyle(
-                    color: colorVN,
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.w400),
-              ),
-              SizedBox(height: 30.0),
-              Expanded(
-                  child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text('Edit room', style: TextStyle(fontSize: 20.0)),
-                      SizedBox(height: 10.0),
-                      StreamBuilder(
-                        stream: serverDataBloc.roomStream,
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return roomCard(context, snapshot.data);
-                          } else {
-                            return Container(
-                              height: 40.0,
-                              width: 40.0,
-                              child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(colorMedico),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0)),
+                  child: roomIcon(98.0),
                 ),
-              )),
-              gradientBar2(1),
-            ],
+                SizedBox(height: 8.0),
+                Text(
+                  'Rooms',
+                  style: TextStyle(
+                      color: colorVN,
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: 30.0),
+                Expanded(
+                    child: Container(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text('Edit room', style: TextStyle(fontSize: 20.0)),
+                        SizedBox(height: 10.0),
+                        StreamBuilder(
+                          stream: serverDataBloc.roomStream,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return roomCard(context, snapshot.data);
+                            } else {
+                              return Container(
+                                height: 40.0,
+                                width: 40.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      colorMedico),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+                gradientBar2(1),
+              ],
+            ),
           ),
+          bottomNavigationBar: BottomBar(1),
         ),
-        bottomNavigationBar: BottomBar(1),
       ),
     );
   }

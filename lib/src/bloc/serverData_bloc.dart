@@ -437,6 +437,11 @@ class ServerDataBloc {
     _defaultController.add(null);
   }
 
+  void deleteRoomDevices() {
+    _speakerController.add(null);
+    _readerController.add(null);
+  }
+
   void requestDevices() async {
     if (token == '' || token == null) {
       login();
