@@ -99,7 +99,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
       elevation: 5.0,
       color: Colors.white,
       child: Container(
-        margin: EdgeInsets.all(10.0),
+        margin: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

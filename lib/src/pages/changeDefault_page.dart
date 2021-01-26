@@ -91,7 +91,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                      width: 10.0,
+                                      width: 20.0,
                                     ),
                                     musicIcon(40.0, colorMedico),
                                     SizedBox(
@@ -190,7 +190,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                 Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
+                                      horizontal: 20.0),
                                   child: StreamBuilder(
                                     stream: ServerDataBloc().songStream,
                                     builder: (BuildContext context,
@@ -223,7 +223,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<Music> snapshot) {
                                     return Container(
-                                      padding: EdgeInsets.symmetric(horizontal:10.0),
+                                      padding: EdgeInsets.symmetric(horizontal:20.0),
                                       height: 40.0,
                                       child: submitButton('Change', () {
                                         if (snapshot.hasData) {

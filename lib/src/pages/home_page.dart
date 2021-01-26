@@ -45,66 +45,74 @@ class _HomePageState extends State<HomePage> {
                     color: colorBackGround,
                     child: Column(
                       children: [
+                        Container(
+                            height: 10.0,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: gradiente,
+                            )),
                         Expanded(
-                          child: Column(
-                            children: [
-                              Container(
-                                  height: 10.0,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: gradiente,
-                                  )),
-                              SizedBox(height: 26.0),
-                              Container(
-                                height: 123,
-                                width: 123,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(100.0)),
-                                child: homeIcon(98.0, colorMedico),
+                          child: Container(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 26.0),
+                                  Container(
+                                    height: 123,
+                                    width: 123,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(100.0)),
+                                    child: homeIcon(98.0, colorMedico),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    'Home',
+                                    style: TextStyle(
+                                        color: colorVN,
+                                        fontSize: 40.0,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  StreamBuilder<Object>(
+                                      stream: serverDataBloc.tokenStream,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Column(
+                                            children: [
+                                              SizedBox(height: 40.0),
+                                              tarjeta(
+                                                  'Music',
+                                                  'Add new songs or delete old ones',
+                                                  musicIcon(40, colorMedico),
+                                                  2,
+                                                  context),
+                                              SizedBox(height: 20.0),
+                                              tarjeta(
+                                                  'Tags',
+                                                  'Add , delete or edit tags',
+                                                  tagIcon(40, colorMedico),
+                                                  3,
+                                                  context),
+                                              SizedBox(height: 20.0),
+                                              tarjeta(
+                                                  'Rooms',
+                                                  'Mannage the rooms ',
+                                                  roomIcon(40),
+                                                  1,
+                                                  context),
+                                            ],
+                                          );
+                                        } else {
+                                          return circularProgress();
+                                        }
+                                      }),
+                                ],
                               ),
-                              SizedBox(height: 8.0),
-                              Text(
-                                'Home',
-                                style: TextStyle(
-                                    color: colorVN,
-                                    fontSize: 40.0,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              StreamBuilder<Object>(
-                                  stream: serverDataBloc.tokenStream,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return Column(
-                                        children: [
-                                          SizedBox(height: 40.0),
-                                          tarjeta(
-                                              'Music',
-                                              'Add new songs or delete old ones',
-                                              musicIcon(40, colorMedico),
-                                              2,
-                                              context),
-                                          SizedBox(height: 20.0),
-                                          tarjeta(
-                                              'Tags',
-                                              'Add , delete or edit tags',
-                                              tagIcon(40, colorMedico),
-                                              3,
-                                              context),
-                                          SizedBox(height: 20.0),
-                                          tarjeta('Rooms', 'Mannage the rooms ',
-                                              roomIcon(40), 1, context),
-                                        ],
-                                      );
-                                    } else {
-                                      return circularProgress();
-                                    }
-                                  }),
-                              Expanded(child: Container()),
-                              gradientBar2(0),
-                            ],
+                            ),
                           ),
                         ),
+                        gradientBar2(0),
                       ],
                     ),
                   ),
@@ -118,87 +126,95 @@ class _HomePageState extends State<HomePage> {
                     color: colorBackGround,
                     child: Column(
                       children: [
+                        Container(
+                            height: 10.0,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: gradiente,
+                            )),
                         Expanded(
-                          child: Column(
-                            children: [
-                              Container(
-                                  height: 10.0,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: gradiente,
-                                  )),
-                              SizedBox(height: 26.0),
-                              Container(
-                                height: 123,
-                                width: 123,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(100.0)),
-                                child: homeIcon(98.0, colorMedico),
+                          child: Container(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 26.0),
+                                  Container(
+                                    height: 123,
+                                    width: 123,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(100.0)),
+                                    child: homeIcon(98.0, colorMedico),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    'Home',
+                                    style: TextStyle(
+                                        color: colorVN,
+                                        fontSize: 40.0,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  StreamBuilder<Object>(
+                                      stream: serverDataBloc.tokenStream,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Column(
+                                            children: [
+                                              tarjeta(
+                                                  'Music',
+                                                  'Add new songs or delete old ones',
+                                                  musicIcon(40, colorMedico),
+                                                  2,
+                                                  context),
+                                              SizedBox(height: 20.0),
+                                              tarjeta(
+                                                  'Tags',
+                                                  'Add, delete or edit tags',
+                                                  tagIcon(40, colorMedico),
+                                                  3,
+                                                  context),
+                                              SizedBox(height: 20.0),
+                                              tarjeta(
+                                                  'Rooms',
+                                                  'Mannage the rooms ',
+                                                  roomIcon(40),
+                                                  1,
+                                                  context),
+                                            ],
+                                          );
+                                        } else {
+                                          return StreamBuilder<Object>(
+                                              stream: serverDataBloc.timer,
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  _firstTime = false;
+                                                }
+                                                if (serverDataBloc
+                                                        .serverDataProvider
+                                                        .connectionState ==
+                                                    MqttCurrentConnectionState
+                                                        .CONNECTED) {
+                                                  _reconnect = false;
+                                                } else {
+                                                  if (_errorClosed) {
+                                                    _reconnect = true;
+                                                  }
+                                                }
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) =>
+                                                        onAfterBuild(context));
+                                                return circularProgress();
+                                              });
+                                        }
+                                      }),
+                                ],
                               ),
-                              SizedBox(height: 8.0),
-                              Text(
-                                'Home',
-                                style: TextStyle(
-                                    color: colorVN,
-                                    fontSize: 40.0,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              StreamBuilder<Object>(
-                                  stream: serverDataBloc.tokenStream,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return Column(
-                                        children: [
-                                          SizedBox(height: 40.0),
-                                          tarjeta(
-                                              'Music',
-                                              'Add new songs or delete old ones',
-                                              musicIcon(40, colorMedico),
-                                              2,
-                                              context),
-                                          SizedBox(height: 20.0),
-                                          tarjeta(
-                                              'Tags',
-                                              'Add , delete or edit tags',
-                                              tagIcon(40, colorMedico),
-                                              3,
-                                              context),
-                                          SizedBox(height: 20.0),
-                                          tarjeta('Rooms', 'Mannage the rooms ',
-                                              roomIcon(40), 1, context),
-                                        ],
-                                      );
-                                    } else {
-                                      return StreamBuilder<Object>(
-                                          stream: serverDataBloc.timer,
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              _firstTime = false;
-                                            }
-                                            if (serverDataBloc
-                                                    .serverDataProvider
-                                                    .connectionState ==
-                                                MqttCurrentConnectionState
-                                                    .CONNECTED) {
-                                              _reconnect = false;
-                                            } else {
-                                              if (_errorClosed) {
-                                                _reconnect = true;
-                                              }
-                                            }
-                                            WidgetsBinding.instance
-                                                .addPostFrameCallback((_) =>
-                                                    onAfterBuild(context));
-                                            return circularProgress();
-                                          });
-                                    }
-                                  }),
-                              Expanded(child: Container()),
-                              //gradientBar2(0),
-                            ],
+                            ),
                           ),
                         ),
+                        // Expanded(child: Container()),
+                        gradientBar2(0),
                       ],
                     ),
                   ),

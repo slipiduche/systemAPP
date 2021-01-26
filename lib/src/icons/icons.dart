@@ -12,7 +12,6 @@ Widget homeIcon(double size, Color color) {
 
 Widget homeBarIcon(double size) {
   return Image(
-    
     image: AssetImage(
       'assets/homebar.png',
     ),
@@ -59,10 +58,10 @@ Widget roomIcon(double size) {
   return Row(
     children: [
       SizedBox(
-        width: 25.0,
+        width: 12.5,
       ),
       Image(
-        image: AssetImage('assets/rooms.png'),
+        image: AssetImage('assets/roomIconS.png'),
         width: size,
         height: size,
       ),
@@ -72,15 +71,16 @@ Widget roomIcon(double size) {
 
 Widget roomBarIcon(double size) {
   return Image(
-    image: AssetImage('assets/roomsbar.png'),
+    image: AssetImage('assets/roomIcon.png'),
     width: size,
     height: size,
+    color: Colors.black,
   );
 }
 
 Widget roomBarIconS(double size) {
   return Image(
-    image: AssetImage('assets/roomsbarS.png'),
+    image: AssetImage('assets/roomIconS.png'),
     width: size,
     height: size,
   );
@@ -133,7 +133,8 @@ Widget addRoomIcon(double size, Color color) {
     image: AssetImage('assets/addRoom.png'),
     //width: size,
     height: size,
-    fit: BoxFit.contain,
+    //width: double.infinity-8,
+    fit: BoxFit.fitWidth,
   );
 }
 

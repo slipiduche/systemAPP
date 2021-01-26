@@ -49,6 +49,26 @@ Widget submitButton(text, void Function() function) {
       ));
 }
 
+Widget submitButtonS(text, void Function() function) {
+  return GestureDetector(
+      onTap: function,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.0),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400),
+          ),
+        ),
+        decoration: BoxDecoration(
+          //borderRadius: BorderRadius.circular(10.0),
+          color: colorMedico,
+          boxShadow: [boxShadow1],
+        ),
+      ));
+}
+
 Widget submitButtonNo(text, void Function() function) {
   return GestureDetector(
       onTap: function,
@@ -63,7 +83,7 @@ Widget submitButtonNo(text, void Function() function) {
         ),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(10.0),
+          //borderRadius: BorderRadius.circular(10.0),
           color: Colors.white,
           boxShadow: [boxShadow1],
         ),
@@ -227,10 +247,10 @@ class _TwoIconCardState extends State<TwoIconCard> {
       color: Colors.white,
       child: Container(
         height: 105,
-        width: MediaQuery.of(context).size.width - 30,
+        //width: MediaQuery.of(context).size.width - 30,
         child: Row(children: [
           SizedBox(
-            width: 5.0,
+            width: 20.0,
           ),
           icon,
           SizedBox(
@@ -283,7 +303,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
             }
           }),
           SizedBox(
-            width: 5.0,
+            width: 20.0,
           ),
         ]),
       ),
@@ -405,7 +425,7 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
     color: Colors.white,
     child: Container(
       height: 105,
-      width: MediaQuery.of(_context).size.width - 30,
+      //width: MediaQuery.of(_context).size.width - 30,
       child: Row(children: [
         SizedBox(width: 10.0),
         Expanded(child: Container()),
@@ -640,7 +660,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
           height: 105,
           //width: MediaQuery.of(_context).size.width - 30,
           child: Row(children: [
-            SizedBox(width: 5.0),
+            SizedBox(width: 20.0),
             songIcon(40.0, colorMedico),
             SizedBox(width: 10.0),
             Expanded(
@@ -684,7 +704,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                   child: editIcon(40.0, colorMedico));
             }),
             SizedBox(
-              width: 10.0,
+              width: 20.0,
             ),
           ]),
         ),
@@ -768,16 +788,16 @@ void deleting(Music song, BuildContext _context) {
         dialogContext = _context;
 
         return Container(
-          width: MediaQuery.of(context).size.width - 20,
+          //width: MediaQuery.of(context).size.width - 20,
           child: Dialog(
-            //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+            insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 30.0),
+                  padding: EdgeInsets.only(top: 20.0),
                   width: double.infinity,
                   //height: 30.0,
                   //color: colorMedico,
@@ -788,19 +808,22 @@ void deleting(Music song, BuildContext _context) {
                   )),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  //margin: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Column(
                     children: <Widget>[
                       SizedBox(
                         height: 10.0,
                       ),
-                      Text(
-                          song.songName +
-                              '.' +
-                              '\n\n' +
-                              ' The tag associated with this song will be deleted',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20.0)),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                            song.songName +
+                                '.' +
+                                '\n\n' +
+                                ' The tag associated with this song will be deleted',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20.0)),
+                      ),
                       SizedBox(
                         height: 10.0,
                       ),
@@ -811,7 +834,7 @@ void deleting(Music song, BuildContext _context) {
                           Expanded(
                             child: Container(
                               height: 50.0,
-                              child: submitButton('YES', () async {
+                              child: submitButtonS('YES', () async {
                                 print('deleting');
                                 Navigator.of(dialogContext).pop();
                                 updating(context, 'Deleting');
@@ -864,9 +887,9 @@ void editing(Music song, BuildContext _context) {
       builder: (context) {
         dialogContext = _context;
         return Container(
-          width: MediaQuery.of(context).size.width - 20,
+          //width: MediaQuery.of(context).size.width - 20,
           child: Dialog(
-            //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+            insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -883,7 +906,7 @@ void editing(Music song, BuildContext _context) {
                   )),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -917,7 +940,7 @@ void editing(Music song, BuildContext _context) {
                                     print('artist:$artist');
                                   }),
                                   SizedBox(
-                                    height: 5.0,
+                                    height: 10.0,
                                   ),
                                 ]),
                           ),
@@ -951,7 +974,7 @@ void editing(Music song, BuildContext _context) {
                         ],
                       ),
                       SizedBox(
-                        height: 5.0,
+                        height: 20.0,
                       ),
                     ],
                   ),
@@ -969,18 +992,27 @@ void updating(BuildContext _context, String message) {
       barrierDismissible: false,
       builder: (_context) {
         _updatingContext = _context;
-        return AlertDialog(
-          content: Container(
-            height: 100.0,
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 28),
+          child: Container(
+            //height: 200.0,
+            width: double.infinity,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(
+                  height: 50.0,
+                ),
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
                 ),
                 Text(
                   '$message...',
                   style: TextStyle(fontSize: 20.0),
-                )
+                ),
+                SizedBox(
+                  height: 50.0,
+                ),
               ],
             ),
           ),
@@ -995,12 +1027,17 @@ void updated(BuildContext _context, String message) {
       barrierDismissible: true,
       builder: (context) {
         dialogContext = _context;
-        return AlertDialog(
-          scrollable: true,
-          content: Container(
+        return Dialog(
+          //scrollable: true,
+          insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+          child: Container(
             // height: 100.0,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(
+                  height: 10.0,
+                ),
                 Icon(
                   Icons.check,
                   size: 50.0,
@@ -1013,48 +1050,54 @@ void updated(BuildContext _context, String message) {
                 SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50.0,
-                        child: submitButton('OK', () {
-                          Navigator.of(dialogContext).pop();
-                          ServerDataBloc().deleteData();
-                          if (message == "Updated") {
-                            ServerDataBloc().requestSongs();
-                            Navigator.of(context)
-                                .pushReplacementNamed('listSongsPage');
-                          } else if (message == "Deleted") {
-                            ServerDataBloc().requestSongs();
-                            Navigator.of(context)
-                                .pushReplacementNamed('listSongsPage');
-                          } else if (message == "Added") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('addTagsPage');
-                          } else if (message == "Tag updated") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('editTagsPage');
-                          } else if (message == "Tag deleted") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('deleteTagsPage');
-                          } else if (message == "Room added") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('roomsPage');
-                          } else if (message == "Room updated") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('roomsPage');
-                          } else if (message == "Room deleted") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('roomsPage');
-                          } else if (message == "Default updated") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('changeDefaultPage');
-                          }
-                        }),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 50.0,
+                          child: submitButton('OK', () {
+                            Navigator.of(dialogContext).pop();
+                            ServerDataBloc().deleteData();
+                            if (message == "Updated") {
+                              ServerDataBloc().requestSongs();
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listSongsPage');
+                            } else if (message == "Deleted") {
+                              ServerDataBloc().requestSongs();
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listSongsPage');
+                            } else if (message == "Added") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('addTagsPage');
+                            } else if (message == "Tag updated") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('editTagsPage');
+                            } else if (message == "Tag deleted") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('deleteTagsPage');
+                            } else if (message == "Room added") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('roomsPage');
+                            } else if (message == "Room updated") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('roomsPage');
+                            } else if (message == "Room deleted") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('roomsPage');
+                            } else if (message == "Default updated") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('changeDefaultPage');
+                            }
+                          }),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
                 ),
               ],
             ),
@@ -1068,12 +1111,17 @@ void errorPopUp1(BuildContext _context, String message, Function function) {
       context: _context,
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-          scrollable: true,
-          content: Container(
+        return Dialog(
+          //scrollable: true,
+          insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+          child: Container(
             //height: 100.0,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(
+                  height: 20.0,
+                ),
                 Icon(
                   Icons.error_outline,
                   size: 50.0,
@@ -1087,14 +1135,20 @@ void errorPopUp1(BuildContext _context, String message, Function function) {
                 SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: submitButton('OK', () {
-                        function();
-                      }),
-                    ),
-                  ],
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: submitButton('OK', () {
+                          function();
+                        }),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
                 ),
               ],
             ),
@@ -1108,12 +1162,17 @@ void errorPopUp(BuildContext _context, String message) {
       context: _context,
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-          scrollable: true,
-          content: Container(
+        return Dialog(
+          //scrollable: true,
+          insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+          child: Container(
             //height: 100.0,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(
+                  height: 20.0,
+                ),
                 Icon(
                   Icons.error_outline,
                   size: 50.0,
@@ -1127,61 +1186,67 @@ void errorPopUp(BuildContext _context, String message) {
                 SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50.0,
-                        child: submitButton('OK', () {
-                          ServerDataBloc().deleteData();
-                          if (message == 'Not updated') {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                _context, 'editTagsPage');
-                          } else if (message == 'Not added') {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                context, 'addTagsPage');
-                          } else if (message == 'Room not added') {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                context, 'roomsPage');
-                          } else if (message == 'Room not updated') {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                context, 'roomsPage');
-                          } else if (message == 'Room not deleted') {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                context, 'roomsPage');
-                          } else if (message == "Default not updated") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('changeDefaultPage');
-                          } else if (message == "Song not edited") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('listSongsPage');
-                          } else if (message == "Song not deleted") {
-                            Navigator.of(context)
-                                .pushReplacementNamed('listSongsPage');
-                          } else if (message ==
-                              "Error connecting to server make sure your phone is connected in the same Wifi Network System") {
-                            Navigator.of(context).pop();
-                            ServerDataBloc().serverConnect('SERVER/AUTHORIZE',
-                                'SERVER/RESPONSE', 'SERVER/INFO');
-                            ServerDataBloc().initRadioService();
-                          } else if (message == "Songs not uploaded") {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                context, 'addSongsPage');
-                          } else {
-                            Navigator.of(_context).pop();
-                            Navigator.pushReplacementNamed(
-                                context, 'addSongsPage');
-                          }
-                        }),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 50.0,
+                          child: submitButton('OK', () {
+                            ServerDataBloc().deleteData();
+                            if (message == 'Not updated') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  _context, 'editTagsPage');
+                            } else if (message == 'Not added') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'addTagsPage');
+                            } else if (message == 'Room not added') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'roomsPage');
+                            } else if (message == 'Room not updated') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'roomsPage');
+                            } else if (message == 'Room not deleted') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'roomsPage');
+                            } else if (message == "Default not updated") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('changeDefaultPage');
+                            } else if (message == "Song not edited") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listSongsPage');
+                            } else if (message == "Song not deleted") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listSongsPage');
+                            } else if (message ==
+                                "Error connecting to server make sure your phone is connected in the same Wifi Network System") {
+                              Navigator.of(context).pop();
+                              ServerDataBloc().serverConnect('SERVER/AUTHORIZE',
+                                  'SERVER/RESPONSE', 'SERVER/INFO');
+                              ServerDataBloc().initRadioService();
+                            } else if (message == "Songs not uploaded") {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'addSongsPage');
+                            } else {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'addSongsPage');
+                            }
+                          }),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
                 ),
               ],
             ),
@@ -1194,7 +1259,7 @@ Widget roomInput(String hintText, String textValue, Function update) {
   final _textValue = new TextEditingController(text: textValue);
   return Container(
       // width: _screenSize.width -48.0,
-      //padding: EdgeInsets.all(25.0),
+      padding: EdgeInsets.symmetric(horizontal: 5.0),
       //margin: EdgeInsets.symmetric(vertical: 5.0),
       height: 40.0,
       decoration: BoxDecoration(
@@ -1220,9 +1285,9 @@ Widget roomInput(String hintText, String textValue, Function update) {
           decoration: InputDecoration(
               border: InputBorder.none,
               hintText: hintText,
-              hintStyle: TextStyle(fontSize: 24, color: colorLetraSearch),
+              hintStyle: TextStyle(fontSize: 20, color: colorLetraSearch),
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0)),
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0)),
           onChanged: (valor) {
             // _opcionSeleccionada = null;
             // prefs.dispositivoSeleccionado = null;
@@ -1248,7 +1313,7 @@ Widget _deviceInput(String hintText, String textValue, Function update) {
 
   return Container(
       // width: _screenSize.width -48.0,
-      //padding: EdgeInsets.all(25.0),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(vertical: 5.0),
       decoration: BoxDecoration(
         border: Border.all(
@@ -1288,18 +1353,26 @@ void uploading(int i, songsCount, BuildContext context) {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-          content: Container(
-            height: 100.0,
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+          child: Container(
+            //height: 100.0,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(
+                  height: 50.0,
+                ),
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(colorMedico),
                 ),
                 Text(
                   'Uploading...$i of $songsCount',
                   style: TextStyle(fontSize: 20.0),
-                )
+                ),
+                SizedBox(
+                  height: 50.0,
+                ),
               ],
             ),
           ),
@@ -1426,7 +1499,7 @@ Widget textBoxForm(String content, BuildContext context) {
               //width: MediaQuery.of(context).size.width - 100,
               child: Text(
                 content,
-                style: TextStyle(color: colorLetraSearch, fontSize: 24),
+                style: TextStyle(color: colorLetraSearch, fontSize: 20),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -1454,14 +1527,14 @@ Widget searchBoxForm(String content, BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: 10.0,
+            width: 20.0,
           ),
           Expanded(
             child: Container(
               //width: MediaQuery.of(context).size.width - 100,
               child: Text(
                 content,
-                style: TextStyle(color: colorLetraSearch, fontSize: 24),
+                style: TextStyle(color: colorLetraSearch, fontSize: 20),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -1471,7 +1544,7 @@ Widget searchBoxForm(String content, BuildContext context) {
           ),
           searchIcon(20.0, colorMedico),
           SizedBox(
-            width: 5.0,
+            width: 20.0,
           ),
         ],
       )),
@@ -1490,28 +1563,30 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
   return Container(
     child: Container(
       height: 41.0,
-      width: MediaQuery.of(context).size.width,
+      //width: MediaQuery.of(context).size.width,
       child: Container(
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 10.0,
+            width: 20.0,
           ),
           Container(
-            width: MediaQuery.of(context).size.width - 100,
+            //width: MediaQuery.of(context).size.width - 100,
             child: Text(
               content,
-              style: TextStyle(color: colorLetraSearch, fontSize: 24),
+              style: TextStyle(color: colorLetraSearch, fontSize: 20),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SizedBox(
-            width: 5.0,
+          Expanded(
+            child: SizedBox(
+              width: 5.0,
+            ),
           ),
           searchIcon(20.0, colorMedico),
           SizedBox(
-            width: 5.0,
+            width: 20.0,
           ),
         ],
       )),
@@ -1571,10 +1646,10 @@ Widget makeRoomsListSimple(
               onTap: () {
                 showDialog(
                   barrierDismissible: true,
-                  child: AlertDialog(
-                    scrollable: true,
-                    contentPadding: EdgeInsets.all(0.0),
-                    content: threeIconCardDialog(
+                  child: Dialog(
+                    //scrollable: true,
+                    insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+                    child: threeIconCardDialog(
                         _rooms[index],
                         roomIcon(40.0),
                         editIcon(40.0, colorMedico),
@@ -1587,6 +1662,76 @@ Widget makeRoomsListSimple(
               child: threeIconCardSimple(
                   _rooms[index],
                   roomStatus[index],
+                  editIcon(40.0, colorMedico),
+                  deleteIcon(40.0, colorMedico),
+                  _context),
+            ),
+            //Divider(),
+          ],
+        );
+      });
+}
+
+Widget makeRoomsListSimpleNoStatus(
+    List<Room> _rooms, List<Device> devices, BuildContext _context) {
+  BuildContext listContext = _context;
+  List<int> roomStatus = [];
+  return ListView.builder(
+      //controller: _scrollController,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: (_rooms.length),
+      itemBuilder: (context, int index) {
+        BuildContext itemContext = listContext;
+        print(index);
+        if (index == 0) {
+          roomStatus.clear();
+        }
+        if (devices.length > 0) {
+          print('devices:${devices.length}');
+          int _roomStatus = 0;
+          devices.forEach((element) {
+            if (element.chipId == _rooms[index].readerId) {
+              {
+                _roomStatus = 1;
+              }
+            }
+          });
+          if (_roomStatus == 1) {
+            devices.forEach((element) {
+              if (element.chipId == _rooms[index].speakerId) {
+                _roomStatus = 1;
+              }
+            });
+          }
+          roomStatus.insert(index, _roomStatus);
+        } else {
+          roomStatus.insert(index, 2);
+        }
+        print(roomStatus);
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  barrierDismissible: true,
+                  child: Dialog(
+                    //scrollable: true,
+                    insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+                    child: threeIconCardDialog(
+                        _rooms[index],
+                        roomIcon(40.0),
+                        editIcon(40.0, colorMedico),
+                        deleteIcon(40.0, colorMedico),
+                        _context),
+                  ),
+                  context: _context,
+                );
+              },
+              child: threeIconCardSimpleNoStatus(
+                  _rooms[index],
                   editIcon(40.0, colorMedico),
                   deleteIcon(40.0, colorMedico),
                   _context),
@@ -1653,6 +1798,164 @@ Widget statusIcon(double size, int status) {
   );
 }
 
+Widget threeIconCardSimpleNoStatus(
+    Room room, Widget editIcon, Widget deleteIcon, BuildContext _context) {
+  Widget icon = Center(
+    child: Column(
+      children: [
+        Center(child: circularProgressSimple()),
+      ],
+    ),
+  );
+
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Container(
+      //width: MediaQuery.of(_context).size.width - 30,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  room.roomName,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    BuildContext dialogContext;
+                    showDialog(
+                        context: _context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          dialogContext = _context;
+                          return Container(
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: Dialog(
+                              //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Container(
+                                    width: double.infinity,
+                                    height: 30.0,
+                                    color: colorMedico,
+                                    child: Center(
+                                        child: Text(
+                                      'Delete the room?',
+                                      style: TextStyle(
+                                          fontSize: 20.0, color: Colors.white),
+                                    )),
+                                  ),
+                                  Container(
+                                    //height: 40.0,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                        Text(room.roomName,
+                                            style: TextStyle(fontSize: 20.0)),
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                height: 40.0,
+                                                child: submitButton('Delete',
+                                                    () async {
+                                                  print('deleting');
+                                                  Navigator.of(dialogContext)
+                                                      .pop();
+                                                  updating(context, 'Deleting');
+                                                  //print(upSong.toJson());
+                                                  final resp =
+                                                      await ServerDataBloc()
+                                                          .deleteRoom(room);
+                                                  await Future.delayed(
+                                                      Duration(seconds: 1));
+                                                  if (resp) {
+                                                    print('deleted');
+                                                    Navigator.of(
+                                                            _updatingContext)
+                                                        .pop();
+                                                    updated(dialogContext,
+                                                        'Room deleted');
+                                                  } else {
+                                                    print('error');
+                                                    Navigator.of(
+                                                            _updatingContext)
+                                                        .pop();
+                                                    errorPopUp(
+                                                        dialogContext, 'Error');
+                                                  }
+                                                }),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  child: deleteIcon),
+              SizedBox(
+                width: 10.0,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    ServerDataBloc().roomToModify(room);
+                    ServerDataBloc().loadingEdit();
+                    ServerDataBloc().requestDevices();
+                    Navigator.of(_context).pushNamed('editRoomsPage');
+                  },
+                  child: editIcon),
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+        ]),
+      ),
+    ),
+  );
+
+  // Container(
+  //   child: Center(child: Text(room.roomName)),
+  // );
+}
+
 Widget threeIconCardSimple(Room room, int status, Widget editIcon,
     Widget deleteIcon, BuildContext _context) {
   Widget icon = Center(
@@ -1669,7 +1972,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
     elevation: 5.0,
     color: Colors.white,
     child: Container(
-      width: MediaQuery.of(_context).size.width - 30,
+      //width: MediaQuery.of(_context).size.width - 30,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1723,16 +2026,16 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                                   Container(
                                     //height: 40.0,
                                     margin:
-                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                        EdgeInsets.symmetric(horizontal: 20.0),
                                     child: Column(
                                       children: <Widget>[
                                         SizedBox(
-                                          height: 10.0,
+                                          height: 20.0,
                                         ),
                                         Text(room.roomName,
                                             style: TextStyle(fontSize: 20.0)),
                                         SizedBox(
-                                          height: 10.0,
+                                          height: 20.0,
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -1776,7 +2079,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 10.0,
+                                          height: 20.0,
                                         ),
                                       ],
                                     ),
@@ -1885,7 +2188,7 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                       builder: (BuildContext context) {
                         dialogContext = _context;
                         return Container(
-                          width: MediaQuery.of(context).size.width - 20,
+                          //width: MediaQuery.of(context).size.width - 20,
                           child: Dialog(
                             //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
                             child: Column(
@@ -1906,16 +2209,16 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                                 ),
                                 Container(
                                   margin:
-                                      EdgeInsets.symmetric(horizontal: 10.0),
+                                      EdgeInsets.symmetric(horizontal: 20.0),
                                   child: Column(
                                     children: <Widget>[
                                       SizedBox(
-                                        height: 10.0,
+                                        height: 20.0,
                                       ),
                                       Text(room.roomName,
                                           style: TextStyle(fontSize: 20.0)),
                                       SizedBox(
-                                        height: 10.0,
+                                        height: 20.0,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -1923,30 +2226,41 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          submitButton('Delete', () async {
-                                            print('deleting');
-                                            Navigator.of(dialogContext).pop();
-                                            updating(context, 'Deleting');
-                                            //print(upSong.toJson());
-                                            final resp = await ServerDataBloc()
-                                                .deleteRoom(room);
-                                            await Future.delayed(
-                                                Duration(seconds: 1));
-                                            if (resp) {
-                                              print('deleted');
-                                              Navigator.of(_updatingContext)
-                                                  .pop();
-                                              updated(dialogContext,
-                                                  'Room deleted');
-                                            } else {
-                                              print('error');
-                                              Navigator.of(_updatingContext)
-                                                  .pop();
-                                              errorPopUp(
-                                                  dialogContext, 'Error');
-                                            }
-                                          }),
+                                          Expanded(
+                                            child: Container(
+                                              height: 40.0,
+                                              child: submitButton('Delete',
+                                                  () async {
+                                                print('deleting');
+                                                Navigator.of(dialogContext)
+                                                    .pop();
+                                                updating(context, 'Deleting');
+                                                //print(upSong.toJson());
+                                                final resp =
+                                                    await ServerDataBloc()
+                                                        .deleteRoom(room);
+                                                await Future.delayed(
+                                                    Duration(seconds: 1));
+                                                if (resp) {
+                                                  print('deleted');
+                                                  Navigator.of(_updatingContext)
+                                                      .pop();
+                                                  updated(dialogContext,
+                                                      'Room deleted');
+                                                } else {
+                                                  print('error');
+                                                  Navigator.of(_updatingContext)
+                                                      .pop();
+                                                  errorPopUp(
+                                                      dialogContext, 'Error');
+                                                }
+                                              }),
+                                            ),
+                                          ),
                                         ],
+                                      ),
+                                      SizedBox(
+                                        height: 20.0,
                                       ),
                                     ],
                                   ),
@@ -2071,16 +2385,16 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                   ),
                                   Container(
                                     margin:
-                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                        EdgeInsets.symmetric(horizontal: 20.0),
                                     child: Column(
                                       children: <Widget>[
                                         SizedBox(
-                                          height: 10.0,
+                                          height: 20.0,
                                         ),
                                         Text(room.roomName,
                                             style: TextStyle(fontSize: 20.0)),
                                         SizedBox(
-                                          height: 10.0,
+                                          height: 20.0,
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -2088,31 +2402,43 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            submitButton('Delete', () async {
-                                              print('deleting');
-                                              Navigator.of(dialogContext).pop();
-                                              updating(context, 'Deleting');
-                                              //print(upSong.toJson());
-                                              final resp =
-                                                  await ServerDataBloc()
-                                                      .deleteRoom(room);
-                                              await Future.delayed(
-                                                  Duration(seconds: 1));
-                                              if (resp) {
-                                                print('deleted');
-                                                Navigator.of(_updatingContext)
-                                                    .pop();
-                                                updated(dialogContext,
-                                                    'Room deleted');
-                                              } else {
-                                                print('error');
-                                                Navigator.of(_updatingContext)
-                                                    .pop();
-                                                errorPopUp(
-                                                    dialogContext, 'Error');
-                                              }
-                                            }),
+                                            Expanded(
+                                              child: Container(
+                                                height: 40.0,
+                                                child: submitButton('Delete',
+                                                    () async {
+                                                  print('deleting');
+                                                  Navigator.of(dialogContext)
+                                                      .pop();
+                                                  updating(context, 'Deleting');
+                                                  //print(upSong.toJson());
+                                                  final resp =
+                                                      await ServerDataBloc()
+                                                          .deleteRoom(room);
+                                                  await Future.delayed(
+                                                      Duration(seconds: 1));
+                                                  if (resp) {
+                                                    print('deleted');
+                                                    Navigator.of(
+                                                            _updatingContext)
+                                                        .pop();
+                                                    updated(dialogContext,
+                                                        'Room deleted');
+                                                  } else {
+                                                    print('error');
+                                                    Navigator.of(
+                                                            _updatingContext)
+                                                        .pop();
+                                                    errorPopUp(
+                                                        dialogContext, 'Error');
+                                                  }
+                                                }),
+                                              ),
+                                            ),
                                           ],
+                                        ),
+                                        SizedBox(
+                                          height: 20.0,
                                         ),
                                       ],
                                     ),

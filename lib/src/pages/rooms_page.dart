@@ -77,17 +77,25 @@ class _RoomsPageState extends State<RoomsPage> {
                         height: 10.0,
                       ),
                       Center(
-                        child: Container(
-                            height: 70.0,
-                            //width: MediaQuery.of(context).size.width - 40,
-                            child: Container(
-                                child: GestureDetector(
-                              onTap: () {
-                                print('add room');
-                                Navigator.of(context).pushNamed('addRoomsPage');
-                              },
-                              child: addRoomIcon(50.0, colorMedico),
-                            ))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Container(
+                                  height: 80.0,
+                                  width: MediaQuery.of(context).size.width - 5,
+                                  child: Container(
+                                      child: GestureDetector(
+                                    onTap: () {
+                                      print('add room');
+                                      Navigator.of(context)
+                                          .pushNamed('addRoomsPage');
+                                    },
+                                    child: addRoomIcon(50.0, colorMedico),
+                                  ))),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 10.0,
@@ -110,7 +118,7 @@ class _RoomsPageState extends State<RoomsPage> {
                               } else {
                                 _rooms = snapshot.data;
                                 return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 8.0),
+                                  margin: EdgeInsets.symmetric(horizontal: 1.0),
                                   child: Column(
                                     children: [
                                       GestureDetector(

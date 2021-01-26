@@ -114,7 +114,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
               height: 5.0,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              //padding: EdgeInsets.symmetric(horizontal: 15.0),
+              margin: EdgeInsets.symmetric(horizontal: 3),
               child: Column(
                 children: <Widget>[
                   GestureDetector(
@@ -128,7 +129,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
                       //width: MediaQuery.of(context).size.width - 52.0,
                       child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10.0),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
                           //expanded
                           child: Row(
                             children: [
@@ -241,13 +242,13 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                                           margin: EdgeInsets
                                                               .symmetric(
                                                                   horizontal:
-                                                                      15.0),
+                                                                      3.0),
                                                           height: 40.0,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width -
-                                                              30,
+                                                          // width: MediaQuery.of(
+                                                          //             context)
+                                                          //         .size
+                                                          //         .width -
+                                                          //     30,
                                                           child: Container(
                                                             child: RaisedButton(
                                                                 child: Text(
@@ -331,12 +332,18 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           context: context,
           barrierDismissible: false,
           builder: (context) {
-            return AlertDialog(
-              scrollable: true,
-              content: Container(
+            return Dialog(
+              insetPadding: EdgeInsets.all(28.0),
+              //scrollable: true,
+
+              child: Container(
                 //height: 80.0,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     Icon(
                       Icons.check,
                       size: 50.0,
@@ -352,19 +359,25 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 50.0,
-                            child: submitButton('OK', () {
-                              Navigator.pop(context);
-                              Navigator.pushReplacementNamed(
-                                  context, 'addSongsPage');
-                            }),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50.0,
+                              child: submitButton('OK', () {
+                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(
+                                    context, 'addSongsPage');
+                              }),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
                     ),
                   ],
                 ),

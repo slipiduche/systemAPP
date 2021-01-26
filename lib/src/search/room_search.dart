@@ -7,6 +7,7 @@ import 'package:systemAPP/src/widgets/widgets.dart';
 class RoomSearchDelegate extends SearchDelegate {
   RoomSearchDelegate(this.rooms);
   List<Room> rooms;
+
   final roomService = RoomService();
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -27,6 +28,10 @@ class RoomSearchDelegate extends SearchDelegate {
           color: colorMedico,
         ),
         onPressed: () {
+          final FocusScopeNode focus = FocusScope.of(context);
+          if (!focus.hasPrimaryFocus && focus.hasFocus) {
+            FocusManager.instance.primaryFocus.unfocus();
+          }
           Navigator.of(context).pop();
         });
   }
@@ -68,7 +73,7 @@ class RoomSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Room>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makeRoomsList(snapshot.data, context);
+            return makeRoomsListSimpleNoStatus(snapshot.data, [], context);
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
