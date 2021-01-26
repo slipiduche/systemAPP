@@ -12,7 +12,10 @@ Widget homeIcon(double size, Color color) {
 
 Widget homeBarIcon(double size) {
   return Image(
-    image: AssetImage('assets/homebar.png'),
+    
+    image: AssetImage(
+      'assets/homebar.png',
+    ),
     width: size,
     height: size,
   );
@@ -20,9 +23,11 @@ Widget homeBarIcon(double size) {
 
 Widget homeBarIconS(double size) {
   return Image(
-    image: AssetImage('assets/homeBarIconS.png'),
+    fit: BoxFit.contain,
+    image: AssetImage('assets/home.png'),
     width: size,
     height: size,
+    color: colorMedico,
   );
 }
 
@@ -44,7 +49,7 @@ Widget musicBarIcon(double size) {
 
 Widget musicBarIconS(double size) {
   return Image(
-    image: AssetImage('assets/musicbarS.png'),
+    image: AssetImage('assets/music.png'),
     width: size,
     height: size,
   );
@@ -91,7 +96,7 @@ Widget tagBarIcon(double size) {
 
 Widget tagBarIconS(double size) {
   return Image(
-    image: AssetImage('assets/tagbarS.png'),
+    image: AssetImage('assets/tag.png'),
     width: size,
     height: size,
   );

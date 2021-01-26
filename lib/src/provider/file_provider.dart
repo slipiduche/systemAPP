@@ -114,6 +114,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
               height: 5.0,
             ),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
                 children: <Widget>[
                   GestureDetector(
@@ -124,25 +125,27 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                     },
                     child: Container(
                       height: 41.0,
-                      width: MediaQuery.of(context).size.width - 52.0,
+
+                      //width: MediaQuery.of(context).size.width - 52.0,
                       child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10.0),
                           //expanded
                           child: Row(
-                        children: [
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          searchIcon(20.0, colorMedico),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Text(
-                            _text2,
-                            style: TextStyle(
-                                color: colorLetraSearch, fontSize: 24),
-                          ),
-                        ],
-                      )),
+                            children: [
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              searchIcon(20.0, colorMedico),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                _text2,
+                                style: TextStyle(
+                                    color: colorLetraSearch, fontSize: 24),
+                              ),
+                            ],
+                          )),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
                           color: Colors.white,
@@ -158,132 +161,147 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
             SizedBox(
               height: 5.0,
             ),
-            Builder(
-              builder: (BuildContext context) => _loadingPath
-                  ? Column(
-                      children: [
-                        Container(
-                          //padding: const EdgeInsets.only(bottom: 10.0),
-                          child: const CircularProgressIndicator(),
-                        ),
-                        Expanded(child: Container()),
-                      ],
-                    )
-                  : _directoryPath != null
-                      ? ListTile(
-                          title: Text('Directory path'),
-                          subtitle: Text(_directoryPath),
-                        )
-                      : _paths != null
-                          ? Expanded(
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                controller: controller,
-                                child: Builder(
-                                  builder: (BuildContext context) {
-                                    final itemCount =
-                                        _paths != null && _paths.isNotEmpty
-                                            ? _paths.length
-                                            : 1;
-                                    final bool isMultiPath =
-                                        _paths != null && _paths.isNotEmpty;
-                                    List<Widget> column = [Container()];
+            Expanded(
+              child: Builder(
+                builder: (BuildContext context) => _loadingPath
+                    ? Column(
+                        children: [
+                          Container(
+                            //padding: const EdgeInsets.only(bottom: 10.0),
+                            child: const CircularProgressIndicator(),
+                          ),
+                          Expanded(child: Container()),
+                        ],
+                      )
+                    : _directoryPath != null
+                        ? ListTile(
+                            title: Text('Directory path'),
+                            subtitle: Text(_directoryPath),
+                          )
+                        : _paths != null
+                            ? Column(
+                                children: [
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      controller: controller,
+                                      child: Builder(
+                                        builder: (BuildContext context) {
+                                          final itemCount = _paths != null &&
+                                                  _paths.isNotEmpty
+                                              ? _paths.length
+                                              : 1;
+                                          final bool isMultiPath =
+                                              _paths != null &&
+                                                  _paths.isNotEmpty;
+                                          List<Widget> column = [Container()];
 
-                                    for (var i = 0; i < itemCount; i++) {
-                                      final path = _paths
-                                          .map((e) => e.path)
-                                          .toList()[i]
-                                          .toString();
-                                      final _selected = i;
-                                      MP3Instance id3 =
-                                          MP3Instance(_paths[i].path);
-                                      String author =
-                                          id3.getMetaTags()['Artist'];
-                                      print(id3.getMetaTags());
-                                      print(author);
-                                      if (author == null) {
-                                        author = "Unknown";
-                                      }
-                                      print(author);
-                                      if (_multiPick == false) {
-                                        print('dibujar icono');
-                                        column.add(TwoIconCard(
-                                            _paths[i].name,
-                                            author,
-                                            songIcon(40.0, colorMedico),
-                                            uploadIcon(40.0, colorMedico),
-                                            path,
-                                            context,
-                                            _paths[i].name));
-                                      } else {
-                                        print('dejar vacío');
-                                        column.add(TwoIconCard(
-                                            _paths[i].name,
-                                            author,
-                                            songIcon(40.0, colorMedico),
-                                            false,
-                                            path,
-                                            context,
-                                            _paths[i].name));
-                                        if (i == (itemCount - 1)) {
-                                          column.add(GestureDetector(
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    margin: EdgeInsets.symmetric(horizontal: 15.0),
-                                                    height: 40.0,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            30,
-                                                    child: Container(
-                                                      child: RaisedButton(
-                                                          child: Text(
-                                                            'Upload',
-                                                            style: TextStyle(
-                                                                fontSize: 22.0,
-                                                                color: Colors
-                                                                    .white),
+                                          for (var i = 0; i < itemCount; i++) {
+                                            final path = _paths
+                                                .map((e) => e.path)
+                                                .toList()[i]
+                                                .toString();
+                                            final _selected = i;
+                                            MP3Instance id3 =
+                                                MP3Instance(_paths[i].path);
+                                            String author;
+                                            //     id3.getMetaTags()['Artist'];
+                                            // print(id3.getMetaTags());
+                                            // print(author);
+                                            if (author == null) {
+                                              author = "Unknown";
+                                            }
+                                            print(author);
+                                            if (_multiPick == false) {
+                                              print('dibujar icono');
+                                              column.add(TwoIconCard(
+                                                  _paths[i].name,
+                                                  author,
+                                                  songIcon(40.0, colorMedico),
+                                                  uploadIcon(40.0, colorMedico),
+                                                  path,
+                                                  context,
+                                                  _paths[i].name));
+                                            } else {
+                                              print('dejar vacío');
+                                              column.add(TwoIconCard(
+                                                  _paths[i].name,
+                                                  author,
+                                                  songIcon(40.0, colorMedico),
+                                                  false,
+                                                  path,
+                                                  context,
+                                                  _paths[i].name));
+                                              if (i == (itemCount - 1)) {
+                                                column.add(GestureDetector(
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      15.0),
+                                                          height: 40.0,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width -
+                                                              30,
+                                                          child: Container(
+                                                            child: RaisedButton(
+                                                                child: Text(
+                                                                  'Upload',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          22.0,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0),
+                                                                    side: BorderSide(
+                                                                        color:
+                                                                            colorMedico)),
+                                                                elevation: 4.0,
+                                                                color:
+                                                                    colorMedico,
+                                                                onPressed: () =>
+                                                                    sendSongs(
+                                                                        itemCount)),
                                                           ),
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                              side: BorderSide(
-                                                                  color:
-                                                                      colorMedico)),
-                                                          elevation: 4.0,
-                                                          color: colorMedico,
-                                                          onPressed: () =>
-                                                              sendSongs(
-                                                                  itemCount)),
-                                                    ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ));
-                                          column.add(SizedBox(
-                                            height: 20.0,
-                                          ));
-                                          print(itemCount);
+                                                ));
+                                                column.add(SizedBox(
+                                                  height: 20.0,
+                                                ));
+                                                print(itemCount);
 
-                                          autoScroll(itemCount * 1.0);
-                                        }
-                                      }
-                                    }
+                                                autoScroll(itemCount * 1.0);
+                                              }
+                                            }
+                                          }
 
-                                    return Column(
-                                      children: column,
-                                    );
-                                  },
-                                ),
+                                          return Column(
+                                            children: column,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  Expanded(child: const SizedBox()),
+                                ],
                               ),
-                            )
-                          : Expanded(child: const SizedBox()),
+              ),
             ),
           ],
         ),
@@ -314,8 +332,9 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           barrierDismissible: false,
           builder: (context) {
             return AlertDialog(
+              scrollable: true,
               content: Container(
-                height: 80.0,
+                //height: 80.0,
                 child: Column(
                   children: <Widget>[
                     Icon(
@@ -323,31 +342,37 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                       size: 50.0,
                       color: colorMedico,
                     ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     Text(
                       'Uploaded...$songsCount of $songsCount',
                       style: TextStyle(fontSize: 20.0),
                     ),
-                  ],
-                ),
-              ),
-              actionsPadding: EdgeInsets.symmetric(horizontal: 100.0),
-              actions: <Widget>[
-                Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: submitButton('OK', () {
-                          Navigator.pop(context);
-                          Navigator.pushReplacementNamed(
-                              context, 'addSongsPage');
-                        }),
-                      ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50.0,
+                            child: submitButton('OK', () {
+                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                  context, 'addSongsPage');
+                            }),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             );
           });
+    } else {
+      errorPopUp(context, 'Songs not uploaded');
     }
   }
 }

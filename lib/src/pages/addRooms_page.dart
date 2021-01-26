@@ -172,13 +172,19 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   },
                 )),
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             ),
             Center(
-                child: submitButton('Done', () {
-              _action(_roomName, _speakerId, _readerId, _speakerName,
-                  _readerName, context);
-            })),
+                child: Container(
+              height: 40.0,
+              child: submitButton('Done', () {
+                _action(_roomName, _speakerId, _readerId, _speakerName,
+                    _readerName, context);
+              }),
+            )),
+            SizedBox(
+              height: 10.0,
+            ),
           ],
         ),
       ),

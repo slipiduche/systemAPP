@@ -188,13 +188,19 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                   },
                 )),
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             ),
             Center(
-                child: submitButton('Edit', () {
-              _action(_roomName, _speakerId, _readerId, room.id.toString(),
-                  context);
-            })),
+                child: Container(
+              height: 40.0,
+              child: submitButton('Edit', () {
+                _action(_roomName, _speakerId, _readerId, room.id.toString(),
+                    context);
+              }),
+            )),
+            SizedBox(
+              height: 10.0,
+            ),
           ],
         ),
       ),

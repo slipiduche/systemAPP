@@ -93,7 +93,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                     SizedBox(
                                       width: 10.0,
                                     ),
-                                    musicBarIconS(40.0),
+                                    musicIcon(40.0, colorMedico),
                                     SizedBox(
                                       width: 10.0,
                                     ),
@@ -107,7 +107,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   snapshot.data.songName,
@@ -223,6 +223,8 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<Music> snapshot) {
                                     return Container(
+                                      padding: EdgeInsets.symmetric(horizontal:10.0),
+                                      height: 40.0,
                                       child: submitButton('Change', () {
                                         if (snapshot.hasData) {
                                           _action(snapshot.data, context);
@@ -231,7 +233,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                     );
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: 20.0),
                               ],
                             ),
                           )

@@ -196,10 +196,14 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: submitButton('Delete', () {
-                                            _action(snapshot.data.id.toString(),
-                                                context);
-                                          }),
+                                          child: Container(
+                                            height: 40.0,
+                                            child: submitButton('Delete', () {
+                                              _action(
+                                                  snapshot.data.id.toString(),
+                                                  context);
+                                            }),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -209,10 +213,14 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: submitButton('Delete', () {
-                                            _action(snapshot.data.id.toString(),
-                                                context);
-                                          }),
+                                          child: Container(
+                                            height: 40.0,
+                                            child: submitButton('Delete', () {
+                                              _action(
+                                                  snapshot.data.id.toString(),
+                                                  context);
+                                            }),
+                                          ),
                                         ),
                                       ],
                                     ),

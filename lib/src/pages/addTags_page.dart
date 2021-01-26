@@ -209,9 +209,12 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                       child: Row(
                                     children: [
                                       Expanded(
-                                        child: submitButton('Done', () {
-                                          _action(tag, songId, context);
-                                        }),
+                                        child: Container(
+                                          height: 40.0,
+                                          child: submitButton('Done', () {
+                                            _action(tag, songId, context);
+                                          }),
+                                        ),
                                       ),
                                     ],
                                   ));
@@ -220,9 +223,12 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: submitButton('Done', () {
-                                            _action(tag, songId, context);
-                                          }),
+                                          child: Container(
+                                            height: 40.0,
+                                            child: submitButton('Done', () {
+                                              _action(tag, songId, context);
+                                            }),
+                                          ),
                                         ),
                                       ],
                                     ),

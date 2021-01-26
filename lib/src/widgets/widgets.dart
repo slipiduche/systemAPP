@@ -796,7 +796,9 @@ void deleting(Music song, BuildContext _context) {
                       ),
                       Text(
                           song.songName +
-                              '. The tag associated with this song will be deleted',
+                              '.' +
+                              '\n\n' +
+                              ' The tag associated with this song will be deleted',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20.0)),
                       SizedBox(
@@ -841,7 +843,7 @@ void deleting(Music song, BuildContext _context) {
                         ],
                       ),
                       SizedBox(
-                        height: 5.0,
+                        height: 30.0,
                       ),
                     ],
                   ),
@@ -1167,6 +1169,10 @@ void errorPopUp(BuildContext _context, String message) {
                             ServerDataBloc().serverConnect('SERVER/AUTHORIZE',
                                 'SERVER/RESPONSE', 'SERVER/INFO');
                             ServerDataBloc().initRadioService();
+                          } else if (message == "Songs not uploaded") {
+                            Navigator.of(_context).pop();
+                            Navigator.pushReplacementNamed(
+                                context, 'addSongsPage');
                           } else {
                             Navigator.of(_context).pop();
                             Navigator.pushReplacementNamed(
@@ -1360,7 +1366,7 @@ class _BottomBarState extends State<BottomBar> {
         BottomNavigationBarItem(
             icon: homeBarIcon(25),
             title: Container(),
-            activeIcon: homeBarIconS(25)),
+            activeIcon: homeBarIconS(30)),
         BottomNavigationBarItem(
             icon: roomBarIcon(25),
             title: Container(),
@@ -1677,7 +1683,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                   room.roomName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 28.0,
+                    fontSize: 25.0,
                   ),
                   textAlign: TextAlign.start,
                 ),
@@ -1715,6 +1721,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                                     )),
                                   ),
                                   Container(
+                                    //height: 40.0,
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 10.0),
                                     child: Column(
@@ -1733,31 +1740,43 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            submitButton('Delete', () async {
-                                              print('deleting');
-                                              Navigator.of(dialogContext).pop();
-                                              updating(context, 'Deleting');
-                                              //print(upSong.toJson());
-                                              final resp =
-                                                  await ServerDataBloc()
-                                                      .deleteRoom(room);
-                                              await Future.delayed(
-                                                  Duration(seconds: 1));
-                                              if (resp) {
-                                                print('deleted');
-                                                Navigator.of(_updatingContext)
-                                                    .pop();
-                                                updated(dialogContext,
-                                                    'Room deleted');
-                                              } else {
-                                                print('error');
-                                                Navigator.of(_updatingContext)
-                                                    .pop();
-                                                errorPopUp(
-                                                    dialogContext, 'Error');
-                                              }
-                                            }),
+                                            Expanded(
+                                              child: Container(
+                                                height: 40.0,
+                                                child: submitButton('Delete',
+                                                    () async {
+                                                  print('deleting');
+                                                  Navigator.of(dialogContext)
+                                                      .pop();
+                                                  updating(context, 'Deleting');
+                                                  //print(upSong.toJson());
+                                                  final resp =
+                                                      await ServerDataBloc()
+                                                          .deleteRoom(room);
+                                                  await Future.delayed(
+                                                      Duration(seconds: 1));
+                                                  if (resp) {
+                                                    print('deleted');
+                                                    Navigator.of(
+                                                            _updatingContext)
+                                                        .pop();
+                                                    updated(dialogContext,
+                                                        'Room deleted');
+                                                  } else {
+                                                    print('error');
+                                                    Navigator.of(
+                                                            _updatingContext)
+                                                        .pop();
+                                                    errorPopUp(
+                                                        dialogContext, 'Error');
+                                                  }
+                                                }),
+                                              ),
+                                            ),
                                           ],
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
                                         ),
                                       ],
                                     ),

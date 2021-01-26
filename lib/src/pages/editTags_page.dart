@@ -207,12 +207,15 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: submitButton('Edit', () {
-                                            _action(
-                                                songId,
-                                                snapshot.data.id.toString(),
-                                                context);
-                                          }),
+                                          child: Container(
+                                            height: 40.0,
+                                            child: submitButton('Edit', () {
+                                              _action(
+                                                  songId,
+                                                  snapshot.data.id.toString(),
+                                                  context);
+                                            }),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -222,12 +225,15 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: submitButton('Edit', () {
-                                            _action(
-                                                songId,
-                                                snapshot.data.id.toString(),
-                                                context);
-                                          }),
+                                          child: Container(
+                                            height: 40.0,
+                                            child: submitButton('Edit', () {
+                                              _action(
+                                                  songId,
+                                                  snapshot.data.id.toString(),
+                                                  context);
+                                            }),
+                                          ),
                                         ),
                                       ],
                                     ),
