@@ -59,7 +59,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                         //Scan the tag  you want to Delete using your register device
                         SizedBox(height: 15.0),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10.0),
+                          margin: EdgeInsets.symmetric(horizontal: 3.0),
                           child: Text(
                             'Scan your tag using your register device',
                             style: TextStyle(
@@ -71,7 +71,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                         ),
                         SizedBox(height: 25.0),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 25.0),
+                          margin: EdgeInsets.symmetric(horizontal: 3.0),
                           alignment: Alignment.topLeft,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
