@@ -1649,12 +1649,23 @@ Widget makeRoomsListSimple(
                   child: Dialog(
                     //scrollable: true,
                     insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
-                    child: threeIconCardDialog(
-                        _rooms[index],
-                        roomIcon(40.0),
-                        editIcon(40.0, colorMedico),
-                        deleteIcon(40.0, colorMedico),
-                        _context),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        threeIconCardDialog(
+                            _rooms[index],
+                            roomIcon(40.0),
+                            editIcon(40.0, colorMedico),
+                            deleteIcon(40.0, colorMedico),
+                            _context),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                      ],
+                    ),
                   ),
                   context: _context,
                 );
@@ -1720,12 +1731,23 @@ Widget makeRoomsListSimpleNoStatus(
                   child: Dialog(
                     //scrollable: true,
                     insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
-                    child: threeIconCardDialog(
-                        _rooms[index],
-                        roomIcon(40.0),
-                        editIcon(40.0, colorMedico),
-                        deleteIcon(40.0, colorMedico),
-                        _context),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        threeIconCardDialog(
+                            _rooms[index],
+                            roomIcon(40.0),
+                            editIcon(40.0, colorMedico),
+                            deleteIcon(40.0, colorMedico),
+                            _context),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                      ],
+                    ),
                   ),
                   context: _context,
                 );
@@ -1939,7 +1961,8 @@ Widget threeIconCardSimpleNoStatus(
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(_context).pushReplacementNamed('editRoomsPage');
+                    Navigator.of(_context)
+                        .pushReplacementNamed('editRoomsPage');
                   },
                   child: editIcon),
             ],
@@ -2101,7 +2124,8 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(_context).pushReplacementNamed('editRoomsPage');
+                    Navigator.of(_context)
+                        .pushReplacementNamed('editRoomsPage');
                   },
                   child: editIcon),
             ],
@@ -2462,7 +2486,8 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                     ServerDataBloc().roomToModify(room);
                     ServerDataBloc().loadingEdit();
                     ServerDataBloc().requestDevices();
-                    Navigator.of(_context).pushReplacementNamed('editRoomsPage');
+                    Navigator.of(_context)
+                        .pushReplacementNamed('editRoomsPage');
                   },
                   child: editIcon),
               SizedBox(
