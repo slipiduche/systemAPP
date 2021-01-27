@@ -17,7 +17,15 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
   ServerDataBloc serverDataBloc = ServerDataBloc();
   bool tagHere = false, songHere = false;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    serverDataBloc.deleteData();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    tagHere = false;
     return WillPopScope(
       onWillPop: () {
         serverDataBloc.deleteData();
@@ -246,7 +254,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                   ),
                 ),
                 Expanded(child: Container()),
-                SizedBox(height:5.0),
+                SizedBox(height: 5.0),
                 gradientBar2(3),
               ],
             ),

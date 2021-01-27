@@ -16,7 +16,15 @@ class _EditTagsPageState extends State<EditTagsPage> {
   bool tagHere = false, songHere = false;
   String tag = '', songId = '', tagId = '';
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    serverDataBloc.deleteData();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    tagHere = false;
     return WillPopScope(
       onWillPop: () {
         serverDataBloc.deleteData();

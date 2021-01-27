@@ -16,7 +16,15 @@ class _AddTagsPageState extends State<AddTagsPage> {
   bool tagHere = false, songHere = false;
   String tag = '', songId = '';
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    serverDataBloc.deleteData();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    tagHere = false;
     return WillPopScope(
       onWillPop: () {
         serverDataBloc.deleteData();
@@ -252,7 +260,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                   ),
                 ),
                 Expanded(child: Container()),
-                SizedBox(height:5.0),
+                SizedBox(height: 5.0),
                 gradientBar2(3),
               ],
             ),
