@@ -107,6 +107,7 @@ class _DeleteSongPageState extends State<DeleteSongPage> {
                   ),
                 ),
               ),
+              SizedBox(height:5.0),
               gradientBar2(2),
             ],
           ),

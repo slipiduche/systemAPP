@@ -80,10 +80,11 @@ class _RoomsPageState extends State<RoomsPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Center(
+                            Expanded(
                               child: Container(
                                   height: 80.0,
-                                  width: MediaQuery.of(context).size.width - 5,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  //width: MediaQuery.of(context).size.width - 5,
                                   child: Container(
                                       child: GestureDetector(
                                     onTap: () {
@@ -101,98 +102,108 @@ class _RoomsPageState extends State<RoomsPage> {
                         height: 10.0,
                       ),
                       Expanded(
-                        child: StreamBuilder(
-                          stream: serverDataBloc.serverRoomsStream,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<Room>> snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data.length < 1) {
-                                return Column(
-                                  children: <Widget>[
-                                    Text(
-                                      'No rooms configured',
-                                      style: TextStyle(fontSize: 30),
+                        child: Container(
+                          
+                          child: StreamBuilder(
+                            stream: serverDataBloc.serverRoomsStream,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<List<Room>> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data.length < 1) {
+                                  return Column(
+                                    children: <Widget>[
+                                      Text(
+                                        'No rooms configured',
+                                        style: TextStyle(fontSize: 30),
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  _rooms = snapshot.data;
+                                  return Container(
+                                    // margin:
+                                    //     EdgeInsets.symmetric(horizontal: 1.0),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(horizontal: 24),
+                                          child: GestureDetector(
+                                              onTap: () {
+                                                if (_rooms.length > 0) {
+                                                  showSearch(
+                                                      context: context,
+                                                      delegate:
+                                                          RoomSearchDelegate(
+                                                              _rooms));
+                                                } else {}
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 2.5),
+                                                child: searchBoxForm(
+                                                    'Search for a room', context),
+                                              )),
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Expanded(
+                                            child: StreamBuilder<List<Device>>(
+                                                stream: serverDataBloc
+                                                    .serverDevicesStream,
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return makeRoomsListSimple(
+                                                        _rooms,
+                                                        snapshot.data,
+                                                        _scaffoldKey
+                                                            .currentContext);
+                                                  } else {
+                                                    serverDataBloc
+                                                        .requestDevices();
+                                                    serverDataBloc
+                                                        .bindLoading();
+                                                    return makeRoomsListSimple(
+                                                        _rooms,
+                                                        [],
+                                                        _scaffoldKey
+                                                            .currentContext);
+                                                  }
+                                                })),
+                                      ],
                                     ),
-                                  ],
-                                );
+                                  );
+                                }
                               } else {
-                                _rooms = snapshot.data;
                                 return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 1.0),
+                                  height: 100.0,
+                                  width: 100,
+                                  //margin: EdgeInsets.all(6.0),
+                                  //padding: EdgeInsets.all(25.0),
                                   child: Column(
                                     children: [
-                                      GestureDetector(
-                                          onTap: () {
-                                            if (_rooms.length > 0) {
-                                              showSearch(
-                                                  context: context,
-                                                  delegate: RoomSearchDelegate(
-                                                      _rooms));
-                                            } else {}
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 2.5),
-                                            child: searchBoxForm(
-                                                'Search for a room', context),
-                                          )),
+                                      SizedBox(height: 20.0),
                                       SizedBox(
-                                        height: 10.0,
+                                        height: 40.0,
+                                        width: 40,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  colorMedico),
+                                        ),
                                       ),
-                                      Expanded(
-                                          child: StreamBuilder<List<Device>>(
-                                              stream: serverDataBloc
-                                                  .serverDevicesStream,
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return makeRoomsListSimple(
-                                                      _rooms,
-                                                      snapshot.data,
-                                                      _scaffoldKey
-                                                          .currentContext);
-                                                } else {
-                                                  serverDataBloc
-                                                      .requestDevices();
-                                                  serverDataBloc.bindLoading();
-                                                  return makeRoomsListSimple(
-                                                      _rooms,
-                                                      [],
-                                                      _scaffoldKey
-                                                          .currentContext);
-                                                }
-                                              })),
                                     ],
                                   ),
                                 );
                               }
-                            } else {
-                              return Container(
-                                height: 100.0,
-                                width: 100,
-                                //margin: EdgeInsets.all(6.0),
-                                //padding: EdgeInsets.all(25.0),
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 20.0),
-                                    SizedBox(
-                                      height: 40.0,
-                                      width: 40,
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                colorMedico),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          },
+                            },
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 5.0),
                 gradientBar2(1),
               ],
             ),

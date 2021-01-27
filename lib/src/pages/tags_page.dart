@@ -63,6 +63,7 @@ class _TagsPageState extends State<TagsPage> {
                     ),
                   ),
                 ),
+                SizedBox(height:5.0),
                 gradientBar2(3),
               ],
             ),

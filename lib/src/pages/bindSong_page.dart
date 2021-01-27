@@ -54,7 +54,7 @@ class _BindSongPageState extends State<BindSongPage> {
               ),
               SizedBox(height: 15.0),
               Text(
-                'Select the song you want to Bind',
+                'Select the song you want to bind',
                 style: TextStyle(
                   fontSize: 24.0,
                 ),
@@ -103,6 +103,7 @@ class _BindSongPageState extends State<BindSongPage> {
                   ),
                 ),
               ),
+              SizedBox(height:5.0),
               gradientBar2(3),
             ],
           ),

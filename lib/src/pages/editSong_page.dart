@@ -107,6 +107,7 @@ class _EditSongPageState extends State<EditSongPage> {
                   ),
                 ),
               ),
+              SizedBox(height:5.0),
               gradientBar2(2),
             ],
           ),

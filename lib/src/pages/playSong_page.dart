@@ -118,6 +118,7 @@ class _PlaySongPageState extends State<PlaySongPage> {
                     ),
                   ),
                 ),
+                SizedBox(height:5.0),
                 gradientBar2(2),
               ],
             ),

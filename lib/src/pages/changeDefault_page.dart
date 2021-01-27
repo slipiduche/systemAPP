@@ -28,7 +28,8 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
     return WillPopScope(
       onWillPop: () {
         //exit(0);
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        Navigator.of(context).pop();
+        //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         print('poppop');
       }, // SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
       child: SafeArea(
@@ -223,7 +224,8 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<Music> snapshot) {
                                     return Container(
-                                      padding: EdgeInsets.symmetric(horizontal:20.0),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.0),
                                       height: 40.0,
                                       child: submitButton('Change', () {
                                         if (snapshot.hasData) {
@@ -242,6 +244,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                     ),
                   ),
                 ),
+                SizedBox(height:5.0),
                 gradientBar2(2),
               ],
             ),

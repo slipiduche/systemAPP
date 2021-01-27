@@ -58,7 +58,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                         //Scan the tag  you want to Edit using your register device
                         SizedBox(height: 15.0),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3.0),
+                          margin: EdgeInsets.symmetric(horizontal: 28.0),
                           child: Text(
                             'Scan your tag using your register device',
                             style: TextStyle(
@@ -70,7 +70,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                         ),
                         SizedBox(height: 25.0),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3.0),
+                          margin: EdgeInsets.symmetric(horizontal: 28.0),
                           alignment: Alignment.topLeft,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -257,6 +257,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                   ),
                 ),
                 Expanded(child: Container()),
+                SizedBox(height:5.0),
                 gradientBar2(3),
               ],
             ),

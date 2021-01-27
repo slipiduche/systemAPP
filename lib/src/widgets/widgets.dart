@@ -390,7 +390,7 @@ Widget makeSongsList(
       itemCount: (list.length),
       itemBuilder: (BuildContext _context, int index) {
         //print(index);
-        if ((mode == 'delete' || mode == 'edit') && list[index].id < 2) {
+        if ((mode == 'delete' || mode == 'edit'||mode=='add') && list[index].id < 2) {
           return Container();
         } else {
           return twoIconCardSingle(
@@ -494,37 +494,48 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
     color: Colors.white,
     child: Container(
       height: 105,
-      width: MediaQuery.of(_context).size.width - 30,
+      //width: MediaQuery.of(_context).size.width - 30,
       child: Row(children: [
-        Expanded(child: Container()),
+        SizedBox(
+          width: 20.0,
+        ),
         icon,
-        Expanded(child: Container()),
-        Container(
-          width: MediaQuery.of(_context).size.width - 160,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                song.songName,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w100,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                song.artist,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w100),
-              )
-            ],
+        SizedBox(
+          width: 10.0,
+          child: Container(
+            width: 10.0,
           ),
         ),
-        Expanded(child: Container()),
+        Expanded(
+          child: Container(
+            //width: MediaQuery.of(_context).size.width - 160,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  song.songName,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w100,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  song.artist,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w100),
+                )
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
         StreamBuilder(
             stream: ServerDataBloc().songPlayer.isPlayingStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -643,7 +654,9 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
               },
               child: icon3);
         }),
-        Expanded(child: Container()),
+        SizedBox(
+          width: 20.0,
+        )
       ]),
     ),
   );
@@ -720,37 +733,45 @@ Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
     color: Colors.white,
     child: Container(
       height: 105,
-      width: MediaQuery.of(_context).size.width - 30,
+      //width: MediaQuery.of(_context).size.width - 30,
       child: Row(children: [
-        Expanded(child: Container()),
+        SizedBox(
+          width: 20.0,
+        ),
         icon,
-        Expanded(child: Container()),
-        Container(
-          width: MediaQuery.of(_context).size.width - 120,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                song.songName,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w100,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                song.artist,
-                style: TextStyle(
+        SizedBox(
+          width: 10.0,
+        ),
+        Expanded(
+          child: Container(
+            //width: MediaQuery.of(_context).size.width - 120,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  song.songName,
+                  style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w100),
-              )
-            ],
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w100,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  song.artist,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w100),
+                )
+              ],
+            ),
           ),
         ),
-        Expanded(child: Container()),
+        SizedBox(
+          width: 10.0,
+        ),
         Builder(builder: (_context) {
           if (icon1 == false) {
             return GestureDetector(onTap: null, child: Container());
@@ -772,7 +793,9 @@ Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
                 child: icon1);
           }
         }),
-        Expanded(child: Container()),
+        SizedBox(
+          width: 20.0,
+        ),
       ]),
     ),
   );
@@ -864,9 +887,6 @@ void deleting(Music song, BuildContext _context) {
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 30.0,
                       ),
                     ],
                   ),
@@ -1115,6 +1135,7 @@ void errorPopUp1(BuildContext _context, String message, Function function) {
           //scrollable: true,
           insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
           child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
             //height: 100.0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -1136,7 +1157,8 @@ void errorPopUp1(BuildContext _context, String message, Function function) {
                   height: 10.0,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  height: 50.0,
+                  //margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -1167,6 +1189,7 @@ void errorPopUp(BuildContext _context, String message) {
           insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
           child: Container(
             //height: 100.0,
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -1187,7 +1210,6 @@ void errorPopUp(BuildContext _context, String message) {
                   height: 10.0,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -1287,7 +1309,7 @@ Widget roomInput(String hintText, String textValue, Function update) {
               hintText: hintText,
               hintStyle: TextStyle(fontSize: 20, color: colorLetraSearch),
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0)),
+                  EdgeInsets.symmetric(horizontal: 5.0, vertical: 12.0)),
           onChanged: (valor) {
             // _opcionSeleccionada = null;
             // prefs.dispositivoSeleccionado = null;
@@ -1569,20 +1591,20 @@ Widget searchBoxFormRooms(String content, BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 20.0,
-          ),
-          Container(
-            //width: MediaQuery.of(context).size.width - 100,
-            child: Text(
-              content,
-              style: TextStyle(color: colorLetraSearch, fontSize: 20),
-              overflow: TextOverflow.ellipsis,
-            ),
+            width: 10.0,
           ),
           Expanded(
-            child: SizedBox(
-              width: 5.0,
+            child: Container(
+              //width: MediaQuery.of(context).size.width - 100,
+              child: Text(
+                content,
+                style: TextStyle(color: colorLetraSearch, fontSize: 20),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
+          ),
+          SizedBox(
+            width: 10.0,
           ),
           searchIcon(20.0, colorMedico),
           SizedBox(

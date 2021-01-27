@@ -16,6 +16,7 @@ class EditRoomsPage extends StatefulWidget {
 class _EditRoomsPageState extends State<EditRoomsPage> {
   String _roomName;
   String _readerId, _speakerId;
+  String _readerName, _speakerName;
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
   void dispose() {
@@ -88,6 +89,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                     ),
                   ),
                 )),
+                SizedBox(height: 5.0),
                 gradientBar2(1),
               ],
             ),
@@ -148,6 +150,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
                       _speakerId = snapshot.data.chipId;
+                      _speakerName = snapshot.data.deviceName;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
                     } else {
@@ -183,6 +186,7 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
                       _readerId = snapshot.data.chipId;
+                      _readerName = snapshot.data.deviceName;
                       return searchBoxFormRooms(
                           snapshot.data.deviceName, context);
                     } else {
@@ -199,8 +203,8 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
                 child: Container(
               height: 40.0,
               child: submitButton('Edit', () {
-                _action(_roomName, _speakerId, _readerId, room.id.toString(),
-                    context);
+                _action(_roomName, _speakerId, _readerId, _speakerName,
+                    _readerName, room.id.toString(), context);
               }),
             )),
             SizedBox(
@@ -212,14 +216,14 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
     );
   }
 
-  void _action(String roomName, String speakerId, String readerId,
-      String roomId, BuildContext _context) async {
-    if ((roomName.length > 0) &&
+  void _action(String room, String speakerId, String readerId, String speakerName,
+      String readerName, String roomId, BuildContext _context) async {
+    if ((room.length > 0) &&
         (speakerId.length > 0) &&
         (readerId.length > 0)) {
       updating(_context, 'Updating room');
       final resp =
-          await serverDataBloc.editRoom(roomName, speakerId, readerId, roomId);
+          await serverDataBloc.editRoom(room, speakerId, readerId,speakerName, readerName, roomId);
       if (resp) {
         updated(_context, 'Room updated');
         serverDataBloc.deleteData();

@@ -482,14 +482,14 @@ class ServerDataBloc {
     }
   }
 
-  Future<bool> editRoom(
-      String roomName, String speakerId, String readerId, String roomId) async {
+  Future<bool> editRoom(String roomName, String speakerId, String readerId,
+      String speakerName, String readerName, String roomId) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$roomId"}';
+        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName","FIELD6":"$roomId"}';
     final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {

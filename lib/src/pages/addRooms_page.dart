@@ -18,6 +18,13 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
   String _readerId, _speakerId, _speakerName, _readerName;
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    serverDataBloc.deleteRoomDevices();
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
@@ -69,6 +76,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
                   ),
                 ),
               )),
+              SizedBox(height: 5.0),
               gradientBar2(1),
             ],
           ),
@@ -87,7 +95,6 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            
             Text(
               'Room Name',
               style: TextStyle(

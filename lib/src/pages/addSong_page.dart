@@ -65,6 +65,7 @@ class _AddSongPageState extends State<AddSongPage> {
                       "Select the song you want to add", "Search for a song"),
                 ),
               ),
+              SizedBox(height:5.0),
               gradientBar2(2),
             ],
           ),

@@ -58,7 +58,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                         //Scan the tag  you want to add using your register device
                         SizedBox(height: 15.0),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3.0),
+                          margin: EdgeInsets.symmetric(horizontal: 28.0),
                           child: Text(
                             'Scan your tag using your register device',
                             style: TextStyle(
@@ -70,7 +70,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                         ),
                         SizedBox(height: 25.0),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3.0),
+                          margin: EdgeInsets.symmetric(horizontal: 28.0),
                           alignment: Alignment.topLeft,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -252,6 +252,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                   ),
                 ),
                 Expanded(child: Container()),
+                SizedBox(height:5.0),
                 gradientBar2(3),
               ],
             ),

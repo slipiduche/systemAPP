@@ -67,6 +67,7 @@ class _SongsPageState extends State<SongsPage> {
                   ),
                 ),
               ),
+              SizedBox(height:5.0),
               gradientBar2(2),
             ],
           ),
