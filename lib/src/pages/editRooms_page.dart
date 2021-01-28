@@ -140,12 +140,17 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
             ),
             GestureDetector(
                 onTap: () {
+                  serverDataBloc.deleteRoomSpeaker();
+                  serverDataBloc.bindLoading();
                   Navigator.of(context).pushNamed('bindSpeakerPage');
                 },
                 child: StreamBuilder(
                   stream: serverDataBloc.speakerStream,
                   initialData: Device(
-                      chipId: room.speakerId, deviceName: room.speakerName),
+                      status: '',
+                      type: 'S',
+                      chipId: room.speakerId,
+                      deviceName: room.speakerName),
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
@@ -176,12 +181,17 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
             ),
             GestureDetector(
                 onTap: () {
+                  serverDataBloc.deleteRoomReader();
+                  serverDataBloc.bindLoading();
                   Navigator.of(context).pushNamed('bindReaderPage');
                 },
                 child: StreamBuilder(
                   stream: serverDataBloc.readerStream,
                   initialData: Device(
-                      chipId: room.readerId, deviceName: room.readerName),
+                      status: '',
+                      type: 'R',
+                      chipId: room.readerId,
+                      deviceName: room.readerName),
                   builder:
                       (BuildContext context, AsyncSnapshot<Device> snapshot) {
                     if (snapshot.hasData) {
@@ -216,14 +226,18 @@ class _EditRoomsPageState extends State<EditRoomsPage> {
     );
   }
 
-  void _action(String room, String speakerId, String readerId, String speakerName,
-      String readerName, String roomId, BuildContext _context) async {
-    if ((room.length > 0) &&
-        (speakerId.length > 0) &&
-        (readerId.length > 0)) {
+  void _action(
+      String room,
+      String speakerId,
+      String readerId,
+      String speakerName,
+      String readerName,
+      String roomId,
+      BuildContext _context) async {
+    if ((room.length > 0) && (speakerId.length > 0) && (readerId.length > 0)) {
       updating(_context, 'Updating room');
-      final resp =
-          await serverDataBloc.editRoom(room, speakerId, readerId,speakerName, readerName, roomId);
+      final resp = await serverDataBloc.editRoom(
+          room, speakerId, readerId, speakerName, readerName, roomId);
       if (resp) {
         updated(_context, 'Room updated');
         serverDataBloc.deleteData();

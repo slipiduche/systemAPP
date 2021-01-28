@@ -125,6 +125,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             ),
             GestureDetector(
                 onTap: () {
+                  serverDataBloc.deleteRoomSpeaker();
                   serverDataBloc.bindLoading();
                   Navigator.of(context).pushNamed('bindSpeakerPage');
                 },
@@ -160,6 +161,7 @@ class _AddRoomsPageState extends State<AddRoomsPage> {
             ),
             GestureDetector(
                 onTap: () {
+                  serverDataBloc.deleteRoomReader();
                   serverDataBloc.bindLoading();
                   Navigator.of(context).pushNamed('bindReaderPage');
                 },

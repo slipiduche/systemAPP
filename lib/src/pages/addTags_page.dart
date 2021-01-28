@@ -13,7 +13,7 @@ class AddTagsPage extends StatefulWidget {
 
 class _AddTagsPageState extends State<AddTagsPage> {
   ServerDataBloc serverDataBloc = ServerDataBloc();
-  bool tagHere = false, songHere = false;
+  bool tagHere = false, tagExist = false, songHere = false;
   String tag = '', songId = '';
   @override
   void initState() {
@@ -153,19 +153,13 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 height: 10.0,
                               ),
                               StreamBuilder(
-                                stream: serverDataBloc.tagStream,
+                                stream: serverDataBloc.serverTagStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
-                                    tagHere = true;
+                                    tagExist = true;
                                     return GestureDetector(
-                                      onTap: tagHere
-                                          ? () {
-                                              Navigator.of(context)
-                                                  .pushNamed('bindSongPage');
-                                              print('search song');
-                                            }
-                                          : null,
+                                      onTap: null,
                                       child: StreamBuilder(
                                         stream: serverDataBloc.songStream,
                                         builder: (BuildContext context,
@@ -186,12 +180,12 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                       ),
                                     );
                                   } else {
-                                    tagHere = false;
+                                    tagExist = false;
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
                                               Navigator.of(context)
-                                                  .pushNamed('bindSong');
+                                                  .pushNamed('bindSongPage');
                                               print('search song');
                                             }
                                           : null,
@@ -200,6 +194,8 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
+                                            songId =
+                                                snapshot.data.id.toString();
                                             songHere = true;
                                             return searchBoxForm(
                                                 snapshot.data.songName,
@@ -223,7 +219,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 stream: serverDataBloc.songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
+                                  if (snapshot.hasData && !tagExist) {
                                     songHere = true;
                                     return Center(
                                         child: Row(

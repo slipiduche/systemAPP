@@ -318,30 +318,50 @@ class _TwoIconCardState extends State<TwoIconCard> {
 
 Widget makeDevicesList(BuildContext _context, List<Device> list, Widget icon3,
     String mode, String type) {
-  return ListView.builder(
-      //controller: _scrollController,
-      itemCount: (list.length),
-      itemBuilder: (BuildContext _context, int index) {
-        print('makedeviceslist');
-        print(index);
-        if (type == "SPEAKER") {
-          if (list[index].type == "SPEAKER" &&
-              list[index].status == 'UNASSIGNED') {
-            return twoIconCardDevices(list[index],
-                speakerIcon(40.0, colorMedico), icon3, _context, mode);
+  int availableDevices = 0;
+  list.forEach((element) {
+    if (element.status == 'UNASSIGNED') {
+      availableDevices++;
+    }
+  });
+  if (availableDevices > 0) {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (list.length),
+        itemBuilder: (BuildContext _context, int index) {
+          print('makedeviceslist');
+          print(index);
+          if (type == "SPEAKER") {
+            if (list[index].type == "SPEAKER" &&
+                list[index].status == 'UNASSIGNED') {
+              return twoIconCardDevices(list[index],
+                  speakerIcon(40.0, colorMedico), icon3, _context, mode);
+            } else {
+              return Container();
+            }
           } else {
-            return Container();
+            if (list[index].type == "READER" &&
+                list[index].status == 'UNASSIGNED') {
+              return twoIconCardDevices(list[index],
+                  readerIcon(40.0, colorMedico), icon3, _context, mode);
+            } else {
+              return Container();
+            }
           }
-        } else {
-          if (list[index].type == "READER" &&
-              list[index].status == 'UNASSIGNED') {
-            return twoIconCardDevices(list[index],
-                readerIcon(40.0, colorMedico), icon3, _context, mode);
-          } else {
-            return Container();
-          }
-        }
-      });
+        });
+  } else {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20.0,
+        ),
+        Text(
+          'No devices available',
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    );
+  }
 }
 
 Widget makeSongsListPlay(BuildContext _context, List<Music> list, Widget icon1,
@@ -390,37 +410,65 @@ Widget circularProgressSimple() {
 
 Widget makeSongsList(
     BuildContext _context, List<Music> list, Widget icon3, String mode) {
-  return ListView.builder(
-      //controller: _scrollController,
-      itemCount: (list.length),
-      itemBuilder: (BuildContext _context, int index) {
-        //print(index);
-        if ((mode == 'delete' || mode == 'edit' || mode == 'add') &&
-            list[index].id < 2) {
-          return Container();
-        } else {
-          return twoIconCardSingle(
-              list[index], songIcon(40.0, colorMedico), icon3, _context, mode);
-        }
-      });
+  if (list.length > 3) {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (list.length),
+        itemBuilder: (BuildContext _context, int index) {
+          //print(index);
+          if ((mode == 'delete' || mode == 'edit' || mode == 'add') &&
+              list[index].id < 2) {
+            return Container();
+          } else {
+            return twoIconCardSingle(list[index], songIcon(40.0, colorMedico),
+                icon3, _context, mode);
+          }
+        });
+  } else {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20.0,
+        ),
+        Text(
+          'No songs available',
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    );
+  }
 }
 
 Widget makeSongsList2(BuildContext _context, List<Music> list) {
-  return ListView.builder(
-      //controller: _scrollController,
-      itemCount: (list.length),
-      itemBuilder: (BuildContext _context, int index) {
-        //print(index);
-        if (list[index].id > 1) {
-          return twoIconCardList(list[index], () {}, () {
-            deleting(list[index], _context);
-          }, () {
-            editing(list[index], _context);
-          }, _context);
-        } else {
-          return Container();
-        }
-      });
+  if (list.length < 1) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20.0,
+        ),
+        Text(
+          'No songs available',
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    );
+  } else {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (list.length),
+        itemBuilder: (BuildContext _context, int index) {
+          //print(index);
+          if (list[index].id > 1) {
+            return twoIconCardList(list[index], () {}, () {
+              deleting(list[index], _context);
+            }, () {
+              editing(list[index], _context);
+            }, _context);
+          } else {
+            return Container();
+          }
+        });
+  }
 }
 
 Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,

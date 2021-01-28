@@ -96,8 +96,9 @@ class _BindReaderPageState extends State<BindReaderPage> {
                         if (snapshot.data.length < 1) {
                           return Column(
                             children: <Widget>[
+                              SizedBox(height: 20.0,),
                               Text(
-                                'No rooms configured',
+                                'No devices available',
                                 style: TextStyle(fontSize: 30),
                               ),
                             ],

@@ -151,7 +151,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 height: 10.0,
                               ),
                               StreamBuilder(
-                                stream: serverDataBloc.tagStream,
+                                stream: serverDataBloc.serverTagStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {

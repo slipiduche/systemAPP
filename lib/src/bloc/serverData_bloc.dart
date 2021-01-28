@@ -435,10 +435,21 @@ class ServerDataBloc {
     _readerController.add(null);
     _roomController.add(null);
     _defaultController.add(null);
+    _serverDevicesController.add(null);
   }
 
   void deleteRoomDevices() {
+    _serverDevicesController.add(null);
     _speakerController.add(null);
+    _readerController.add(null);
+  }
+
+  void deleteRoomSpeaker() {
+    _serverDevicesController.add(null);
+    _speakerController.add(null);
+  }
+  void deleteRoomReader() {
+    _serverDevicesController.add(null);
     _readerController.add(null);
   }
 
