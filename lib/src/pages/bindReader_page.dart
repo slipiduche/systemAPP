@@ -93,17 +93,27 @@ class _BindReaderPageState extends State<BindReaderPage> {
                         );
                       } else {
                         print(snapshot.data[0].deviceName);
-
-                        return Container(
-                          child: makeDevicesList(context, snapshot.data,
-                              addIcon(40.0, colorMedico), 'bind','READER'),
-                        );
+                        if (snapshot.data.length < 1) {
+                          return Column(
+                            children: <Widget>[
+                              Text(
+                                'No rooms configured',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Container(
+                            child: makeDevicesList(context, snapshot.data,
+                                addIcon(40.0, colorMedico), 'bind', 'READER'),
+                          );
+                        }
                       }
                     },
                   ),
                 ),
               ),
-              SizedBox(height:5.0),
+              SizedBox(height: 5.0),
               gradientBar2(1),
             ],
           ),

@@ -233,11 +233,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                           Expanded(
                                             child: Container(
                                               height: 40.0,
-                                              child: submitButton('Delete', () {
-                                                _action(
-                                                    snapshot.data.id.toString(),
-                                                    context);
-                                              }),
+                                              child: submitButton('Delete', null),
                                             ),
                                           ),
                                         ],

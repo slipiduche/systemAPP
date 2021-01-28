@@ -157,6 +157,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
+                                    tagHere = true;
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
@@ -185,6 +186,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                       ),
                                     );
                                   } else {
+                                    tagHere = false;
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
@@ -203,6 +205,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                                 snapshot.data.songName,
                                                 context);
                                           } else {
+                                            songHere = false;
                                             return searchBoxForm(
                                                 'Select a song from the list',
                                                 context);
@@ -221,6 +224,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
+                                    songHere = true;
                                     return Center(
                                         child: Row(
                                       children: [
@@ -235,16 +239,15 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                       ],
                                     ));
                                   } else {
+                                    songHere = false;
                                     return Center(
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              height: 40.0,
-                                              child: submitButton('Done', () {
-                                                _action(tag, songId, context);
-                                              }),
-                                            ),
+                                                height: 40.0,
+                                                child:
+                                                    submitButton('Done', null)),
                                           ),
                                         ],
                                       ),

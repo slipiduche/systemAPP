@@ -30,6 +30,11 @@ void _moveTo(index, context) async {
 }
 
 Widget submitButton(text, void Function() function) {
+  Color activado;
+  activado = colorMedico;
+  if (function == null) {
+    activado = gris;
+  }
   return GestureDetector(
       onTap: function,
       child: Container(
@@ -43,7 +48,7 @@ Widget submitButton(text, void Function() function) {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: colorMedico,
+          color: activado,
           boxShadow: [boxShadow1],
         ),
       ));
@@ -390,7 +395,8 @@ Widget makeSongsList(
       itemCount: (list.length),
       itemBuilder: (BuildContext _context, int index) {
         //print(index);
-        if ((mode == 'delete' || mode == 'edit'||mode=='add') && list[index].id < 2) {
+        if ((mode == 'delete' || mode == 'edit' || mode == 'add') &&
+            list[index].id < 2) {
           return Container();
         } else {
           return twoIconCardSingle(

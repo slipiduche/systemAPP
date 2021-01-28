@@ -155,6 +155,8 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
+                                    tagHere = true;
+                                    print('taghere:$tagHere');
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
@@ -162,7 +164,9 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                                   .pushNamed('bindSongPage');
                                               print('search song');
                                             }
-                                          : null,
+                                          : () {
+                                              print('do nothing');
+                                            },
                                       child: StreamBuilder(
                                         stream: serverDataBloc.songStream,
                                         builder: (BuildContext context,
@@ -183,6 +187,8 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                       ),
                                     );
                                   } else {
+                                    tagHere = false;
+                                    print('taghere:$tagHere');
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
@@ -190,7 +196,9 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                                   .pushNamed('bindSong');
                                               print('search song');
                                             }
-                                          : null,
+                                          : () {
+                                              print('do nothing');
+                                            },
                                       child: StreamBuilder(
                                         stream: serverDataBloc.songStream,
                                         builder: (BuildContext context,
@@ -201,6 +209,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                                 snapshot.data.songName,
                                                 context);
                                           } else {
+                                            songHere = false;
                                             return searchBoxForm(
                                                 'Select a song from the list',
                                                 context);
@@ -215,10 +224,11 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 height: 10.0,
                               ),
                               StreamBuilder(
-                                stream: serverDataBloc.serverTagStream,
+                                stream: serverDataBloc.songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
+                                    tagHere = true;
                                     return Center(
                                       child: Row(
                                         children: [
@@ -237,18 +247,14 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                       ),
                                     );
                                   } else {
+                                    tagHere = false;
                                     return Center(
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: Container(
                                               height: 40.0,
-                                              child: submitButton('Edit', () {
-                                                _action(
-                                                    songId,
-                                                    snapshot.data.id.toString(),
-                                                    context);
-                                              }),
+                                              child: submitButton('Edit', null),
                                             ),
                                           ),
                                         ],
@@ -265,7 +271,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                   ),
                 ),
                 Expanded(child: Container()),
-                SizedBox(height:5.0),
+                SizedBox(height: 5.0),
                 gradientBar2(3),
               ],
             ),
