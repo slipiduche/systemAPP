@@ -1696,7 +1696,8 @@ Widget makeRoomsListSimple(
           print('devices:${devices.length}');
           int _roomStatus = 0;
           devices.forEach((element) {
-            if (element.chipId == _rooms[index].readerId) {
+            if (element.chipId == _rooms[index].readerId &&
+                (element.status == 'ASSIGNED')) {
               {
                 _roomStatus = 1;
               }
@@ -1704,7 +1705,8 @@ Widget makeRoomsListSimple(
           });
           if (_roomStatus == 1) {
             devices.forEach((element) {
-              if (element.chipId == _rooms[index].speakerId) {
+              if (element.chipId == _rooms[index].speakerId &&
+                  (element.status == 'ASSIGNED')) {
                 _roomStatus = 1;
               }
             });
