@@ -13,6 +13,7 @@ class DeleteTagsPage extends StatefulWidget {
 }
 
 class _DeleteTagsPageState extends State<DeleteTagsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String tag = '', songId = '', tagId = '';
   ServerDataBloc serverDataBloc = ServerDataBloc();
   bool tagHere = false, songHere = false;
@@ -33,6 +34,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
       },
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           body: Container(
             color: colorBackGround,
             child: Column(
@@ -227,7 +229,8 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                           Expanded(
                                             child: Container(
                                               height: 40.0,
-                                              child: submitButton('Delete', null),
+                                              child:
+                                                  submitButton('Delete', null),
                                             ),
                                           ),
                                         ],
@@ -257,19 +260,96 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
 
   void _action(String _tagId, BuildContext context) async {
     if (tagHere && songHere) {
-      
-      print('send tag');
+      BuildContext dialogContext;
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            dialogContext = context;
+            return Container(
+              //width: MediaQuery.of(context).size.width - 28,
+              child: Dialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 20.0),
+                      width: double.infinity,
+                      //height: 30.0,
+                      //color: colorMedico,
+                      child: Center(
+                          child: Text(
+                        'Confirmation',
+                        style: TextStyle(fontSize: 30.0, color: colorVN),
+                      )),
+                    ),
+                    Container(
+                      //height: 40.0,
 
-      print(_tagId);
-      updating(context, 'Deleting');
-      final resp = await ServerDataBloc().deleteTag(_tagId);
-      if (resp) {
-        Navigator.of(context).pop();
-        updated(context, 'Tag deleted');
-      } else {
-        Navigator.of(context).pop();
-        errorPopUp(context, 'Not deleted');
-      }
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                              ' The tag will be deleted' +
+                                  '\n' +
+                                  'Do you want to continue?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20.0)),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 50.0,
+                                  child: submitButtonS('Yes', () async {
+                                    print('send tag');
+                                    Navigator.of(context).pop();
+                                    print(_tagId);
+                                    updating(context, 'Deleting');
+                                    final resp = await ServerDataBloc()
+                                        .deleteTag(_tagId);
+                                    if (resp) {
+                                      Navigator.of(_scaffoldKey.currentContext)
+                                          .pop();
+                                      updated(_scaffoldKey.currentContext,
+                                          'Tag deleted');
+                                    } else {
+                                      Navigator.of(_scaffoldKey.currentContext)
+                                          .pop();
+                                      errorPopUp(_scaffoldKey.currentContext,
+                                          'Not deleted');
+                                    }
+                                  }),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: 50.0,
+                                  child: submitButtonNo('NO', () async {
+                                    print('deleting');
+                                    Navigator.of(dialogContext).pop();
+                                  }),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          });
     } else {
       print('do nothing');
     }
