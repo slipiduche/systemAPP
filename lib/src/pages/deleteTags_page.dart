@@ -60,7 +60,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          'Tags',
+                          'Delete tag',
                           style: TextStyle(
                               color: colorVN,
                               fontSize: 40.0,

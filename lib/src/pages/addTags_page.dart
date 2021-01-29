@@ -57,7 +57,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          'Tags',
+                          'Add tag',
                           style: TextStyle(
                               color: colorVN,
                               fontSize: 40.0,

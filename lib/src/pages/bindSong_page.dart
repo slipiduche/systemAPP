@@ -46,27 +46,30 @@ class _BindSongPageState extends State<BindSongPage> {
               ),
               SizedBox(height: 8.0),
               Text(
-                'Songs',
+                'Bind song',
                 style: TextStyle(
                     color: colorVN,
                     fontSize: 40.0,
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 15.0),
-              Text(
-                'Select the song you want to bind',
-                style: TextStyle(
-                  fontSize: title1,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 28.0),
+                child: Text(
+                  'Select the song you want to bind',
+                  style: TextStyle(
+                    fontSize: title1,
+                  ),
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
                 ),
-                overflow: TextOverflow.clip,
-                textAlign: TextAlign.center,
               ),
               SizedBox(height: 5.0),
               Expanded(
                 child: Container(
                   //height: 200.0,
                   //width: double.infinity,
-
+                  margin: EdgeInsets.symmetric(horizontal: 25.0),
                   child: StreamBuilder(
                     stream: serverDataBloc.serverDataStream,
                     // initialData: initialData ,
@@ -103,7 +106,7 @@ class _BindSongPageState extends State<BindSongPage> {
                   ),
                 ),
               ),
-              SizedBox(height:5.0),
+              SizedBox(height: 5.0),
               gradientBar2(3),
             ],
           ),

@@ -57,7 +57,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          'Tags',
+                          'Edit tag',
                           style: TextStyle(
                               color: colorVN,
                               fontSize: 40.0,
