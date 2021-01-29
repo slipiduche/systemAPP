@@ -180,35 +180,47 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                       ),
                                     );
                                   } else {
+                                    //tagHere = true;
                                     tagExist = false;
-                                    return GestureDetector(
-                                      onTap: tagHere
-                                          ? () {
-                                              Navigator.of(context)
-                                                  .pushNamed('bindSongPage');
-                                              print('search song');
-                                            }
-                                          : null,
-                                      child: StreamBuilder(
-                                        stream: serverDataBloc.songStream,
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot snapshot) {
+                                    return StreamBuilder<Object>(
+                                        stream: serverDataBloc.tagStream,
+                                        builder: (context, snapshot) {
                                           if (snapshot.hasData) {
-                                            songId =
-                                                snapshot.data.id.toString();
-                                            songHere = true;
-                                            return searchBoxForm(
-                                                snapshot.data.songName,
-                                                context);
+                                            tagHere = true;
                                           } else {
-                                            songHere = false;
-                                            return searchBoxForm(
-                                                'Select a song from the list',
-                                                context);
+                                            tagHere = false;
                                           }
-                                        },
-                                      ),
-                                    );
+                                          
+                                          return GestureDetector(
+                                            onTap: tagHere
+                                                ? () {
+                                                    Navigator.of(context)
+                                                        .pushNamed(
+                                                            'bindSongPage');
+                                                    print('search song');
+                                                  }
+                                                : null,
+                                            child: StreamBuilder(
+                                              stream: serverDataBloc.songStream,
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot snapshot) {
+                                                if (snapshot.hasData) {
+                                                  songId = snapshot.data.id
+                                                      .toString();
+                                                  songHere = true;
+                                                  return searchBoxForm(
+                                                      snapshot.data.songName,
+                                                      context);
+                                                } else {
+                                                  songHere = false;
+                                                  return searchBoxForm(
+                                                      'Select a song from the list',
+                                                      context);
+                                                }
+                                              },
+                                            ),
+                                          );
+                                        });
                                   }
                                 },
                               ),
