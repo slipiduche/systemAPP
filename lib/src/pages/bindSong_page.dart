@@ -3,6 +3,7 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/search/song_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class BindSongPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class BindSongPage extends StatefulWidget {
 }
 
 class _BindSongPageState extends State<BindSongPage> {
+  List<Music> _songs;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -64,6 +66,61 @@ class _BindSongPageState extends State<BindSongPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
+              SizedBox(height: 10.0),
+              Container(
+                //margin: EdgeInsets.symmetric(horizontal: 28.0),
+                //padding: EdgeInsets.symmetric(horizontal: 15.0),
+                margin: EdgeInsets.symmetric(horizontal: 28),
+                child: Column(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        if (_songs.length > 0) {
+                          showSearch(
+                              context: context,
+                              delegate: SongSearchDelegate(_songs, 'bind'));
+                        } else {}
+                      },
+                      child: Container(
+                        height: 41.0,
+
+                        //width: MediaQuery.of(context).size.width - 52.0,
+                        child: Container(
+                            //margin: EdgeInsets.symmetric(horizontal: 0),
+                            //expanded
+                            child: Row(
+                          children: [
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Search for a song',
+                                style: TextStyle(
+                                    color: colorLetraSearch, fontSize: search1),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            searchIcon(20.0, colorMedico),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                          ],
+                        )),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: colorBordeSearch,
+                              style: BorderStyle.solid,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 5.0),
               Expanded(
                 child: Container(
@@ -95,6 +152,7 @@ class _BindSongPageState extends State<BindSongPage> {
                           ],
                         );
                       } else {
+                        _songs = snapshot.data;
                         print(snapshot.data[0].songName);
 
                         return Container(

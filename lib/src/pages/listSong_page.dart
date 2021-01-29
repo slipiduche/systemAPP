@@ -77,7 +77,7 @@ class _ListSongsPageState extends State<ListSongsPage> {
                         if (_songs.length > 0) {
                           showSearch(
                               context: context,
-                              delegate: SongSearchDelegate(_songs));
+                              delegate: SongSearchDelegate(_songs,'list'));
                         } else {}
                       },
                       child: Container(

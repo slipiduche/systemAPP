@@ -842,6 +842,15 @@ Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
                     print('binding');
                     ServerDataBloc().bindSong(song);
                     Navigator.of(_context).pop();
+                  } else if (mode == 'bind') {
+                    print('binding');
+                    ServerDataBloc().bindSong(song);
+                    final FocusScopeNode focus = FocusScope.of(_context);
+                    if (!focus.hasPrimaryFocus && focus.hasFocus) {
+                      FocusManager.instance.primaryFocus.unfocus();
+                    }
+                    Navigator.of(_context).pop();
+                    Navigator.of(_context).pop();
                   }
                 },
                 child: icon1);

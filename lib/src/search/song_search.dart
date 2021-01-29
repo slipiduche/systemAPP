@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/service/song_service.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class SongSearchDelegate extends SearchDelegate {
-  SongSearchDelegate(this.songs);
+  SongSearchDelegate(this.songs, this.mode);
+  String mode;
   List<Music> songs;
 
   final songService = SongService();
@@ -43,7 +45,12 @@ class SongSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makeSongsList2(context, snapshot.data);
+            if (mode == 'bind') {
+              return makeSongsList(
+                  context, snapshot.data, addIcon(20.0, colorMedico), 'add');
+            } else {
+              return makeSongsList2(context, snapshot.data);
+            }
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +80,12 @@ class SongSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makeSongsList2(context, snapshot.data);
+            if (mode == 'bind') {
+              return makeSongsList(
+                  context, snapshot.data, addIcon(20.0, colorMedico), 'bind');
+            } else {
+              return makeSongsList2(context, snapshot.data);
+            }
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
