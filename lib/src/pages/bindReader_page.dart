@@ -56,7 +56,7 @@ class _BindReaderPageState extends State<BindReaderPage> {
               Text(
                 'Select the reader you want to bind',
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: title1,
                 ),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,

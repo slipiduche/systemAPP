@@ -83,7 +83,7 @@ class _RoomsPageState extends State<RoomsPage> {
                             Expanded(
                               child: Container(
                                   height: 80.0,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  //margin: EdgeInsets.symmetric(horizontal: 5.0),
                                   //width: MediaQuery.of(context).size.width - 5,
                                   child: Container(
                                       child: GestureDetector(
@@ -103,7 +103,6 @@ class _RoomsPageState extends State<RoomsPage> {
                       ),
                       Expanded(
                         child: Container(
-                          
                           child: StreamBuilder(
                             stream: serverDataBloc.serverRoomsStream,
                             builder: (BuildContext context,
@@ -123,10 +122,12 @@ class _RoomsPageState extends State<RoomsPage> {
                                   return Container(
                                     // margin:
                                     //     EdgeInsets.symmetric(horizontal: 1.0),
+                                    
                                     child: Column(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 24),
+                                          margin:
+                                        EdgeInsets.symmetric(horizontal: 28),
                                           child: GestureDetector(
                                               onTap: () {
                                                 if (_rooms.length > 0) {
@@ -138,10 +139,9 @@ class _RoomsPageState extends State<RoomsPage> {
                                                 } else {}
                                               },
                                               child: Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 2.5),
                                                 child: searchBoxForm(
-                                                    'Search for a room', context),
+                                                    'Search for a room',
+                                                    context),
                                               )),
                                         ),
                                         SizedBox(

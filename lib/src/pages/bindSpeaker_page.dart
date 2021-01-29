@@ -56,7 +56,7 @@ class _BindSpeakerPageState extends State<BindSpeakerPage> {
               Text(
                 'Select the speaker you want to bind',
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: title1,
                 ),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,

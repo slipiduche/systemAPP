@@ -59,7 +59,7 @@ class _EditSongPageState extends State<EditSongPage> {
               Text(
                 'Select  the song do you want to edit',
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: title1,
                 ),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,

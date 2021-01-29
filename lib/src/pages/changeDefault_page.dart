@@ -64,7 +64,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                           SizedBox(height: 8.0),
                           Center(
                             child: Text(
-                              'Music',
+                              'Change Default',
                               style: TextStyle(
                                   color: colorVN,
                                   fontSize: 40.0,
@@ -74,7 +74,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                           SizedBox(height: 40.0),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
+                                const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Text(
                               'Current',
                               textAlign: TextAlign.left,
@@ -85,15 +85,14 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                             ),
                           ),
                           SizedBox(height: 10.0),
-                          Card(
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 28.0),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(height: 20.0),
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      width: 20.0,
-                                    ),
                                     musicIcon(40.0, colorMedico),
                                     SizedBox(
                                       width: 10.0,
@@ -165,13 +164,11 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                 SizedBox(height: 20.0),
                               ],
                             ),
-                            color: Colors.white,
-                            elevation: 4.0,
                           ),
                           SizedBox(height: 10.0),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
+                                const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Text(
                               'Change',
                               textAlign: TextAlign.left,
@@ -182,69 +179,64 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                             ),
                           ),
                           SizedBox(height: 10.0),
-                          Card(
-                            color: Colors.white,
-                            elevation: 4.0,
-                            child: Column(
-                              children: [
-                                SizedBox(height: 20.0),
-                                Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: StreamBuilder(
-                                    stream: ServerDataBloc().songStream,
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<Music> snapshot) {
-                                      if (snapshot.hasData) {
-                                        return GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushNamed('playSongPage');
-                                            },
-                                            child: searchBoxForm(
-                                                snapshot.data.songName,
-                                                context));
-                                      } else {
-                                        return GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushNamed('playSongPage');
-                                            },
-                                            child: searchBoxForm(
-                                                'Select a song from the list',
-                                                context));
-                                      }
-                                    },
-                                  ),
-                                ),
-                                SizedBox(height: 10.0),
-                                StreamBuilder(
-                                  stream: serverDataBloc.songStream,
+                          Column(
+                            children: [
+                              SizedBox(height: 20.0),
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 28.0),
+                                child: StreamBuilder(
+                                  stream: ServerDataBloc().songStream,
                                   builder: (BuildContext context,
                                       AsyncSnapshot<Music> snapshot) {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      height: 40.0,
-                                      child: submitButton('Change', () {
-                                        if (snapshot.hasData) {
-                                          _action(snapshot.data, context);
-                                        } else {}
-                                      }),
-                                    );
+                                    if (snapshot.hasData) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .pushNamed('playSongPage');
+                                          },
+                                          child: searchBoxForm(
+                                              snapshot.data.songName, context));
+                                    } else {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .pushNamed('playSongPage');
+                                          },
+                                          child: searchBoxForm(
+                                              'Select a song from the list',
+                                              context));
+                                    }
                                   },
                                 ),
-                                SizedBox(height: 20.0),
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 10.0),
+                              StreamBuilder(
+                                stream: serverDataBloc.songStream,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<Music> snapshot) {
+                                  return Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 28.0),
+                                    height: 40.0,
+                                    child: submitButton('Change', () {
+                                      if (snapshot.hasData) {
+                                        _action(snapshot.data, context);
+                                      } else {}
+                                    }),
+                                  );
+                                },
+                              ),
+                              SizedBox(height: 20.0),
+                            ],
                           )
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height:5.0),
+                SizedBox(height: 5.0),
                 gradientBar2(2),
               ],
             ),

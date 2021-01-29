@@ -45,6 +45,11 @@ final LinearGradient gradiente1 = LinearGradient(
   begin: FractionalOffset.topCenter,
   end: FractionalOffset.bottomCenter,
 );
+final title = 40.0;
+final title1 = 23.0;
+final search1 = 24.0;
+final titleCard = 36.0;
+final subTitleCard = 14.0;
 // final List dispositivos = [{   "id":0,
 //     "nombreDispositivo":"SDRVEN",
 //     "chipID":"XXXXXXXXXXXX"

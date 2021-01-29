@@ -970,16 +970,6 @@ void editing(Music song, BuildContext _context) {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  width: double.infinity,
-                  height: 30.0,
-                  color: colorMedico,
-                  child: Center(
-                      child: Text(
-                    'Edit the song',
-                    style: TextStyle(fontSize: 20.0, color: Colors.white),
-                  )),
-                ),
-                Container(
                   margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
                     children: <Widget>[
@@ -1943,35 +1933,40 @@ Widget threeIconCardSimpleNoStatus(
                         builder: (BuildContext context) {
                           dialogContext = _context;
                           return Container(
-                            width: MediaQuery.of(context).size.width - 20,
+                            //width: MediaQuery.of(context).size.width - 28,
                             child: Dialog(
-                              //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+                              insetPadding:
+                                  EdgeInsets.symmetric(horizontal: 28.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Container(
+                                    padding: EdgeInsets.only(top: 20.0),
                                     width: double.infinity,
-                                    height: 30.0,
-                                    color: colorMedico,
+                                    //height: 30.0,
+                                    //color: colorMedico,
                                     child: Center(
                                         child: Text(
-                                      'Delete the room?',
+                                      'Confirmation',
                                       style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
+                                          fontSize: 30.0, color: colorVN),
                                     )),
                                   ),
                                   Container(
                                     //height: 40.0,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+
                                     child: Column(
                                       children: <Widget>[
                                         SizedBox(
                                           height: 20.0,
                                         ),
-                                        Text(room.roomName,
+                                        Text(
+                                            ' The room ${room.roomName} will be deleted' +
+                                                '\n' +
+                                                'Do you want to continue?',
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 20.0)),
                                         SizedBox(
                                           height: 20.0,
@@ -1984,8 +1979,8 @@ Widget threeIconCardSimpleNoStatus(
                                           children: [
                                             Expanded(
                                               child: Container(
-                                                height: 40.0,
-                                                child: submitButton('Delete',
+                                                height: 50.0,
+                                                child: submitButtonS('Yes',
                                                     () async {
                                                   print('deleting');
                                                   Navigator.of(dialogContext)
@@ -2015,10 +2010,18 @@ Widget threeIconCardSimpleNoStatus(
                                                 }),
                                               ),
                                             ),
+                                            Expanded(
+                                              child: Container(
+                                                height: 50.0,
+                                                child: submitButtonNo('NO',
+                                                    () async {
+                                                  print('deleting');
+                                                  Navigator.of(dialogContext)
+                                                      .pop();
+                                                }),
+                                              ),
+                                            ),
                                           ],
-                                        ),
-                                        SizedBox(
-                                          height: 20.0,
                                         ),
                                       ],
                                     ),
@@ -2070,148 +2073,176 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
   if (status < 2) {
     icon = statusIcon(25.0, status);
   }
-  return Card(
-    elevation: 5.0,
-    color: Colors.white,
-    child: Container(
-      //width: MediaQuery.of(_context).size.width - 30,
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 25),
+    child: Card(
+      elevation: 5.0,
+      color: Colors.white,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 10.0,
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  room.roomName,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                  textAlign: TextAlign.start,
+        //width: MediaQuery.of(_context).size.width - 30,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 10.0,
                 ),
-              ),
-              icon,
-              SizedBox(
-                width: 10.0,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    BuildContext dialogContext;
-                    showDialog(
-                        context: _context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          dialogContext = _context;
-                          return Container(
-                            width: MediaQuery.of(context).size.width - 20,
-                            child: Dialog(
-                              //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Container(
-                                    width: double.infinity,
-                                    height: 30.0,
-                                    color: colorMedico,
-                                    child: Center(
-                                        child: Text(
-                                      'Delete the room?',
-                                      style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
-                                    )),
-                                  ),
-                                  Container(
-                                    //height: 40.0,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        room.roomName,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    icon,
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          BuildContext dialogContext;
+                          showDialog(
+                              context: _context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                dialogContext = _context;
+                                return Container(
+                                  //width: MediaQuery.of(context).size.width - 28,
+                                  child: Dialog(
+                                    insetPadding:
+                                        EdgeInsets.symmetric(horizontal: 28.0),
                                     child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: 20.0,
+                                        Container(
+                                          padding: EdgeInsets.only(top: 20.0),
+                                          width: double.infinity,
+                                          //height: 30.0,
+                                          //color: colorMedico,
+                                          child: Center(
+                                              child: Text(
+                                            'Confirmation',
+                                            style: TextStyle(
+                                                fontSize: 30.0, color: colorVN),
+                                          )),
                                         ),
-                                        Text(room.roomName,
-                                            style: TextStyle(fontSize: 20.0)),
-                                        SizedBox(
-                                          height: 20.0,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                height: 40.0,
-                                                child: submitButton('Delete',
-                                                    () async {
-                                                  print('deleting');
-                                                  Navigator.of(dialogContext)
-                                                      .pop();
-                                                  updating(context, 'Deleting');
-                                                  //print(upSong.toJson());
-                                                  final resp =
-                                                      await ServerDataBloc()
-                                                          .deleteRoom(room);
-                                                  await Future.delayed(
-                                                      Duration(seconds: 1));
-                                                  if (resp) {
-                                                    print('deleted');
-                                                    Navigator.of(
-                                                            _updatingContext)
-                                                        .pop();
-                                                    updated(dialogContext,
-                                                        'Room deleted');
-                                                  } else {
-                                                    print('error');
-                                                    Navigator.of(
-                                                            _updatingContext)
-                                                        .pop();
-                                                    errorPopUp(
-                                                        dialogContext, 'Error');
-                                                  }
-                                                }),
+                                        Container(
+                                          //height: 40.0,
+
+                                          child: Column(
+                                            children: <Widget>[
+                                              SizedBox(
+                                                height: 20.0,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 20.0,
-                                        ),
+                                              Text(
+                                                  ' The room ${room.roomName} will be deleted' +
+                                                      '\n' +
+                                                      'Do you want to continue?',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0)),
+                                              SizedBox(
+                                                height: 20.0,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50.0,
+                                                      child: submitButtonS(
+                                                          'Yes', () async {
+                                                        print('deleting');
+                                                        Navigator.of(
+                                                                dialogContext)
+                                                            .pop();
+                                                        updating(context,
+                                                            'Deleting');
+                                                        //print(upSong.toJson());
+                                                        final resp =
+                                                            await ServerDataBloc()
+                                                                .deleteRoom(
+                                                                    room);
+                                                        await Future.delayed(
+                                                            Duration(
+                                                                seconds: 1));
+                                                        if (resp) {
+                                                          print('deleted');
+                                                          Navigator.of(
+                                                                  _updatingContext)
+                                                              .pop();
+                                                          updated(dialogContext,
+                                                              'Room deleted');
+                                                        } else {
+                                                          print('error');
+                                                          Navigator.of(
+                                                                  _updatingContext)
+                                                              .pop();
+                                                          errorPopUp(
+                                                              dialogContext,
+                                                              'Error');
+                                                        }
+                                                      }),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50.0,
+                                                      child: submitButtonNo(
+                                                          'NO', () async {
+                                                        print('deleting');
+                                                        Navigator.of(
+                                                                dialogContext)
+                                                            .pop();
+                                                      }),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                  child: deleteIcon),
-              SizedBox(
-                width: 10.0,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    //ServerDataBloc().deleteRoomDevices();
-                    ServerDataBloc().roomToModify(room);
-                    ServerDataBloc().loadingEdit();
-                    ServerDataBloc().requestDevices();
-                    Navigator.of(_context)
-                        .pushReplacementNamed('editRoomsPage');
-                  },
-                  child: editIcon),
-            ],
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-        ]),
+                                  ),
+                                );
+                              });
+                        },
+                        child: deleteIcon),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          //ServerDataBloc().deleteRoomDevices();
+                          ServerDataBloc().roomToModify(room);
+                          ServerDataBloc().loadingEdit();
+                          ServerDataBloc().requestDevices();
+                          Navigator.of(_context)
+                              .pushReplacementNamed('editRoomsPage');
+                        },
+                        child: editIcon),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+              ]),
+        ),
       ),
     ),
   );
@@ -2292,34 +2323,40 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                       builder: (BuildContext context) {
                         dialogContext = _context;
                         return Container(
-                          //width: MediaQuery.of(context).size.width - 20,
+                          //width: MediaQuery.of(context).size.width - 28,
                           child: Dialog(
-                            //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+                            insetPadding:
+                                EdgeInsets.symmetric(horizontal: 28.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Container(
+                                  padding: EdgeInsets.only(top: 20.0),
                                   width: double.infinity,
-                                  height: 30.0,
-                                  color: colorMedico,
+                                  //height: 30.0,
+                                  //color: colorMedico,
                                   child: Center(
                                       child: Text(
-                                    'Delete the room?',
+                                    'Confirmation',
                                     style: TextStyle(
-                                        fontSize: 20.0, color: Colors.white),
+                                        fontSize: 30.0, color: colorVN),
                                   )),
                                 ),
                                 Container(
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  //height: 40.0,
+
                                   child: Column(
                                     children: <Widget>[
                                       SizedBox(
                                         height: 20.0,
                                       ),
-                                      Text(room.roomName,
+                                      Text(
+                                          ' The room ${room.roomName} will be deleted' +
+                                              '\n' +
+                                              'Do you want to continue?',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 20.0)),
                                       SizedBox(
                                         height: 20.0,
@@ -2332,8 +2369,8 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              height: 40.0,
-                                              child: submitButton('Delete',
+                                              height: 50.0,
+                                              child: submitButtonS('Yes',
                                                   () async {
                                                 print('deleting');
                                                 Navigator.of(dialogContext)
@@ -2361,10 +2398,18 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                                               }),
                                             ),
                                           ),
+                                          Expanded(
+                                            child: Container(
+                                              height: 50.0,
+                                              child: submitButtonNo('NO',
+                                                  () async {
+                                                print('deleting');
+                                                Navigator.of(dialogContext)
+                                                    .pop();
+                                              }),
+                                            ),
+                                          ),
                                         ],
-                                      ),
-                                      SizedBox(
-                                        height: 20.0,
                                       ),
                                     ],
                                   ),
@@ -2469,34 +2514,40 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                         builder: (BuildContext context) {
                           dialogContext = _context;
                           return Container(
-                            width: MediaQuery.of(context).size.width - 20,
+                            //width: MediaQuery.of(context).size.width - 28,
                             child: Dialog(
-                              //insetPadding: EdgeInsets.symmetric(horizontal:10.0),
+                              insetPadding:
+                                  EdgeInsets.symmetric(horizontal: 28.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Container(
+                                    padding: EdgeInsets.only(top: 20.0),
                                     width: double.infinity,
-                                    height: 30.0,
-                                    color: colorMedico,
+                                    //height: 30.0,
+                                    //color: colorMedico,
                                     child: Center(
                                         child: Text(
-                                      'Delete the room?',
+                                      'Confirmation',
                                       style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
+                                          fontSize: 30.0, color: colorVN),
                                     )),
                                   ),
                                   Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    //height: 40.0,
+
                                     child: Column(
                                       children: <Widget>[
                                         SizedBox(
                                           height: 20.0,
                                         ),
-                                        Text(room.roomName,
+                                        Text(
+                                            ' The room ${room.roomName} will be deleted' +
+                                                '\n' +
+                                                'Do you want to continue?',
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 20.0)),
                                         SizedBox(
                                           height: 20.0,
@@ -2509,8 +2560,8 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                           children: [
                                             Expanded(
                                               child: Container(
-                                                height: 40.0,
-                                                child: submitButton('Delete',
+                                                height: 50.0,
+                                                child: submitButtonS('Yes',
                                                     () async {
                                                   print('deleting');
                                                   Navigator.of(dialogContext)
@@ -2540,10 +2591,18 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                                 }),
                                               ),
                                             ),
+                                            Expanded(
+                                              child: Container(
+                                                height: 50.0,
+                                                child: submitButtonNo('NO',
+                                                    () async {
+                                                  print('deleting');
+                                                  Navigator.of(dialogContext)
+                                                      .pop();
+                                                }),
+                                              ),
+                                            ),
                                           ],
-                                        ),
-                                        SizedBox(
-                                          height: 20.0,
                                         ),
                                       ],
                                     ),

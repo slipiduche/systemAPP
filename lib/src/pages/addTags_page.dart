@@ -70,7 +70,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                           child: Text(
                             'Scan your tag using your register device',
                             style: TextStyle(
-                              fontSize: 24.0,
+                              fontSize: title1,
                             ),
                             overflow: TextOverflow.clip,
                             textAlign: TextAlign.center,

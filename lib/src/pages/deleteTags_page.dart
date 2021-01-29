@@ -71,7 +71,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                           child: Text(
                             'Scan your tag using your register device',
                             style: TextStyle(
-                              fontSize: 24.0,
+                              fontSize: title1,
                             ),
                             overflow: TextOverflow.clip,
                             textAlign: TextAlign.center,
@@ -257,6 +257,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
 
   void _action(String _tagId, BuildContext context) async {
     if (tagHere && songHere) {
+      
       print('send tag');
 
       print(_tagId);

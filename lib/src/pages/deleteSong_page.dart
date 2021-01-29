@@ -59,7 +59,7 @@ class _DeleteSongPageState extends State<DeleteSongPage> {
               Text(
                 'Select  the song do you want to delete',
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: title1,
                 ),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,

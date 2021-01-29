@@ -67,7 +67,7 @@ class _PlaySongPageState extends State<PlaySongPage> {
                 Text(
                   'Select  the song',
                   style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: title1,
                   ),
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,

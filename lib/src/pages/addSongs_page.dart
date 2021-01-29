@@ -23,7 +23,7 @@ class _AddSongsPageState extends State<AddSongsPage> {
   @override
   Widget build(BuildContext context) {
     awaitUpload = 0;
-    
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -47,7 +47,7 @@ class _AddSongsPageState extends State<AddSongsPage> {
               ),
               SizedBox(height: 8.0),
               Text(
-                'Songs',
+                'Add songs',
                 style: TextStyle(
                     color: colorVN,
                     fontSize: 40.0,
@@ -58,12 +58,13 @@ class _AddSongsPageState extends State<AddSongsPage> {
                 child: Container(
                   //height: 200.0,
                   //width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 25.0),
 
-                  child: FilePickerDemo(true,
-                      "Select the songs you want to add", "Search for songs"),
+                  child: FilePickerDemo(true, "Select the song you want to add",
+                      "Search for a song"),
                 ),
               ),
-              SizedBox(height:5.0),
+              SizedBox(height: 5.0),
               gradientBar2(2),
             ],
           ),

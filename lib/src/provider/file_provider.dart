@@ -106,14 +106,15 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           children: <Widget>[
             Text(
               _text1,
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: title1),
               overflow: TextOverflow.clip,
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: 5.0,
+              height: 10.0,
             ),
             Container(
+              //margin: EdgeInsets.symmetric(horizontal: 28.0),
               //padding: EdgeInsets.symmetric(horizontal: 15.0),
               margin: EdgeInsets.symmetric(horizontal: 3),
               child: Column(
@@ -129,21 +130,27 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
                       //width: MediaQuery.of(context).size.width - 52.0,
                       child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          //margin: EdgeInsets.symmetric(horizontal: 0),
                           //expanded
                           child: Row(
                             children: [
                               SizedBox(
-                                width: 5.0,
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  _text2,
+                                  style: TextStyle(
+                                      color: colorLetraSearch,
+                                      fontSize: search1),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.0,
                               ),
                               searchIcon(20.0, colorMedico),
                               SizedBox(
                                 width: 10.0,
-                              ),
-                              Text(
-                                _text2,
-                                style: TextStyle(
-                                    color: colorLetraSearch, fontSize: 24),
                               ),
                             ],
                           )),

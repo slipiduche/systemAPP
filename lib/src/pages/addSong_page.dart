@@ -60,6 +60,7 @@ class _AddSongPageState extends State<AddSongPage> {
                 child: Container(
                   //height: 200.0,
                   //width: double.infinity,
+                  
 
                   child: FilePickerDemo(false,
                       "Select the song you want to add", "Search for a song"),
