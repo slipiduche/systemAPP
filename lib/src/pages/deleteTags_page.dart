@@ -153,13 +153,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     return GestureDetector(
-                                      onTap: tagHere
-                                          ? () {
-                                              Navigator.of(context)
-                                                  .pushNamed('bindSongPage');
-                                              print('search song');
-                                            }
-                                          : null,
+                                      onTap: null,
                                       child: StreamBuilder(
                                         stream: serverDataBloc.songStream,
                                         builder: (BuildContext context,
