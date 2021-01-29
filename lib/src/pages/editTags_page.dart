@@ -97,11 +97,11 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                   StreamBuilder(
                                     stream: ServerDataBloc().tagStream,
                                     builder: (BuildContext context,
-                                        AsyncSnapshot snapshot) {
+                                        AsyncSnapshot<String> snapshot) {
                                       if (snapshot.hasData) {
                                         tagHere = true;
                                         tag = snapshot.data;
-                                        //tagId=
+
                                         serverDataBloc.requestSongs();
                                         serverDataBloc.requestTags();
 
@@ -156,6 +156,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     tagHere = true;
+                                    tagId = snapshot.data.id.toString();
                                     print('taghere:$tagHere');
                                     return GestureDetector(
                                       onTap: tagHere
@@ -236,10 +237,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                             child: Container(
                                               height: 40.0,
                                               child: submitButton('Edit', () {
-                                                _action(
-                                                    songId,
-                                                    snapshot.data.id.toString(),
-                                                    context);
+                                                _action(songId, tagId, context);
                                               }),
                                             ),
                                           ),
