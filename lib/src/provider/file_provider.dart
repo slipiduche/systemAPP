@@ -83,11 +83,14 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   void autoScroll(index) async {
     print(index);
-    double aux = index * 40.0;
+    double aux = index * 100.0;
     print(aux);
-    await controller.animateTo(aux,
-        curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
-    print('autoScroll');
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await controller.animateTo(aux,
+          curve: Curves.fastOutSlowIn, duration: Duration(milliseconds: 250));
+      print('autoScroll');
+    });
   }
 
   void _selectFolder() {
@@ -133,27 +136,26 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                           //margin: EdgeInsets.symmetric(horizontal: 0),
                           //expanded
                           child: Row(
-                            children: [
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  _text2,
-                                  style: TextStyle(
-                                      color: colorLetraSearch,
-                                      fontSize: search1),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              searchIcon(20.0, colorMedico),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                            ],
-                          )),
+                        children: [
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: Text(
+                              _text2,
+                              style: TextStyle(
+                                  color: colorLetraSearch, fontSize: search1),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          searchIcon(20.0, colorMedico),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                        ],
+                      )),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
                           color: Colors.white,
@@ -213,8 +215,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             MP3Instance id3 =
                                                 MP3Instance(_paths[i].path);
                                             String author;
-                                            //     id3.getMetaTags()['Artist'];
-                                            // print(id3.getMetaTags());
+                                            id3.getMetaTags(); //
+                                            print(id3.getMetaTags());
                                             // print(author);
                                             if (author == null) {
                                               author = "Unknown";

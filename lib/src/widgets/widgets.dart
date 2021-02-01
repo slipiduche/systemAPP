@@ -728,8 +728,6 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
           //width: MediaQuery.of(_context).size.width - 30,
           child: Row(children: [
             SizedBox(width: 20.0),
-            songIcon(40.0, colorMedico),
-            SizedBox(width: 10.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -739,7 +737,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                     song.songName,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.w100,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -748,12 +746,114 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                     song.artist,
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 16.0,
+                        fontSize: 13.0,
                         fontWeight: FontWeight.w100),
                   )
                 ],
               ),
             ),
+            SizedBox(width: 10.0),
+            StreamBuilder(
+                stream: ServerDataBloc().songPlayer.isPlayingStream,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    if ((snapshot.data ==
+                                FlutterRadioPlayer.flutter_radio_stopped ||
+                            snapshot.data ==
+                                FlutterRadioPlayer.flutter_radio_paused) &&
+                        song.id == songSelected) {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/0/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                            } else {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/1/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: speakerIcon(40.0, colorMedico));
+                    }
+                    if (snapshot.data ==
+                            FlutterRadioPlayer.flutter_radio_playing &&
+                        song.id == songSelected) {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.pause();
+                            } else {
+                              await ServerDataBloc().songPlayer.pause();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: Icon(Icons.pause,
+                              color: colorMedico, size: 40.0));
+                    } else {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/0/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                            } else {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/1/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: speakerIcon(40.0, colorMedico));
+                    }
+                  } else {
+                    return GestureDetector(
+                        onTap: () async {
+                          print('presionaste id ');
+                          print(song.id);
+                          songSelected = song.id;
+
+                          print('playing');
+                          if (song.id == 0 || song.id == 1) {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://$serverUri:8080/audio/0/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                          } else {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://$serverUri:8080/audio/1/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                            //ServerDataBloc().bindSong(song);
+                            //Navigator.of(_context).pop();
+                          }
+                        },
+                        child: speakerIcon(40.0, colorMedico));
+                  }
+                }),
             SizedBox(width: 10.0),
             GestureDetector(
                 onTap: () async {
@@ -807,7 +907,7 @@ Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
                   song.songName,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 18.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.w100,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -816,13 +916,115 @@ Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
                   song.artist,
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w100),
                 )
               ],
             ),
           ),
         ),
+        SizedBox(
+          width: 10.0,
+        ),
+        StreamBuilder(
+            stream: ServerDataBloc().songPlayer.isPlayingStream,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                if ((snapshot.data ==
+                            FlutterRadioPlayer.flutter_radio_stopped ||
+                        snapshot.data ==
+                            FlutterRadioPlayer.flutter_radio_paused) &&
+                    song.id == songSelected) {
+                  return GestureDetector(
+                      onTap: () async {
+                        print('presionaste id ');
+                        print(song.id);
+                        songSelected = song.id;
+
+                        print('playing');
+                        if (song.id == 0 || song.id == 1) {
+                          await ServerDataBloc().songPlayer.setUrl(
+                              'http://$serverUri:8080/audio/0/${song.flName}',
+                              'true');
+                          await ServerDataBloc().songPlayer.play();
+                        } else {
+                          await ServerDataBloc().songPlayer.setUrl(
+                              'http://$serverUri:8080/audio/1/${song.flName}',
+                              'true');
+                          await ServerDataBloc().songPlayer.play();
+                          //ServerDataBloc().bindSong(song);
+                          //Navigator.of(_context).pop();
+                        }
+                      },
+                      child: speakerIcon(40.0, colorMedico));
+                }
+                if (snapshot.data == FlutterRadioPlayer.flutter_radio_playing &&
+                    song.id == songSelected) {
+                  return GestureDetector(
+                      onTap: () async {
+                        print('presionaste id ');
+                        print(song.id);
+                        songSelected = song.id;
+
+                        print('playing');
+                        if (song.id == 0 || song.id == 1) {
+                          await ServerDataBloc().songPlayer.pause();
+                        } else {
+                          await ServerDataBloc().songPlayer.pause();
+                          //ServerDataBloc().bindSong(song);
+                          //Navigator.of(_context).pop();
+                        }
+                      },
+                      child: Icon(Icons.pause, color: colorMedico, size: 40.0));
+                } else {
+                  return GestureDetector(
+                      onTap: () async {
+                        print('presionaste id ');
+                        print(song.id);
+                        songSelected = song.id;
+
+                        print('playing');
+                        if (song.id == 0 || song.id == 1) {
+                          await ServerDataBloc().songPlayer.setUrl(
+                              'http://$serverUri:8080/audio/0/${song.flName}',
+                              'true');
+                          await ServerDataBloc().songPlayer.play();
+                        } else {
+                          await ServerDataBloc().songPlayer.setUrl(
+                              'http://$serverUri:8080/audio/1/${song.flName}',
+                              'true');
+                          await ServerDataBloc().songPlayer.play();
+                          //ServerDataBloc().bindSong(song);
+                          //Navigator.of(_context).pop();
+                        }
+                      },
+                      child: speakerIcon(40.0, colorMedico));
+                }
+              } else {
+                return GestureDetector(
+                    onTap: () async {
+                      print('presionaste id ');
+                      print(song.id);
+                      songSelected = song.id;
+
+                      print('playing');
+                      if (song.id == 0 || song.id == 1) {
+                        await ServerDataBloc().songPlayer.setUrl(
+                            'http://$serverUri:8080/audio/0/${song.flName}',
+                            'true');
+                        await ServerDataBloc().songPlayer.play();
+                      } else {
+                        await ServerDataBloc().songPlayer.setUrl(
+                            'http://$serverUri:8080/audio/1/${song.flName}',
+                            'true');
+                        await ServerDataBloc().songPlayer.play();
+                        //ServerDataBloc().bindSong(song);
+                        //Navigator.of(_context).pop();
+                      }
+                    },
+                    child: speakerIcon(40.0, colorMedico));
+              }
+            }),
         SizedBox(
           width: 10.0,
         ),
