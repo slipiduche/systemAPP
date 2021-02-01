@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
@@ -26,6 +28,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     this._text1,
     this._text2,
   );
+  List uploadList = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _fileName;
   List<PlatformFile> _paths;
@@ -215,13 +218,22 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             MP3Instance id3 =
                                                 MP3Instance(_paths[i].path);
                                             String author;
-                                            id3.getMetaTags(); //
-                                            print(id3.getMetaTags());
+                                            if (id3.parseTagsSync()) {
+                                              print(id3.getMetaTags());
+                                              author = id3.metaTags["Artist"];
+                                              print(author);
+                                            }
+
                                             // print(author);
                                             if (author == null) {
                                               author = "Unknown";
                                             }
                                             print(author);
+                                            uploadList.add({
+                                              "name": _paths[i].name,
+                                              "path": _paths[i].path,
+                                              "artist": author
+                                            });
                                             if (_multiPick == false) {
                                               print('dibujar icono');
                                               column.add(TwoIconCard(
@@ -325,8 +337,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     int sendsCount = 0, sended = 0;
 
     for (var i = 0; i < songsCount; i++) {
-      sended =
-          await ServerDataBloc().uploadSong(_paths[i].path, _paths[i].name);
+      sended = await ServerDataBloc()
+          .uploadSong(_paths[i].path, _paths[i].name, uploadList[i]["artist"]);
       if (sended == 2) {
         sendsCount++;
         sended = 0;

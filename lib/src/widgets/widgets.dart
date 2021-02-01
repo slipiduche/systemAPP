@@ -299,8 +299,8 @@ class _TwoIconCardState extends State<TwoIconCard> {
                   onTap: () async {
                     print(_path);
                     uploading(1, 1, context);
-                    awaitUpload =
-                        await ServerDataBloc().uploadSong(_path, name);
+                    awaitUpload = await ServerDataBloc()
+                        .uploadSong(_path, name, description);
                     Navigator.pop(context);
                     setState(() {});
                   },

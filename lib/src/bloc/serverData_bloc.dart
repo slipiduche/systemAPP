@@ -205,19 +205,21 @@ class ServerDataBloc {
     await serverDataProvider.prepareMqttClient();
   }
 
-  Future<int> uploadSong(audioPath, name) async {
+  Future<int> uploadSong(audioPath, name, artist) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
 
       if (token != '' && token != null) {
-        final resp = await UploadProvider().upload(audioPath, name, token);
+        final resp =
+            await UploadProvider().upload(audioPath, name, artist, token);
         if (resp == 2) requestSongs();
         return resp;
       }
       return 0;
     } else {
-      final resp = await UploadProvider().upload(audioPath, name, token);
+      final resp =
+          await UploadProvider().upload(audioPath, name, artist, token);
       if (resp == 2) requestSongs();
       return resp;
     }
@@ -448,6 +450,7 @@ class ServerDataBloc {
     _serverDevicesController.add(null);
     _speakerController.add(null);
   }
+
   void deleteRoomReader() {
     _serverDevicesController.add(null);
     _readerController.add(null);
