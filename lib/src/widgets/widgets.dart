@@ -1701,12 +1701,22 @@ Widget makeRoomsListSimple(
                 _roomStatus = 1;
               }
             }
+            if (element.chipId == _rooms[index].readerId &&
+                (element.status == 'UNRESPONSIVE')) {
+              {
+                _roomStatus = 0;
+              }
+            }
           });
           if (_roomStatus == 1) {
             devices.forEach((element) {
               if (element.chipId == _rooms[index].speakerId &&
                   (element.status == 'ASSIGNED')) {
                 _roomStatus = 1;
+              }
+              if (element.chipId == _rooms[index].speakerId &&
+                  (element.status == 'UNRESPONSIVE')) {
+                _roomStatus = 0;
               }
             });
           }

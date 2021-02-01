@@ -23,7 +23,7 @@ class UploadProvider {
         contentType: MediaType('audio', 'mpeg'));
         
         //print(ServerDataBloc.tokenS);
-    final object=audioUploadRequest.fields['details']='{"TOKEN":"$token","filename":"$name","song":"${name.substring(0,name.length-4)}","artist":"Unknown"}';
+    final object=audioUploadRequest.fields['details']='{"TOKEN":"$token","filename":"$name.mp3","song":"$name","artist":"Unknown"}';
     print(object);
     audioUploadRequest.files.add(file);
     print(audioUploadRequest);
