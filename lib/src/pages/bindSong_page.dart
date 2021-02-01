@@ -26,9 +26,9 @@ class _BindSongPageState extends State<BindSongPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async{
         //exit(0);
-        serverDataBloc.songPlayer.pause();
+        await serverDataBloc.songPlayer.pause();
         Navigator.of(context).pop();
         //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         print('poppop');

@@ -30,12 +30,12 @@ class SongSearchDelegate extends SearchDelegate {
           Icons.arrow_back_ios,
           color: colorMedico,
         ),
-        onPressed: () {
+        onPressed: () async {
           final FocusScopeNode focus = FocusScope.of(context);
           if (!focus.hasPrimaryFocus && focus.hasFocus) {
             FocusManager.instance.primaryFocus.unfocus();
           }
-          ServerDataBloc().songPlayer.pause();
+          await ServerDataBloc().songPlayer.pause();
           Navigator.of(context).pop();
         });
   }
