@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/service/song_service.dart';
@@ -34,6 +35,7 @@ class SongSearchDelegate extends SearchDelegate {
           if (!focus.hasPrimaryFocus && focus.hasFocus) {
             FocusManager.instance.primaryFocus.unfocus();
           }
+          ServerDataBloc().songPlayer.pause();
           Navigator.of(context).pop();
         });
   }

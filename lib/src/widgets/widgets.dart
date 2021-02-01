@@ -857,6 +857,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
             SizedBox(width: 10.0),
             GestureDetector(
                 onTap: () async {
+                  ServerDataBloc().songPlayer.pause();
                   icon1();
                 },
                 child: deleteIcon(40.0, colorMedico)),
@@ -866,6 +867,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
             Builder(builder: (_context) {
               return GestureDetector(
                   onTap: () async {
+                    ServerDataBloc().songPlayer.pause();
                     icon2();
                   },
                   child: editIcon(40.0, colorMedico));
@@ -1034,6 +1036,7 @@ Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
           } else {
             return GestureDetector(
                 onTap: () async {
+                  ServerDataBloc().songPlayer.pause();
                   print('presionaste id ');
                   print(song.id);
                   if (mode == 'edit') {
