@@ -19,6 +19,15 @@ Widget homeBarIcon(double size) {
     height: size,
   );
 }
+Widget floatingIcon(double size) {
+  return Image(
+    image: AssetImage(
+      'assets/floating.png',
+    ),
+    width: size,
+    height: size,
+  );
+}
 
 Widget homeBarIconS(double size) {
   return Image(

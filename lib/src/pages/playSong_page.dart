@@ -4,6 +4,7 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/search/song_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class PlaySongPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class PlaySongPage extends StatefulWidget {
 }
 
 class _PlaySongPageState extends State<PlaySongPage> {
+  List<Music> _songs;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
@@ -72,6 +74,62 @@ class _PlaySongPageState extends State<PlaySongPage> {
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: 10.0),
+                Container(
+                  //margin: EdgeInsets.symmetric(horizontal: 28.0),
+                  //padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  margin: EdgeInsets.symmetric(horizontal: 28),
+                  child: Column(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          if (_songs.length > 0) {
+                            showSearch(
+                                context: context,
+                                delegate: SongSearchDelegate(_songs, 'play'));
+                          } else {}
+                        },
+                        child: Container(
+                          height: 41.0,
+
+                          //width: MediaQuery.of(context).size.width - 52.0,
+                          child: Container(
+                              //margin: EdgeInsets.symmetric(horizontal: 0),
+                              //expanded
+                              child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'Search for a song',
+                                  style: TextStyle(
+                                      color: colorLetraSearch,
+                                      fontSize: search1),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              searchIcon(20.0, colorMedico),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                            ],
+                          )),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: colorBordeSearch,
+                                style: BorderStyle.solid,
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: 5.0),
                 Expanded(
                   child: Container(
@@ -104,8 +162,9 @@ class _PlaySongPageState extends State<PlaySongPage> {
                           );
                         } else {
                           //print(snapshot.data[0].songName);
-
+                          _songs = snapshot.data;
                           return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 25.0),
                             child: makeSongsListPlay(
                                 _scaffoldKey.currentContext,
                                 snapshot.data,
@@ -118,7 +177,7 @@ class _PlaySongPageState extends State<PlaySongPage> {
                     ),
                   ),
                 ),
-                SizedBox(height:5.0),
+                SizedBox(height: 5.0),
                 gradientBar2(2),
               ],
             ),

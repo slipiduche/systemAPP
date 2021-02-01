@@ -6,7 +6,8 @@ class SongService {
     final minus = key.toLowerCase();
 
     await _songs.forEach((element) {
-      if (element.songName.toLowerCase().contains(minus)) {
+      if (element.songName.toLowerCase().contains(minus) ||
+          (element.artist.toLowerCase().contains(minus))) {
         filtered.add(element);
       }
     });

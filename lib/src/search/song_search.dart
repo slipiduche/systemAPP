@@ -48,6 +48,17 @@ class SongSearchDelegate extends SearchDelegate {
             if (mode == 'bind') {
               return makeSongsList(
                   context, snapshot.data, addIcon(20.0, colorMedico), 'add');
+            }
+            if (mode == 'play') {
+              return Container(
+                //margin: EdgeInsets.symmetric(horizontal: 25.0),
+                child: makeSongsListPlay(
+                    context,
+                    snapshot.data,
+                    speakerIcon(40.0, colorMedico),
+                    addIcon(40.0, colorMedico),
+                    'changeDefault'),
+              );
             } else {
               return makeSongsList2(context, snapshot.data);
             }
@@ -83,6 +94,17 @@ class SongSearchDelegate extends SearchDelegate {
             if (mode == 'bind') {
               return makeSongsList(
                   context, snapshot.data, addIcon(20.0, colorMedico), 'bind');
+            }
+            if (mode == 'play') {
+              return Container(
+                //margin: EdgeInsets.symmetric(horizontal: 25.0),
+                child: makeSongsListPlay(
+                    context,
+                    snapshot.data,
+                    speakerIcon(40.0, colorMedico),
+                    addIcon(40.0, colorMedico),
+                    'changeDefault'),
+              );
             } else {
               return makeSongsList2(context, snapshot.data);
             }

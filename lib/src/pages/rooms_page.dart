@@ -67,40 +67,40 @@ class _RoomsPageState extends State<RoomsPage> {
                 Expanded(
                   child: Column(
                     children: [
-                      Center(
-                        child: Text(
-                          'Add rooms',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                  height: 80.0,
-                                  //margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                  //width: MediaQuery.of(context).size.width - 5,
-                                  child: Container(
-                                      child: GestureDetector(
-                                    onTap: () {
-                                      print('add room');
-                                      Navigator.of(context)
-                                          .pushNamed('addRoomsPage');
-                                    },
-                                    child: addRoomIcon(50.0, colorMedico),
-                                  ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
+                      // Center(
+                      //   child: Text(
+                      //     'Add rooms',
+                      //     style: TextStyle(fontSize: 15),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 10.0,
+                      // ),
+                      // Center(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Expanded(
+                      //         child: Container(
+                      //             height: 80.0,
+                      //             //margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      //             //width: MediaQuery.of(context).size.width - 5,
+                      //             child: Container(
+                      //                 child: GestureDetector(
+                      //               onTap: () {
+                      //                 print('add room');
+                      //                 Navigator.of(context)
+                      //                     .pushNamed('addRoomsPage');
+                      //               },
+                      //               child: addRoomIcon(50.0, colorMedico),
+                      //             ))),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 10.0,
+                      // ),
                       Expanded(
                         child: Container(
                           child: StreamBuilder(
@@ -122,12 +122,12 @@ class _RoomsPageState extends State<RoomsPage> {
                                   return Container(
                                     // margin:
                                     //     EdgeInsets.symmetric(horizontal: 1.0),
-                                    
+
                                     child: Column(
                                       children: [
                                         Container(
-                                          margin:
-                                        EdgeInsets.symmetric(horizontal: 28),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 28),
                                           child: GestureDetector(
                                               onTap: () {
                                                 if (_rooms.length > 0) {
@@ -209,6 +209,17 @@ class _RoomsPageState extends State<RoomsPage> {
             ),
           ),
           bottomNavigationBar: BottomBar(1),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: Container(
+            //margin: EdgeInsets.symmetric(horizontal:12.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                print('add room');
+                Navigator.of(context).pushNamed('addRoomsPage');
+              },
+              child: floatingIcon(60.0),
+            ),
+          ),
         ),
       ),
     );
