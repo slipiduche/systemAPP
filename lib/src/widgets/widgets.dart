@@ -722,71 +722,56 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
   final List<PopupMenuItem<String>> _popUpMenuItems = [
     PopupMenuItem<String>(
       value: 'Edit',
-      child: GestureDetector(
-        onTap: () {
-          icon1();
-        },
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Edit',
-                  style: TextStyle(fontSize: 26),
-                ),
-                Expanded(child: Container()),
-                editIcon(40.0, colorMedico)
-              ],
-            ),
-            Divider(),
-          ],
-        ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'Edit',
+                style: TextStyle(fontSize: 26),
+              ),
+              Expanded(child: Container()),
+              editIcon(40.0, colorMedico)
+            ],
+          ),
+          Divider(),
+        ],
       ),
     ),
     PopupMenuItem<String>(
       value: 'AddPlay',
-      child: GestureDetector(
-        onTap: () {
-          icon1();
-        },
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Add to playlist',
-                  style: TextStyle(fontSize: 26),
-                ),
-                Expanded(child: Container()),
-                playListIcon(40.0)
-              ],
-            ),
-            Divider(),
-          ],
-        ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'Add to playlist',
+                style: TextStyle(fontSize: 26),
+              ),
+              Expanded(child: Container()),
+              playListIcon(40.0)
+            ],
+          ),
+          Divider(),
+        ],
       ),
     ),
     PopupMenuItem<String>(
       value: 'Delete',
-      child: GestureDetector(
-        onTap: () {
-          icon1();
-        },
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Delete',
-                  style: TextStyle(fontSize: 26),
-                ),
-                Expanded(child: Container()),
-                deleteIcon(40.0, colorMedico)
-              ],
-            ),
-            Divider(),
-          ],
-        ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'Delete',
+                style: TextStyle(fontSize: 26),
+              ),
+              Expanded(child: Container()),
+              deleteIcon(40.0, colorMedico)
+            ],
+          ),
+          Divider(),
+        ],
       ),
     ),
   ];
@@ -936,34 +921,26 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
             ),
             SizedBox(width: 10.0),
             PopupMenuButton<String>(
-              padding: EdgeInsets.all(0.0),
-              offset: Offset.fromDirection(0.0,50.0),
-                onSelected: (value) {},
-                child: Container(
-                  width: 30.0,
-                  height: 30.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    //crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // SizedBox(height: 1.0,),
-                      Expanded(
-                        child: Text(
-                          '···',
-                          //textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                          ),
-                        ),
-                      ),
-                      //SizedBox(height: 10.0,),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.0),
-                      color: colorMedico),
-                ),
+                padding: EdgeInsets.all(0.0),
+                offset: Offset.fromDirection(0.0, 50.0),
+                onSelected: (value) {
+                  switch (value) {
+                    case 'Edit':
+                      icon2();
+
+                      break;
+                    case 'Delete':
+                      icon1();
+
+                      break;
+                    case 'AddPlay':
+                      //icon2();
+
+                      break;
+                    //default:
+                  }
+                },
+                child: moreCircle(),
                 itemBuilder: (BuildContext _context) {
                   return _popUpMenuItems;
                 }),
@@ -974,6 +951,33 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
         ),
       ],
     ),
+  );
+}
+
+Widget moreCircle() {
+  return Container(
+    width: 30.0,
+    height: 30.0,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      //crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // SizedBox(height: 1.0,),
+        Expanded(
+          child: Text(
+            '···',
+            //textAlign: TextAlign.start,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 30.0,
+            ),
+          ),
+        ),
+        //SizedBox(height: 10.0,),
+      ],
+    ),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100.0), color: colorMedico),
   );
 }
 
