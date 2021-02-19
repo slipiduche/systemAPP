@@ -19,6 +19,24 @@ Widget homeBarIcon(double size) {
     height: size,
   );
 }
+Widget playListIcon(double size) {
+  return Image(
+    image: AssetImage(
+      'assets/playListIcon.png',
+    ),
+    width: size,
+    height: size,
+  );
+}
+Widget listIcon(double size) {
+  return Image(
+    image: AssetImage(
+      'assets/listIcon.png',
+    ),
+    width: size,
+    height: size,
+  );
+}
 Widget floatingIcon(double size) {
   return Image(
     image: AssetImage(

@@ -729,31 +729,6 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
           //width: MediaQuery.of(_context).size.width - 30,
           child: Row(children: [
             SizedBox(width: 20.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    song.songName,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w100,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    song.artist,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w100),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(width: 10.0),
             StreamBuilder(
                 stream: ServerDataBloc().songPlayer.isPlayingStream,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -784,7 +759,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                               //Navigator.of(_context).pop();
                             }
                           },
-                          child: speakerIcon(40.0, colorMedico));
+                          child: Icon(Icons.play_arrow));
                     }
                     if (snapshot.data ==
                             FlutterRadioPlayer.flutter_radio_playing &&
@@ -828,7 +803,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                               //Navigator.of(_context).pop();
                             }
                           },
-                          child: speakerIcon(40.0, colorMedico));
+                          child: Icon(Icons.play_arrow, color:colorMedico,size: 40.0,));
                     }
                   } else {
                     return GestureDetector(
@@ -852,9 +827,34 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                             //Navigator.of(_context).pop();
                           }
                         },
-                        child: speakerIcon(40.0, colorMedico));
+                        child: Icon(Icons.play_arrow, color:colorMedico,size: 40.0,));
                   }
                 }),
+            SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    song.songName,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w100,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    song.artist,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w100),
+                  )
+                ],
+              ),
+            ),
             SizedBox(width: 10.0),
             GestureDetector(
                 onTap: () async {
