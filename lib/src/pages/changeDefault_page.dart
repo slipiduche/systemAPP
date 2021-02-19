@@ -76,7 +76,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Text(
-                              'Current',
+                              'Current default tag song',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: colorVN,
