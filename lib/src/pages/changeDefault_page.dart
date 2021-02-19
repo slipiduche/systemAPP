@@ -159,72 +159,37 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                         },
                                       ),
                                     ),
+                                    GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .pushNamed('playSongPage');
+                                        },
+                                        child: searchIcon(40.0, colorMedico))
                                   ],
                                 ),
                                 SizedBox(height: 20.0),
                               ],
                             ),
                           ),
-                          SizedBox(height: 10.0),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 28.0),
-                            child: Text(
-                              'Change',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: colorVN,
-                                  fontSize: 36.0,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
                           Column(
                             children: [
                               SizedBox(height: 20.0),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 28.0),
-                                child: StreamBuilder(
-                                  stream: ServerDataBloc().songStream,
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<Music> snapshot) {
-                                    if (snapshot.hasData) {
-                                      return GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .pushNamed('playSongPage');
-                                          },
-                                          child: searchBoxForm(
-                                              snapshot.data.songName, context));
-                                    } else {
-                                      return GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .pushNamed('playSongPage');
-                                          },
-                                          child: searchBoxForm(
-                                              'Select a song from the list',
-                                              context));
-                                    }
-                                  },
-                                ),
-                              ),
                               SizedBox(height: 10.0),
                               StreamBuilder(
                                 stream: serverDataBloc.songStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot<Music> snapshot) {
+                                  if (snapshot.hasData) {
+                                    //
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) =>
+                                            _action(snapshot.data, context));
+                                  } else {}
                                   return Container(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 28.0),
                                     height: 40.0,
-                                    child: submitButton('Change', () {
-                                      if (snapshot.hasData) {
-                                        _action(snapshot.data, context);
-                                      } else {}
-                                    }),
+                                    //child: submitButton('Change', () {}),
                                   );
                                 },
                               ),
