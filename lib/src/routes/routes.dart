@@ -40,7 +40,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'listSongsPage': (BuildContext context) => ListSongsPage(),
     'roomsPage': (BuildContext context) => RoomsPage(),
     'addRoomsPage': (BuildContext context) => AddRoomsPage(),
-    'playlistPage': (BuildContext context) => PlayListPage(),
+    'playListPage': (BuildContext context) => PlayListPage(),
     'editRoomsPage': (BuildContext context) => EditRoomsPage(),
     'bindSpeakerPage': (BuildContext context) => BindSpeakerPage(),
     'bindReaderPage': (BuildContext context) => BindReaderPage(),

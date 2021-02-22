@@ -135,6 +135,10 @@ Widget tarjeta(
       ),
     ),
     onTap: () async {
+      if (index == 20) {
+        await Navigator.of(context)
+            .pushNamed('playListPage', arguments: null);
+      }
       if (index == 13) {
         await Navigator.of(context)
             .pushNamed('deleteTagsPage', arguments: null);

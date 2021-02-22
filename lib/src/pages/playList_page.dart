@@ -53,11 +53,11 @@ class _PlayListPageState extends State<PlayListPage> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(100.0)),
-                  child: roomIcon(98.0),
+                  child: playListIcon(50.0),
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  'PlayList',
+                  'Playlists',
                   style: TextStyle(
                       color: colorVN,
                       fontSize: 40.0,
@@ -147,11 +147,11 @@ class _PlayListPageState extends State<PlayListPage> {
                   ),
                 ),
                 SizedBox(height: 5.0),
-                gradientBar2(1),
+                gradientBar2(2),
               ],
             ),
           ),
-          bottomNavigationBar: BottomBar(1),
+          bottomNavigationBar: BottomBar(2),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           floatingActionButton: Container(
             //margin: EdgeInsets.symmetric(horizontal:12.0),

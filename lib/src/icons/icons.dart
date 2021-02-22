@@ -19,15 +19,22 @@ Widget homeBarIcon(double size) {
     height: size,
   );
 }
+
 Widget playListIcon(double size) {
-  return Image(
-    image: AssetImage(
-      'assets/playListIcon.png',
-    ),
+  return Container(
     width: size,
     height: size,
+    child: Image(
+      image: AssetImage(
+        'assets/playListIcon.png',
+      ),
+      width: size,
+      height: size,
+      fit: BoxFit.scaleDown,
+    ),
   );
 }
+
 Widget listIcon(double size) {
   return Image(
     image: AssetImage(
@@ -37,6 +44,7 @@ Widget listIcon(double size) {
     height: size,
   );
 }
+
 Widget floatingIcon(double size) {
   return Image(
     image: AssetImage(
