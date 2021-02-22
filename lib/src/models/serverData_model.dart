@@ -1,3 +1,5 @@
+import 'package:systemAPP/src/pages/playList_page.dart';
+
 class ServerData {
   ServerData(
       {this.status,
@@ -6,7 +8,9 @@ class ServerData {
       this.tag,
       this.tags,
       this.rooms,
-      this.devices,this.sdefault});
+      this.playlists,
+      this.devices,
+      this.sdefault});
 
   String status;
   String token;
@@ -14,11 +18,11 @@ class ServerData {
   String tag;
   Tags tags;
   Rooms rooms;
+  PlayLists playlists;
   Devices devices;
   int sdefault;
 
   factory ServerData.fromJson(Map<String, dynamic> json) => ServerData(
-    
       token: json["TOKEN"],
       status: json["STATUS"],
       songs: Songs.fromJsonList(json["MUSIC"]),
@@ -26,7 +30,7 @@ class ServerData {
       tags: Tags.fromJsonList(json["TAGS"]),
       rooms: Rooms.fromJsonList(json["ROOMS"]),
       devices: Devices.fromJsonList(json["DEVICES"]),
-      sdefault:(json["DEFAULT"]!=null)?int.parse(json["DEFAULT"]):null);
+      sdefault: (json["DEFAULT"] != null) ? int.parse(json["DEFAULT"]) : null);
 }
 
 class Devices {
@@ -45,12 +49,7 @@ class Devices {
 }
 
 class Device {
-  Device({
-    this.chipId,
-    this.deviceName,
-    this.type,
-    this.status
-  });
+  Device({this.chipId, this.deviceName, this.type, this.status});
 
   String chipId;
   String deviceName;
@@ -61,7 +60,7 @@ class Device {
         chipId: json["CHIP_ID"],
         deviceName: json["NAME"],
         type: json["TYPE"],
-        status:json["STATUS"],
+        status: json["STATUS"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -118,6 +117,64 @@ class Music {
       };
 }
 
+class PlayLists {
+  List<PlayList> items = new List();
+
+  PlayLists();
+
+  PlayLists.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final playlist = new PlayList.fromJson(item);
+      items.add(playlist);
+    }
+  }
+}
+
+class PlayList {
+  PlayList(
+      {this.id,
+      this.listName,
+      this.plTableName,
+      this.adTableName,
+      this.ads,
+      this.adMinRate,
+      this.tracks,
+      this.adTracks});
+
+  int id;
+  String listName;
+  String plTableName;
+  String adTableName;
+  String ads;
+  String adMinRate;
+  String tracks;
+  String adTracks;
+
+  factory PlayList.fromJson(Map<String, dynamic> json) => PlayList(
+        id: json["ID"],
+        listName: json["LIST_NAME"],
+        plTableName: json["PL_TABLE_NAME"],
+        adTableName: json["AD_TABLE_NAME"],
+        ads: json["ADS"],
+        adMinRate: json["AD_MIN_RATE"],
+        tracks: json["TRACKS"],
+        adTracks: json["ADTRACKS"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "LIST_NAME": listName,
+        "PL_TABLE_NAME": plTableName,
+        "AD_TABLE_NAME": adTableName,
+        "ADS": ads,
+        "AD_MIN_RATE": adMinRate,
+        "TRACKS": tracks,
+        "ADTRACKS": adTracks,
+      };
+}
+
 class Rooms {
   List<Room> items = new List();
 
@@ -155,8 +212,10 @@ class Room {
         roomName: json["ROOM_NAME"],
         readerId: json["READER_ID"],
         speakerId: json["SPEAKER_ID"],
-        readerName: json["READER_NAME"]!=null?json["READER_NAME"]:'noName',
-        speakerName: json["SPEAKER_NAME"]!=null?json["SPEAKER_NAME"]:'noName',
+        readerName:
+            json["READER_NAME"] != null ? json["READER_NAME"] : 'noName',
+        speakerName:
+            json["SPEAKER_NAME"] != null ? json["SPEAKER_NAME"] : 'noName',
       );
 
   Map<String, dynamic> toJson() => {

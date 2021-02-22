@@ -53,6 +53,7 @@ class ServerDataBloc {
   final _tokenController = new BehaviorSubject<String>();
   final _defaultController = new BehaviorSubject<Music>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
+  final _serverPlayListsController = new BehaviorSubject<List<PlayList>>();
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
   final _speakerController = new BehaviorSubject<Device>();
   final _readerController = new BehaviorSubject<Device>();
@@ -70,6 +71,8 @@ class ServerDataBloc {
   Stream<String> get tokenStream => _tokenController.stream;
   Stream<Music> get defaultStream => _defaultController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
+  Stream<List<PlayList>> get serverPlayListsStream =>
+      _serverPlayListsController.stream;
   Stream<List<Device>> get serverDevicesStream =>
       _serverDevicesController.stream;
   Stream<Device> get speakerStream => _speakerController.stream;
@@ -170,15 +173,28 @@ class ServerDataBloc {
       } else if (data.status == 'SUCCESS') {
         print('success');
 
-        response = data;
-        if (data.rooms.items.length >= 0) {
-          print(data.rooms.items.length);
-          print(data.rooms.items);
-          _serverRoomsController.add(data.rooms.items);
+        if (dataType == "PLAYLISTS") {
+          response = data;
+          if (data.playlists.items.length >= 0) {
+            print(data.playlists.items.length);
+            print(data.playlists.items);
+            _serverPlayListsController.add(data.playlists.items);
 
+            return;
+          }
           return;
         }
-        return;
+        if (dataType == "ROOMS") {
+          response = data;
+          if (data.rooms.items.length >= 0) {
+            print(data.rooms.items.length);
+            print(data.rooms.items);
+            _serverRoomsController.add(data.rooms.items);
+
+            return;
+          }
+          return;
+        }
       } else if (data.status == 'FAILURE') {
         print('failure here');
 
@@ -197,6 +213,10 @@ class ServerDataBloc {
         if (dataType == 'MUSIC') {
           _serverDataController.add([]);
           print('MUSIC');
+        }
+        if (dataType == 'PLAYLISTS') {
+          _serverPlayListsController.add([]);
+          print('PLAYLISTS');
         }
 
         return;
@@ -535,5 +555,16 @@ class ServerDataBloc {
     } else {
       return false;
     }
+  }
+
+  void requestPlayLists() async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+
+    serverDataProvider.publishData(
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS"}', 'APP/GET');
+    //_cargandoController.sink.add(false);
   }
 }

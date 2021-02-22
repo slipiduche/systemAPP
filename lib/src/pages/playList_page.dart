@@ -15,7 +15,7 @@ class PlayListPage extends StatefulWidget {
 }
 
 class _PlayListPageState extends State<PlayListPage> {
-  List<Room> _playlist;
+  List<PlayList> _playlist;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
   @override
@@ -26,11 +26,11 @@ class _PlayListPageState extends State<PlayListPage> {
 
   @override
   Widget build(BuildContext context) {
-    serverDataBloc.requestPlayList();
+    serverDataBloc.requestPlayLists();
 
     return WillPopScope(
       onWillPop: () {
-        Navigator.of(context).pushReplacementNamed('homePage');
+        Navigator.of(context).pushReplacementNamed('musicPage');
       },
       child: SafeArea(
         key: _scaffoldKey,
@@ -70,9 +70,9 @@ class _PlayListPageState extends State<PlayListPage> {
                       Expanded(
                         child: Container(
                           child: StreamBuilder(
-                            stream: serverDataBloc.serverPlayListStream,
+                            stream: serverDataBloc.serverPlayListsStream,
                             builder: (BuildContext context,
-                                AsyncSnapshot<List<Room>> snapshot) {
+                                AsyncSnapshot<List<PlayList>> snapshot) {
                               if (snapshot.hasData) {
                                 if (snapshot.data.length < 1) {
                                   return Column(
@@ -96,46 +96,23 @@ class _PlayListPageState extends State<PlayListPage> {
                                               horizontal: 28),
                                           child: GestureDetector(
                                               onTap: () {
-                                                if (_playlist.length > 0) {
-                                                  showSearch(
-                                                      context: context,
-                                                      delegate:
-                                                          PlayListearchDelegate(
-                                                              _playlist));
-                                                } else {}
+                                                // if (_playlist.length > 0) {
+                                                //   showSearch(
+                                                //       context: context,
+                                                //       delegate:
+                                                //           PlayListearchDelegate(
+                                                //               _playlist));
+                                                // } else {}
                                               },
                                               child: Container(
                                                 child: searchBoxForm(
-                                                    'Search for a room',
+                                                    'Search for a playlist',
                                                     context),
                                               )),
                                         ),
                                         SizedBox(
                                           height: 10.0,
                                         ),
-                                        Expanded(
-                                            child: StreamBuilder<List<Device>>(
-                                                stream: serverDataBloc
-                                                    .serverDevicesStream,
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    return makePlayListListSimple(
-                                                        _playlist,
-                                                        snapshot.data,
-                                                        _scaffoldKey
-                                                            .currentContext);
-                                                  } else {
-                                                    serverDataBloc
-                                                        .requestDevices();
-                                                    serverDataBloc
-                                                        .bindLoading();
-                                                    return makePlayListListSimple(
-                                                        _playlist,
-                                                        [],
-                                                        _scaffoldKey
-                                                            .currentContext);
-                                                  }
-                                                })),
                                       ],
                                     ),
                                   );
@@ -180,14 +157,30 @@ class _PlayListPageState extends State<PlayListPage> {
             //margin: EdgeInsets.symmetric(horizontal:12.0),
             child: FloatingActionButton(
               onPressed: () {
-                print('add room');
-                Navigator.of(context).pushNamed('addPlayListPage');
+                print('add playlist');
+                //Navigator.of(context).pushNamed('addPlayListPage');
               },
               child: floatingIcon(60.0),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget makePlayListsListSimple(
+      List<PlayList> playList, BuildContext currentContext) {
+    return ListView.builder(
+      itemCount: playList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          elevation: 5.0,
+          color: Colors.white,
+          child: Column(
+            children: [Text(playList[index].listName)],
+          ),
+        );
+      },
     );
   }
 }
