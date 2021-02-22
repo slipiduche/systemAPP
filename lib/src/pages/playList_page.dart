@@ -50,6 +50,7 @@ class _PlayListPageState extends State<PlayListPage> {
                 Container(
                   height: 123,
                   width: 123,
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(100.0)),

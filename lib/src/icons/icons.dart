@@ -27,9 +27,10 @@ Widget playListIcon(double size) {
     child: Image(
       image: AssetImage(
         'assets/playListIcon.png',
+        
       ),
-      width: size,
-      height: size,
+      // width: size,
+      // height: size,
       fit: BoxFit.scaleDown,
     ),
   );
