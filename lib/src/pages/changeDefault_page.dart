@@ -80,7 +80,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: colorVN,
-                                  fontSize: 36.0,
+                                  fontSize: 30.0,
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
