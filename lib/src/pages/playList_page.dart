@@ -159,7 +159,7 @@ class _PlayListPageState extends State<PlayListPage> {
             child: FloatingActionButton(
               onPressed: () {
                 print('add playlist');
-                //Navigator.of(context).pushNamed('addPlayListPage');
+                Navigator.of(context).pushNamed('addPlayListPage');
               },
               child: floatingIcon(60.0),
             ),
