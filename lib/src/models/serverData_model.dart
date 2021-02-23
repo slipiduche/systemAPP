@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:systemAPP/src/pages/playList_page.dart';
+import 'package:systemAPP/src/pages/listPlayList_page.dart';
 
 class ServerData {
   ServerData(

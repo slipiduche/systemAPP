@@ -137,7 +137,7 @@ Widget tarjeta(
     onTap: () async {
       if (index == 20) {
         await Navigator.of(context)
-            .pushNamed('playListPage', arguments: null);
+            .pushNamed('listPlayListPage', arguments: null);
       }
       if (index == 13) {
         await Navigator.of(context)
