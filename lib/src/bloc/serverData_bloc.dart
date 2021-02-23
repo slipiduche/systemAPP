@@ -567,4 +567,52 @@ class ServerDataBloc {
         '{"TOKEN":"$token","TARGET":"PLAYLISTS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
+
+  Future<bool> createPlayList(String listName) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":"FALSE","FIELD3":NULL,"FIELD4":NULL,"FIELD5":NULL,"FIELD6":NULL}';
+    final resp = serverDataProvider.publishData(postData, 'APP/POST');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deletePlayList(PlayList playList) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"${playList.id}"}';
+    final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> addSongToPlayList(PlayList playList, List<int> songIds) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":"$songIds"}';
+    final resp = serverDataProvider.publishData(postData, 'APP/POST');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }
