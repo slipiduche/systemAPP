@@ -159,6 +159,7 @@ class _ListPlayListPageState extends State<ListPlayListPage> {
             child: FloatingActionButton(
               onPressed: () {
                 print('add playlist');
+                addPlayList(context);
                 //Navigator.of(context).pushNamed('playListPage');
               },
               child: floatingIcon(60.0),
@@ -169,7 +170,7 @@ class _ListPlayListPageState extends State<ListPlayListPage> {
     );
   }
 
-  void addPlayList() {}
+  
 
   Widget makePlayListsListSimple(
       List<PlayList> playList, BuildContext currentContext) {

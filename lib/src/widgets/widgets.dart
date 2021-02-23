@@ -1470,6 +1470,9 @@ void updated(BuildContext _context, String message) {
                             } else if (message == "Default updated") {
                               Navigator.of(context)
                                   .pushReplacementNamed('changeDefaultPage');
+                            } else if (message == "Playlist Created") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('ListPlayListPage');
                             }
                           }),
                         ),
@@ -2631,7 +2634,6 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                         itemBuilder: (BuildContext _context) {
                           return _popUpMenuItems;
                         }),
-                    
                   ],
                 ),
                 SizedBox(
@@ -3039,4 +3041,103 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
   // Container(
   //   child: Center(child: Text(room.roomName)),
   // );
+}
+
+void addPlayList(BuildContext _context) {
+  BuildContext dialogContext;
+  String _listName = '';
+  showDialog(
+      context: _context,
+      barrierDismissible: false,
+      builder: (context) {
+        dialogContext = _context;
+        return Container(
+          //width: MediaQuery.of(context).size.width - 20,
+          child: Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                // mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Text(
+                                    'Song name',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  // _deviceInput('Name', song.songName,
+                                  //     (String name) {
+                                  //   upSong.songName = name;
+                                  //   print('name:$name');
+                                  // }),
+                                  Text('Artist',
+                                      style: TextStyle(fontSize: 25.0)),
+                                  // _deviceInput('Artist', song.artist,
+                                  //     (String artist) {
+                                  //   upSong.artist = artist;
+                                  //   print('artist:$artist');
+                                  // }),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                ]),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50.0,
+                              child: submitButton('Done', () async {
+                                Navigator.of(dialogContext).pop();
+                                updating(context, 'updating');
+                                //print(upSong.toJson());
+                                final resp = await ServerDataBloc()
+                                    .createPlayList(_listName);
+                                if (resp) {
+                                  print('crated');
+                                  Navigator.of(_updatingContext).pop();
+                                  updated(dialogContext, 'Playlist Created');
+                                } else {
+                                  print('error Playlist not created');
+                                  Navigator.of(_updatingContext).pop();
+                                  errorPopUp(
+                                      dialogContext, 'Playlist not created');
+                                }
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }

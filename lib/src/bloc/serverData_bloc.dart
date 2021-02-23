@@ -572,7 +572,7 @@ class ServerDataBloc {
     final postData =
         '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":"FALSE","FIELD3":NULL,"FIELD4":NULL,"FIELD5":NULL,"FIELD6":NULL}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 5));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
         return resp;
