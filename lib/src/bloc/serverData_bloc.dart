@@ -175,10 +175,10 @@ class ServerDataBloc {
 
         if (dataType == "PLAYLISTS") {
           response = data;
-          if (data.playlists.items.length >= 0) {
-            print(data.playlists.items.length);
-            print(data.playlists.items);
-            _serverPlayListsController.add(data.playlists.items);
+          if (data.playLists.items.length >= 0) {
+            print(data.playLists.items.length);
+            print(data.playLists.items);
+            _serverPlayListsController.add(data.playLists.items);
 
             return;
           }
@@ -601,6 +601,21 @@ class ServerDataBloc {
   }
 
   Future<bool> addSongToPlayList(PlayList playList, List<int> songIds) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":"$songIds"}';
+    final resp = serverDataProvider.publishData(postData, 'APP/POST');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+  Future<bool> deleteSongFromPlayList(PlayList playList, List<int> songIds) async {
     final postData =
         '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":"$songIds"}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:systemAPP/src/pages/playList_page.dart';
 
 class ServerData {
@@ -8,7 +9,8 @@ class ServerData {
       this.tag,
       this.tags,
       this.rooms,
-      this.playlists,
+      this.playLists,
+      this.playListSongs,
       this.devices,
       this.sdefault});
 
@@ -18,7 +20,8 @@ class ServerData {
   String tag;
   Tags tags;
   Rooms rooms;
-  PlayLists playlists;
+  PlayLists playLists;
+  PlayListsSongs playListSongs;
   Devices devices;
   int sdefault;
 
@@ -29,6 +32,8 @@ class ServerData {
       tag: json["TAG"],
       tags: Tags.fromJsonList(json["TAGS"]),
       rooms: Rooms.fromJsonList(json["ROOMS"]),
+      playLists: PlayLists.fromJsonList(json["PLAYLISTS"]),
+      playListSongs: PlayListsSongs.fromJsonList(json["PT"]),
       devices: Devices.fromJsonList(json["DEVICES"]),
       sdefault: (json["DEFAULT"] != null) ? int.parse(json["DEFAULT"]) : null);
 }
@@ -115,6 +120,28 @@ class Music {
         "FL_NAME": flName,
         "STATUS": status,
       };
+}
+
+class PlayListsSongs {
+  List<PlayListsSong> items = new List();
+  PlayListsSongs();
+
+  PlayListsSongs.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final song = new PlayListsSong.fromJson(item);
+      items.add(song);
+    }
+  }
+}
+
+class PlayListsSong {
+  int songId;
+  int id;
+  PlayListsSong({this.id, this.songId});
+  factory PlayListsSong.fromJson(Map<String, dynamic> json) =>
+      PlayListsSong(id: json["ID"], songId: json["SONG_ID"]);
 }
 
 class PlayLists {
