@@ -3045,7 +3045,7 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
 
 void addPlayList(BuildContext _context) {
   BuildContext dialogContext;
-  String _listName = '';
+  String _listName = 'newList';
   showDialog(
       context: _context,
       barrierDismissible: false,
