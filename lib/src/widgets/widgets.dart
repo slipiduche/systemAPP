@@ -1472,7 +1472,7 @@ void updated(BuildContext _context, String message) {
                                   .pushReplacementNamed('changeDefaultPage');
                             } else if (message == "Playlist Created") {
                               Navigator.of(context)
-                                  .pushReplacementNamed('ListPlayListPage');
+                                  .pushReplacementNamed('listPlayListPage');
                             }
                           }),
                         ),
@@ -2037,48 +2037,93 @@ Widget makeRoomsListSimple(
           roomStatus.insert(index, 2);
         }
         print(roomStatus);
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                  barrierDismissible: true,
-                  child: Dialog(
-                    //scrollable: true,
-                    insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        threeIconCardDialog(
-                            _rooms[index],
-                            roomIcon(40.0),
-                            editIcon(40.0, colorMedico),
-                            deleteIcon(40.0, colorMedico),
-                            _context),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                      ],
+        if (index == _rooms.length - 1) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    barrierDismissible: true,
+                    child: Dialog(
+                      //scrollable: true,
+                      insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          threeIconCardDialog(
+                              _rooms[index],
+                              roomIcon(40.0),
+                              editIcon(40.0, colorMedico),
+                              deleteIcon(40.0, colorMedico),
+                              _context),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  context: _context,
-                );
-              },
-              child: threeIconCardSimple(
-                  _rooms[index],
-                  roomStatus[index],
-                  editIcon(40.0, colorMedico),
-                  deleteIcon(40.0, colorMedico),
-                  _context),
-            ),
-            //Divider(),
-          ],
-        );
+                    context: _context,
+                  );
+                },
+                child: threeIconCardSimple(
+                    _rooms[index],
+                    roomStatus[index],
+                    editIcon(40.0, colorMedico),
+                    deleteIcon(40.0, colorMedico),
+                    _context),
+              ),
+              SizedBox(
+                height: 100.0,
+              )
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    barrierDismissible: true,
+                    child: Dialog(
+                      //scrollable: true,
+                      insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          threeIconCardDialog(
+                              _rooms[index],
+                              roomIcon(40.0),
+                              editIcon(40.0, colorMedico),
+                              deleteIcon(40.0, colorMedico),
+                              _context),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    context: _context,
+                  );
+                },
+                child: threeIconCardSimple(
+                    _rooms[index],
+                    roomStatus[index],
+                    editIcon(40.0, colorMedico),
+                    deleteIcon(40.0, colorMedico),
+                    _context),
+              ),
+              //Divider(),
+            ],
+          );
+        }
       });
 }
 
@@ -3043,6 +3088,47 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
   // );
 }
 
+Widget listNameInput(String hintText, String textValue, Function update) {
+  final _textValue = new TextEditingController(text: textValue);
+
+  return Container(
+      // width: _screenSize.width -48.0,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(vertical: 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: colorBordeBotton,
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(12.0),
+        color: colorBackGround,
+      ),
+      child: TextField(
+        style: TextStyle(fontSize: 24.0),
+        //autofocus: true,
+        //textCapitalization: TextCapitalization.sentences,
+        controller: _textValue,
+        scrollPadding: EdgeInsets.all(5.0),
+
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText,
+        ),
+        onChanged: (valor) {
+          // _opcionSeleccionada = null;
+          // prefs.dispositivoSeleccionado = null;
+          if (hintText == 'Name') {
+            update(valor);
+          } else {
+            update(valor);
+            // _nombreNuevo = valor;
+          }
+          //setState(() {});
+        },
+      ));
+}
+
 void addPlayList(BuildContext _context) {
   BuildContext dialogContext;
   String _listName = 'newList';
@@ -3079,21 +3165,10 @@ void addPlayList(BuildContext _context) {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    'Song name',
+                                    'Playlist name',
                                     style: TextStyle(fontSize: 25.0),
                                   ),
-                                  // _deviceInput('Name', song.songName,
-                                  //     (String name) {
-                                  //   upSong.songName = name;
-                                  //   print('name:$name');
-                                  // }),
-                                  Text('Artist',
-                                      style: TextStyle(fontSize: 25.0)),
-                                  // _deviceInput('Artist', song.artist,
-                                  //     (String artist) {
-                                  //   upSong.artist = artist;
-                                  //   print('artist:$artist');
-                                  // }),
+                                  listNameInput('Name', 'Playlist1', () {}),
                                   SizedBox(
                                     height: 10.0,
                                   ),
@@ -3115,7 +3190,7 @@ void addPlayList(BuildContext _context) {
                                 final resp = await ServerDataBloc()
                                     .createPlayList(_listName);
                                 if (resp) {
-                                  print('crated');
+                                  print('created');
                                   Navigator.of(_updatingContext).pop();
                                   updated(dialogContext, 'Playlist Created');
                                 } else {

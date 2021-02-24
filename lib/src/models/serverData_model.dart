@@ -174,10 +174,10 @@ class PlayList {
   String listName;
   String plTableName;
   String adTableName;
-  String ads;
-  String adMinRate;
-  String tracks;
-  String adTracks;
+  int ads;
+  int adMinRate;
+  int tracks;
+  int adTracks;
 
   factory PlayList.fromJson(Map<String, dynamic> json) => PlayList(
         id: json["ID"],

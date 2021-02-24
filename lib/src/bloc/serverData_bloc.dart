@@ -570,7 +570,7 @@ class ServerDataBloc {
 
   Future<bool> createPlayList(String listName) async {
     final postData =
-        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":FALSE,"FIELD3":NULL,"FIELD4":NULL,"FIELD5":NULL,"FIELD6":NULL}';
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":"FALSE","FIELD3":null,"FIELD4":null,"FIELD5":null}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 5));
     if (response.status != null) {
