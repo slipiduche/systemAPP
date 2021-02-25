@@ -1473,6 +1473,9 @@ void updated(BuildContext _context, String message) {
                             } else if (message == "Playlist Created") {
                               Navigator.of(context)
                                   .pushReplacementNamed('listPlayListPage');
+                            } else if (message == "Playlist deleted") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listPlayListPage');
                             }
                           }),
                         ),
@@ -1620,10 +1623,18 @@ void errorPopUp(BuildContext _context, String message) {
                               Navigator.of(_context).pop();
                               Navigator.pushReplacementNamed(
                                   context, 'addSongsPage');
+                            } else if (message == "Playlist not deleted") {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'listPlayListPage');
+                            } else if (message == "Playlist not created") {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'listPlayListPage');
                             } else {
                               Navigator.of(_context).pop();
                               Navigator.pushReplacementNamed(
-                                  context, 'addSongsPage');
+                                  context, 'homePage');
                             }
                           }),
                         ),
@@ -2380,8 +2391,8 @@ Widget threeIconCardSimpleNoStatus(
                                                     Navigator.of(
                                                             _updatingContext)
                                                         .pop();
-                                                    errorPopUp(
-                                                        dialogContext, 'Error');
+                                                    errorPopUp(dialogContext,
+                                                        'Room not deleted');
                                                   }
                                                 }),
                                               ),
@@ -2636,7 +2647,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                                                                     .pop();
                                                                 errorPopUp(
                                                                     dialogContext,
-                                                                    'Error');
+                                                                    'Room not deleted');
                                                               }
                                                             }),
                                                           ),
@@ -2835,8 +2846,8 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                                                   print('error');
                                                   Navigator.of(_updatingContext)
                                                       .pop();
-                                                  errorPopUp(
-                                                      dialogContext, 'Error');
+                                                  errorPopUp(dialogContext,
+                                                      'Room not deleted');
                                                 }
                                               }),
                                             ),
@@ -3028,8 +3039,8 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                                                     Navigator.of(
                                                             _updatingContext)
                                                         .pop();
-                                                    errorPopUp(
-                                                        dialogContext, 'Error');
+                                                    errorPopUp(dialogContext,
+                                                        'Room not deleted');
                                                   }
                                                 }),
                                               ),
@@ -3129,9 +3140,9 @@ Widget listNameInput(String hintText, String textValue, Function update) {
       ));
 }
 
-void addPlayList(BuildContext _context) {
+void renamePlayList(BuildContext _context, PlayList playList) {
   BuildContext dialogContext;
-  String _listName = 'newList';
+  String _listName = playList.listName;
   showDialog(
       context: _context,
       barrierDismissible: false,
@@ -3168,7 +3179,99 @@ void addPlayList(BuildContext _context) {
                                     'Playlist name',
                                     style: TextStyle(fontSize: 25.0),
                                   ),
-                                  listNameInput('Name', 'Playlist1', () {}),
+                                  listNameInput('Name', _listName, (value) {
+                                    _listName = value;
+                                  }),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                ]),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50.0,
+                              child: submitButton('Done', () async {
+                                Navigator.of(dialogContext).pop();
+                                updating(context, 'updating');
+                                //print(upSong.toJson());
+                                final resp = await ServerDataBloc()
+                                    .renamePlayList(_listName, playList);
+                                if (resp) {
+                                  print('created');
+                                  Navigator.of(_updatingContext).pop();
+                                  updated(dialogContext, 'Playlist Created');
+                                } else {
+                                  print('error Playlist not created');
+                                  Navigator.of(_updatingContext).pop();
+                                  errorPopUp(
+                                      dialogContext, 'Playlist not created');
+                                }
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
+}
+
+void addPlayList(BuildContext _context) {
+  BuildContext dialogContext;
+  String _listName = 'Playlist1';
+  showDialog(
+      context: _context,
+      barrierDismissible: false,
+      builder: (context) {
+        dialogContext = _context;
+        return Container(
+          //width: MediaQuery.of(context).size.width - 20,
+          child: Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 28.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                // mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Text(
+                                    'Playlist name',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  listNameInput('Name', 'Playlist1', (value) {
+                                    _listName = value;
+                                  }),
                                   SizedBox(
                                     height: 10.0,
                                   ),
@@ -3215,4 +3318,416 @@ void addPlayList(BuildContext _context) {
           ),
         );
       });
+}
+
+Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
+  return ListView.builder(
+    itemCount: playList.length,
+    itemBuilder: (BuildContext context, int index) {
+      final List<PopupMenuItem<String>> _popUpMenuItems = [
+        PopupMenuItem<String>(
+          value: 'View',
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'View songs',
+                    style: TextStyle(fontSize: 26),
+                  ),
+                  Expanded(child: Container()),
+                  songIcon(40.0, colorMedico)
+                ],
+              ),
+              Divider(),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'Edit',
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Rename',
+                    style: TextStyle(fontSize: 26),
+                  ),
+                  Expanded(child: Container()),
+                  editIcon(40.0, colorMedico)
+                ],
+              ),
+              Divider(),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'Delete',
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Delete',
+                    style: TextStyle(fontSize: 26),
+                  ),
+                  Expanded(child: Container()),
+                  deleteIcon(40.0, colorMedico)
+                ],
+              ),
+              Divider(),
+            ],
+          ),
+        ),
+      ];
+      if (playList.length - 1 == index) {
+        return Column(
+          children: [
+            Card(
+              elevation: 5.0,
+              color: Colors.white,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          playList[index].listName,
+                          style: TextStyle(fontSize: 36.0),
+                        ),
+                        Text(
+                          '${playList[index].tracks} songs',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        SizedBox(
+                          height: 7.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                      padding: EdgeInsets.all(0.0),
+                      offset: Offset.fromDirection(0.0, 50.0),
+                      onSelected: (value) {
+                        print(value);
+                        switch (value) {
+                          case 'Edit':
+                            renamePlayList(_context, playList[index]);
+                            break;
+                          case 'Delete':
+                            BuildContext dialogContext;
+                            showDialog(
+                                context: _context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  dialogContext = _context;
+                                  return Container(
+                                    //width: MediaQuery.of(context).size.width - 28,
+                                    child: Dialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                          horizontal: 28.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: EdgeInsets.only(top: 20.0),
+                                            width: double.infinity,
+                                            //height: 30.0,
+                                            //color: colorMedico,
+                                            child: Center(
+                                                child: Text(
+                                              'Confirmation',
+                                              style: TextStyle(
+                                                  fontSize: 30.0,
+                                                  color: colorVN),
+                                            )),
+                                          ),
+                                          Container(
+                                            //height: 40.0,
+
+                                            child: Column(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  height: 20.0,
+                                                ),
+                                                Text(
+                                                    ' The playlist ${playList[index].listName} will be deleted' +
+                                                        '\n' +
+                                                        'Do you want to continue?',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 20.0)),
+                                                SizedBox(
+                                                  height: 20.0,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                        height: 50.0,
+                                                        child: submitButtonS(
+                                                            'Yes', () async {
+                                                          print('deleting');
+                                                          Navigator.of(
+                                                                  dialogContext)
+                                                              .pop();
+                                                          updating(context,
+                                                              'Deleting');
+                                                          //print(upSong.toJson());
+                                                          final resp =
+                                                              await ServerDataBloc()
+                                                                  .deletePlayList(
+                                                                      playList[
+                                                                          index]);
+                                                          await Future.delayed(
+                                                              Duration(
+                                                                  seconds: 1));
+                                                          if (resp) {
+                                                            print('deleted');
+                                                            Navigator.of(
+                                                                    _updatingContext)
+                                                                .pop();
+                                                            updated(
+                                                                dialogContext,
+                                                                'Playlist deleted');
+                                                          } else {
+                                                            print('error');
+                                                            Navigator.of(
+                                                                    _updatingContext)
+                                                                .pop();
+                                                            errorPopUp(
+                                                                dialogContext,
+                                                                'Playlist not deleted');
+                                                          }
+                                                        }),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        height: 50.0,
+                                                        child: submitButtonNo(
+                                                            'NO', () async {
+                                                          print('deleting');
+                                                          Navigator.of(
+                                                                  dialogContext)
+                                                              .pop();
+                                                        }),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+
+                            break;
+                          case 'View':
+                            break;
+                        }
+                      },
+                      child: moreCircle(30.0),
+                      itemBuilder: (BuildContext _context) {
+                        return _popUpMenuItems;
+                      }),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 100.0,
+            )
+          ],
+        );
+      } else {
+        return Card(
+          elevation: 5.0,
+          color: Colors.white,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      playList[index].listName,
+                      style: TextStyle(fontSize: 36.0),
+                    ),
+                    Text(
+                      '${playList[index].tracks} songs',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    SizedBox(
+                      height: 7.0,
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuButton<String>(
+                  padding: EdgeInsets.all(0.0),
+                  offset: Offset.fromDirection(0.0, 50.0),
+                  onSelected: (value) {
+                    switch (value) {
+                      case 'Edit':
+                        renamePlayList(_context, playList[index]);
+                        break;
+                      case 'Delete':
+                        BuildContext dialogContext;
+                        showDialog(
+                            context: _context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              dialogContext = _context;
+                              return Container(
+                                //width: MediaQuery.of(context).size.width - 28,
+                                child: Dialog(
+                                  insetPadding:
+                                      EdgeInsets.symmetric(horizontal: 28.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(top: 20.0),
+                                        width: double.infinity,
+                                        //height: 30.0,
+                                        //color: colorMedico,
+                                        child: Center(
+                                            child: Text(
+                                          'Confirmation',
+                                          style: TextStyle(
+                                              fontSize: 30.0, color: colorVN),
+                                        )),
+                                      ),
+                                      Container(
+                                        //height: 40.0,
+
+                                        child: Column(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 20.0,
+                                            ),
+                                            Text(
+                                                ' The playlist ${playList[index].listName} will be deleted' +
+                                                    '\n' +
+                                                    'Do you want to continue?',
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    TextStyle(fontSize: 20.0)),
+                                            SizedBox(
+                                              height: 20.0,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    height: 50.0,
+                                                    child: submitButtonS('Yes',
+                                                        () async {
+                                                      print('deleting');
+                                                      Navigator.of(
+                                                              dialogContext)
+                                                          .pop();
+                                                      updating(
+                                                          context, 'Deleting');
+                                                      //print(upSong.toJson());
+                                                      final resp =
+                                                          await ServerDataBloc()
+                                                              .deletePlayList(
+                                                                  playList[
+                                                                      index]);
+                                                      await Future.delayed(
+                                                          Duration(seconds: 1));
+                                                      if (resp) {
+                                                        print('deleted');
+                                                        Navigator.of(
+                                                                _updatingContext)
+                                                            .pop();
+                                                        updated(dialogContext,
+                                                            'Playlist deleted');
+                                                      } else {
+                                                        print('error');
+                                                        Navigator.of(
+                                                                _updatingContext)
+                                                            .pop();
+                                                        errorPopUp(
+                                                            dialogContext,
+                                                            'Playlist not deleted');
+                                                      }
+                                                    }),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    height: 50.0,
+                                                    child: submitButtonNo('NO',
+                                                        () async {
+                                                      print('deleting');
+                                                      Navigator.of(
+                                                              dialogContext)
+                                                          .pop();
+                                                    }),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                        break;
+                      case 'View':
+                        break;
+                    }
+                  },
+                  child: moreCircle(30.0),
+                  itemBuilder: (BuildContext _context) {
+                    return _popUpMenuItems;
+                  }),
+              SizedBox(
+                width: 20.0,
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
 }

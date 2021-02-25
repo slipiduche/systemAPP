@@ -172,7 +172,10 @@ class ServerDataBloc {
         return;
       } else if (data.status == 'SUCCESS') {
         print('success');
-
+        if (dataType == 'SUCCESS') {
+          response = data;
+          return;
+        }
         if (dataType == "PLAYLISTS") {
           response = data;
           if (data.playLists.items.length >= 0) {
@@ -572,7 +575,23 @@ class ServerDataBloc {
     final postData =
         '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":"FALSE","FIELD3":null,"FIELD4":null,"FIELD5":null}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 2));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> renamePlayList(String newname, PlayList playList) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$newname","FIELD2":"FALSE","FIELD3":"${playList.id}"}';
+    final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
+    await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
         return resp;
@@ -588,7 +607,7 @@ class ServerDataBloc {
     final postData =
         '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"${playList.id}"}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
         return resp;
@@ -615,7 +634,9 @@ class ServerDataBloc {
       return false;
     }
   }
-  Future<bool> deleteSongFromPlayList(PlayList playList, List<int> songIds) async {
+
+  Future<bool> deleteSongFromPlayList(
+      PlayList playList, List<int> songIds) async {
     final postData =
         '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":"$songIds"}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
