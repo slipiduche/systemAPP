@@ -3414,6 +3414,10 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                           '${playList[index].tracks} songs',
                           style: TextStyle(fontSize: 20.0),
                         ),
+                        Text(
+                          'Genre: ${playList[index].genre}',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
                         SizedBox(
                           height: 7.0,
                         ),
@@ -3592,6 +3596,10 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                       '${playList[index].tracks} songs',
                       style: TextStyle(fontSize: 20.0),
                     ),
+                    Text(
+                      'Genre: ${playList[index].genre}',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
                     SizedBox(
                       height: 7.0,
                     ),
@@ -3736,6 +3744,61 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
           ),
         );
       }
+    },
+  );
+}
+
+Widget makePlayListsListDefault(
+    List<PlayList> playList, BuildContext currentContext) {
+  return ListView.builder(
+    itemCount: playList.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Card(
+        elevation: 5.0,
+        color: Colors.white,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 20.0,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    playList[index].listName,
+                    style: TextStyle(fontSize: 36.0),
+                  ),
+                  Text(
+                    '${playList[index].tracks} songs',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Text(
+                    'Genre: ${playList[index].genre}',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  SizedBox(
+                    height: 7.0,
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+                onTap: () {
+                  print(index);
+                  ServerDataBloc().bindDefault(playList[index]);
+                  Navigator.of(context).pop();
+                },
+                child: addIcon(40.0, colorMedico)),
+            SizedBox(
+              width: 20.0,
+            ),
+          ],
+        ),
+      );
     },
   );
 }

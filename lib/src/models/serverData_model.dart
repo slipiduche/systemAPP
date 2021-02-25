@@ -168,7 +168,8 @@ class PlayList {
       this.ads,
       this.adMinRate,
       this.tracks,
-      this.adTracks});
+      this.adTracks,
+      this.genre});
 
   int id;
   String listName;
@@ -178,6 +179,7 @@ class PlayList {
   int adMinRate;
   int tracks;
   int adTracks;
+  String genre;
 
   factory PlayList.fromJson(Map<String, dynamic> json) => PlayList(
         id: json["ID"],
@@ -188,6 +190,7 @@ class PlayList {
         adMinRate: json["AD_MIN_RATE"],
         tracks: json["TRACKS"],
         adTracks: json["ADTRACKS"],
+        genre: json["GNRES"] == null ? 'Unknown' : json["GNRES"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -199,6 +202,7 @@ class PlayList {
         "AD_MIN_RATE": adMinRate,
         "TRACKS": tracks,
         "ADTRACKS": adTracks,
+        "GNRES": genre
       };
 }
 

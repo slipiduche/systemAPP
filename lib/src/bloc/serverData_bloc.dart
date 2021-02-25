@@ -51,7 +51,8 @@ class ServerDataBloc {
   final _tagController = new BehaviorSubject<String>();
   final _songController = new BehaviorSubject<Music>();
   final _tokenController = new BehaviorSubject<String>();
-  final _defaultController = new BehaviorSubject<Music>();
+  final _defaultController = new BehaviorSubject<PlayList>();
+  final _defaultSelController = new BehaviorSubject<PlayList>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
   final _serverPlayListsController = new BehaviorSubject<List<PlayList>>();
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
@@ -69,7 +70,8 @@ class ServerDataBloc {
   Stream<String> get tagStream => _tagController.stream;
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
-  Stream<Music> get defaultStream => _defaultController.stream;
+  Stream<PlayList> get defaultStream => _defaultController.stream;
+  Stream<PlayList> get defaultSelStream => _defaultSelController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
   Stream<List<PlayList>> get serverPlayListsStream =>
       _serverPlayListsController.stream;
@@ -137,14 +139,6 @@ class ServerDataBloc {
         print('songs');
         print(data.songs.items.length);
         print(data.songs.items);
-        print('default:');
-        print(data.sdefault);
-        print(':default');
-        data.songs.items.forEach((element) {
-          if (element.id == data.sdefault) {
-            _defaultController.add(element);
-          }
-        });
 
         _serverDataController.add(data.songs.items);
         return;
@@ -182,7 +176,14 @@ class ServerDataBloc {
             print(data.playLists.items.length);
             print(data.playLists.items);
             _serverPlayListsController.add(data.playLists.items);
-
+            print('default:');
+            print(data.sdefault);
+            print(':default');
+            data.playLists.items.forEach((element) {
+              if (element.id == data.sdefault) {
+                _defaultController.add(element);
+              }
+            });
             return;
           }
           return;
@@ -324,6 +325,10 @@ class ServerDataBloc {
     _songController.add(song);
   }
 
+  void bindDefault(PlayList playList) {
+    _defaultSelController.add(playList);
+  }
+
   void bindSpeaker(Device speaker) {
     _speakerController.add(speaker);
   }
@@ -460,6 +465,7 @@ class ServerDataBloc {
     _readerController.add(null);
     _roomController.add(null);
     _defaultController.add(null);
+    _defaultSelController.add(null);
     _serverDevicesController.add(null);
   }
 

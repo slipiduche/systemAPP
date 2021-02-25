@@ -78,11 +78,11 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Text(
-                              'Current default tag song',
+                              'Current default tag playlist',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: colorVN,
-                                  fontSize: 30.0,
+                                  fontSize: 28.0,
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
@@ -103,7 +103,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                       child: StreamBuilder(
                                         stream: ServerDataBloc().defaultStream,
                                         builder: (BuildContext context,
-                                            AsyncSnapshot<Music> snapshot) {
+                                            AsyncSnapshot<PlayList> snapshot) {
                                           if (snapshot.hasData) {
                                             return Column(
                                               mainAxisAlignment:
@@ -112,7 +112,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  snapshot.data.songName,
+                                                  snapshot.data.listName,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -122,7 +122,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                                           FontWeight.w700),
                                                 ),
                                                 Text(
-                                                  snapshot.data.artist,
+                                                  '${snapshot.data.tracks} songs',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -137,7 +137,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                                 (serverDataBloc.token == '')) {
                                               serverDataBloc.login();
                                             } else {
-                                              serverDataBloc.requestSongs();
+                                              serverDataBloc.requestPlayLists();
                                             }
                                             return Column(
                                               mainAxisAlignment:
@@ -164,7 +164,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                     GestureDetector(
                                         onTap: () {
                                           Navigator.of(context)
-                                              .pushNamed('playSongPage');
+                                              .pushNamed('playListDefaultPage');
                                         },
                                         child: searchIcon(40.0, colorMedico))
                                   ],
@@ -178,9 +178,9 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                               SizedBox(height: 20.0),
                               SizedBox(height: 10.0),
                               StreamBuilder(
-                                stream: serverDataBloc.songStream,
+                                stream: serverDataBloc.defaultSelStream,
                                 builder: (BuildContext context,
-                                    AsyncSnapshot<Music> snapshot) {
+                                    AsyncSnapshot<PlayList> snapshot) {
                                   if (snapshot.hasData) {
                                     //
                                     WidgetsBinding.instance
@@ -214,7 +214,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
     );
   }
 
-  void _action(Music data, BuildContext _context) async {
+  void _action(PlayList data, BuildContext _context) async {
     updating(_scaffoldKey.currentContext, 'Updating');
     final resp = await ServerDataBloc().changeDefault(data.id.toString());
     if (resp) {

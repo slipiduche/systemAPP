@@ -103,7 +103,7 @@ class _ListPlayListPageState extends State<ListPlayListPage> {
                                                       context: context,
                                                       delegate:
                                                           PlayListSearchDelegate(
-                                                              _playlist));
+                                                              _playlist, ''));
                                                 } else {}
                                               },
                                               child: Container(

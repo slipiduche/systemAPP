@@ -224,18 +224,4 @@ Widget _listNameInput(String hintText, String textValue, Function update) {
       ));
 }
 
-Widget makePlayListsListSimple(
-    List<PlayList> playList, BuildContext currentContext) {
-  return ListView.builder(
-    itemCount: playList.length,
-    itemBuilder: (BuildContext context, int index) {
-      return Card(
-        elevation: 5.0,
-        color: Colors.white,
-        child: Column(
-          children: [Text(playList[index].listName)],
-        ),
-      );
-    },
-  );
-}
+

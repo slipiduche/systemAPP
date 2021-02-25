@@ -5,9 +5,9 @@ import 'package:systemAPP/src/service/playLists_service.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class PlayListSearchDelegate extends SearchDelegate {
-  PlayListSearchDelegate(this.playlists);
+  PlayListSearchDelegate(this.playlists, this.mode);
   List<PlayList> playlists;
-
+  String mode;
   final playlistService = PlayListService();
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -43,7 +43,11 @@ class PlayListSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<PlayList>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makePlayListsListSimple(snapshot.data, context);
+            if (mode == 'Default') {
+              return makePlayListsListDefault(snapshot.data, context);
+            } else {
+              return makePlayListsListSimple(snapshot.data, context);
+            }
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +77,11 @@ class PlayListSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<PlayList>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makePlayListsListSimple(snapshot.data,context);
+            if (mode == 'Default') {
+              return makePlayListsListDefault(snapshot.data, context);
+            } else {
+              return makePlayListsListSimple(snapshot.data, context);
+            }
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
