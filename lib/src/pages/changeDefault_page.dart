@@ -16,6 +16,7 @@ class ChangeDefaultPage extends StatefulWidget {
 }
 
 class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -34,6 +35,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
       }, // SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           body: Container(
             color: colorBackGround,
             child: Column(
@@ -213,15 +215,15 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
   }
 
   void _action(Music data, BuildContext _context) async {
-    updating(_context, 'Updating');
+    updating(_scaffoldKey.currentContext, 'Updating');
     final resp = await ServerDataBloc().changeDefault(data.id.toString());
     if (resp) {
-      Navigator.of(_context).pop();
-      updated(_context, 'Default updated');
+      Navigator.of(_scaffoldKey.currentContext).pop();
+      updated(_scaffoldKey.currentContext, 'Default updated');
       serverDataBloc.deleteData();
     } else {
-      Navigator.of(_context).pop();
-      errorPopUp(_context, 'Default not updated');
+      Navigator.of(_scaffoldKey.currentContext).pop();
+      errorPopUp(_scaffoldKey.currentContext, 'Default not updated');
       serverDataBloc.deleteData();
     }
   }

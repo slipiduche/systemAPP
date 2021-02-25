@@ -228,21 +228,21 @@ class ServerDataBloc {
     await serverDataProvider.prepareMqttClient();
   }
 
-  Future<int> uploadSong(audioPath, name, artist) async {
+  Future<int> uploadSong(audioPath, name, artist, genre) async {
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
 
       if (token != '' && token != null) {
-        final resp =
-            await UploadProvider().upload(audioPath, name, artist, token);
+        final resp = await UploadProvider()
+            .upload(audioPath, name, artist, genre, token);
         if (resp == 2) requestSongs();
         return resp;
       }
       return 0;
     } else {
       final resp =
-          await UploadProvider().upload(audioPath, name, artist, token);
+          await UploadProvider().upload(audioPath, name, artist, genre, token);
       if (resp == 2) requestSongs();
       return resp;
     }

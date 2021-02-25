@@ -194,14 +194,14 @@ class TwoIconCard extends StatefulWidget {
   String label, description;
   Widget icon;
   dynamic icon1;
-  String path, name;
+  String path, name, genre;
   dynamic context;
   TwoIconCard(this.label, this.description, this.icon, this.icon1, this.path,
-      this.context, this.name,
+      this.context, this.name, this.genre,
       {Key key})
       : super(key: key);
-  _TwoIconCardState createState() =>
-      _TwoIconCardState(label, description, icon, icon1, path, context, name);
+  _TwoIconCardState createState() => _TwoIconCardState(
+      label, description, icon, icon1, path, context, name, genre);
 }
 
 class _TwoIconCardState extends State<TwoIconCard> {
@@ -209,14 +209,15 @@ class _TwoIconCardState extends State<TwoIconCard> {
   String label, description;
   Widget icon;
   dynamic icon1;
-  String path, name;
+  String path, name, genre;
   dynamic contexto;
   _TwoIconCardState(this.label, this.description, this.icon, this.icon1,
-      this.path, this.contexto, this.name);
+      this.path, this.contexto, this.name, this.genre);
 
   Widget build(BuildContext context) {
     if (awaitUpload == 0) {
-      return twoIconCard(label, description, icon, icon1, path, contexto, name);
+      return twoIconCard(
+          label, description, icon, icon1, path, contexto, name, genre);
     } else if (awaitUpload == 1) {
       return Column(
         children: <Widget>[
@@ -248,7 +249,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
   }
 
   Widget twoIconCard(String label, description, Widget icon, dynamic icon1,
-      String path, dynamic context, String name) {
+      String path, dynamic context, String name, String genre) {
     String _path = path;
     print(_path);
 
@@ -305,7 +306,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
                     print(_path);
                     uploading(1, 1, context);
                     awaitUpload = await ServerDataBloc()
-                        .uploadSong(_path, name, description);
+                        .uploadSong(_path, name, description, genre);
                     Navigator.pop(context);
                     setState(() {});
                   },
@@ -1476,6 +1477,9 @@ void updated(BuildContext _context, String message) {
                             } else if (message == "Playlist deleted") {
                               Navigator.of(context)
                                   .pushReplacementNamed('listPlayListPage');
+                            } else if (message == "Playlist updated") {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listPlayListPage');
                             }
                           }),
                         ),
@@ -1628,6 +1632,10 @@ void errorPopUp(BuildContext _context, String message) {
                               Navigator.pushReplacementNamed(
                                   context, 'listPlayListPage');
                             } else if (message == "Playlist not created") {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'listPlayListPage');
+                            } else if (message == "Playlist not updated") {
                               Navigator.of(_context).pop();
                               Navigator.pushReplacementNamed(
                                   context, 'listPlayListPage');
@@ -3205,12 +3213,12 @@ void renamePlayList(BuildContext _context, PlayList playList) {
                                 if (resp) {
                                   print('created');
                                   Navigator.of(_updatingContext).pop();
-                                  updated(dialogContext, 'Playlist Created');
+                                  updated(dialogContext, 'Playlist updated');
                                 } else {
-                                  print('error Playlist not created');
+                                  print('error Playlist not updated');
                                   Navigator.of(_updatingContext).pop();
                                   errorPopUp(
-                                      dialogContext, 'Playlist not created');
+                                      dialogContext, 'Playlist not updated');
                                 }
                               }),
                             ),

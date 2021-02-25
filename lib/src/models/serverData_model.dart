@@ -35,7 +35,7 @@ class ServerData {
       playLists: PlayLists.fromJsonList(json["PLAYLISTS"]),
       playListSongs: PlayListsSongs.fromJsonList(json["PT"]),
       devices: Devices.fromJsonList(json["DEVICES"]),
-      sdefault: (json["DEFAULT"] != null) ? int.parse(json["DEFAULT"]) : null);
+      sdefault: (json["DEFAULT"] != null) ? json["DEFAULT"] : null);
 }
 
 class Devices {

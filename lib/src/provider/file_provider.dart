@@ -217,10 +217,11 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             final _selected = i;
                                             MP3Instance id3 =
                                                 MP3Instance(_paths[i].path);
-                                            String author;
+                                            String author, genre;
                                             if (id3.parseTagsSync()) {
                                               print(id3.getMetaTags());
                                               author = id3.metaTags["Artist"];
+                                              genre = id3.metaTags["Genre"];
                                               print(author);
                                             }
 
@@ -228,11 +229,15 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             if (author == null) {
                                               author = "Unknown";
                                             }
+                                            if (genre == null) {
+                                              genre = "Unknown";
+                                            }
                                             print(author);
                                             uploadList.add({
                                               "name": _paths[i].name,
                                               "path": _paths[i].path,
-                                              "artist": author
+                                              "artist": author,
+                                              "genre": genre
                                             });
                                             if (_multiPick == false) {
                                               print('dibujar icono');
@@ -243,7 +248,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                                   uploadIcon(40.0, colorMedico),
                                                   path,
                                                   context,
-                                                  _paths[i].name));
+                                                  _paths[i].name,
+                                                  genre));
                                             } else {
                                               print('dejar vacío');
                                               column.add(TwoIconCard(
@@ -253,7 +259,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                                   false,
                                                   path,
                                                   context,
-                                                  _paths[i].name));
+                                                  _paths[i].name,
+                                                  genre));
                                               if (i == (itemCount - 1)) {
                                                 column.add(GestureDetector(
                                                   child: Row(
@@ -337,8 +344,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
     int sendsCount = 0, sended = 0;
 
     for (var i = 0; i < songsCount; i++) {
-      sended = await ServerDataBloc()
-          .uploadSong(_paths[i].path, _paths[i].name, uploadList[i]["artist"]);
+      sended = await ServerDataBloc().uploadSong(_paths[i].path, _paths[i].name,
+          uploadList[i]["artist"], uploadList[i]["genre"]);
       if (sended == 2) {
         sendsCount++;
         sended = 0;

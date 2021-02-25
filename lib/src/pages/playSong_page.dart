@@ -168,7 +168,7 @@ class _PlaySongPageState extends State<PlaySongPage> {
                             child: makeSongsListPlay(
                                 _scaffoldKey.currentContext,
                                 snapshot.data,
-                                speakerIcon(40.0, colorMedico),
+                                Icon(Icons.play_arrow, color:colorMedico, size:50.0),
                                 addIcon(40.0, colorMedico),
                                 'changeDefault'),
                           );

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/search/playLists_search.dart';
 import 'package:systemAPP/src/search/room_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
@@ -97,13 +98,13 @@ class _ListPlayListPageState extends State<ListPlayListPage> {
                                               horizontal: 28),
                                           child: GestureDetector(
                                               onTap: () {
-                                                // if (_playlist.length > 0) {
-                                                //   showSearch(
-                                                //       context: context,
-                                                //       delegate:
-                                                //           PlayListearchDelegate(
-                                                //               _playlist));
-                                                // } else {}
+                                                if (_playlist.length > 0) {
+                                                  showSearch(
+                                                      context: context,
+                                                      delegate:
+                                                          PlayListSearchDelegate(
+                                                              _playlist));
+                                                } else {}
                                               },
                                               child: Container(
                                                 child: searchBoxForm(
