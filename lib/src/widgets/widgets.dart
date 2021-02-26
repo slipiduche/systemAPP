@@ -3803,8 +3803,12 @@ Widget makePlayListsListDefault(
                     ServerDataBloc().bindPlayList(playList[index]);
                     Navigator.of(context).pop();
                     print('aquí');
-                  } else if (mode == 'Search') {
+                  } else if (mode == 'AddTagSearch') {
                     ServerDataBloc().bindPlayList(playList[index]);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  } else if (mode == 'DefaultSearch') {
+                    ServerDataBloc().bindDefault(playList[index]);
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   }

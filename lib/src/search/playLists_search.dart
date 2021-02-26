@@ -44,7 +44,8 @@ class PlayListSearchDelegate extends SearchDelegate {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
             if (mode == 'Default' || mode == 'AddTag') {
-              return makePlayListsListDefault(snapshot.data, context, 'Search');
+              return makePlayListsListDefault(
+                  snapshot.data, context, mode + 'Search');
             } else {
               return makePlayListsListSimple(snapshot.data, context);
             }
@@ -78,7 +79,8 @@ class PlayListSearchDelegate extends SearchDelegate {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
             if (mode == 'Default' || mode == 'AddTag') {
-              return makePlayListsListDefault(snapshot.data, context, 'Search');
+              return makePlayListsListDefault(
+                  snapshot.data, context, mode + 'Search');
             } else {
               return makePlayListsListSimple(snapshot.data, context);
             }

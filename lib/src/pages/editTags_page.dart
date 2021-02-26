@@ -161,8 +161,8 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
-                                              Navigator.of(context)
-                                                  .pushNamed('bindPlayListPage');
+                                              Navigator.of(context).pushNamed(
+                                                  'bindPlayListPage');
                                               print('search song');
                                             }
                                           : () {
@@ -193,9 +193,9 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
-                                              Navigator.of(context)
-                                                  .pushNamed('bindSong');
-                                              print('search song');
+                                              Navigator.of(context).pushNamed(
+                                                  'bindPlayListPage');
+                                              print('search playlists');
                                             }
                                           : () {
                                               print('do nothing');
