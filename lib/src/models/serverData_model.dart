@@ -97,7 +97,8 @@ class Music {
       this.artist,
       this.flName,
       this.status,
-      this.genre});
+      this.genre,
+      this.album});
 
   int id;
   String songName;
@@ -105,15 +106,16 @@ class Music {
   String flName;
   String status;
   String genre;
+  String album;
 
   factory Music.fromJson(Map<String, dynamic> json) => Music(
-        id: json["ID"],
-        songName: json["SONG_NAME"],
-        artist: json["ARTIST"],
-        flName: json["FL_NAME"],
-        status: json["STATUS"],
-        genre: json["GNRE"],
-      );
+      id: json["ID"],
+      songName: json["SONG_NAME"],
+      artist: json["ARTIST"],
+      flName: json["FL_NAME"],
+      status: json["STATUS"],
+      genre: json["GNRE"],
+      album: json["ALBUM"]);
 
   Map<String, dynamic> toJson() => {
         "ID": id,
@@ -122,6 +124,7 @@ class Music {
         "FL_NAME": flName,
         "STATUS": status,
         "GNRE": genre,
+        "ALBUM": album,
       };
 }
 

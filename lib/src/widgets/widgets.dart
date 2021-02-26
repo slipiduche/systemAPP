@@ -3802,6 +3802,11 @@ Widget makePlayListsListDefault(
                   } else if (mode == 'AddTag') {
                     ServerDataBloc().bindPlayList(playList[index]);
                     Navigator.of(context).pop();
+                    print('aquí');
+                  } else if (mode == 'Search') {
+                    ServerDataBloc().bindPlayList(playList[index]);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   }
                 },
                 child: addIcon(40.0, colorMedico)),

@@ -267,7 +267,7 @@ class ServerDataBloc {
 
       if (token != '' && token != null) {
         final postData =
-            '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":${song.id},"FIELD5":"${song.genre}"}';
+            '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.genre}","FIELD4":"${song.flName}","FIELD5":${song.id}}';
         final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
         await Future.delayed(Duration(seconds: 1));
 
@@ -275,7 +275,7 @@ class ServerDataBloc {
       }
     } else {
       final postData =
-          '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":${song.id},"FIELD5":"${song.genre}"}';
+          '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.genre}","FIELD4":"${song.flName}","FIELD5":${song.id}}';
       final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
       await Future.delayed(Duration(seconds: 1));
 

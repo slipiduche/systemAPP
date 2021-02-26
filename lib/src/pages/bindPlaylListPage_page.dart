@@ -176,8 +176,8 @@ class _PlayListAddTagPageState extends State<PlayListAddTagPage> {
                           _playLists = snapshot.data;
                           return Container(
                               margin: EdgeInsets.symmetric(horizontal: 25.0),
-                              child: makePlayListsListDefault(
-                                  _playLists, _scaffoldKey.currentContext,'AddTag'));
+                              child: makePlayListsListDefault(_playLists,
+                                  _scaffoldKey.currentContext, 'AddTag'));
                         }
                       },
                     ),

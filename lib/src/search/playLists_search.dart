@@ -43,8 +43,8 @@ class PlayListSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<PlayList>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            if (mode == 'Default') {
-              return makePlayListsListDefault(snapshot.data, context, mode);
+            if (mode == 'Default' || mode == 'AddTag') {
+              return makePlayListsListDefault(snapshot.data, context, 'Search');
             } else {
               return makePlayListsListSimple(snapshot.data, context);
             }
@@ -77,8 +77,8 @@ class PlayListSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<PlayList>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            if (mode == 'Default') {
-              return makePlayListsListDefault(snapshot.data, context, mode);
+            if (mode == 'Default' || mode == 'AddTag') {
+              return makePlayListsListDefault(snapshot.data, context, 'Search');
             } else {
               return makePlayListsListSimple(snapshot.data, context);
             }
