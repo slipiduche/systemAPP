@@ -370,7 +370,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.id}"}';
+        '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":${song.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     //await Future.delayed(Duration(seconds: 1));
     return resp;
@@ -418,7 +418,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$songId","FIELD2":"$tagId"}';
+        '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":$songId,"FIELD2":$tagId,"FIELD3":false}';
     final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -456,7 +456,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData = '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tagId"}';
+    final postData = '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":$tagId}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {

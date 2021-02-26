@@ -102,7 +102,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                         tagHere = true;
                                         tag = snapshot.data;
 
-                                        serverDataBloc.requestSongs();
+                                        serverDataBloc.requestPlayLists();
                                         serverDataBloc.requestTags();
 
                                         return Row(
@@ -140,7 +140,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 height: 10.0,
                               ),
                               Text(
-                                'Bind a song',
+                                'Bind a playlist',
                                 style: TextStyle(
                                   fontSize: 25.0,
                                 ),
@@ -162,14 +162,14 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                       onTap: tagHere
                                           ? () {
                                               Navigator.of(context)
-                                                  .pushNamed('bindSongPage');
+                                                  .pushNamed('bindPlayListPage');
                                               print('search song');
                                             }
                                           : () {
                                               print('do nothing');
                                             },
                                       child: StreamBuilder(
-                                        stream: serverDataBloc.songStream,
+                                        stream: serverDataBloc.playListStream,
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
@@ -177,11 +177,11 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                                 snapshot.data.id.toString();
                                             songHere = true;
                                             return searchBoxForm(
-                                                snapshot.data.songName,
+                                                snapshot.data.listName,
                                                 context);
                                           } else {
                                             return searchBoxForm(
-                                                'Select a song from the list',
+                                                'Select a playlist from the list',
                                                 context);
                                           }
                                         },
@@ -201,13 +201,13 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                               print('do nothing');
                                             },
                                       child: StreamBuilder(
-                                        stream: serverDataBloc.songStream,
+                                        stream: serverDataBloc.playListStream,
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
                                             songHere = true;
                                             return searchBoxForm(
-                                                snapshot.data.songName,
+                                                snapshot.data.listName,
                                                 context);
                                           } else {
                                             songHere = false;
@@ -225,7 +225,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                 height: 10.0,
                               ),
                               StreamBuilder(
-                                stream: serverDataBloc.songStream,
+                                stream: serverDataBloc.playListStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {

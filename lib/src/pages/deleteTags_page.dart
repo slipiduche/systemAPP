@@ -103,7 +103,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                         AsyncSnapshot snapshot) {
                                       if (snapshot.hasData) {
                                         tagHere = true;
-                                        serverDataBloc.requestSongs();
+                                        serverDataBloc.requestPlayLists();
                                         serverDataBloc.requestTags();
                                         return Row(
                                           children: [
@@ -139,7 +139,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                 height: 10.0,
                               ),
                               Text(
-                                'Song Binded',
+                                'Playlist Binded',
                                 style: TextStyle(
                                   fontSize: 25.0,
                                 ),
@@ -157,7 +157,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                     return GestureDetector(
                                       onTap: null,
                                       child: StreamBuilder(
-                                        stream: serverDataBloc.songStream,
+                                        stream: serverDataBloc.playListStream,
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
@@ -165,11 +165,11 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                                 snapshot.data.id.toString();
                                             songHere = true;
                                             return textBoxForm(
-                                                snapshot.data.songName,
+                                                snapshot.data.listName,
                                                 context);
                                           } else {
                                             return textBoxForm(
-                                                'Song will appear here',
+                                                'Playlist will appear here',
                                                 context);
                                           }
                                         },
@@ -179,17 +179,17 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                     return GestureDetector(
                                       onTap: null,
                                       child: StreamBuilder(
-                                        stream: serverDataBloc.songStream,
+                                        stream: serverDataBloc.playListStream,
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
                                             songHere = true;
                                             return textBoxForm(
-                                                snapshot.data.songName,
+                                                snapshot.data.listName,
                                                 context);
                                           } else {
                                             return textBoxForm(
-                                                'Song will appear here',
+                                                'Playlist will appear here',
                                                 context);
                                           }
                                         },
