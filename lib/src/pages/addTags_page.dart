@@ -20,6 +20,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
     // TODO: implement initState
     super.initState();
     serverDataBloc.deleteData();
+    
   }
 
   @override
@@ -104,7 +105,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                       if (snapshot.hasData) {
                                         tagHere = true;
                                         tag = snapshot.data;
-                                        serverDataBloc.requestSongs();
+                                        serverDataBloc.requestPlayLists();
                                         serverDataBloc.requestTags();
 
                                         return Row(
@@ -142,7 +143,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 height: 10.0,
                               ),
                               Text(
-                                'Bind a song',
+                                'Bind a playlist',
                                 style: TextStyle(
                                   fontSize: 25.0,
                                 ),
@@ -161,7 +162,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                     return GestureDetector(
                                       onTap: null,
                                       child: StreamBuilder(
-                                        stream: serverDataBloc.songStream,
+                                        stream: serverDataBloc.playListStream,
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
@@ -169,11 +170,11 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                                 snapshot.data.id.toString();
                                             songHere = true;
                                             return searchBoxForm(
-                                                snapshot.data.songName,
+                                                snapshot.data.listName,
                                                 context);
                                           } else {
                                             return searchBoxForm(
-                                                'Select a song from the list',
+                                                'Select a playlist from the list',
                                                 context);
                                           }
                                         },
@@ -190,18 +191,19 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                           } else {
                                             tagHere = false;
                                           }
-                                          
+
                                           return GestureDetector(
                                             onTap: tagHere
                                                 ? () {
                                                     Navigator.of(context)
                                                         .pushNamed(
-                                                            'bindSongPage');
-                                                    print('search song');
+                                                            'bindPlayListPage');
+                                                    print('search playlist');
                                                   }
                                                 : null,
                                             child: StreamBuilder(
-                                              stream: serverDataBloc.songStream,
+                                              stream:
+                                                  serverDataBloc.playListStream,
                                               builder: (BuildContext context,
                                                   AsyncSnapshot snapshot) {
                                                 if (snapshot.hasData) {
@@ -209,12 +211,12 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                                       .toString();
                                                   songHere = true;
                                                   return searchBoxForm(
-                                                      snapshot.data.songName,
+                                                      snapshot.data.listName,
                                                       context);
                                                 } else {
                                                   songHere = false;
                                                   return searchBoxForm(
-                                                      'Select a song from the list',
+                                                      'Select a playlist from the list',
                                                       context);
                                                 }
                                               },
@@ -228,7 +230,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 height: 10.0,
                               ),
                               StreamBuilder(
-                                stream: serverDataBloc.songStream,
+                                stream: serverDataBloc.playListStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData && !tagExist) {

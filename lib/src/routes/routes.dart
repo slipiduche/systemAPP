@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:systemAPP/src/pages/bindPlaylListPage_page.dart';
 import 'package:systemAPP/src/pages/playListDefaultPage_page.dart';
 import 'package:systemAPP/src/pages/playList_page.dart';
 import 'package:systemAPP/src/pages/changeDefault_page.dart';
@@ -45,6 +46,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'listPlayListPage': (BuildContext context) => ListPlayListPage(),
     'playListPage': (BuildContext context) => PlayListPage(),
     'playListDefaultPage': (BuildContext context) => PlayListDefaultPage(),
+    'bindPlayListPage': (BuildContext context) => PlayListAddTagPage(),
     'editRoomsPage': (BuildContext context) => EditRoomsPage(),
     'bindSpeakerPage': (BuildContext context) => BindSpeakerPage(),
     'bindReaderPage': (BuildContext context) => BindReaderPage(),

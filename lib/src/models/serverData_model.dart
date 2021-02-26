@@ -287,13 +287,13 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
         id: json["ID"],
-        songId: json["SONG_ID"],
+        songId: json["LIST_ID"],
         tag: json["TAG"],
       );
 
   Map<String, dynamic> toJson() => {
         "ID": id,
-        "SONG_ID": songId,
+        "LIST_ID": songId,
         "TAG": tag,
       };
 }

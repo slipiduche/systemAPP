@@ -52,6 +52,7 @@ class ServerDataBloc {
   final _songController = new BehaviorSubject<Music>();
   final _tokenController = new BehaviorSubject<String>();
   final _defaultController = new BehaviorSubject<PlayList>();
+  final _playListController = new BehaviorSubject<PlayList>();
   final _defaultSelController = new BehaviorSubject<PlayList>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
   final _serverPlayListsController = new BehaviorSubject<List<PlayList>>();
@@ -71,6 +72,7 @@ class ServerDataBloc {
   Stream<Music> get songStream => _songController.stream;
   Stream<String> get tokenStream => _tokenController.stream;
   Stream<PlayList> get defaultStream => _defaultController.stream;
+  Stream<PlayList> get playListStream => _playListController.stream;
   Stream<PlayList> get defaultSelStream => _defaultSelController.stream;
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
   Stream<List<PlayList>> get serverPlayListsStream =>
@@ -151,11 +153,20 @@ class ServerDataBloc {
           if (element.tag == _tagController.stream.value) {
             final _songId = element.songId;
             _serverTagController.add(element);
-            _serverDataController.stream.value.forEach((element) {
-              if (_songId == element.id) {
-                _songController.add(element);
-              }
-            });
+            if (_serverPlayListsController.stream.hasValue) {
+              print('hay playlists');
+              _serverPlayListsController.stream.value.forEach((element) {
+                print('$_songId--${element.id}');
+                if (_songId == element.id) {
+                  print('playlist binded with this tag');
+
+                  _playListController.add(element);
+                }
+              });
+            } else {
+              requestPlayLists();
+              return;
+            }
           }
         });
         return;
@@ -329,6 +340,10 @@ class ServerDataBloc {
     _defaultSelController.add(playList);
   }
 
+  void bindPlayList(PlayList playList) {
+    _playListController.add(playList);
+  }
+
   void bindSpeaker(Device speaker) {
     _speakerController.add(speaker);
   }
@@ -367,7 +382,7 @@ class ServerDataBloc {
       await Future.delayed(Duration(seconds: 1));
       if (token != '' && token != null) {
         final postData =
-            '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
+            '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":$songId,"FIELD3":false}';
         final resp = serverDataProvider.publishData(postData, 'APP/POST');
         await Future.delayed(Duration(seconds: 1));
         if (response.status != null) {
@@ -382,7 +397,7 @@ class ServerDataBloc {
       }
     } else {
       final postData =
-          '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":"$songId"}';
+          '{"TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":$songId,"FIELD3":false}';
       final resp = serverDataProvider.publishData(postData, 'APP/POST');
       await Future.delayed(Duration(seconds: 1));
       if (response.status != null) {
@@ -465,6 +480,7 @@ class ServerDataBloc {
     _readerController.add(null);
     _roomController.add(null);
     _defaultController.add(null);
+    _playListController.add(null);
     _defaultSelController.add(null);
     _serverDevicesController.add(null);
   }

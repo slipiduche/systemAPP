@@ -9,14 +9,14 @@ import 'package:systemAPP/src/search/playLists_search.dart';
 import 'package:systemAPP/src/search/song_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
-class PlayListDefaultPage extends StatefulWidget {
-  PlayListDefaultPage({Key key}) : super(key: key);
+class PlayListAddTagPage extends StatefulWidget {
+  PlayListAddTagPage({Key key}) : super(key: key);
 
   @override
-  _PlayListDefaultPageState createState() => _PlayListDefaultPageState();
+  _PlayListAddTagPageState createState() => _PlayListAddTagPageState();
 }
 
-class _PlayListDefaultPageState extends State<PlayListDefaultPage> {
+class _PlayListAddTagPageState extends State<PlayListAddTagPage> {
   List<PlayList> _playLists;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -97,7 +97,7 @@ class _PlayListDefaultPageState extends State<PlayListDefaultPage> {
                             showSearch(
                                 context: context,
                                 delegate: PlayListSearchDelegate(
-                                    _playLists, 'Default'));
+                                    _playLists, 'AddTag'));
                           } else {}
                         },
                         child: Container(
@@ -176,8 +176,8 @@ class _PlayListDefaultPageState extends State<PlayListDefaultPage> {
                           _playLists = snapshot.data;
                           return Container(
                               margin: EdgeInsets.symmetric(horizontal: 25.0),
-                              child: makePlayListsListDefault(_playLists,
-                                  _scaffoldKey.currentContext, 'Default'));
+                              child: makePlayListsListDefault(
+                                  _playLists, _scaffoldKey.currentContext,'AddTag'));
                         }
                       },
                     ),

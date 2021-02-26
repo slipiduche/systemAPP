@@ -3749,7 +3749,7 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
 }
 
 Widget makePlayListsListDefault(
-    List<PlayList> playList, BuildContext currentContext) {
+    List<PlayList> playList, BuildContext currentContext, String mode) {
   return ListView.builder(
     itemCount: playList.length,
     itemBuilder: (BuildContext context, int index) {
@@ -3789,8 +3789,13 @@ Widget makePlayListsListDefault(
             GestureDetector(
                 onTap: () {
                   print(index);
-                  ServerDataBloc().bindDefault(playList[index]);
-                  Navigator.of(context).pop();
+                  if (mode == 'Default') {
+                    ServerDataBloc().bindDefault(playList[index]);
+                    Navigator.of(context).pop();
+                  } else if (mode == 'AddTag') {
+                    ServerDataBloc().bindPlayList(playList[index]);
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: addIcon(40.0, colorMedico)),
             SizedBox(
