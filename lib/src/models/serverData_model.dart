@@ -91,19 +91,20 @@ class Songs {
 }
 
 class Music {
-  Music({
-    this.id,
-    this.songName,
-    this.artist,
-    this.flName,
-    this.status,
-  });
+  Music(
+      {this.id,
+      this.songName,
+      this.artist,
+      this.flName,
+      this.status,
+      this.genre});
 
   int id;
   String songName;
   String artist;
   String flName;
   String status;
+  String genre;
 
   factory Music.fromJson(Map<String, dynamic> json) => Music(
         id: json["ID"],
@@ -111,6 +112,7 @@ class Music {
         artist: json["ARTIST"],
         flName: json["FL_NAME"],
         status: json["STATUS"],
+        genre: json["GNRE"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,6 +121,7 @@ class Music {
         "ARTIST": artist,
         "FL_NAME": flName,
         "STATUS": status,
+        "GNRE": genre,
       };
 }
 

@@ -1321,6 +1321,13 @@ void editing(Music song, BuildContext _context) {
                                     upSong.artist = artist;
                                     print('artist:$artist');
                                   }),
+                                  Text('Genre',
+                                      style: TextStyle(fontSize: 25.0)),
+                                  _deviceInput('Genre', song.genre,
+                                      (String genre) {
+                                    upSong.genre = genre;
+                                    print('genre:$genre');
+                                  }),
                                   SizedBox(
                                     height: 10.0,
                                   ),

@@ -267,7 +267,7 @@ class ServerDataBloc {
 
       if (token != '' && token != null) {
         final postData =
-            '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
+            '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":${song.id},"FIELD5":"${song.genre}"}';
         final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
         await Future.delayed(Duration(seconds: 1));
 
@@ -275,7 +275,7 @@ class ServerDataBloc {
       }
     } else {
       final postData =
-          '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":"${song.id}"}';
+          '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.flName}","FIELD4":${song.id},"FIELD5":"${song.genre}"}';
       final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
       await Future.delayed(Duration(seconds: 1));
 
@@ -369,8 +369,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData =
-        '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":${song.id}}';
+    final postData = '{"TOKEN":"$token","TARGET":"MUSIC","FIELD1":${song.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     //await Future.delayed(Duration(seconds: 1));
     return resp;
