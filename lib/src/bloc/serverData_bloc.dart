@@ -610,7 +610,7 @@ class ServerDataBloc {
 
   Future<bool> renamePlayList(String newname, PlayList playList) async {
     final postData =
-        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$newname","FIELD2":"FALSE","FIELD3":"${playList.id}"}';
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$newname","FIELD2":"FALSE","FIELD3":${playList.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
@@ -626,7 +626,7 @@ class ServerDataBloc {
 
   Future<bool> deletePlayList(PlayList playList) async {
     final postData =
-        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"${playList.id}"}';
+        '{"TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":${playList.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
