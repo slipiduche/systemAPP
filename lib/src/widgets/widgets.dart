@@ -939,7 +939,123 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
 
                       break;
                     case 'AddPlay':
-                      //icon2();
+                      {
+                        ServerDataBloc().requestPlayLists();
+                        BuildContext dialogContext;
+                        String _listName = 'Playlist1';
+                        List<PlayList> _playList;
+                        showDialog(
+                            
+                            context: _context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              dialogContext = _context;
+                              return Container(
+                                //width: MediaQuery.of(context).size.width - 20,
+                                child: Dialog(
+                                 
+                                  insetPadding:
+                                      EdgeInsets.symmetric(horizontal: 28.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Container(
+                                                child: StreamBuilder(
+                                                  stream: ServerDataBloc()
+                                                      .serverPlayListsStream,
+                                                  builder: (BuildContext
+                                                          context,
+                                                      AsyncSnapshot<
+                                                              List<PlayList>>
+                                                          snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      if (snapshot.data.length <
+                                                          1) {
+                                                        return Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              'No playlists added',
+                                                              style: TextStyle(
+                                                                  fontSize: 30),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      } else {
+                                                        _playList =
+                                                            snapshot.data;
+                                                        return Container(
+                                                          // margin:
+                                                          //     EdgeInsets.symmetric(horizontal: 1.0),
+
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            28),
+                                                              ),
+                                                              makePlayListsListDefault(
+                                                                  _playList,
+                                                                  context,
+                                                                  'addSong'),
+                                                              SizedBox(
+                                                                height: 10.0,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }
+                                                    } else {
+                                                      return Container(
+                                                        height: 100.0,
+                                                        width: 100,
+                                                        //margin: EdgeInsets.all(6.0),
+                                                        //padding: EdgeInsets.all(25.0),
+                                                        child: Column(
+                                                          children: [
+                                                            SizedBox(
+                                                                height: 20.0),
+                                                            SizedBox(
+                                                              height: 40.0,
+                                                              width: 40,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                            Color>(
+                                                                        colorMedico),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 20.0,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      }
 
                       break;
                     //default:
