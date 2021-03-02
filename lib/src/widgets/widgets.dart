@@ -4,6 +4,7 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/pages/selectPlaylListPage_page.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
 int songSelected;
@@ -940,121 +941,9 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                       break;
                     case 'AddPlay':
                       {
-                        ServerDataBloc().requestPlayLists();
-                        BuildContext dialogContext;
-                        String _listName = 'Playlist1';
-                        List<PlayList> _playList;
-                        showDialog(
-                            
-                            context: _context,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              dialogContext = _context;
-                              return Container(
-                                //width: MediaQuery.of(context).size.width - 20,
-                                child: Dialog(
-                                 
-                                  insetPadding:
-                                      EdgeInsets.symmetric(horizontal: 28.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Container(
-                                                child: StreamBuilder(
-                                                  stream: ServerDataBloc()
-                                                      .serverPlayListsStream,
-                                                  builder: (BuildContext
-                                                          context,
-                                                      AsyncSnapshot<
-                                                              List<PlayList>>
-                                                          snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      if (snapshot.data.length <
-                                                          1) {
-                                                        return Column(
-                                                          children: <Widget>[
-                                                            Text(
-                                                              'No playlists added',
-                                                              style: TextStyle(
-                                                                  fontSize: 30),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      } else {
-                                                        _playList =
-                                                            snapshot.data;
-                                                        return Container(
-                                                          // margin:
-                                                          //     EdgeInsets.symmetric(horizontal: 1.0),
-
-                                                          child: Column(
-                                                            children: [
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            28),
-                                                              ),
-                                                              makePlayListsListDefault(
-                                                                  _playList,
-                                                                  context,
-                                                                  'addSong'),
-                                                              SizedBox(
-                                                                height: 10.0,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        );
-                                                      }
-                                                    } else {
-                                                      return Container(
-                                                        height: 100.0,
-                                                        width: 100,
-                                                        //margin: EdgeInsets.all(6.0),
-                                                        //padding: EdgeInsets.all(25.0),
-                                                        child: Column(
-                                                          children: [
-                                                            SizedBox(
-                                                                height: 20.0),
-                                                            SizedBox(
-                                                              height: 40.0,
-                                                              width: 40,
-                                                              child:
-                                                                  CircularProgressIndicator(
-                                                                valueColor:
-                                                                    AlwaysStoppedAnimation<
-                                                                            Color>(
-                                                                        colorMedico),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20.0,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            });
+                        //ServerDataBloc().requestPlayLists();
+                        Navigator.of(_context).pushNamed('selectPlayListPage',
+                            arguments: Arguments(song.id));
                       }
 
                       break;
@@ -1603,6 +1492,10 @@ void updated(BuildContext _context, String message) {
                             } else if (message == "Playlist updated") {
                               Navigator.of(context)
                                   .pushReplacementNamed('listPlayListPage');
+                            } else if (message == "Song added to playlist") {
+                              ServerDataBloc().requestSongs();
+                              Navigator.of(context)
+                                  .pushReplacementNamed('listSongsPage');
                             }
                           }),
                         ),
@@ -3872,7 +3765,8 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
 }
 
 Widget makePlayListsListDefault(
-    List<PlayList> playList, BuildContext currentContext, String mode) {
+    List<PlayList> playList, BuildContext currentContext, String mode,
+    {int songId}) {
   return ListView.builder(
     itemCount: playList.length,
     itemBuilder: (BuildContext context, int index) {
@@ -3910,7 +3804,7 @@ Widget makePlayListsListDefault(
               ),
             ),
             GestureDetector(
-                onTap: () {
+                onTap: () async {
                   print(index);
                   if (mode == 'Default') {
                     ServerDataBloc().bindDefault(playList[index]);
@@ -3927,6 +3821,15 @@ Widget makePlayListsListDefault(
                     ServerDataBloc().bindDefault(playList[index]);
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
+                  } else if (mode == 'Select') {
+                    updating(context, 'Adding song to playlist');
+                    final resp = await ServerDataBloc()
+                        .addSongToPlayList(playList[index], [songId]);
+                    if (resp) {
+                      updated(context, 'Song added to playlist');
+                    }
+                    // Navigator.of(context).pop();
+                    // Navigator.of(context).pop();
                   }
                 },
                 child: addIcon(40.0, colorMedico)),

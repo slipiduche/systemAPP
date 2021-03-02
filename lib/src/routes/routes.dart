@@ -7,6 +7,7 @@ import 'package:systemAPP/src/pages/home_page.dart';
 import 'package:systemAPP/src/pages/music_page.dart';
 import 'package:systemAPP/src/pages/listPlayList_page.dart';
 import 'package:systemAPP/src/pages/playSong_page.dart';
+import 'package:systemAPP/src/pages/selectPlaylListPage_page.dart';
 import 'package:systemAPP/src/pages/songs_page.dart';
 import 'package:systemAPP/src/pages/addSong_page.dart';
 import 'package:systemAPP/src/pages/addSongs_page.dart';
@@ -47,6 +48,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'playListPage': (BuildContext context) => PlayListPage(),
     'playListDefaultPage': (BuildContext context) => PlayListDefaultPage(),
     'bindPlayListPage': (BuildContext context) => PlayListAddTagPage(),
+    'selectPlayListPage': (BuildContext context) => PlayListSelectPage(),
     'editRoomsPage': (BuildContext context) => EditRoomsPage(),
     'bindSpeakerPage': (BuildContext context) => BindSpeakerPage(),
     'bindReaderPage': (BuildContext context) => BindReaderPage(),

@@ -642,7 +642,7 @@ class ServerDataBloc {
 
   Future<bool> addSongToPlayList(PlayList playList, List<int> songIds) async {
     final postData =
-        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":"$songIds"}';
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$songIds}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -659,7 +659,7 @@ class ServerDataBloc {
   Future<bool> deleteSongFromPlayList(
       PlayList playList, List<int> songIds) async {
     final postData =
-        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":"$songIds"}';
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$songIds}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
