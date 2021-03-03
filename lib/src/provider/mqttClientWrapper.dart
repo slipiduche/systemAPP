@@ -135,6 +135,13 @@ class MQTTClientWrapper {
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName, 'PLAYLISTS');
         return;
+      } else if (serverDataJson["PTX"] != null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print('PTX');
+        print(decodedData.rooms.items);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName, 'PTX');
+        return;
       } else if (serverDataJson["TAG"] != null) {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print('tag');

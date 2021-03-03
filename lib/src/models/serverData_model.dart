@@ -25,6 +25,7 @@ class ServerData {
   Devices devices;
   int sdefault;
 
+
   factory ServerData.fromJson(Map<String, dynamic> json) => ServerData(
       token: json["TOKEN"],
       status: json["STATUS"],
@@ -33,7 +34,7 @@ class ServerData {
       tags: Tags.fromJsonList(json["TAGS"]),
       rooms: Rooms.fromJsonList(json["ROOMS"]),
       playLists: PlayLists.fromJsonList(json["PLAYLISTS"]),
-      playListSongs: PlayListsSongs.fromJsonList(json["PT"]),
+      playListSongs: PlayListsSongs.fromJsonList(json["PTX"]),
       devices: Devices.fromJsonList(json["DEVICES"]),
       sdefault: (json["DEFAULT"] != null) ? json["DEFAULT"] : null);
 }

@@ -8,6 +8,7 @@ import 'package:systemAPP/src/pages/selectPlaylListPage_page.dart';
 import 'package:systemAPP/src/provider/upload_provider.dart';
 
 int songSelected;
+int cardSelected;
 int awaitUpload = 0;
 BuildContext _updatingContext, _deletingContext;
 void _moveTo(index, context) async {
@@ -380,7 +381,7 @@ Widget makeSongsListPlay(BuildContext _context, List<Music> list, Widget icon1,
         //print(index);
 
         return threeIconCardP(list[index], songIcon(40.0, colorMedico), icon1,
-            icon2, _context, mode);
+            icon2, _context, mode, index);
       });
 }
 
@@ -442,6 +443,482 @@ Widget makeSongsList(
           style: TextStyle(fontSize: 30),
         ),
       ],
+    );
+  }
+}
+
+Widget makeSongsListPtx(BuildContext _context, List<Music> list,
+    List<int> listId, bool allSelected) {
+  if (list.length < 1) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20.0,
+        ),
+        Text(
+          'No songs available',
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    );
+  } else {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (list.length),
+        itemBuilder: (BuildContext _context, int index) {
+          //print(index);
+          if (list[index].id > 1) {
+            return twoIconCardPtx1(list[index], () {}, () {
+              deleting(list[index], _context);
+            }, () {
+              editing(list[index], _context);
+            }, _context, allSelected, index, listId[index]);
+          } else {
+            return Container();
+          }
+        });
+  }
+}
+
+Widget twoIconCardPtx1(
+    Music song,
+    Function icon,
+    Function icon1,
+    Function icon2,
+    BuildContext _context,
+    bool itemSelected,
+    int index,
+    int ptxId) {
+  bool _itemSelected = itemSelected;
+  print(_itemSelected);
+  return Card(
+    elevation: 5.0,
+    color: Colors.white,
+    child: Column(
+      children: [
+        Container(
+          height: 105,
+          //width: MediaQuery.of(_context).size.width - 30,
+          child: Row(children: [
+            SizedBox(width: 20.0),
+            StreamBuilder(
+                stream: ServerDataBloc().songPlayer.isPlayingStream,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    if ((snapshot.data ==
+                                FlutterRadioPlayer.flutter_radio_stopped ||
+                            snapshot.data ==
+                                FlutterRadioPlayer.flutter_radio_paused) &&
+                        song.id == songSelected &&
+                        index == cardSelected) {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+                            cardSelected = index;
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/0/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                            } else {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/1/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: Icon(Icons.play_arrow,
+                              color: colorMedico, size: 40.0));
+                    }
+                    if (snapshot.data ==
+                            FlutterRadioPlayer.flutter_radio_playing &&
+                        song.id == songSelected &&
+                        index == cardSelected) {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+                            cardSelected = index;
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.pause();
+                            } else {
+                              await ServerDataBloc().songPlayer.pause();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: Icon(Icons.pause,
+                              color: colorMedico, size: 40.0));
+                    } else {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+                            cardSelected = index;
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/0/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                            } else {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/1/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: Icon(
+                            Icons.play_arrow,
+                            color: colorMedico,
+                            size: 40.0,
+                          ));
+                    }
+                  } else {
+                    return GestureDetector(
+                        onTap: () async {
+                          print('presionaste id ');
+                          print(song.id);
+                          songSelected = song.id;
+                          cardSelected = index;
+                          print('playing');
+                          if (song.id == 0 || song.id == 1) {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://$serverUri:8080/audio/0/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                          } else {
+                            await ServerDataBloc().songPlayer.setUrl(
+                                'http://$serverUri:8080/audio/1/${song.flName}',
+                                'true');
+                            await ServerDataBloc().songPlayer.play();
+                            //ServerDataBloc().bindSong(song);
+                            //Navigator.of(_context).pop();
+                          }
+                        },
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: colorMedico,
+                          size: 40.0,
+                        ));
+                  }
+                }),
+            SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    song.songName,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w100,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    song.artist,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w100),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(width: 10.0),
+            StreamBuilder(
+              stream: ServerDataBloc().itemSelected,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data == index) {
+                    print(snapshot.data.toString() + ':' + index.toString());
+                    print(_itemSelected);
+                    if (_itemSelected) {
+                      _itemSelected = false;
+                      print(_itemSelected);
+                    } else {
+                      _itemSelected = true;
+                      ServerDataBloc().ptxIdAdd(ptxId);
+                      print(_itemSelected);
+                    }
+                  }
+                }
+                return Container(
+                  child: Theme(
+                    data: ThemeData(unselectedWidgetColor: colorMedico),
+                    child: Checkbox(
+                      focusColor: colorMedico,
+                      hoverColor: colorMedico,
+                      activeColor: colorMedico,
+                      value: _itemSelected,
+                      onChanged: (valor) {
+                        //_itemSelected = valor;
+                        ServerDataBloc().itemAdd(index);
+
+                        print(index);
+                      },
+                      tristate: false,
+                    ),
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              width: 20.0,
+            ),
+          ]),
+        ),
+      ],
+    ),
+  );
+}
+
+class twoIconCardPtx extends StatefulWidget {
+  Music song;
+  Function icon;
+  Function icon1;
+  Function icon2;
+  BuildContext _context;
+  bool itemSelected;
+  twoIconCardPtx(this.song, this.icon, this.icon1, this.icon2, this._context,
+      this.itemSelected,
+      {Key key})
+      : super(key: key);
+
+  @override
+  _twoIconCardPtxState createState() =>
+      _twoIconCardPtxState(song, icon, icon1, icon2, _context, itemSelected);
+}
+
+class _twoIconCardPtxState extends State<twoIconCardPtx> {
+  @override
+  Music song;
+  Function icon;
+  Function icon1;
+  Function icon2;
+  BuildContext _context;
+  bool itemSelected;
+  _twoIconCardPtxState(this.song, this.icon, this.icon1, this.icon2,
+      this._context, this.itemSelected);
+  Widget build(BuildContext context) {
+    return _twoIconCardPtx(song, () {}, () {
+      deleting(song, _context);
+    }, () {
+      editing(song, _context);
+    }, _context, itemSelected);
+  }
+
+  Widget _twoIconCardPtx(Music song, Function icon, Function icon1,
+      Function icon2, BuildContext _context, bool itemSelected) {
+    print(itemSelected);
+    return Card(
+      elevation: 5.0,
+      color: Colors.white,
+      child: Column(
+        children: [
+          Container(
+            height: 105,
+            //width: MediaQuery.of(_context).size.width - 30,
+            child: Row(children: [
+              SizedBox(width: 20.0),
+              StreamBuilder(
+                  stream: ServerDataBloc().songPlayer.isPlayingStream,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      if ((snapshot.data ==
+                                  FlutterRadioPlayer.flutter_radio_stopped ||
+                              snapshot.data ==
+                                  FlutterRadioPlayer.flutter_radio_paused) &&
+                          song.id == songSelected) {
+                        return GestureDetector(
+                            onTap: () async {
+                              print('presionaste id ');
+                              print(song.id);
+                              songSelected = song.id;
+
+                              print('playing');
+                              if (song.id == 0 || song.id == 1) {
+                                await ServerDataBloc().songPlayer.setUrl(
+                                    'http://$serverUri:8080/audio/0/${song.flName}',
+                                    'true');
+                                await ServerDataBloc().songPlayer.play();
+                              } else {
+                                await ServerDataBloc().songPlayer.setUrl(
+                                    'http://$serverUri:8080/audio/1/${song.flName}',
+                                    'true');
+                                await ServerDataBloc().songPlayer.play();
+                                //ServerDataBloc().bindSong(song);
+                                //Navigator.of(_context).pop();
+                              }
+                            },
+                            child: Icon(Icons.play_arrow,
+                                color: colorMedico, size: 40.0));
+                      }
+                      if (snapshot.data ==
+                              FlutterRadioPlayer.flutter_radio_playing &&
+                          song.id == songSelected) {
+                        return GestureDetector(
+                            onTap: () async {
+                              print('presionaste id ');
+                              print(song.id);
+                              songSelected = song.id;
+
+                              print('playing');
+                              if (song.id == 0 || song.id == 1) {
+                                await ServerDataBloc().songPlayer.pause();
+                              } else {
+                                await ServerDataBloc().songPlayer.pause();
+                                //ServerDataBloc().bindSong(song);
+                                //Navigator.of(_context).pop();
+                              }
+                            },
+                            child: Icon(Icons.pause,
+                                color: colorMedico, size: 40.0));
+                      } else {
+                        return GestureDetector(
+                            onTap: () async {
+                              print('presionaste id ');
+                              print(song.id);
+                              songSelected = song.id;
+
+                              print('playing');
+                              if (song.id == 0 || song.id == 1) {
+                                await ServerDataBloc().songPlayer.setUrl(
+                                    'http://$serverUri:8080/audio/0/${song.flName}',
+                                    'true');
+                                await ServerDataBloc().songPlayer.play();
+                              } else {
+                                await ServerDataBloc().songPlayer.setUrl(
+                                    'http://$serverUri:8080/audio/1/${song.flName}',
+                                    'true');
+                                await ServerDataBloc().songPlayer.play();
+                                //ServerDataBloc().bindSong(song);
+                                //Navigator.of(_context).pop();
+                              }
+                            },
+                            child: Icon(
+                              Icons.play_arrow,
+                              color: colorMedico,
+                              size: 40.0,
+                            ));
+                      }
+                    } else {
+                      return GestureDetector(
+                          onTap: () async {
+                            print('presionaste id ');
+                            print(song.id);
+                            songSelected = song.id;
+
+                            print('playing');
+                            if (song.id == 0 || song.id == 1) {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/0/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                            } else {
+                              await ServerDataBloc().songPlayer.setUrl(
+                                  'http://$serverUri:8080/audio/1/${song.flName}',
+                                  'true');
+                              await ServerDataBloc().songPlayer.play();
+                              //ServerDataBloc().bindSong(song);
+                              //Navigator.of(_context).pop();
+                            }
+                          },
+                          child: Icon(
+                            Icons.play_arrow,
+                            color: colorMedico,
+                            size: 40.0,
+                          ));
+                    }
+                  }),
+              SizedBox(width: 10.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      song.songName,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w100,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      song.artist,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.w100),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Theme(
+                data: ThemeData(unselectedWidgetColor: colorMedico),
+                child: Checkbox(
+                  focusColor: colorMedico,
+                  hoverColor: colorMedico,
+                  activeColor: colorMedico,
+                  value: itemSelected,
+                  onChanged: (valor) {
+                    itemSelected = valor;
+                    setState(() {});
+                  },
+                  tristate: false,
+                ),
+              ),
+              // PopupMenuButton<String>(
+              //     padding: EdgeInsets.all(0.0),
+              //     offset: Offset.fromDirection(0.0, 50.0),
+              //     onSelected: (value) {
+              //       switch (value) {
+              //         case 'Edit':
+              //           icon2();
+
+              //           break;
+              //         case 'Delete':
+              //           icon1();
+
+              //           break;
+              //         case 'AddPlay':
+              //           {
+              //             //ServerDataBloc().requestPlayLists();
+              //             Navigator.of(_context).pushNamed('selectPlayListPage',
+              //                 arguments: Arguments(song.id));
+              //           }
+
+              //           break;
+              //         //default:
+              //       }
+              //     },
+              //     child: moreCircle(30.0),
+              //     itemBuilder: (BuildContext _context) {
+              //       return _popUpMenuItems;
+              //     }),
+              SizedBox(
+                width: 20.0,
+              ),
+            ]),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -549,7 +1026,7 @@ Widget twoIconCardDevices(Device device, Widget icon, dynamic icon1,
 }
 
 Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
-    BuildContext _context, String mode) {
+    BuildContext _context, String mode, int index) {
   return Card(
     elevation: 5.0,
     color: Colors.white,
@@ -605,12 +1082,14 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                             FlutterRadioPlayer.flutter_radio_stopped ||
                         snapshot.data ==
                             FlutterRadioPlayer.flutter_radio_paused) &&
-                    song.id == songSelected) {
+                    song.id == songSelected &&
+                    index == cardSelected) {
                   return GestureDetector(
                       onTap: () async {
                         print('presionaste id ');
                         print(song.id);
                         songSelected = song.id;
+                        cardSelected = index;
                         if (mode == 'changeDefault') {
                           print('playing');
                           if (song.id == 0 || song.id == 1) {
@@ -631,12 +1110,14 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                       child: icon2);
                 }
                 if (snapshot.data == FlutterRadioPlayer.flutter_radio_playing &&
-                    song.id == songSelected) {
+                    song.id == songSelected &&
+                    index == cardSelected) {
                   return GestureDetector(
                       onTap: () async {
                         print('presionaste id ');
                         print(song.id);
                         songSelected = song.id;
+                        cardSelected = index;
                         if (mode == 'changeDefault') {
                           print('playing');
                           if (song.id == 0 || song.id == 1) {
@@ -655,6 +1136,7 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                         print('presionaste id ');
                         print(song.id);
                         songSelected = song.id;
+                        cardSelected = index;
                         if (mode == 'changeDefault') {
                           print('playing');
                           if (song.id == 0 || song.id == 1) {
@@ -680,6 +1162,7 @@ Widget threeIconCardP(Music song, Widget icon, Widget icon2, Widget icon3,
                       print('presionaste id ');
                       print(song.id);
                       songSelected = song.id;
+                      cardSelected = index;
                       if (mode == 'changeDefault') {
                         print('playing');
                         if (song.id == 0 || song.id == 1) {
@@ -821,7 +1304,8 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                               //Navigator.of(_context).pop();
                             }
                           },
-                          child: Icon(Icons.play_arrow));
+                          child: Icon(Icons.play_arrow,
+                              color: colorMedico, size: 40.0));
                     }
                     if (snapshot.data ==
                             FlutterRadioPlayer.flutter_radio_playing &&
@@ -3407,180 +3891,191 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
       if (playList.length - 1 == index) {
         return Column(
           children: [
-            Card(
-              elevation: 5.0,
-              color: Colors.white,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text(
-                          playList[index].listName,
-                          style: TextStyle(fontSize: 36.0),
-                        ),
-                        Text(
-                          '${playList[index].tracks} songs',
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                        Text(
-                          'Genre: ${playList[index].genre}',
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                        SizedBox(
-                          height: 7.0,
-                        ),
-                      ],
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed('playListPage', arguments: playList[index]);
+              },
+              child: Card(
+                elevation: 5.0,
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 20.0,
                     ),
-                  ),
-                  PopupMenuButton<String>(
-                      padding: EdgeInsets.all(0.0),
-                      offset: Offset.fromDirection(0.0, 50.0),
-                      onSelected: (value) {
-                        print(value);
-                        switch (value) {
-                          case 'Edit':
-                            renamePlayList(_context, playList[index]);
-                            break;
-                          case 'Delete':
-                            BuildContext dialogContext;
-                            showDialog(
-                                context: _context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  dialogContext = _context;
-                                  return Container(
-                                    //width: MediaQuery.of(context).size.width - 28,
-                                    child: Dialog(
-                                      insetPadding: EdgeInsets.symmetric(
-                                          horizontal: 28.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Container(
-                                            padding: EdgeInsets.only(top: 20.0),
-                                            width: double.infinity,
-                                            //height: 30.0,
-                                            //color: colorMedico,
-                                            child: Center(
-                                                child: Text(
-                                              'Confirmation',
-                                              style: TextStyle(
-                                                  fontSize: 30.0,
-                                                  color: colorVN),
-                                            )),
-                                          ),
-                                          Container(
-                                            //height: 40.0,
-
-                                            child: Column(
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 20.0,
-                                                ),
-                                                Text(
-                                                    ' The playlist ${playList[index].listName} will be deleted' +
-                                                        '\n' +
-                                                        'Do you want to continue?',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 20.0)),
-                                                SizedBox(
-                                                  height: 20.0,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Container(
-                                                        height: 50.0,
-                                                        child: submitButtonS(
-                                                            'Yes', () async {
-                                                          print('deleting');
-                                                          Navigator.of(
-                                                                  dialogContext)
-                                                              .pop();
-                                                          updating(context,
-                                                              'Deleting');
-                                                          //print(upSong.toJson());
-                                                          final resp =
-                                                              await ServerDataBloc()
-                                                                  .deletePlayList(
-                                                                      playList[
-                                                                          index]);
-                                                          await Future.delayed(
-                                                              Duration(
-                                                                  seconds: 1));
-                                                          if (resp) {
-                                                            print('deleted');
-                                                            Navigator.of(
-                                                                    _updatingContext)
-                                                                .pop();
-                                                            updated(
-                                                                dialogContext,
-                                                                'Playlist deleted');
-                                                          } else {
-                                                            print('error');
-                                                            Navigator.of(
-                                                                    _updatingContext)
-                                                                .pop();
-                                                            errorPopUp(
-                                                                dialogContext,
-                                                                'Playlist not deleted');
-                                                          }
-                                                        }),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        height: 50.0,
-                                                        child: submitButtonNo(
-                                                            'NO', () async {
-                                                          print('deleting');
-                                                          Navigator.of(
-                                                                  dialogContext)
-                                                              .pop();
-                                                        }),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Text(
+                            playList[index].listName,
+                            style: TextStyle(fontSize: 36.0),
+                          ),
+                          Text(
+                            '${playList[index].tracks} songs',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          Text(
+                            'Genre: ${playList[index].genre}',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          SizedBox(
+                            height: 7.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuButton<String>(
+                        padding: EdgeInsets.all(0.0),
+                        offset: Offset.fromDirection(0.0, 50.0),
+                        onSelected: (value) {
+                          print(value);
+                          switch (value) {
+                            case 'Edit':
+                              renamePlayList(_context, playList[index]);
+                              break;
+                            case 'Delete':
+                              BuildContext dialogContext;
+                              showDialog(
+                                  context: _context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    dialogContext = _context;
+                                    return Container(
+                                      //width: MediaQuery.of(context).size.width - 28,
+                                      child: Dialog(
+                                        insetPadding: EdgeInsets.symmetric(
+                                            horizontal: 28.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Container(
+                                              padding:
+                                                  EdgeInsets.only(top: 20.0),
+                                              width: double.infinity,
+                                              //height: 30.0,
+                                              //color: colorMedico,
+                                              child: Center(
+                                                  child: Text(
+                                                'Confirmation',
+                                                style: TextStyle(
+                                                    fontSize: 30.0,
+                                                    color: colorVN),
+                                              )),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                });
+                                            Container(
+                                              //height: 40.0,
 
-                            break;
-                          case 'View':
-                            break;
-                        }
-                      },
-                      child: moreCircle(30.0),
-                      itemBuilder: (BuildContext _context) {
-                        return _popUpMenuItems;
-                      }),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                ],
+                                              child: Column(
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    height: 20.0,
+                                                  ),
+                                                  Text(
+                                                      ' The playlist ${playList[index].listName} will be deleted' +
+                                                          '\n' +
+                                                          'Do you want to continue?',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 20.0)),
+                                                  SizedBox(
+                                                    height: 20.0,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 50.0,
+                                                          child: submitButtonS(
+                                                              'Yes', () async {
+                                                            print('deleting');
+                                                            Navigator.of(
+                                                                    dialogContext)
+                                                                .pop();
+                                                            updating(context,
+                                                                'Deleting');
+                                                            //print(upSong.toJson());
+                                                            final resp = await ServerDataBloc()
+                                                                .deletePlayList(
+                                                                    playList[
+                                                                        index]);
+                                                            await Future
+                                                                .delayed(
+                                                                    Duration(
+                                                                        seconds:
+                                                                            1));
+                                                            if (resp) {
+                                                              print('deleted');
+                                                              Navigator.of(
+                                                                      _updatingContext)
+                                                                  .pop();
+                                                              updated(
+                                                                  dialogContext,
+                                                                  'Playlist deleted');
+                                                            } else {
+                                                              print('error');
+                                                              Navigator.of(
+                                                                      _updatingContext)
+                                                                  .pop();
+                                                              errorPopUp(
+                                                                  dialogContext,
+                                                                  'Playlist not deleted');
+                                                            }
+                                                          }),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 50.0,
+                                                          child: submitButtonNo(
+                                                              'NO', () async {
+                                                            print('deleting');
+                                                            Navigator.of(
+                                                                    dialogContext)
+                                                                .pop();
+                                                          }),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+
+                              break;
+                            case 'View':
+                              break;
+                          }
+                        },
+                        child: moreCircle(30.0),
+                        itemBuilder: (BuildContext _context) {
+                          return _popUpMenuItems;
+                        }),
+                    SizedBox(
+                      width: 20.0,
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -3589,174 +4084,182 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
           ],
         );
       } else {
-        return Card(
-          elevation: 5.0,
-          color: Colors.white,
-          child: Row(
-            children: [
-              SizedBox(
-                width: 20.0,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Text(
-                      playList[index].listName,
-                      style: TextStyle(fontSize: 36.0),
-                    ),
-                    Text(
-                      '${playList[index].tracks} songs',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    Text(
-                      'Genre: ${playList[index].genre}',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    SizedBox(
-                      height: 7.0,
-                    ),
-                  ],
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context)
+                .pushNamed('playListPage', arguments: playList[index]);
+          },
+          child: Card(
+            elevation: 5.0,
+            color: Colors.white,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 20.0,
                 ),
-              ),
-              PopupMenuButton<String>(
-                  padding: EdgeInsets.all(0.0),
-                  offset: Offset.fromDirection(0.0, 50.0),
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'Edit':
-                        renamePlayList(_context, playList[index]);
-                        break;
-                      case 'Delete':
-                        BuildContext dialogContext;
-                        showDialog(
-                            context: _context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              dialogContext = _context;
-                              return Container(
-                                //width: MediaQuery.of(context).size.width - 28,
-                                child: Dialog(
-                                  insetPadding:
-                                      EdgeInsets.symmetric(horizontal: 28.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(top: 20.0),
-                                        width: double.infinity,
-                                        //height: 30.0,
-                                        //color: colorMedico,
-                                        child: Center(
-                                            child: Text(
-                                          'Confirmation',
-                                          style: TextStyle(
-                                              fontSize: 30.0, color: colorVN),
-                                        )),
-                                      ),
-                                      Container(
-                                        //height: 40.0,
-
-                                        child: Column(
-                                          children: <Widget>[
-                                            SizedBox(
-                                              height: 20.0,
-                                            ),
-                                            Text(
-                                                ' The playlist ${playList[index].listName} will be deleted' +
-                                                    '\n' +
-                                                    'Do you want to continue?',
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    TextStyle(fontSize: 20.0)),
-                                            SizedBox(
-                                              height: 20.0,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    height: 50.0,
-                                                    child: submitButtonS('Yes',
-                                                        () async {
-                                                      print('deleting');
-                                                      Navigator.of(
-                                                              dialogContext)
-                                                          .pop();
-                                                      updating(
-                                                          context, 'Deleting');
-                                                      //print(upSong.toJson());
-                                                      final resp =
-                                                          await ServerDataBloc()
-                                                              .deletePlayList(
-                                                                  playList[
-                                                                      index]);
-                                                      await Future.delayed(
-                                                          Duration(seconds: 1));
-                                                      if (resp) {
-                                                        print('deleted');
-                                                        Navigator.of(
-                                                                _updatingContext)
-                                                            .pop();
-                                                        updated(dialogContext,
-                                                            'Playlist deleted');
-                                                      } else {
-                                                        print('error');
-                                                        Navigator.of(
-                                                                _updatingContext)
-                                                            .pop();
-                                                        errorPopUp(
-                                                            dialogContext,
-                                                            'Playlist not deleted');
-                                                      }
-                                                    }),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    height: 50.0,
-                                                    child: submitButtonNo('NO',
-                                                        () async {
-                                                      print('deleting');
-                                                      Navigator.of(
-                                                              dialogContext)
-                                                          .pop();
-                                                    }),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        playList[index].listName,
+                        style: TextStyle(fontSize: 36.0),
+                      ),
+                      Text(
+                        '${playList[index].tracks} songs',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      Text(
+                        'Genre: ${playList[index].genre}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      SizedBox(
+                        height: 7.0,
+                      ),
+                    ],
+                  ),
+                ),
+                PopupMenuButton<String>(
+                    padding: EdgeInsets.all(0.0),
+                    offset: Offset.fromDirection(0.0, 50.0),
+                    onSelected: (value) {
+                      switch (value) {
+                        case 'Edit':
+                          renamePlayList(_context, playList[index]);
+                          break;
+                        case 'Delete':
+                          BuildContext dialogContext;
+                          showDialog(
+                              context: _context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                dialogContext = _context;
+                                return Container(
+                                  //width: MediaQuery.of(context).size.width - 28,
+                                  child: Dialog(
+                                    insetPadding:
+                                        EdgeInsets.symmetric(horizontal: 28.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: EdgeInsets.only(top: 20.0),
+                                          width: double.infinity,
+                                          //height: 30.0,
+                                          //color: colorMedico,
+                                          child: Center(
+                                              child: Text(
+                                            'Confirmation',
+                                            style: TextStyle(
+                                                fontSize: 30.0, color: colorVN),
+                                          )),
                                         ),
-                                      )
-                                    ],
+                                        Container(
+                                          //height: 40.0,
+
+                                          child: Column(
+                                            children: <Widget>[
+                                              SizedBox(
+                                                height: 20.0,
+                                              ),
+                                              Text(
+                                                  ' The playlist ${playList[index].listName} will be deleted' +
+                                                      '\n' +
+                                                      'Do you want to continue?',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0)),
+                                              SizedBox(
+                                                height: 20.0,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50.0,
+                                                      child: submitButtonS(
+                                                          'Yes', () async {
+                                                        print('deleting');
+                                                        Navigator.of(
+                                                                dialogContext)
+                                                            .pop();
+                                                        updating(context,
+                                                            'Deleting');
+                                                        //print(upSong.toJson());
+                                                        final resp =
+                                                            await ServerDataBloc()
+                                                                .deletePlayList(
+                                                                    playList[
+                                                                        index]);
+                                                        await Future.delayed(
+                                                            Duration(
+                                                                seconds: 1));
+                                                        if (resp) {
+                                                          print('deleted');
+                                                          Navigator.of(
+                                                                  _updatingContext)
+                                                              .pop();
+                                                          updated(dialogContext,
+                                                              'Playlist deleted');
+                                                        } else {
+                                                          print('error');
+                                                          Navigator.of(
+                                                                  _updatingContext)
+                                                              .pop();
+                                                          errorPopUp(
+                                                              dialogContext,
+                                                              'Playlist not deleted');
+                                                        }
+                                                      }),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50.0,
+                                                      child: submitButtonNo(
+                                                          'NO', () async {
+                                                        print('deleting');
+                                                        Navigator.of(
+                                                                dialogContext)
+                                                            .pop();
+                                                      }),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            });
-                        break;
-                      case 'View':
-                        break;
-                    }
-                  },
-                  child: moreCircle(30.0),
-                  itemBuilder: (BuildContext _context) {
-                    return _popUpMenuItems;
-                  }),
-              SizedBox(
-                width: 20.0,
-              ),
-            ],
+                                );
+                              });
+                          break;
+                        case 'View':
+                          break;
+                      }
+                    },
+                    child: moreCircle(30.0),
+                    itemBuilder: (BuildContext _context) {
+                      return _popUpMenuItems;
+                    }),
+                SizedBox(
+                  width: 20.0,
+                ),
+              ],
+            ),
           ),
         );
       }

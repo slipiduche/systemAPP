@@ -44,6 +44,8 @@ class ServerDataBloc {
     }
   }
 
+  List<int> _ptxIds = [];
+  List<int> _songIds = [];
   final _serverTagsController = new BehaviorSubject<List<Tag>>();
   final _serverTagController = new BehaviorSubject<Tag>();
   final _serverDataController = new BehaviorSubject<List<Music>>();
@@ -56,14 +58,23 @@ class ServerDataBloc {
   final _defaultSelController = new BehaviorSubject<PlayList>();
   final _serverRoomsController = new BehaviorSubject<List<Room>>();
   final _serverPlayListsController = new BehaviorSubject<List<PlayList>>();
+  final _serverPlayListsSongController =
+      new BehaviorSubject<List<PlayListsSong>>();
   final _serverDevicesController = new BehaviorSubject<List<Device>>();
   final _speakerController = new BehaviorSubject<Device>();
   final _readerController = new BehaviorSubject<Device>();
   final _roomController = new BehaviorSubject<Room>();
+  final _itemSelected = new BehaviorSubject<int>();
+  final _ptxIdController = new BehaviorSubject<int>();
+  final _ptxIdRemoveController = new BehaviorSubject<int>();
+  final _itemsSelected = new BehaviorSubject<List<int>>();
 
   MQTTClientWrapper serverDataProvider;
   ServerData response;
-
+  Stream<int> get itemSelected => _itemSelected.stream;
+  Stream<int> get ptxId => _ptxIdController.stream;
+  Stream<int> get ptxIdRemove => _ptxIdRemoveController.stream;
+  Stream<List<int>> get itemsSelected => _itemsSelected.stream;
   Stream<List<Music>> get serverDataStream => _serverDataController.stream;
   Stream<List<Tag>> get serverTagsStream => _serverTagsController.stream;
   Stream<Tag> get serverTagStream => _serverTagController.stream;
@@ -77,6 +88,8 @@ class ServerDataBloc {
   Stream<List<Room>> get serverRoomsStream => _serverRoomsController.stream;
   Stream<List<PlayList>> get serverPlayListsStream =>
       _serverPlayListsController.stream;
+  Stream<List<PlayListsSong>> get serverPlayListsSongStream =>
+      _serverPlayListsSongController.stream;
   Stream<List<Device>> get serverDevicesStream =>
       _serverDevicesController.stream;
   Stream<Device> get speakerStream => _speakerController.stream;
@@ -199,6 +212,21 @@ class ServerDataBloc {
           }
           return;
         }
+        if (dataType == 'SUCCESS') {
+          response = data;
+          return;
+        }
+        if (dataType == "PTX") {
+          response = data;
+          if (data.playListSongs.items.length >= 0) {
+            print(data.playListSongs.items.length);
+            print(data.playListSongs.items);
+            _serverPlayListsSongController.add(data.playListSongs.items);
+
+            return;
+          }
+          return;
+        }
         if (dataType == "ROOMS") {
           response = data;
           if (data.rooms.items.length >= 0) {
@@ -232,6 +260,10 @@ class ServerDataBloc {
         if (dataType == 'PLAYLISTS') {
           _serverPlayListsController.add([]);
           print('PLAYLISTS');
+        }
+        if (dataType == 'PTX') {
+          _serverPlayListsSongController.add([]);
+          print('PTX');
         }
 
         return;
@@ -482,6 +514,7 @@ class ServerDataBloc {
     _playListController.add(null);
     _defaultSelController.add(null);
     _serverDevicesController.add(null);
+    _serverPlayListsSongController.add(null);
   }
 
   void deleteRoomDevices() {
@@ -566,8 +599,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData =
-        '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":"${room.id}"}';
+    final postData = '{"TOKEN":"$token","TARGET":"ROOMS","FIELD1":${room.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -589,6 +621,17 @@ class ServerDataBloc {
 
     serverDataProvider.publishData(
         '{"TOKEN":"$token","TARGET":"PLAYLISTS"}', 'APP/GET');
+    //_cargandoController.sink.add(false);
+  }
+
+  void requestPlayListsSong(PlayList playList) async {
+    if (token == '' || token == null) {
+      login();
+      await Future.delayed(Duration(seconds: 1));
+    }
+
+    serverDataProvider.publishData(
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
@@ -656,10 +699,9 @@ class ServerDataBloc {
     }
   }
 
-  Future<bool> deleteSongFromPlayList(
-      PlayList playList, List<int> songIds) async {
+  Future<bool> deleteSongFromPlayList(PlayList playList) async {
     final postData =
-        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$songIds}';
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_ptxIds}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -671,5 +713,51 @@ class ServerDataBloc {
     } else {
       return false;
     }
+  }
+
+  void itemAdd(int item) {
+    _itemSelected.add(item);
+  }
+
+  void itemDelete() {
+    _itemSelected.add(null);
+  }
+
+  void itemsAdd(List<int> items) {
+    _itemsSelected.add(items);
+  }
+
+  void addPtxIds(List<int> ptxIds) {
+    _ptxIds = ptxIds;
+  }
+
+  void removeAllPtxs() {
+    _ptxIds = [];
+  }
+
+  void ptxIdAdd(int ptxId) {
+    // _ptxIdController.add(ptxId);
+    _ptxIds.add(ptxId);
+  }
+
+  void removePtxId(int ptxId) {
+    _ptxIds.remove(ptxId);
+  }
+
+  void addSongsIds(List<int> songIds) {
+    _songIds = songIds;
+  }
+
+  void removeAllSongs() {
+    _songIds = [];
+  }
+
+  void songIdAdd(int songId) {
+    // _ptxIdController.add(ptxId);
+    _songIds.add(songId);
+  }
+
+  void removeSongId(int songId) {
+    _songIds.remove(songId);
   }
 }
