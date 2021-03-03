@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/search/playListsAddSongs_search.dart';
 import 'package:systemAPP/src/search/room_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
@@ -97,6 +98,7 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                               Text(
                                 'Genre: ${_playList.genre}',
                                 style: TextStyle(fontSize: 16.0),
+                                overflow: TextOverflow.clip,
                               ),
                             ],
                           ),
@@ -140,13 +142,14 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                                                 horizontal: 28),
                                             child: GestureDetector(
                                                 onTap: () {
-                                                  // if (_playlistaddsongs.length > 0) {
-                                                  //   showSearch(
-                                                  //       context: context,
-                                                  //       delegate:
-                                                  //           PlayListAddSongsearchDelegate(
-                                                  //               _playlistaddsongs));
-                                                  // } else {}
+                                                  if (_allSongs.length > 0) {
+                                                    showSearch(
+                                                        context: context,
+                                                        delegate:
+                                                            PlayListAddSongSearchDelegate(
+                                                                _allSongs,
+                                                                'default'));
+                                                  } else {}
                                                 },
                                                 child: Container(
                                                   child: searchBoxForm(
@@ -206,9 +209,13 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                                                                   [];
                                                               _allSongs.forEach(
                                                                   (element) {
-                                                                songsSelected
-                                                                    .add(element
-                                                                        .id);
+                                                                if (element
+                                                                        .id !=
+                                                                    1) {
+                                                                  songsSelected
+                                                                      .add(element
+                                                                          .id);
+                                                                }
                                                               });
                                                               serverDataBloc
                                                                   .addSongsIds(

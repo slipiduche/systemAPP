@@ -674,11 +674,11 @@ Widget twoIconCardAdd(Music song, Function icon, Function icon1, Function icon2,
                     print(_itemSelected);
                     if (_itemSelected) {
                       _itemSelected = false;
-                      ServerDataBloc().removeSongId(song.id);
+                      // ServerDataBloc().removeSongId(song.id);
                       print(_itemSelected);
                     } else {
                       _itemSelected = true;
-                      ServerDataBloc().songIdAdd(song.id);
+                      // ServerDataBloc().songIdAdd(song.id);
                       print(_itemSelected);
                     }
                   }
@@ -693,6 +693,11 @@ Widget twoIconCardAdd(Music song, Function icon, Function icon1, Function icon2,
                       value: _itemSelected,
                       onChanged: (valor) {
                         //_itemSelected = valor;
+                        if (valor) {
+                          ServerDataBloc().songIdAdd(song.id);
+                        } else {
+                          ServerDataBloc().removeSongId(song.id);
+                        }
                         ServerDataBloc().itemAdd(index);
 
                         print(index);
@@ -881,11 +886,11 @@ Widget twoIconCardPtx1(
                     print(_itemSelected);
                     if (_itemSelected) {
                       _itemSelected = false;
-                      ServerDataBloc().removePtxId(ptxId);
+                      //ServerDataBloc().removePtxId(ptxId);
                       print(_itemSelected);
                     } else {
                       _itemSelected = true;
-                      ServerDataBloc().ptxIdAdd(ptxId);
+                      //ServerDataBloc().ptxIdAdd(ptxId);
                       print(_itemSelected);
                     }
                   }
@@ -901,6 +906,11 @@ Widget twoIconCardPtx1(
                       value: _itemSelected,
                       onChanged: (valor) {
                         //_itemSelected = valor;
+                        if (valor) {
+                          ServerDataBloc().ptxIdAdd(ptxId);
+                        } else {
+                          ServerDataBloc().removePtxId(ptxId);
+                        }
                         ServerDataBloc().itemAdd(index);
 
                         print(index);

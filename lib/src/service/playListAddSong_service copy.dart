@@ -1,11 +1,10 @@
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 
-class SongPtxService {
-  Future<PTX> findSong(String key, List<Music> _songs, List<int> _ids) async {
+class SongAddService {
+  Future<List<Music>> findSong(String key, List<Music> _songs) async {
     List<Music> filtered = [];
     List<int> filteredId = [];
-    int count = 0;
 
     final minus = key.toLowerCase();
     await ServerDataBloc().songPlayer.pause();
@@ -15,16 +14,8 @@ class SongPtxService {
           (element.genre.toLowerCase().contains(minus))) {
         print(element.songName);
         filtered.add(element);
-        filteredId.add(_ids[count]);
       }
-      count++;
     });
-    return PTX(filtered, filteredId);
+    return filtered;
   }
-}
-
-class PTX {
-  List<Music> ptxSongs;
-  List<int> ptxIds;
-  PTX(this.ptxSongs, this.ptxIds);
 }

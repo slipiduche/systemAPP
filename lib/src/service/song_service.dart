@@ -8,7 +8,8 @@ class SongService {
     await ServerDataBloc().songPlayer.pause();
     await _songs.forEach((element) {
       if (element.songName.toLowerCase().contains(minus) ||
-          (element.artist.toLowerCase().contains(minus))) {
+          (element.artist.toLowerCase().contains(minus)) ||
+          (element.genre.toLowerCase().contains(minus))) {
         filtered.add(element);
       }
     });

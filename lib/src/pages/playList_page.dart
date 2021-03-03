@@ -99,6 +99,7 @@ class _PlayListPageState extends State<PlayListPage> {
                               Text(
                                 'Genre: ${_playList.genre}',
                                 style: TextStyle(fontSize: 16.0),
+                                overflow: TextOverflow.clip,
                               ),
                             ],
                           ),
@@ -143,6 +144,13 @@ class _PlayListPageState extends State<PlayListPage> {
                                             child: GestureDetector(
                                                 onTap: () {
                                                   if (listPtx.length > 0) {
+                                                    songsSelected = [];
+                                                    serverDataBloc
+                                                        .removeAllPtxs();
+                                                    serverDataBloc
+                                                        .removeAllSongs();
+                                                    serverDataBloc.itemDelete();
+                                                    setState(() {});
                                                     showSearch(
                                                         context: context,
                                                         delegate:
