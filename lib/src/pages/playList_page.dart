@@ -167,6 +167,8 @@ class _PlayListPageState extends State<PlayListPage> {
                                                             0) {
                                                           return GestureDetector(
                                                             onTap: () {
+                                                              serverDataBloc
+                                                                  .removeAllPtxs();
                                                               _allSelected =
                                                                   false;
                                                               songsSelected =
@@ -202,8 +204,10 @@ class _PlayListPageState extends State<PlayListPage> {
                                                                     .add(element
                                                                         .id);
                                                               });
-                                                              print(
-                                                                  songsSelected);
+                                                              serverDataBloc
+                                                                  .addPtxIds(
+                                                                      listPtxId);
+
                                                               serverDataBloc
                                                                   .itemDelete();
                                                               setState(() {});
@@ -254,6 +258,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                                               snapshot) {
                                                         if (snapshot.hasData) {
                                                           listPtx = [];
+                                                          listPtxId = [];
                                                           print('canciones');
 
                                                           _playListsSongs

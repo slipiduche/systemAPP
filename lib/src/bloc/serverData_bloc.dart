@@ -729,10 +729,12 @@ class ServerDataBloc {
 
   void addPtxIds(List<int> ptxIds) {
     _ptxIds = ptxIds;
+    print(_ptxIds);
   }
 
   void removeAllPtxs() {
     _ptxIds = [];
+    print('lista de ptx vacía');
   }
 
   void ptxIdAdd(int ptxId) {
