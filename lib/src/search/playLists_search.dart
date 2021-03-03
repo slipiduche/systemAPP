@@ -9,6 +9,7 @@ class PlayListSearchDelegate extends SearchDelegate {
   List<PlayList> playlists;
   String mode;
   final playlistService = PlayListService();
+  
   @override
   List<Widget> buildActions(BuildContext context) {
     return [

@@ -449,6 +449,7 @@ Widget makeSongsList(
 
 Widget makeSongsListPtx(BuildContext _context, List<Music> list,
     List<int> listId, bool allSelected) {
+  final selected = ServerDataBloc().getPtxIds();
   if (list.length < 1) {
     return Column(
       children: <Widget>[
@@ -468,6 +469,12 @@ Widget makeSongsListPtx(BuildContext _context, List<Music> list,
         itemBuilder: (BuildContext _context, int index) {
           //print(index);
           if (list[index].id > 1) {
+            if (selected.contains(listId[index])) {
+              allSelected = true;
+            } else {
+              allSelected = false;
+            }
+
             return twoIconCardPtx1(list[index], () {}, () {
               deleting(list[index], _context);
             }, () {
@@ -885,11 +892,11 @@ Widget twoIconCardPtx1(
                     print(snapshot.data.toString() + ':' + index.toString());
                     print(_itemSelected);
                     if (_itemSelected) {
-                      _itemSelected = false;
+                      //_itemSelected = false;
                       //ServerDataBloc().removePtxId(ptxId);
                       print(_itemSelected);
                     } else {
-                      _itemSelected = true;
+                      //_itemSelected = true;
                       //ServerDataBloc().ptxIdAdd(ptxId);
                       print(_itemSelected);
                     }
@@ -905,12 +912,12 @@ Widget twoIconCardPtx1(
                       activeColor: colorMedico,
                       value: _itemSelected,
                       onChanged: (valor) {
-                        //_itemSelected = valor;
                         if (valor) {
                           ServerDataBloc().ptxIdAdd(ptxId);
                         } else {
                           ServerDataBloc().removePtxId(ptxId);
                         }
+                        _itemSelected = valor;
                         ServerDataBloc().itemAdd(index);
 
                         print(index);

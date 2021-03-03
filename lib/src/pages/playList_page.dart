@@ -38,6 +38,7 @@ class _PlayListPageState extends State<PlayListPage> {
 
     serverDataBloc.requestPlayListsSong(_playList);
     serverDataBloc.itemDelete();
+    print('building');
     return WillPopScope(
         onWillPop: () {
           listPtx = [];
@@ -157,6 +158,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                                             PlayListSongSearchDelegate(
                                                                 listPtx,
                                                                 listPtxId,
+                                                                _playList,
                                                                 'default'));
                                                   } else {}
                                                 },

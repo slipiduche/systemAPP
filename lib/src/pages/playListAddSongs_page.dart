@@ -142,12 +142,20 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                                                 horizontal: 28),
                                             child: GestureDetector(
                                                 onTap: () {
-                                                  if (_allSongs.length > 0) {
+                                                  if (_allSongs.length > 1) {
+                                                    songsSelected = [];
+                                                    serverDataBloc
+                                                        .removeAllPtxs();
+                                                    serverDataBloc
+                                                        .removeAllSongs();
+                                                    serverDataBloc.itemDelete();
+                                                    setState(() {});
                                                     showSearch(
                                                         context: context,
                                                         delegate:
                                                             PlayListAddSongSearchDelegate(
                                                                 _allSongs,
+                                                                _playList,
                                                                 'default'));
                                                   } else {}
                                                 },
@@ -163,6 +171,9 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                                           Expanded(
                                             child: Column(
                                               children: [
+                                                SizedBox(
+                                                  height: 5.0,
+                                                ),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment

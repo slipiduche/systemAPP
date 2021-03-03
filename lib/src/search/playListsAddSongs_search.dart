@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:systemAPP/constants.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
+import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/service/playListAddSong_service%20copy.dart';
 import 'package:systemAPP/src/service/playListPtxSong_service.dart';
@@ -8,10 +10,15 @@ import 'package:systemAPP/src/service/song_service.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 
 class PlayListAddSongSearchDelegate extends SearchDelegate {
-  PlayListAddSongSearchDelegate(this.playlists, this.mode);
+  PlayListAddSongSearchDelegate(this.playlists, this.playList, this.mode);
   List<Music> playlists;
-
+  PlayList playList;
   String mode;
+  ServerDataBloc serverDataBloc = ServerDataBloc();
+  List<PlayListsSong> _playListsSongs;
+  List<Music> listPtx = [];
+  List<int> listPtxId = [];
+  List<int> songsSelected = [];
   final playlistService = SongAddService();
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -47,7 +54,60 @@ class PlayListAddSongSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makeSongsListAdd(context, snapshot.data, false);
+            return Column(
+              children: [
+                SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(width: 25.0),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      onTap: () async {
+                        songsSelected = [];
+                        if (serverDataBloc.getSongIds().length > 0) {
+                          updating(context, 'Adding songs');
+                          final resp =
+                              await serverDataBloc.addSongsToPlayList(playList);
+                          songsSelected = [];
+                          serverDataBloc.removeAllPtxs();
+                          serverDataBloc.removeAllSongs();
+                          serverDataBloc.itemDelete();
+                          if (resp) {
+                            updated(context, 'Songs added to playlist');
+                          } else {
+                            errorPopUp(context, 'Songs not added');
+                          }
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          addIcon(20.0, colorMedico),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            'Add songs',
+                            style: TextStyle(
+                                color: colorMedico,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 25.0)
+                  ],
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Expanded(
+                    child: makeSongsListAdd(context, snapshot.data, false)),
+              ],
+            );
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -77,7 +137,60 @@ class PlayListAddSongSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makeSongsListAdd(context, snapshot.data, false);
+            return Column(
+              children: [
+                SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(width: 25.0),
+                    Expanded(child: Container()),
+                    GestureDetector(
+                      onTap: () async {
+                        songsSelected = [];
+                        if (serverDataBloc.getSongIds().length > 0) {
+                          updating(context, 'Adding songs');
+                          final resp =
+                              await serverDataBloc.addSongsToPlayList(playList);
+                          songsSelected = [];
+                          serverDataBloc.removeAllPtxs();
+                          serverDataBloc.removeAllSongs();
+                          serverDataBloc.itemDelete();
+                          if (resp) {
+                            updated(context, 'Songs added to playlist');
+                          } else {
+                            errorPopUp(context, 'Songs not added');
+                          }
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          addIcon(20.0, colorMedico),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            'Add songs',
+                            style: TextStyle(
+                                color: colorMedico,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 25.0)
+                  ],
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Expanded(
+                    child: makeSongsListAdd(context, snapshot.data, false)),
+              ],
+            );
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
