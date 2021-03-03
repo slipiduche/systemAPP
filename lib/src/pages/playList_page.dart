@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/icons/icons.dart';
 import 'package:systemAPP/src/models/serverData_model.dart';
+import 'package:systemAPP/src/search/playListsSongs_search.dart';
 import 'package:systemAPP/src/search/room_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
@@ -141,13 +142,15 @@ class _PlayListPageState extends State<PlayListPage> {
                                                 horizontal: 28),
                                             child: GestureDetector(
                                                 onTap: () {
-                                                  // if (_playlist.length > 0) {
-                                                  //   showSearch(
-                                                  //       context: context,
-                                                  //       delegate:
-                                                  //           PlayListearchDelegate(
-                                                  //               _playlist));
-                                                  // } else {}
+                                                  if (listPtx.length > 0) {
+                                                    showSearch(
+                                                        context: context,
+                                                        delegate:
+                                                            PlayListSongSearchDelegate(
+                                                                listPtx,
+                                                                listPtxId,
+                                                                'default'));
+                                                  } else {}
                                                 },
                                                 child: Container(
                                                   child: searchBoxForm(
@@ -248,8 +251,13 @@ class _PlayListPageState extends State<PlayListPage> {
                                                               await serverDataBloc
                                                                   .deleteSongFromPlayList(
                                                                       _playList);
+                                                          songsSelected = [];
                                                           serverDataBloc
                                                               .removeAllPtxs();
+                                                          serverDataBloc
+                                                              .removeAllSongs();
+                                                          serverDataBloc
+                                                              .itemDelete();
                                                           if (resp) {
                                                             updated(context,
                                                                 'Songs deleted');

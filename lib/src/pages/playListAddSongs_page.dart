@@ -247,8 +247,13 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                                                               await serverDataBloc
                                                                   .addSongsToPlayList(
                                                                       _playList);
+                                                          songsSelected = [];
+                                                          serverDataBloc
+                                                              .removeAllPtxs();
                                                           serverDataBloc
                                                               .removeAllSongs();
+                                                          serverDataBloc
+                                                              .itemDelete();
                                                           if (resp) {
                                                             updated(context,
                                                                 'Songs added to playlist');
