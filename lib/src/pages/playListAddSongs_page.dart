@@ -9,17 +9,17 @@ import 'package:systemAPP/src/search/room_search.dart';
 import 'package:systemAPP/src/widgets/widgets.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 
-class PlayListPage extends StatefulWidget {
-  PlayListPage({Key key}) : super(key: key);
+class PlayListAddSongsPage extends StatefulWidget {
+  PlayListAddSongsPage({Key key}) : super(key: key);
 
   @override
-  _PlayListPageState createState() => _PlayListPageState();
+  _PlayListAddSongsPageState createState() => _PlayListAddSongsPageState();
 }
 
-class _PlayListPageState extends State<PlayListPage> {
+class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
   PlayList _playList;
-  List<PlayListsSong> _playListsSongs;
-  List<Music> listPtx = [];
+  List<Music> _allSongs;
+  List<Music> listSongs = [];
   List<int> listPtxId = [];
   List<int> songsSelected = [];
   bool _allSelected = false;
@@ -34,16 +34,15 @@ class _PlayListPageState extends State<PlayListPage> {
   @override
   Widget build(BuildContext context) {
     _playList = ModalRoute.of(context).settings.arguments;
-
-    serverDataBloc.requestPlayListsSong(_playList);
+    //songsSelected = [];
+    serverDataBloc.requestPlayLists();
     serverDataBloc.itemDelete();
     return WillPopScope(
         onWillPop: () {
-          listPtx = [];
-          listPtxId = [];
           songsSelected = [];
-          serverDataBloc.removeAllPtxs();
-          Navigator.of(context).pushReplacementNamed('listPlayListPage');
+          serverDataBloc.removeAllSongs();
+          Navigator.of(context)
+              .pushReplacementNamed('playListPage', arguments: _playList);
         },
         child: SafeArea(
           key: _scaffoldKey,
@@ -113,9 +112,9 @@ class _PlayListPageState extends State<PlayListPage> {
                         Expanded(
                           child: Container(
                             child: StreamBuilder(
-                              stream: serverDataBloc.serverPlayListsSongStream,
+                              stream: serverDataBloc.serverDataStream,
                               builder: (BuildContext context,
-                                  AsyncSnapshot<List<PlayListsSong>> snapshot) {
+                                  AsyncSnapshot<List<Music>> snapshot) {
                                 if (snapshot.hasData) {
                                   if (snapshot.data.length < 1) {
                                     return Column(
@@ -127,7 +126,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                       ],
                                     );
                                   } else {
-                                    _playListsSongs = snapshot.data;
+                                    _allSongs = snapshot.data;
                                     return Container(
                                       // margin:
                                       //     EdgeInsets.symmetric(horizontal: 1.0),
@@ -139,12 +138,12 @@ class _PlayListPageState extends State<PlayListPage> {
                                                 horizontal: 28),
                                             child: GestureDetector(
                                                 onTap: () {
-                                                  // if (_playlist.length > 0) {
+                                                  // if (_playlistaddsongs.length > 0) {
                                                   //   showSearch(
                                                   //       context: context,
                                                   //       delegate:
-                                                  //           PlayListearchDelegate(
-                                                  //               _playlist));
+                                                  //           PlayListAddSongsearchDelegate(
+                                                  //               _playlistaddsongs));
                                                   // } else {}
                                                 },
                                                 child: Container(
@@ -173,7 +172,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                                           return GestureDetector(
                                                             onTap: () {
                                                               serverDataBloc
-                                                                  .removeAllPtxs();
+                                                                  .removeAllSongs();
                                                               _allSelected =
                                                                   false;
                                                               songsSelected =
@@ -203,16 +202,15 @@ class _PlayListPageState extends State<PlayListPage> {
                                                                   true;
                                                               songsSelected =
                                                                   [];
-                                                              listPtx.forEach(
+                                                              _allSongs.forEach(
                                                                   (element) {
                                                                 songsSelected
                                                                     .add(element
                                                                         .id);
                                                               });
                                                               serverDataBloc
-                                                                  .addPtxIds(
-                                                                      listPtxId);
-
+                                                                  .addSongsIds(
+                                                                      songsSelected);
                                                               serverDataBloc
                                                                   .itemDelete();
                                                               setState(() {});
@@ -236,36 +234,37 @@ class _PlayListPageState extends State<PlayListPage> {
                                                         child: Container()),
                                                     GestureDetector(
                                                       onTap: () async {
+                                                        songsSelected = [];
                                                         if (serverDataBloc
-                                                                .getPtxIds()
+                                                                .getSongIds()
                                                                 .length >
                                                             0) {
                                                           updating(context,
-                                                              'Deleting song');
+                                                              'Adding songs');
                                                           final resp =
                                                               await serverDataBloc
-                                                                  .deleteSongFromPlayList(
+                                                                  .addSongsToPlayList(
                                                                       _playList);
                                                           serverDataBloc
-                                                              .removeAllPtxs();
+                                                              .removeAllSongs();
                                                           if (resp) {
                                                             updated(context,
-                                                                'Songs deleted');
+                                                                'Songs added to playlist');
                                                           } else {
                                                             errorPopUp(context,
-                                                                'Songs not deleted');
+                                                                'Songs not added');
                                                           }
                                                         }
                                                       },
                                                       child: Row(
                                                         children: [
-                                                          deleteIcon(20.0,
+                                                          addIcon(20.0,
                                                               colorMedico),
                                                           SizedBox(
                                                             width: 5.0,
                                                           ),
                                                           Text(
-                                                            'Delete',
+                                                            'Add songs',
                                                             style: TextStyle(
                                                                 color:
                                                                     colorMedico,
@@ -297,42 +296,17 @@ class _PlayListPageState extends State<PlayListPage> {
                                                                   List<Music>>
                                                               snapshot) {
                                                         if (snapshot.hasData) {
-                                                          listPtx = [];
+                                                          //listPtx = [];
                                                           listPtxId = [];
                                                           print('canciones');
 
-                                                          _playListsSongs
-                                                              .forEach(
-                                                                  (element) {
-                                                            for (var i = 0;
-                                                                i <
-                                                                    snapshot
-                                                                        .data
-                                                                        .length;
-                                                                i++) {
-                                                              if (snapshot
-                                                                      .data[i]
-                                                                      .id ==
-                                                                  element
-                                                                      .songId) {
-                                                                listPtx.add(
-                                                                    snapshot
-                                                                        .data[i]);
-                                                                listPtxId.add(
-                                                                    element.id);
-                                                                print(
-                                                                    'contiene');
-                                                              }
-                                                            }
-                                                          });
                                                           print(_allSelected);
                                                           return Column(
                                                             children: [
                                                               Expanded(
-                                                                child: makeSongsListPtx(
+                                                                child: makeSongsListAdd(
                                                                     context,
-                                                                    listPtx,
-                                                                    listPtxId,
+                                                                    _allSongs,
                                                                     _allSelected),
                                                               ),
                                                             ],
@@ -376,6 +350,7 @@ class _PlayListPageState extends State<PlayListPage> {
                                     );
                                   }
                                 } else {
+                                  serverDataBloc.requestSongs();
                                   return Container(
                                     height: 100.0,
                                     width: 100,
@@ -410,19 +385,18 @@ class _PlayListPageState extends State<PlayListPage> {
               ),
             ),
             bottomNavigationBar: BottomBar(2),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: Container(
-              //margin: EdgeInsets.symmetric(horizontal:12.0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  print('add SONG');
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            // floatingActionButton: Container(
+            //   //margin: EdgeInsets.symmetric(horizontal:12.0),
+            //   child: FloatingActionButton(
+            //     onPressed: () {
+            //       print('add SONG');
 
-                  Navigator.of(context)
-                      .pushNamed('playListAddSongsPage', arguments: _playList);
-                },
-                child: floatingIcon(60.0),
-              ),
-            ),
+            //       ///Navigator.of(context).pushNamed('addPlayListAddSongsPage');
+            //     },
+            //     child: floatingIcon(60.0),
+            //   ),
+            // ),
           ),
         ));
   }

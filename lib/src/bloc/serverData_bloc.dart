@@ -699,10 +699,26 @@ class ServerDataBloc {
     }
   }
 
+  Future<bool> addSongsToPlayList(PlayList playList) async {
+    final postData =
+        '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_songIds}';
+    final resp = serverDataProvider.publishData(postData, 'APP/POST');
+    await Future.delayed(Duration(seconds: 1));
+    if (response.status != null) {
+      if (response.status == 'SUCCESS') {
+        return resp;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> deleteSongFromPlayList(PlayList playList) async {
     final postData =
         '{"TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_ptxIds}';
-    final resp = serverDataProvider.publishData(postData, 'APP/POST');
+    final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
       if (response.status == 'SUCCESS') {
@@ -727,6 +743,14 @@ class ServerDataBloc {
     _itemsSelected.add(items);
   }
 
+  List<int> getPtxIds() {
+    return _ptxIds;
+  }
+
+  List<int> getSongIds() {
+    return _songIds;
+  }
+
   void addPtxIds(List<int> ptxIds) {
     _ptxIds = ptxIds;
     print(_ptxIds);
@@ -735,31 +759,39 @@ class ServerDataBloc {
   void removeAllPtxs() {
     _ptxIds = [];
     print('lista de ptx vacía');
+    print(_ptxIds);
   }
 
   void ptxIdAdd(int ptxId) {
     // _ptxIdController.add(ptxId);
     _ptxIds.add(ptxId);
+    print('ptx add: $_ptxIds');
   }
 
   void removePtxId(int ptxId) {
     _ptxIds.remove(ptxId);
+    print('ptx delete: $_ptxIds');
   }
 
   void addSongsIds(List<int> songIds) {
     _songIds = songIds;
+    print('songs add: $_songIds');
   }
 
   void removeAllSongs() {
     _songIds = [];
+    print('lista de songs vacía');
+    print(_songIds);
   }
 
   void songIdAdd(int songId) {
     // _ptxIdController.add(ptxId);
     _songIds.add(songId);
+    print('songs add: $_songIds');
   }
 
   void removeSongId(int songId) {
     _songIds.remove(songId);
+    print('songs remove: $_songIds');
   }
 }
