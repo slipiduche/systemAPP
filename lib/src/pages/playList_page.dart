@@ -43,6 +43,8 @@ class _PlayListPageState extends State<PlayListPage> {
           listPtxId = [];
           songsSelected = [];
           serverDataBloc.removeAllPtxs();
+          serverDataBloc.removeAllSongs();
+          serverDataBloc.itemDelete();
           Navigator.of(context).pushReplacementNamed('listPlayListPage');
         },
         child: SafeArea(
@@ -416,9 +418,13 @@ class _PlayListPageState extends State<PlayListPage> {
               child: FloatingActionButton(
                 onPressed: () {
                   print('add SONG');
-
-                  Navigator.of(context)
-                      .pushNamed('playListAddSongsPage', arguments: _playList);
+                  songsSelected = [];
+                  serverDataBloc.removeAllPtxs();
+                  serverDataBloc.removeAllSongs();
+                  serverDataBloc.itemDelete();
+                  Navigator.of(context).pushReplacementNamed(
+                      'playListAddSongsPage',
+                      arguments: _playList);
                 },
                 child: floatingIcon(60.0),
               ),

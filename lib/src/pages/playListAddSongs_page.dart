@@ -40,7 +40,9 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
     return WillPopScope(
         onWillPop: () {
           songsSelected = [];
+          serverDataBloc.removeAllPtxs();
           serverDataBloc.removeAllSongs();
+          serverDataBloc.itemDelete();
           Navigator.of(context)
               .pushReplacementNamed('playListPage', arguments: _playList);
         },
