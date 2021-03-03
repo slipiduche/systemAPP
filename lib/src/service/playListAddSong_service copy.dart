@@ -4,7 +4,6 @@ import 'package:systemAPP/src/models/serverData_model.dart';
 class SongAddService {
   Future<List<Music>> findSong(String key, List<Music> _songs) async {
     List<Music> filtered = [];
-    List<int> filteredId = [];
 
     final minus = key.toLowerCase();
     await ServerDataBloc().songPlayer.pause();
