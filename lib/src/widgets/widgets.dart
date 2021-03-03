@@ -489,6 +489,7 @@ Widget makeSongsListPtx(BuildContext _context, List<Music> list,
 
 Widget makeSongsListAdd(
     BuildContext _context, List<Music> list, bool allSelected) {
+  final selected = ServerDataBloc().getSongIds();
   if (list.length < 1) {
     return Column(
       children: <Widget>[
@@ -508,6 +509,11 @@ Widget makeSongsListAdd(
         itemBuilder: (BuildContext _context, int index) {
           //print(index);
           if (list[index].id > 1) {
+            if (selected.contains(list[index].id)) {
+              allSelected = true;
+            } else {
+              allSelected = false;
+            }
             return twoIconCardAdd(list[index], () {}, () {
               deleting(list[index], _context);
             }, () {
