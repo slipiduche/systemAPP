@@ -8,11 +8,13 @@ class SongAddService {
     final minus = key.toLowerCase();
     await ServerDataBloc().songPlayer.pause();
     await _songs.forEach((element) {
-      if (element.songName.toLowerCase().contains(minus) ||
-          (element.artist.toLowerCase().contains(minus)) ||
-          (element.genre.toLowerCase().contains(minus))) {
-        print(element.songName);
-        filtered.add(element);
+      if (element.id > 1) {
+        if (element.songName.toLowerCase().contains(minus) ||
+            (element.artist.toLowerCase().contains(minus)) ||
+            (element.genre.toLowerCase().contains(minus))) {
+          print(element.songName);
+          filtered.add(element);
+        }
       }
     });
     return filtered;
