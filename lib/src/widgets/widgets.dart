@@ -686,13 +686,13 @@ Widget twoIconCardAdd(Music song, Function icon, Function icon1, Function icon2,
                     print(snapshot.data.toString() + ':' + index.toString());
                     print(_itemSelected);
                     if (_itemSelected) {
-                      _itemSelected = false;
+                      //_itemSelected = false;
                       // ServerDataBloc().removeSongId(song.id);
-                      print(_itemSelected);
+                      print('${song.id}$_itemSelected');
                     } else {
-                      _itemSelected = true;
+                      //_itemSelected = true;
                       // ServerDataBloc().songIdAdd(song.id);
-                      print(_itemSelected);
+                      print('${song.id}$_itemSelected');
                     }
                   }
                 }
@@ -711,6 +711,7 @@ Widget twoIconCardAdd(Music song, Function icon, Function icon1, Function icon2,
                         } else {
                           ServerDataBloc().removeSongId(song.id);
                         }
+                        _itemSelected = valor;
                         ServerDataBloc().itemAdd(index);
 
                         print(index);
