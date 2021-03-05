@@ -1456,7 +1456,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
                     //default:
                   }
                 },
-                child: moreCircle(30.0),
+                child: moreCircleIcon(30.0),
                 itemBuilder: (BuildContext _context) {
                   return _popUpMenuItems;
                 }),
@@ -1470,7 +1470,7 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
   );
 }
 
-Widget moreCircle(double size) {
+Widget moreCircleIcon(double size) {
   return Container(
     width: size,
     height: size,
@@ -3231,7 +3231,7 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
                             //default:
                           }
                         },
-                        child: moreCircle(30.0),
+                        child: moreCircleIcon(30.0),
                         itemBuilder: (BuildContext _context) {
                           return _popUpMenuItems;
                         }),
@@ -4104,7 +4104,7 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                               break;
                           }
                         },
-                        child: moreCircle(30.0),
+                        child: moreCircleIcon(30.0),
                         itemBuilder: (BuildContext _context) {
                           return _popUpMenuItems;
                         }),
@@ -4288,7 +4288,7 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                           break;
                       }
                     },
-                    child: moreCircle(30.0),
+                    child: moreCircleIcon(30.0),
                     itemBuilder: (BuildContext _context) {
                       return _popUpMenuItems;
                     }),

@@ -27,7 +27,21 @@ Widget playListIcon(double size) {
     child: Image(
       image: AssetImage(
         'assets/playListIcon.png',
-        
+      ),
+      // width: size,
+      // height: size,
+      fit: BoxFit.scaleDown,
+    ),
+  );
+}
+
+Widget moreCircleIcon(double size) {
+  return Container(
+    width: size,
+    height: size,
+    child: Image(
+      image: AssetImage(
+        'assets/moreCircleIcon.png',
       ),
       // width: size,
       // height: size,

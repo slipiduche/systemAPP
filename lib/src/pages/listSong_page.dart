@@ -30,7 +30,7 @@ class _ListSongsPageState extends State<ListSongsPage> {
       onWillPop: () {
         //exit(0);
         serverDataBloc.songPlayer.pause();
-        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed('musicPage');
         //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         print('poppop');
       },
