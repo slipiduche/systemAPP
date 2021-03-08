@@ -8,8 +8,8 @@ import 'package:systemAPP/constants.dart';
 import 'package:systemAPP/src/bloc/serverData_bloc.dart';
 
 class UploadProvider {
-  Future<int> upload(
-      String audioPath, String name, String artist, String genre,String token) async {
+  Future<int> upload(String audioPath, String name, String artist, String genre,
+      String token) async {
     print(audioPath);
     final url = Uri.parse(
         //'https://api.cloudinary.com/v1_1/orbittas-speaker/auto/upload?upload_preset=az4wachs');
@@ -22,9 +22,11 @@ class UploadProvider {
     final file = await http.MultipartFile.fromPath('audio', audioPath,
         contentType: MediaType('audio', 'mpeg'));
 
+    String _songName = name.endsWith('.mp3') ? (name) : (name + '.mp3');
+
     //print(ServerDataBloc.tokenS);
     final object = audioUploadRequest.fields['details'] =
-        '{"TOKEN":"$token","filename":"$name.mp3","song":"$name","artist":"$artist","genre":"$genre"}';
+        '{"TOKEN":"$token","filename":"$_songName","song":"$name","artist":"$artist","genre":"$genre"}';
     print(object);
     audioUploadRequest.files.add(file);
     print(audioUploadRequest);
