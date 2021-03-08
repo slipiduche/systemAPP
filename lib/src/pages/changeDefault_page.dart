@@ -135,14 +135,14 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                                       fontSize: 16.0,
                                                       color: colorLetraSearch),
                                                 ),
-                                                Text(
-                                                  'Genre: ${snapshot.data.genre}',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: colorLetraSearch),
-                                                ),
+                                                // Text(
+                                                //   'Genre: ${snapshot.data.genre}',
+                                                //   overflow:
+                                                //       TextOverflow.ellipsis,
+                                                //   style: TextStyle(
+                                                //       fontSize: 16.0,
+                                                //       color: colorLetraSearch),
+                                                // ),
                                               ],
                                             );
                                           } else {

@@ -3950,7 +3950,7 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                           ),
                           Text(
                             playList[index].listName,
-                            style: TextStyle(fontSize: 30.0),
+                            style: TextStyle(fontSize: 25.0),
                           ),
                           Text(
                             '${playList[index].tracks} songs',
@@ -4145,7 +4145,7 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                       ),
                       Text(
                         playList[index].listName,
-                        style: TextStyle(fontSize: 30.0),
+                        style: TextStyle(fontSize: 25.0),
                       ),
                       Text(
                         '${playList[index].tracks} songs',
@@ -4331,7 +4331,7 @@ Widget makePlayListsListDefault(
                   ),
                   Text(
                     playList[index].listName,
-                    style: TextStyle(fontSize: 30.0),
+                    style: TextStyle(fontSize: 25.0),
                   ),
                   Text(
                     '${playList[index].tracks} songs',
