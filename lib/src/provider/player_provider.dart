@@ -30,7 +30,7 @@ class _PlayerState extends State<Player> {
 
   Future<void> initRadioService() async {
     try {
-      await _flutterRadioPlayer.init("Flutter Radio Example", "Live",
+      await _flutterRadioPlayer.init("System App", "Server",
           "http://192.168.1.103:8080/audio/0/default.mp3", "false");
       _flutterRadioPlayer.setUrl(
           "http://192.168.1.103:8080/audio/0/default.mp3", "false");
