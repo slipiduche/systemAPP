@@ -9,7 +9,8 @@ class PlayListService {
     //await ServerDataBloc().playlistPlayer.pause();
     await _playlists.forEach((element) {
       //(element.artist.toLowerCase().contains(minus))
-      if (element.listName.toLowerCase().contains(minus)) {
+      if (element.listName.toLowerCase().contains(minus) ||
+          element.genre.toLowerCase().contains(minus)) {
         filtered.add(element);
       }
     });

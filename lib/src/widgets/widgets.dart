@@ -3956,10 +3956,10 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                             '${playList[index].tracks} songs',
                             style: TextStyle(fontSize: 18.0),
                           ),
-                          Text(
-                            'Genre: ${playList[index].genre}',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
+                          // Text(
+                          //   'Genre: ${playList[index].genre}',
+                          //   style: TextStyle(fontSize: 18.0),
+                          // ),
                           SizedBox(
                             height: 7.0,
                           ),
@@ -4151,10 +4151,10 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                         '${playList[index].tracks} songs',
                         style: TextStyle(fontSize: 18.0),
                       ),
-                      Text(
-                        'Genre: ${playList[index].genre}',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
+                      // Text(
+                      //   'Genre: ${playList[index].genre}',
+                      //   style: TextStyle(fontSize: 18.0),
+                      // ),
                       SizedBox(
                         height: 7.0,
                       ),
@@ -4337,10 +4337,10 @@ Widget makePlayListsListDefault(
                     '${playList[index].tracks} songs',
                     style: TextStyle(fontSize: 18.0),
                   ),
-                  Text(
-                    'Genre: ${playList[index].genre}',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
+                  // Text(
+                  //   'Genre: ${playList[index].genre}',
+                  //   style: TextStyle(fontSize: 18.0),
+                  // ),
                   SizedBox(
                     height: 7.0,
                   ),

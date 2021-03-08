@@ -187,31 +187,29 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                               ],
                             ),
                           ),
-                          // Column(
-                          //   children: [
-                          //     SizedBox(height: 20.0),
-                          //     SizedBox(height: 10.0),
-                          //     StreamBuilder(
-                          //       stream: serverDataBloc.defaultSelStream,
-                          //       builder: (BuildContext context,
-                          //           AsyncSnapshot<PlayList> snapshot) {
-                          //         if (snapshot.hasData) {
-                          //           //
-                          //           WidgetsBinding.instance
-                          //               .addPostFrameCallback((_) =>
-                          //                   _action(snapshot.data, context));
-                          //         } else {}
-                          //         return Container(
-                          //           padding:
-                          //               EdgeInsets.symmetric(horizontal: 28.0),
-                          //           height: 40.0,
-                          //           //child: submitButton('Change', () {}),
-                          //         );
-                          //       },
-                          //     ),
-                          //     SizedBox(height: 20.0),
-                          //   ],
-                          // ),
+                          Column(
+                            children: [
+                              // SizedBox(height: 20.0),
+                              // SizedBox(height: 10.0),
+                              StreamBuilder(
+                                stream: serverDataBloc.defaultSelStream,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<PlayList> snapshot) {
+                                  if (snapshot.hasData) {
+                                    //
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) =>
+                                            _action(snapshot.data, context));
+                                  } else {}
+                                  return Container(
+
+                                      //child: submitButton('Change', () {}),
+                                      );
+                                },
+                              ),
+                              //SizedBox(height: 20.0),
+                            ],
+                          ),
                           Container(
                             color: colorBordeBotton,
                             height: 1.0,
