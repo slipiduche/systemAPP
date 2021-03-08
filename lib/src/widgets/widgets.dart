@@ -4101,6 +4101,8 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
 
                               break;
                             case 'View':
+                              Navigator.of(context).pushNamed('playListPage',
+                                  arguments: playList[index]);
                               break;
                           }
                         },
@@ -4285,6 +4287,8 @@ Widget makePlayListsListSimple(List<PlayList> playList, BuildContext _context) {
                               });
                           break;
                         case 'View':
+                          Navigator.of(context).pushNamed('playListPage',
+                              arguments: playList[index]);
                           break;
                       }
                     },
