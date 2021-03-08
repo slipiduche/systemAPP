@@ -1470,32 +1470,32 @@ Widget twoIconCardList(Music song, Function icon, Function icon1,
   );
 }
 
-Widget moreCircleIcon(double size) {
-  return Container(
-    width: size,
-    height: size,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      //crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // SizedBox(height: 1.0,),
-        Expanded(
-          child: Text(
-            '···',
-            //textAlign: TextAlign.start,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: size,
-            ),
-          ),
-        ),
-        //SizedBox(height: 10.0,),
-      ],
-    ),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100.0), color: colorMedico),
-  );
-}
+// Widget moreCircleIcon(double size) {
+//   return Container(
+//     width: size,
+//     height: size,
+//     child: Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       //crossAxisAlignment: CrossAxisAlignment.center,
+//       children: [
+//         // SizedBox(height: 1.0,),
+//         Expanded(
+//           child: Text(
+//             '···',
+//             //textAlign: TextAlign.start,
+//             style: TextStyle(
+//               color: Colors.white,
+//               fontSize: size,
+//             ),
+//           ),
+//         ),
+//         //SizedBox(height: 10.0,),
+//       ],
+//     ),
+//     decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(100.0), color: colorMedico),
+//   );
+// }
 
 Widget twoIconCardSingle(Music song, Widget icon, dynamic icon1,
     BuildContext _context, String mode) {

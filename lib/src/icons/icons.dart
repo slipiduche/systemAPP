@@ -39,14 +39,24 @@ Widget moreCircleIcon(double size) {
   return Container(
     width: size,
     height: size,
-    child: Image(
-      image: AssetImage(
-        'assets/moreCircleIcon.png',
-      ),
-      // width: size,
-      // height: size,
-      fit: BoxFit.scaleDown,
+    child: Column(
+      children: [
+        Icon(
+          Icons.more_vert,
+          size: size,
+          color: colorBordeBotton,
+        ),
+        // SizedBox(height:1.0)
+      ],
     ),
+    // child: Image(
+    // image: AssetImage(
+    //   'assets/moreCircleIcon.png',
+    // ),
+    // width: size,
+    // height: size,
+    //fit: BoxFit.scaleDown,
+    // ),
   );
 }
 
