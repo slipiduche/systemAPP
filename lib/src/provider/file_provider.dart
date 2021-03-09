@@ -236,7 +236,8 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                             uploadList.add({
                                               "name": _paths[i].name,
                                               "path": _paths[i].path,
-                                              "artist": author,
+                                              "artist": author.substring(
+                                                  0, author.length - 6),
                                               "genre": genre
                                             });
                                             if (_multiPick == false) {
