@@ -120,7 +120,7 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<Music>> snapshot) {
                                 if (snapshot.hasData) {
-                                  if (snapshot.data.length < 1) {
+                                  if (snapshot.data.length < 2) {
                                     return Column(
                                       children: <Widget>[
                                         Text(

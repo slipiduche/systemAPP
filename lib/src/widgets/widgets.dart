@@ -946,7 +946,7 @@ Widget twoIconCardPtx1(
 }
 
 Widget makeSongsList2(BuildContext _context, List<Music> list) {
-  if (list.length < 1) {
+  if (list.length < 2) {
     return Column(
       children: <Widget>[
         SizedBox(

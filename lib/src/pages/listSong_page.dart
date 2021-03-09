@@ -82,7 +82,7 @@ class _ListSongsPageState extends State<ListSongsPage> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          if (_songs.length > 0) {
+                          if (_songs.length > 1) {
                             showSearch(
                                 context: context,
                                 delegate: SongSearchDelegate(_songs, 'list'));
