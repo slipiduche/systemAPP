@@ -237,7 +237,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                               "name": _paths[i].name,
                                               "path": _paths[i].path,
                                               "artist": author.substring(
-                                                  0, author.length - 6),
+                                                  0, author.length - 1),
                                               "genre": genre
                                             });
                                             if (_multiPick == false) {
