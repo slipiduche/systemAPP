@@ -292,6 +292,7 @@ class _TwoIconCardState extends State<TwoIconCard> {
                       color: Colors.black,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w100),
+                  overflow: TextOverflow.ellipsis,
                 )
               ],
             ),
