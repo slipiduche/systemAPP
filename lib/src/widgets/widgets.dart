@@ -469,7 +469,7 @@ Widget makeSongsListPtx(BuildContext _context, List<Music> list,
         itemCount: (list.length),
         itemBuilder: (BuildContext _context, int index) {
           //print(index);
-          if (list[index].id > 1) {
+          if (list[index].id > 0) {
             if (selected.contains(listId[index])) {
               allSelected = true;
             } else {
