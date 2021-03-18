@@ -95,11 +95,6 @@ class _PlayListAddSongsPageState extends State<PlayListAddSongsPage> {
                                 '${_playList.tracks} songs',
                                 style: TextStyle(fontSize: 16.0),
                               ),
-                              Text(
-                                'Genre: ${_playList.genre}',
-                                style: TextStyle(fontSize: 16.0),
-                                overflow: TextOverflow.clip,
-                              ),
                             ],
                           ),
                         ),

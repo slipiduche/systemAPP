@@ -54,7 +54,7 @@ class _BindSpeakerPageState extends State<BindSpeakerPage> {
               ),
               SizedBox(height: 15.0),
               Text(
-                'Select the speaker you want to bind',
+                'Select the speaker to bind it',
                 style: TextStyle(
                   fontSize: title1,
                 ),

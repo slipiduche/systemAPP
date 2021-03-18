@@ -47,6 +47,7 @@ final LinearGradient gradiente1 = LinearGradient(
 );
 final title = 40.0;
 final title1 = 23.0;
+final title2 = 20.0;
 final search1 = 24.0;
 final titleCard = 36.0;
 final subTitleCard = 14.0;

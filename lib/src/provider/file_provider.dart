@@ -112,7 +112,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
           children: <Widget>[
             Text(
               _text1,
-              style: TextStyle(fontSize: title1),
+              style: TextStyle(fontSize: title2),
               overflow: TextOverflow.clip,
               textAlign: TextAlign.center,
             ),
@@ -237,7 +237,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                               "name": _paths[i].name,
                                               "path": _paths[i].path,
                                               "artist": author.substring(
-                                                  0, author.length - 1),
+                                                  0, author.length),
                                               "genre": genre
                                             });
                                             if (_multiPick == false) {
@@ -398,7 +398,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                               child: submitButton('OK', () {
                                 Navigator.pop(context);
                                 Navigator.pushReplacementNamed(
-                                    context, 'addSongsPage');
+                                    context, 'listSongsPage');
                               }),
                             ),
                           ),

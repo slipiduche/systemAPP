@@ -83,13 +83,18 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 28.0),
-                            child: Text(
-                              'Current default tag playlist',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: colorVN,
-                                  fontSize: 28.0,
-                                  fontWeight: FontWeight.w400),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Current default tag playlist',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: colorVN,
+                                      fontSize: title1,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
                             ),
                           ),
                           SizedBox(height: 10.0),
@@ -127,14 +132,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                                       fontWeight:
                                                           FontWeight.w700),
                                                 ),
-                                                Text(
-                                                  '${snapshot.data.tracks} songs',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: colorLetraSearch),
-                                                ),
+
                                                 // Text(
                                                 //   'Genre: ${snapshot.data.genre}',
                                                 //   overflow:

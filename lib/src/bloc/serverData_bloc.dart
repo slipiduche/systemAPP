@@ -196,6 +196,7 @@ class ServerDataBloc {
         }
         if (dataType == "PLAYLISTS") {
           response = data;
+          bool noDefault = true;
           if (data.playLists.items.length >= 0) {
             print(data.playLists.items.length);
             print(data.playLists.items);
@@ -203,12 +204,20 @@ class ServerDataBloc {
             print('default:');
             print(data.sdefault);
             print(':default');
+
             data.playLists.items.forEach((element) {
               if (element.id == data.sdefault) {
                 _defaultController.add(element);
+                noDefault = false;
               }
             });
+            if (noDefault) {
+              _defaultController.add(PlayList(listName: 'Not selected'));
+            }
             return;
+          }
+          if (noDefault) {
+            _defaultController.add(PlayList(listName: 'Not selected'));
           }
           return;
         }
@@ -259,6 +268,9 @@ class ServerDataBloc {
         }
         if (dataType == 'PLAYLISTS') {
           _serverPlayListsController.add([]);
+
+          _defaultController.add(PlayList(listName: 'Not selected'));
+
           print('PLAYLISTS');
         }
         if (dataType == 'PTX') {

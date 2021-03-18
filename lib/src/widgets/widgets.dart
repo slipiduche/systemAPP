@@ -965,6 +965,20 @@ Widget makeSongsList2(BuildContext _context, List<Music> list) {
         itemCount: (list.length),
         itemBuilder: (BuildContext _context, int index) {
           //print(index);
+          if (list.length-1 == index) {
+            return Column(
+              children: [
+                twoIconCardList(list[index], () {}, () {
+                  deleting(list[index], _context);
+                }, () {
+                  editing(list[index], _context);
+                }, _context),
+                SizedBox(
+                  height: 100.0,
+                )
+              ],
+            );
+          }
           if (list[index].id > 1) {
             return twoIconCardList(list[index], () {}, () {
               deleting(list[index], _context);
@@ -2966,19 +2980,19 @@ Widget threeIconCardSimpleNoStatus(
                         });
                   },
                   child: deleteIcon),
-              SizedBox(
-                width: 10.0,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    //ServerDataBloc().deleteRoomDevices();
-                    ServerDataBloc().roomToModify(room);
-                    ServerDataBloc().loadingEdit();
-                    ServerDataBloc().requestDevices();
-                    Navigator.of(_context)
-                        .pushReplacementNamed('editRoomsPage');
-                  },
-                  child: editIcon),
+              // SizedBox(
+              //   width: 10.0,
+              // ),
+              // GestureDetector(
+              //     onTap: () {
+              //       //ServerDataBloc().deleteRoomDevices();
+              //       ServerDataBloc().roomToModify(room);
+              //       ServerDataBloc().loadingEdit();
+              //       ServerDataBloc().requestDevices();
+              //       Navigator.of(_context)
+              //           .pushReplacementNamed('editRoomsPage');
+              //     },
+              //     child: editIcon),
             ],
           ),
           SizedBox(
@@ -3007,24 +3021,24 @@ Widget threeIconCardSimple(Room room, int status, Widget editIcon,
     icon = statusIcon(25.0, status);
   }
   final List<PopupMenuItem<String>> _popUpMenuItems = [
-    PopupMenuItem<String>(
-      value: 'Edit',
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text(
-                'Edit',
-                style: TextStyle(fontSize: 26),
-              ),
-              Expanded(child: Container()),
-              editIcon
-            ],
-          ),
-          Divider(),
-        ],
-      ),
-    ),
+    // PopupMenuItem<String>(
+    //   value: 'Edit',
+    //   child: Column(
+    //     children: [
+    //       Row(
+    //         children: [
+    //           Text(
+    //             'Edit',
+    //             style: TextStyle(fontSize: 26),
+    //           ),
+    //           Expanded(child: Container()),
+    //           editIcon
+    //         ],
+    //       ),
+    //       Divider(),
+    //     ],
+    //   ),
+    // ),
     PopupMenuItem<String>(
       value: 'Delete',
       child: Column(
