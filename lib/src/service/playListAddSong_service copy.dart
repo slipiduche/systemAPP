@@ -10,8 +10,7 @@ class SongAddService {
     await _songs.forEach((element) {
       if (element.id > 1) {
         if (element.songName.toLowerCase().contains(minus) ||
-            (element.artist.toLowerCase().contains(minus)) ||
-            (element.genre.toLowerCase().contains(minus))) {
+            (element.artist.toLowerCase().contains(minus))) {
           print(element.songName);
           filtered.add(element);
         }

@@ -185,9 +185,6 @@ class _ListSongsPageState extends State<ListSongsPage> {
             onPressed: () {
               print('add SONG');
 
-              // serverDataBloc.removeAllPtxs();
-              // serverDataBloc.removeAllSongs();
-              // serverDataBloc.itemDelete();
               Navigator.of(context).pushReplacementNamed(
                 'addSongsPage',
               );

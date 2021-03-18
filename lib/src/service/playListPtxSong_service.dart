@@ -11,8 +11,7 @@ class SongPtxService {
     await ServerDataBloc().songPlayer.pause();
     await _songs.forEach((element) {
       if (element.songName.toLowerCase().contains(minus) ||
-          (element.artist.toLowerCase().contains(minus)) ||
-          (element.genre.toLowerCase().contains(minus))) {
+          (element.artist.toLowerCase().contains(minus))) {
         print(element.songName);
         filtered.add(element);
         filteredId.add(_ids[count]);
