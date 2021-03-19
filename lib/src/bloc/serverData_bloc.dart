@@ -44,6 +44,7 @@ class ServerDataBloc {
     }
   }
 
+  String _prevTag = '';
   List<int> _ptxIds = [];
   List<int> _songIds = [];
   final _serverTagsController = new BehaviorSubject<List<Tag>>();
@@ -112,9 +113,14 @@ class ServerDataBloc {
     }, (ServerData data, String topic, String dataType) async {
       if (data.tag != null) {
         print('newTag');
-        deleteData();
-        _tagController.add(data.tag);
-        return;
+        if (data.tag == _prevTag) {
+          return;
+        } else {
+          _prevTag = data.tag;
+          deleteData();
+          _tagController.add(data.tag);
+          return;
+        }
       }
       if ((data.token != null) && (data.token != '')) {
         print('respondio server/authorize');
@@ -282,6 +288,10 @@ class ServerDataBloc {
       }
     });
     await serverDataProvider.prepareMqttClient();
+  }
+
+  void deletePrevtag() {
+    _prevTag = '';
   }
 
   Future<int> uploadSong(audioPath, name, artist, genre) async {

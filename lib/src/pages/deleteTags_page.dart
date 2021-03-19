@@ -22,6 +22,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
     // TODO: implement initState
     super.initState();
     serverDataBloc.deleteData();
+    serverDataBloc.deletePrevtag();
   }
 
   @override

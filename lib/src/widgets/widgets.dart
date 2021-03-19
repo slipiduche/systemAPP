@@ -1985,13 +1985,13 @@ void updated(BuildContext _context, String message) {
                                   .pushReplacementNamed('listSongsPage');
                             } else if (message == "Added") {
                               Navigator.of(context)
-                                  .pushReplacementNamed('addTagsPage');
+                                  .pushReplacementNamed('tagPage');
                             } else if (message == "Tag updated") {
                               Navigator.of(context)
-                                  .pushReplacementNamed('editTagsPage');
+                                  .pushReplacementNamed('tagPage');
                             } else if (message == "Tag deleted") {
                               Navigator.of(context)
-                                  .pushReplacementNamed('deleteTagsPage');
+                                  .pushReplacementNamed('tagPage');
                             } else if (message == "Room added") {
                               Navigator.of(context)
                                   .pushReplacementNamed('roomsPage');

@@ -20,7 +20,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
     // TODO: implement initState
     super.initState();
     serverDataBloc.deleteData();
-    
+    serverDataBloc.deletePrevtag();
   }
 
   @override
