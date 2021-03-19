@@ -327,36 +327,42 @@ class _TwoIconCardState extends State<TwoIconCard> {
 
 Widget makeDevicesList(BuildContext _context, List<Device> list, Widget icon3,
     String mode, String type) {
-  int availableDevices = 0;
+  int availableReader = 0, availableSpeaker = 0;
+  List<Device> _availableReaders = [], _availableSpeakers = [];
   list.forEach((element) {
-    if (element.status == 'UNASSIGNED') {
-      availableDevices++;
+    if (element.status == 'UNASSIGNED' && element.type == 'READER') {
+      availableReader++;
+
+      _availableReaders.add(element);
+    }
+    if (element.status == 'UNASSIGNED' && element.type == 'SPEAKER') {
+      availableSpeaker++;
+
+      _availableSpeakers.add(element);
     }
   });
-  if (availableDevices > 0) {
+  if (availableSpeaker > 0 && type == "SPEAKER") {
     return ListView.builder(
         //controller: _scrollController,
-        itemCount: (list.length),
+        itemCount: (_availableSpeakers.length),
         itemBuilder: (BuildContext _context, int index) {
           print('makedeviceslist');
           print(index);
-          if (type == "SPEAKER") {
-            if (list[index].type == "SPEAKER" &&
-                list[index].status == 'UNASSIGNED') {
-              return twoIconCardDevices(list[index],
-                  speakerIcon(40.0, colorMedico), icon3, _context, mode);
-            } else {
-              return Container();
-            }
-          } else {
-            if (list[index].type == "READER" &&
-                list[index].status == 'UNASSIGNED') {
-              return twoIconCardDevices(list[index],
-                  readerIcon(40.0, colorMedico), icon3, _context, mode);
-            } else {
-              return Container();
-            }
-          }
+
+          return twoIconCardDevices(_availableSpeakers[index],
+              speakerIcon(40.0, colorMedico), icon3, _context, mode);
+        });
+  }
+  if (availableReader > 0 && type == "READER") {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (_availableReaders.length),
+        itemBuilder: (BuildContext _context, int index) {
+          print('makedeviceslist');
+          print(index);
+
+          return twoIconCardDevices(_availableReaders[index],
+              speakerIcon(40.0, colorMedico), icon3, _context, mode);
         });
   } else {
     return Column(
@@ -965,7 +971,7 @@ Widget makeSongsList2(BuildContext _context, List<Music> list) {
         itemCount: (list.length),
         itemBuilder: (BuildContext _context, int index) {
           //print(index);
-          if (list.length-1 == index) {
+          if (list.length - 1 == index) {
             return Column(
               children: [
                 twoIconCardList(list[index], () {}, () {
