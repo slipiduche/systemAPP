@@ -173,7 +173,13 @@ class _PlayListDefaultPageState extends State<PlayListDefaultPage> {
                           );
                         } else {
                           //print(snapshot.data[0].songName);
-                          _playLists = snapshot.data;
+                          _playLists = [];
+                          _playLists.add(PlayList(
+                              id: -1, listName: 'Not Selected', tracks: 0));
+                          snapshot.data.forEach((element) {
+                            _playLists.add(element);
+                          });
+
                           return Container(
                               margin: EdgeInsets.symmetric(horizontal: 25.0),
                               child: makePlayListsListDefault(_playLists,

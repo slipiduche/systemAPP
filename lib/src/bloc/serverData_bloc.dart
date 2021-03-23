@@ -490,7 +490,7 @@ class ServerDataBloc {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData = '{"TOKEN":"$token","ID":"$songId"}';
+    final postData = '{"TOKEN":"$token","ID":$songId}';
     final resp = serverDataProvider.publishData(postData, 'APP/DEFAULT');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
