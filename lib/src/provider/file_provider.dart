@@ -44,6 +44,11 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   void initState() {
     //WidgetsBinding.instance.addPostFrameCallback(autoScroll);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _clearCachedFiles();
+
+      _openFileExplorer();
+    });
 
     _controller.addListener(() => _extension = _controller.text);
     controller = ScrollController();
