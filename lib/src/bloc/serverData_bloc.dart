@@ -218,12 +218,12 @@ class ServerDataBloc {
               }
             });
             if (noDefault) {
-              _defaultController.add(PlayList(listName: 'Not selected'));
+              _defaultController.add(PlayList(listName: 'Default'));
             }
             return;
           }
           if (noDefault) {
-            _defaultController.add(PlayList(listName: 'Not selected'));
+            _defaultController.add(PlayList(listName: 'Default'));
           }
           return;
         }
@@ -275,7 +275,7 @@ class ServerDataBloc {
         if (dataType == 'PLAYLISTS') {
           _serverPlayListsController.add([]);
 
-          _defaultController.add(PlayList(listName: 'Not selected'));
+          _defaultController.add(PlayList(listName: 'Default'));
 
           print('PLAYLISTS');
         }
