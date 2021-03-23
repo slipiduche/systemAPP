@@ -175,7 +175,7 @@ class _PlayListDefaultPageState extends State<PlayListDefaultPage> {
                           //print(snapshot.data[0].songName);
                           _playLists = [];
                           _playLists.add(PlayList(
-                              id: -1, listName: 'Not Selected', tracks: 0));
+                              id: -1, listName: 'None', tracks: 0));
                           snapshot.data.forEach((element) {
                             _playLists.add(element);
                           });

@@ -175,7 +175,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                     ),
                                     GestureDetector(
                                         onTap: () {
-                                          Navigator.of(context)
+                                          Navigator.of(_scaffoldKey.currentContext)
                                               .pushNamed('playListDefaultPage');
                                         },
                                         child: searchIcon(40.0, colorMedico))
@@ -197,7 +197,7 @@ class _ChangeDefaultPageState extends State<ChangeDefaultPage> {
                                     //
                                     WidgetsBinding.instance
                                         .addPostFrameCallback((_) =>
-                                            _action(snapshot.data, context));
+                                            _action(snapshot.data, _scaffoldKey.currentContext));
                                   } else {}
                                   return Container(
 

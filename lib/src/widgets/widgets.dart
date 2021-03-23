@@ -4335,73 +4335,103 @@ Widget makePlayListsListDefault(
   return ListView.builder(
     itemCount: playList.length,
     itemBuilder: (BuildContext context, int index) {
-      return Card(
-        elevation: 5.0,
-        color: Colors.white,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 20.0,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(
-                    playList[index].listName,
-                    style: TextStyle(fontSize: 25.0),
-                  ),
-                  Text(
-                    '${playList[index].tracks} songs',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  // Text(
-                  //   'Genre: ${playList[index].genre}',
-                  //   style: TextStyle(fontSize: 18.0),
-                  // ),
-                  SizedBox(
-                    height: 7.0,
-                  ),
-                ],
+      return GestureDetector(
+        onTap: () async {
+          print(index);
+          if (mode == 'Default') {
+            ServerDataBloc().bindDefault(playList[index]);
+            Navigator.of(context).pop();
+          } else if (mode == 'AddTag') {
+            ServerDataBloc().bindPlayList(playList[index]);
+            Navigator.of(context).pop();
+            print('aquí');
+          } else if (mode == 'AddTagSearch') {
+            ServerDataBloc().bindPlayList(playList[index]);
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          } else if (mode == 'DefaultSearch') {
+            ServerDataBloc().bindDefault(playList[index]);
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          } else if (mode == 'Select') {
+            updating(context, 'Adding song to playlist');
+            final resp = await ServerDataBloc()
+                .addSongToPlayList(playList[index], [songId]);
+            if (resp) {
+              updated(context, 'Song added to playlist');
+            }
+            // Navigator.of(context).pop();
+            // Navigator.of(context).pop();
+          }
+        },
+        child: Card(
+          elevation: 5.0,
+          color: Colors.white,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 20.0,
               ),
-            ),
-            GestureDetector(
-                onTap: () async {
-                  print(index);
-                  if (mode == 'Default') {
-                    ServerDataBloc().bindDefault(playList[index]);
-                    Navigator.of(context).pop();
-                  } else if (mode == 'AddTag') {
-                    ServerDataBloc().bindPlayList(playList[index]);
-                    Navigator.of(context).pop();
-                    print('aquí');
-                  } else if (mode == 'AddTagSearch') {
-                    ServerDataBloc().bindPlayList(playList[index]);
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  } else if (mode == 'DefaultSearch') {
-                    ServerDataBloc().bindDefault(playList[index]);
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  } else if (mode == 'Select') {
-                    updating(context, 'Adding song to playlist');
-                    final resp = await ServerDataBloc()
-                        .addSongToPlayList(playList[index], [songId]);
-                    if (resp) {
-                      updated(context, 'Song added to playlist');
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      playList[index].listName,
+                      style: TextStyle(fontSize: 25.0),
+                    ),
+                    Text(
+                      '${playList[index].tracks} songs',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    // Text(
+                    //   'Genre: ${playList[index].genre}',
+                    //   style: TextStyle(fontSize: 18.0),
+                    // ),
+                    SizedBox(
+                      height: 7.0,
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                  onTap: () async {
+                    print(index);
+                    if (mode == 'Default') {
+                      ServerDataBloc().bindDefault(playList[index]);
+                      Navigator.of(context).pop();
+                    } else if (mode == 'AddTag') {
+                      ServerDataBloc().bindPlayList(playList[index]);
+                      Navigator.of(context).pop();
+                      print('aquí');
+                    } else if (mode == 'AddTagSearch') {
+                      ServerDataBloc().bindPlayList(playList[index]);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    } else if (mode == 'DefaultSearch') {
+                      ServerDataBloc().bindDefault(playList[index]);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    } else if (mode == 'Select') {
+                      updating(context, 'Adding song to playlist');
+                      final resp = await ServerDataBloc()
+                          .addSongToPlayList(playList[index], [songId]);
+                      if (resp) {
+                        updated(context, 'Song added to playlist');
+                      }
+                      // Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
                     }
-                    // Navigator.of(context).pop();
-                    // Navigator.of(context).pop();
-                  }
-                },
-                child: addIcon(40.0, colorMedico)),
-            SizedBox(
-              width: 20.0,
-            ),
-          ],
+                  },
+                  child: addIcon(40.0, colorMedico)),
+              SizedBox(
+                width: 20.0,
+              ),
+            ],
+          ),
         ),
       );
     },
