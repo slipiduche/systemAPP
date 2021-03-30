@@ -12,6 +12,7 @@ class EditTagsPage extends StatefulWidget {
 }
 
 class _EditTagsPageState extends State<EditTagsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
   bool tagHere = false, songHere = false;
   String tag = '', songId = '', tagId = '';
@@ -33,6 +34,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
       },
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           body: Container(
             color: colorBackGround,
             child: Column(
@@ -102,7 +104,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                       if (snapshot.hasData) {
                                         tagHere = true;
                                         tag = snapshot.data;
-
+                                        tagId = '';
                                         serverDataBloc.requestPlayLists();
                                         serverDataBloc.requestTags();
 
@@ -159,6 +161,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                     tagHere = true;
                                     tagId = snapshot.data.id.toString();
                                     print('taghere:$tagHere');
+
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
@@ -189,8 +192,15 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                       ),
                                     );
                                   } else {
+                                    if (tagHere) {
+                                      print('taghere:$tagHere');
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) => _action2(
+                                              _scaffoldKey.currentContext));
+                                    }
                                     tagHere = false;
                                     print('taghere:$tagHere');
+
                                     return GestureDetector(
                                       onTap: tagHere
                                           ? () {
@@ -199,7 +209,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                               print('search playlists');
                                             }
                                           : () {
-                                              print('do nothing');
+                                              print('do nothing2');
                                             },
                                       child: StreamBuilder(
                                         stream: serverDataBloc.playListStream,
@@ -213,7 +223,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                           } else {
                                             songHere = false;
                                             return searchBoxForm(
-                                                'Select a song from the list',
+                                                'Select a playlist from the list',
                                                 context);
                                           }
                                         },
@@ -296,7 +306,12 @@ class _EditTagsPageState extends State<EditTagsPage> {
         errorPopUp(context, 'Not updated');
       }
     } else {
-      print('do nothing');
+      print('do nothing3');
     }
+  }
+
+  _action2(_context) {
+    errorPopUp(_context, 'The tag does not exist');
+    print('el tag no existe');
   }
 }

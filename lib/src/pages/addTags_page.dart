@@ -12,6 +12,7 @@ class AddTagsPage extends StatefulWidget {
 }
 
 class _AddTagsPageState extends State<AddTagsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
   bool tagHere = false, tagExist = false, songHere = false;
   String tag = '', songId = '';
@@ -33,6 +34,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
       },
       child: SafeArea(
         child: Scaffold(
+          key: _scaffoldKey,
           body: Container(
             color: colorBackGround,
             child: Column(
@@ -159,6 +161,12 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     tagExist = true;
+                                    if (tagExist) {
+                                      print('taghere:$tagHere');
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) => _action2(
+                                              _scaffoldKey.currentContext));
+                                    }
                                     return GestureDetector(
                                       onTap: null,
                                       child: StreamBuilder(
@@ -301,5 +309,10 @@ class _AddTagsPageState extends State<AddTagsPage> {
     } else {
       print('do nothing');
     }
+  }
+
+  _action2(_context) {
+    errorPopUp(_context, 'The tag already exists');
+    print('el tag ya existe');
   }
 }

@@ -148,6 +148,12 @@ class MQTTClientWrapper {
         print(decodedData.tag);
         if (decodedData != null)
           onDeviceDataReceivedCallback(decodedData, topicName, 'TAG');
+      } else if (serverDataJson["TAGS"] != null) {
+        ServerData decodedData = ServerData.fromJson(serverDataJson);
+        print('tags');
+        print(decodedData.tags);
+        if (decodedData != null)
+          onDeviceDataReceivedCallback(decodedData, topicName, 'TAGS');
       } else if (serverDataJson["STATUS"] == 'FAILURE') {
         ServerData decodedData = ServerData.fromJson(serverDataJson);
         print("failure");

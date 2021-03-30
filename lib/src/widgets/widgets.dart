@@ -2197,6 +2197,14 @@ void errorPopUp(BuildContext _context, String message) {
                               Navigator.of(_context).pop();
                               Navigator.pushReplacementNamed(
                                   context, 'listPlayListPage');
+                            } else if (message == 'The tag does not exist') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'addTagsPage');
+                            } else if (message == 'The tag already exists') {
+                              Navigator.of(_context).pop();
+                              Navigator.pushReplacementNamed(
+                                  context, 'editTagsPage');
                             } else {
                               Navigator.of(_context).pop();
                               Navigator.pushReplacementNamed(
@@ -3441,18 +3449,18 @@ Widget threeIconCardDialog(Room room, Widget roomIcon, Widget editIcon,
                       });
                 },
                 child: deleteIcon),
-            SizedBox(
-              width: 10.0,
-            ),
-            GestureDetector(
-                onTap: () {
-                  //ServerDataBloc().deleteRoomDevices();
-                  ServerDataBloc().roomToModify(room);
-                  ServerDataBloc().loadingEdit();
-                  ServerDataBloc().requestDevices();
-                  Navigator.of(_context).pushReplacementNamed('editRoomsPage');
-                },
-                child: editIcon),
+            // SizedBox(
+            //   width: 10.0,
+            // ),
+            // GestureDetector(
+            //     onTap: () {
+            //       //ServerDataBloc().deleteRoomDevices();
+            //       ServerDataBloc().roomToModify(room);
+            //       ServerDataBloc().loadingEdit();
+            //       ServerDataBloc().requestDevices();
+            //       Navigator.of(_context).pushReplacementNamed('editRoomsPage');
+            //     },
+            //     child: editIcon),
             SizedBox(
               width: 35.0,
             ),
@@ -3634,19 +3642,19 @@ Widget threeIconCard(Room room, Widget roomIcon, Widget editIcon,
                         });
                   },
                   child: deleteIcon),
-              SizedBox(
-                width: 10.0,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    //ServerDataBloc().deleteRoomDevices();
-                    ServerDataBloc().roomToModify(room);
-                    ServerDataBloc().loadingEdit();
-                    ServerDataBloc().requestDevices();
-                    Navigator.of(_context)
-                        .pushReplacementNamed('editRoomsPage');
-                  },
-                  child: editIcon),
+              // SizedBox(
+              //   width: 10.0,
+              // ),
+              // GestureDetector(
+              //     onTap: () {
+              //       //ServerDataBloc().deleteRoomDevices();
+              //       ServerDataBloc().roomToModify(room);
+              //       ServerDataBloc().loadingEdit();
+              //       ServerDataBloc().requestDevices();
+              //       Navigator.of(_context)
+              //           .pushReplacementNamed('editRoomsPage');
+              //     },
+              //     child: editIcon),
               SizedBox(
                 width: 35.0,
               ),

@@ -43,7 +43,8 @@ class RoomSearchDelegate extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Room>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length > 0) {
-            return makeRoomsList(snapshot.data, context);
+            return makeRoomsListSimpleNoStatus(snapshot.data, [],
+                context); //makeRoomsList(snapshot.data, context);
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,

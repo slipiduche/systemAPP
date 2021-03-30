@@ -186,6 +186,8 @@ class ServerDataBloc {
               requestPlayLists();
               return;
             }
+          } else {
+            _serverTagController.add(null);
           }
         });
         return;
@@ -271,6 +273,10 @@ class ServerDataBloc {
         if (dataType == 'MUSIC') {
           _serverDataController.add([]);
           print('MUSIC');
+        }
+        if (dataType == 'TAGS') {
+          _serverTagController.add(null);
+          print('TAGS');
         }
         if (dataType == 'PLAYLISTS') {
           _serverPlayListsController.add([]);

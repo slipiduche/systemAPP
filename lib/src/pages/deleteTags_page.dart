@@ -14,9 +14,9 @@ class DeleteTagsPage extends StatefulWidget {
 
 class _DeleteTagsPageState extends State<DeleteTagsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String tag = '', songId = '', tagId = '';
+  String tag = '', songId = ''; //,tagId = '';
   ServerDataBloc serverDataBloc = ServerDataBloc();
-  bool tagHere = false, songHere = false;
+  bool _tagHere = false, playListHere = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -27,7 +27,7 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
 
   @override
   Widget build(BuildContext context) {
-    tagHere = false;
+    //tagHere = false;
     return WillPopScope(
       onWillPop: () {
         serverDataBloc.deleteData();
@@ -103,7 +103,8 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                     builder: (BuildContext context,
                                         AsyncSnapshot snapshot) {
                                       if (snapshot.hasData) {
-                                        tagHere = true;
+                                        _tagHere = true;
+                                        print('tag$_tagHere');
                                         serverDataBloc.requestPlayLists();
                                         serverDataBloc.requestTags();
                                         return Row(
@@ -151,10 +152,11 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                 height: 10.0,
                               ),
                               StreamBuilder(
-                                stream: serverDataBloc.tagStream,
+                                stream: serverDataBloc.serverTagStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
+                                    _tagHere = true;
                                     return GestureDetector(
                                       onTap: null,
                                       child: StreamBuilder(
@@ -164,11 +166,12 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                           if (snapshot.hasData) {
                                             songId =
                                                 snapshot.data.id.toString();
-                                            songHere = true;
+                                            playListHere = true;
                                             return textBoxForm(
                                                 snapshot.data.listName,
                                                 context);
                                           } else {
+                                            playListHere = false;
                                             return textBoxForm(
                                                 'Playlist will appear here',
                                                 context);
@@ -177,6 +180,15 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                       ),
                                     );
                                   } else {
+                                    print('taghere:$_tagHere');
+                                    if (!playListHere && _tagHere) {
+                                      print('taghere:$_tagHere');
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) => _action2(
+                                              _scaffoldKey.currentContext));
+                                      _tagHere = false;
+                                    }
+
                                     return GestureDetector(
                                       onTap: null,
                                       child: StreamBuilder(
@@ -184,11 +196,12 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot) {
                                           if (snapshot.hasData) {
-                                            songHere = true;
+                                            playListHere = true;
                                             return textBoxForm(
                                                 snapshot.data.listName,
                                                 context);
                                           } else {
+                                            playListHere = false;
                                             return textBoxForm(
                                                 'Playlist will appear here',
                                                 context);
@@ -259,8 +272,13 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
     );
   }
 
+  _action2(_context) {
+    errorPopUp(_context, 'The tag does not exist');
+    print('el tag no existe');
+  }
+
   void _action(String _tagId, BuildContext context) async {
-    if (tagHere && songHere) {
+    if (_tagHere && playListHere) {
       BuildContext dialogContext;
       showDialog(
           context: context,

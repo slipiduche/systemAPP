@@ -75,7 +75,7 @@ class _MusicPageState extends State<MusicPage> {
                           SizedBox(height: 20.0),
                           tarjeta(
                               'Change Default',
-                              'Select a new default song',
+                              'Select a new default playlist',
                               Icon(Icons.settings,
                                   color: colorMedico, size: 40.0),
                               7,

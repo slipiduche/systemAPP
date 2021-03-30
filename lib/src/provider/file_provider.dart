@@ -224,7 +224,14 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                                                 MP3Instance(_paths[i].path);
                                             String author, genre;
                                             if (id3.parseTagsSync()) {
-                                              print(id3.getMetaTags());
+                                              // print(id3.getMetaTags());
+                                              // print(id3.metaTags['Title']);
+                                              // print(id3.metaTags['Artist']);
+                                              // print(id3.metaTags['Album']);
+                                              // print(id3.metaTags['Year']);
+                                              // print(id3.metaTags['Comment']);
+                                              // print(id3.metaTags['Genre']);
+
                                               author = id3.metaTags["Artist"];
                                               genre = id3.metaTags["Genre"];
                                               print(author);
