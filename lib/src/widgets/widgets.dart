@@ -143,13 +143,15 @@ Widget tarjeta(
       }
       if (index == 13) {
         await Navigator.of(context)
-            .pushNamed('deleteTagsPage', arguments: null);
+            .pushReplacementNamed('deleteTagsPage', arguments: null);
       }
       if (index == 12) {
-        await Navigator.of(context).pushNamed('editTagsPage', arguments: null);
+        await Navigator.of(context)
+            .pushReplacementNamed('editTagsPage', arguments: null);
       }
       if (index == 11) {
-        await Navigator.of(context).pushNamed('addTagsPage', arguments: null);
+        await Navigator.of(context)
+            .pushReplacementNamed('addTagsPage', arguments: null);
       }
       if (index == 10) {
         await Navigator.of(context).pushNamed('editSongPage', arguments: null);

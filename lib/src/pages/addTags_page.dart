@@ -22,6 +22,11 @@ class _AddTagsPageState extends State<AddTagsPage> {
     super.initState();
     serverDataBloc.deleteData();
     serverDataBloc.deletePrevtag();
+    tagHere = false;
+    tagExist = false;
+    songHere = false;
+    tag = '';
+    songId = '';
   }
 
   @override
@@ -30,7 +35,8 @@ class _AddTagsPageState extends State<AddTagsPage> {
     return WillPopScope(
       onWillPop: () {
         serverDataBloc.deleteData();
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed('tagPage');
       },
       child: SafeArea(
         child: Scaffold(

@@ -22,6 +22,11 @@ class _EditTagsPageState extends State<EditTagsPage> {
     super.initState();
     serverDataBloc.deleteData();
     serverDataBloc.deletePrevtag();
+    tagHere = false;
+    songHere = false;
+    tag = '';
+    songId = '';
+    tagId = '';
   }
 
   @override
@@ -29,8 +34,10 @@ class _EditTagsPageState extends State<EditTagsPage> {
     tagHere = false;
     return WillPopScope(
       onWillPop: () {
-        serverDataBloc.deleteData();
-        Navigator.of(context).pop();
+        //serverDataBloc.deleteData();
+        //Navigator.of(_scaffoldKey.currentContext).pop();
+        Navigator.of(_scaffoldKey.currentContext)
+            .pushReplacementNamed('tagPage');
       },
       child: SafeArea(
         child: Scaffold(
@@ -299,9 +306,19 @@ class _EditTagsPageState extends State<EditTagsPage> {
       updating(context, 'Updating');
       final resp = await ServerDataBloc().editTag(_songId, _tagId);
       if (resp) {
+        tagHere = false;
+        songHere = false;
+        tag = '';
+        songId = '';
+        tagId = '';
         Navigator.of(context).pop();
         updated(context, 'Tag updated');
       } else {
+        tagHere = false;
+        songHere = false;
+        tag = '';
+        songId = '';
+        tagId = '';
         Navigator.of(context).pop();
         errorPopUp(context, 'Not updated');
       }

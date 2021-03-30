@@ -14,8 +14,8 @@ class DeleteTagsPage extends StatefulWidget {
 
 class _DeleteTagsPageState extends State<DeleteTagsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String tag = '', songId = ''; //,tagId = '';
   ServerDataBloc serverDataBloc = ServerDataBloc();
+  String tag = '', songId = ''; //,tagId = '';
   bool _tagHere = false, playListHere = false;
   @override
   void initState() {
@@ -23,6 +23,10 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
     super.initState();
     serverDataBloc.deleteData();
     serverDataBloc.deletePrevtag();
+    tag = '';
+    songId = ''; //,tagId = '';
+    _tagHere = false;
+    playListHere = false;
   }
 
   @override
@@ -31,7 +35,8 @@ class _DeleteTagsPageState extends State<DeleteTagsPage> {
     return WillPopScope(
       onWillPop: () {
         serverDataBloc.deleteData();
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed('tagPage');
       },
       child: SafeArea(
         child: Scaffold(
