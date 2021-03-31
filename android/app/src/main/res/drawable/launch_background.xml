@@ -5,10 +5,12 @@
 
     <!-- You can insert your own image assets here -->
     <item>
+    
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-            
+            android:src="@mipmap/launch_image"
+            android:background="#00000000"
+            />
     </item> 
     
 </layer-list>
