@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget with PortraitModeMixin {
       theme: ThemeData(fontFamily: 'Roboto'),
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'loadingPage',
+      initialRoute: 'homePage',
       routes: getAppRoutes(),
       onGenerateRoute: (RouteSettings settings) {
         print('ruta llamada ${settings.name}');
