@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        SizedBox(height:5.0),
+                        SizedBox(height: 5.0),
                         gradientBar2(0),
                       ],
                     ),
@@ -214,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        SizedBox(height:5.0),
+                        SizedBox(height: 5.0),
                         // Expanded(child: Container()),
                         gradientBar2(0),
                       ],
@@ -235,7 +236,7 @@ class _HomePageState extends State<HomePage> {
       _reconnect = false;
       _errorClosed = false;
       errorPopUp1(context,
-          'Error connecting to server make sure your phone is connected in the same Wifi Network System',
+          'Error connecting to server, make sure your phone is connected to the same WiFi network of your devices',
           () async {
         Navigator.of(context).pop();
         await Future.delayed(Duration(seconds: 10));
