@@ -42,6 +42,7 @@ class SongSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    
     return FutureBuilder(
       future: songService.findSong(this.query, songs),
       builder: (BuildContext context, AsyncSnapshot<List<Music>> snapshot) {
@@ -50,6 +51,9 @@ class SongSearchDelegate extends SearchDelegate {
             if (mode == 'bind') {
               return makeSongsList(
                   context, snapshot.data, addIcon(20.0, colorMedico), 'add');
+            }
+            if (mode == 'list') {
+              return makeSongsList2(context, snapshot.data);
             }
             if (mode == 'play') {
               return Container(
@@ -96,6 +100,9 @@ class SongSearchDelegate extends SearchDelegate {
             if (mode == 'bind') {
               return makeSongsList(
                   context, snapshot.data, addIcon(20.0, colorMedico), 'bind');
+            }
+            if (mode == 'list') {
+              return makeSongsListSearch(context, snapshot.data);
             }
             if (mode == 'play') {
               return Container(
