@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get_mac/get_mac.dart';
 
 import 'package:systemAPP/constants.dart' as Constants;
 
@@ -35,7 +36,7 @@ class MQTTClientWrapper {
   }
 
   Future prepareMqttClient() async {
-    _setupMqttClient();
+    await _setupMqttClient();
     await _connectClient();
   }
 
@@ -66,16 +67,18 @@ class MQTTClientWrapper {
     }
   }
 
-  void _setupMqttClient() {
-    String _id = Random(300).nextInt(300).toDouble().toString();
+  Future<String> _setupMqttClient() async {
+    String _id = await GetMac.macAddress;
+
     print('MQTTClientWrapper::Connecting with id systemApp/$_id');
-    client = MqttClient.withPort(
-        Constants.serverUri, 'systemApp/$_id', Constants.mqttPort);
+    client =
+        MqttClient.withPort(Constants.serverUri, 'sA/$_id', Constants.mqttPort);
     client.logging(on: false);
     client.keepAlivePeriod = 60;
     client.onDisconnected = _onDisconnected;
     client.onConnected = _onConnected;
     client.onSubscribed = _onSubscribed;
+    return _id;
   }
 
   void subscribeToTopic(String topicName) {
