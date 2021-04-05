@@ -6,7 +6,7 @@ final String uploadPort = '8081';
 final String topicName = "server/#";
 // final String topicIn = "SDR/c4d7ba3a7d80/out";
 // final String topicOut = "SDR/c4d7ba3a7d80/in";
-final String credentials = '{"USER": "APP","PASS":"0R81TT45","NEW":"NO"}';
+final String credentials = '{"USER": "APP","PASS":"0R81TT45","NEW":"NO",';
 //{"STATUS":"SUCCESS","TOKEN":"mBwZ7WnVHAntfDWL"}
 //{"STATUS":"SUCCESS","TOKEN":"8BQKEiSqaKrGlWBV"}
 //final String TOKEN ="Fkg7xzrTHL4eYEFp";
