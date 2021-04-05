@@ -14,7 +14,7 @@ class EditTagsPage extends StatefulWidget {
 class _EditTagsPageState extends State<EditTagsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
-  bool tagHere = false, songHere = false;
+  bool tagHere = false, songHere = false, activeDialog = false;
   String tag = '', songId = '', tagId = '';
   @override
   void initState() {
@@ -27,6 +27,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
     tag = '';
     songId = '';
     tagId = '';
+    activeDialog = false;
   }
 
   @override
@@ -199,7 +200,8 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                       ),
                                     );
                                   } else {
-                                    if (tagHere) {
+                                    if (tagHere && !activeDialog) {
+                                      activeDialog = true;
                                       print('taghere:$tagHere');
                                       WidgetsBinding.instance
                                           .addPostFrameCallback((_) => _action2(

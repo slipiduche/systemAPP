@@ -14,7 +14,9 @@ class AddTagsPage extends StatefulWidget {
 class _AddTagsPageState extends State<AddTagsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ServerDataBloc serverDataBloc = ServerDataBloc();
+
   bool tagHere = false, tagExist = false, songHere = false;
+
   String tag = '', songId = '';
   @override
   void initState() {
@@ -166,6 +168,7 @@ class _AddTagsPageState extends State<AddTagsPage> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
+                                    print('tag existe en add');
                                     tagExist = true;
                                     if (tagExist) {
                                       print('taghere:$tagHere');

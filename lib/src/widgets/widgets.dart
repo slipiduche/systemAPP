@@ -456,6 +456,52 @@ Widget makeSongsList(
   }
 }
 
+Widget makeSongsListSearch(BuildContext _context, List<Music> list) {
+  if (list.length < 1) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20.0,
+        ),
+        Text(
+          'No songs available',
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    );
+  } else {
+    return ListView.builder(
+        //controller: _scrollController,
+        itemCount: (list.length),
+        itemBuilder: (BuildContext _context, int index) {
+          //print(index);
+          if (list.length - 1 == index) {
+            return Column(
+              children: [
+                twoIconCardList(list[index], () {}, () {
+                  deleting(list[index], _context);
+                }, () {
+                  editing(list[index], _context);
+                }, _context),
+                SizedBox(
+                  height: 100.0,
+                )
+              ],
+            );
+          }
+          if (list[index].id > 1) {
+            return twoIconCardList(list[index], () {}, () {
+              deleting(list[index], _context);
+            }, () {
+              editing(list[index], _context);
+            }, _context);
+          } else {
+            return Container();
+          }
+        });
+  }
+}
+
 Widget makeSongsListPtx(BuildContext _context, List<Music> list,
     List<int> listId, bool allSelected) {
   final selected = ServerDataBloc().getPtxIds();

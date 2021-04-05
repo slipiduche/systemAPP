@@ -9,7 +9,7 @@ class SongService {
     await _songs.forEach((element) {
       if (element.songName.toLowerCase().contains(minus) ||
           (element.artist.toLowerCase().contains(minus))) {
-        filtered.add(element);
+        if (element.id != 1) filtered.add(element);
       }
     });
     return filtered;

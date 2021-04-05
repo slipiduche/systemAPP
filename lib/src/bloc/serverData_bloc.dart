@@ -168,8 +168,11 @@ class ServerDataBloc {
         print(data.tags.items.length);
         print(data.tags.items);
         _serverTagsController.add(data.tags.items);
+        bool _tagExist = false;
         data.tags.items.forEach((element) {
           if (element.tag == _tagController.stream.value) {
+            _tagExist = true;
+            print('tag existe');
             final _songId = element.songId;
             _serverTagController.add(element);
             if (_serverPlayListsController.stream.hasValue) {
@@ -186,10 +189,11 @@ class ServerDataBloc {
               requestPlayLists();
               return;
             }
-          } else {
-            _serverTagController.add(null);
           }
         });
+        if (!_tagExist) {
+          _serverTagController.add(null);
+        }
         return;
       } else if (data.status == 'INVALID' || data.status == 'LOGIN') {
         login();
