@@ -51,6 +51,7 @@ final title2 = 20.0;
 final search1 = 24.0;
 final titleCard = 36.0;
 final subTitleCard = 14.0;
+String apIdMain;
 // final List dispositivos = [{   "id":0,
 //     "nombreDispositivo":"SDRVEN",
 //     "chipID":"XXXXXXXXXXXX"

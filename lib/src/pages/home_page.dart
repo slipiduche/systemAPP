@@ -22,12 +22,17 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  bool _reconnect = false, _errorClosed = true, _firstTime = true;
+  bool _reconnect = false,
+      _reLogin = false,
+      _errorClosed = true,
+      _firstTime = true;
   ServerDataBloc serverDataBloc = ServerDataBloc();
+
   @override
   Widget build(BuildContext context) {
     if ((serverDataBloc.token == null) || (serverDataBloc.token == '')) {
       serverDataBloc.login();
+
       print('before');
     }
 
@@ -192,14 +197,20 @@ class _HomePageState extends State<HomePage> {
                                                 if (snapshot.hasData) {
                                                   _firstTime = false;
                                                 }
-                                                if (serverDataBloc
-                                                        .serverDataProvider
-                                                        .connectionState ==
-                                                    MqttCurrentConnectionState
-                                                        .CONNECTED) {
-                                                  _reconnect = false;
-                                                } else {
-                                                  if (_errorClosed) {
+                                                if (apIdMain != null) {
+                                                  if (serverDataBloc
+                                                          .serverDataProvider
+                                                          .connectionState ==
+                                                      MqttCurrentConnectionState
+                                                          .CONNECTED) {
+                                                    if ((serverDataBloc.token ==
+                                                            null) ||
+                                                        (serverDataBloc.token ==
+                                                            '')) {
+                                                      _reLogin = true;
+                                                    }
+                                                    _reconnect = false;
+                                                  } else if (_errorClosed) {
                                                     _reconnect = true;
                                                   }
                                                 }
@@ -231,6 +242,13 @@ class _HomePageState extends State<HomePage> {
 
   onAfterBuild(BuildContext context) async {
     print('se construyó');
+    if (!_reconnect && _reLogin) {
+      _reLogin = false;
+      if ((serverDataBloc.token == null) || (serverDataBloc.token == '')) {
+        serverDataBloc.login();
+        print('before2');
+      }
+    }
     if (_reconnect && !_firstTime) {
       _firstTime = false;
       _reconnect = false;
@@ -241,8 +259,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context).pop();
         await Future.delayed(Duration(seconds: 10));
         _errorClosed = true;
-        serverDataBloc.serverConnect(
-            'SERVER/AUTHORIZE', 'SERVER/RESPONSE', 'SERVER/INFO');
+        serverDataBloc.serverConnect('SERVER/$apIdMain/AUTHORIZE',
+            'SERVER/$apIdMain/RESPONSE', 'SERVER/$apIdMain/INFO');
         serverDataBloc.initRadioService();
       });
     }

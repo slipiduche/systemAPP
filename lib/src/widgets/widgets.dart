@@ -2218,8 +2218,10 @@ void errorPopUp(BuildContext _context, String message) {
                             } else if (message ==
                                 "Error connecting to server make sure your phone is connected in the same Wifi Network System") {
                               Navigator.of(context).pop();
-                              ServerDataBloc().serverConnect('SERVER/AUTHORIZE',
-                                  'SERVER/RESPONSE', 'SERVER/INFO');
+                              ServerDataBloc().serverConnect(
+                                  'SERVER/$apIdMain/AUTHORIZE',
+                                  'SERVER/$apIdMain/RESPONSE',
+                                  'SERVER/$apIdMain/INFO');
                               ServerDataBloc().initRadioService();
                             } else if (message == "Songs not uploaded") {
                               Navigator.of(_context).pop();

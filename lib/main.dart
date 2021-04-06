@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_mac/get_mac.dart';
+import 'package:systemAPP/src/bloc/serverData_bloc.dart';
+import 'package:systemAPP/src/models/serverData_model.dart';
 import 'package:systemAPP/src/pages/home_page.dart';
 import 'package:systemAPP/src/routes/routes.dart';
 import 'package:systemAPP/src/share_prefs/preferencias_usuario.dart';
+
+import 'constants.dart';
 
 /// Forces portrait-only mode application-wide
 /// Use this Mixin on the main app widget i.e. app.Dart
@@ -58,6 +63,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();
+
+  apIdMain = await GetMac.macAddress;
+  //final _serverDataBloc = new ServerDataBloc();
+  ServerDataBloc serverDataBloc = ServerDataBloc();
   runApp(MyApp());
 }
 

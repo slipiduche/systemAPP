@@ -33,15 +33,17 @@ class ServerDataBloc {
   FlutterRadioPlayer songPlayer = new FlutterRadioPlayer();
 
   ServerDataBloc._internal() {
+    apId = apIdMain;
     initRadioService();
   }
   Future<void> serverConnection() async {
-    String _id = await GetMac.macAddress;
-    serverConnect(
-        'SERVER/$_id/AUTHORIZE', 'SERVER/$_id/RESPONSE', 'SERVER/$_id/INFO');
+    print('server......$apId');
+    await serverConnect(
+        'SERVER/$apId/AUTHORIZE', 'SERVER/$apId/RESPONSE', 'SERVER/$apId/INFO');
   }
 
   Future<void> initRadioService() async {
+    await serverConnection();
     try {
       await songPlayer.init("System App", "Server",
           "http://$serverUri:8080/audio/0/default.mp3", "false");
@@ -50,6 +52,8 @@ class ServerDataBloc {
       print("Exception occurred while trying to register the services.");
     }
   }
+
+  String apId;
 
   String _prevTag = '';
   List<int> _ptxIds = [];
@@ -106,9 +110,8 @@ class ServerDataBloc {
   final timer = Stream.periodic(Duration(seconds: 7), (int count) => count)
       .asBroadcastStream();
   //String get tokenS => token;
-  void serverConnect(
+  Future<void> serverConnect(
       String _topicIn, String _topicIn2, String _topicIn3) async {
-    String _id = await GetMac.macAddress;
     serverDataProvider = MQTTClientWrapper(() async {
       if (_topicIn != 'NoSelecccionado') {
         await serverDataProvider.subscribeToTopic(_topicIn);
@@ -117,7 +120,7 @@ class ServerDataBloc {
         if (serverDataProvider.subscriptionState ==
             MqttSubscriptionState.SUBSCRIBED)
           serverDataProvider.publishData(
-              '$credentials"ID":"$_id"}', 'APP/CREDENTIALS');
+              '$credentials"ID":"$apId"}', 'APP/CREDENTIALS');
       }
     }, (ServerData data, String topic, String dataType) async {
       if (data.tag != null) {
@@ -334,14 +337,13 @@ class ServerDataBloc {
   }
 
   Future<bool> updateSong(song) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
 
       if (token != '' && token != null) {
         final postData =
-            '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.genre}","FIELD4":"${song.flName}","FIELD5":${song.id}}';
+            '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.genre}","FIELD4":"${song.flName}","FIELD5":${song.id}}';
         final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
         await Future.delayed(Duration(seconds: 1));
 
@@ -349,7 +351,7 @@ class ServerDataBloc {
       }
     } else {
       final postData =
-          '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.genre}","FIELD4":"${song.flName}","FIELD5":${song.id}}';
+          '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"MUSIC","FIELD1":"${song.songName}","FIELD2":"${song.artist}","FIELD3":"${song.genre}","FIELD4":"${song.flName}","FIELD5":${song.id}}';
       final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
       await Future.delayed(Duration(seconds: 1));
 
@@ -359,11 +361,10 @@ class ServerDataBloc {
   }
 
   Future<bool> login() async {
-    String _id = await GetMac.macAddress;
     if (serverDataProvider.subscriptionState ==
         MqttSubscriptionState.SUBSCRIBED) {
       final resp = serverDataProvider.publishData(
-          '$credentials"AP_ID":"$_id"}', 'APP/CREDENTIALS');
+          '$credentials"AP_ID":"$apId"}', 'APP/CREDENTIALS');
       await Future.delayed(Duration(seconds: 1));
       return resp;
     } else {
@@ -375,38 +376,35 @@ class ServerDataBloc {
   }
 
   void requestSongs() async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
 
     serverDataProvider.publishData(
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"MUSIC"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
   void requestTags() async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
 
     serverDataProvider.publishData(
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"TAGS"}', 'APP/GET');
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"TAGS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
   void requestRooms() async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
 
     serverDataProvider.publishData(
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"ROOMS"}', 'APP/GET');
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"ROOMS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
@@ -443,26 +441,24 @@ class ServerDataBloc {
   }
 
   Future<bool> deleteSong(Music song) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"MUSIC","FIELD1":${song.id}}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"MUSIC","FIELD1":${song.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     //await Future.delayed(Duration(seconds: 1));
     return resp;
   }
 
   Future<bool> addTag(String tag, String songId) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
       if (token != '' && token != null) {
         final postData =
-            '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":$songId,"FIELD3":false}';
+            '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":$songId,"FIELD3":false}';
         final resp = serverDataProvider.publishData(postData, 'APP/POST');
         await Future.delayed(Duration(seconds: 1));
         if (response.status != null) {
@@ -477,7 +473,7 @@ class ServerDataBloc {
       }
     } else {
       final postData =
-          '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":$songId,"FIELD3":false}';
+          '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"TAGS","FIELD1":"$tag","FIELD2":$songId,"FIELD3":false}';
       final resp = serverDataProvider.publishData(postData, 'APP/POST');
       await Future.delayed(Duration(seconds: 1));
       if (response.status != null) {
@@ -493,13 +489,12 @@ class ServerDataBloc {
   }
 
   Future<bool> editTag(String songId, String tagId) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"TAGS","FIELD1":$songId,"FIELD2":false,"FIELD3":$tagId}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"TAGS","FIELD1":$songId,"FIELD2":false,"FIELD3":$tagId}';
     final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -514,12 +509,11 @@ class ServerDataBloc {
   }
 
   Future<bool> changeDefault(String songId) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData = '{"AP_ID":"$_id","TOKEN":"$token","ID":$songId}';
+    final postData = '{"AP_ID":"$apId","TOKEN":"$token","ID":$songId}';
     final resp = serverDataProvider.publishData(postData, 'APP/DEFAULT');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -534,13 +528,12 @@ class ServerDataBloc {
   }
 
   deleteTag(String tagId) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"TAGS","FIELD1":$tagId}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"TAGS","FIELD1":$tagId}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -587,12 +580,11 @@ class ServerDataBloc {
   }
 
   void requestDevices() async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
-    final postData = '{"AP_ID":"$_id","REQUEST":"INFO"}';
+    final postData = '{"AP_ID":"$apId","REQUEST":"INFO"}';
     final resp = serverDataProvider.publishData(postData, 'APP/INFO');
     await Future.delayed(Duration(seconds: 5));
     // if (response.status != null) {
@@ -608,13 +600,12 @@ class ServerDataBloc {
 
   Future<bool> addRoom(String roomName, String speakerId, String readerId,
       String speakerName, String readerName) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName"}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName"}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -630,13 +621,12 @@ class ServerDataBloc {
 
   Future<bool> editRoom(String roomName, String speakerId, String readerId,
       String speakerName, String readerName, String roomId) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName","FIELD6":"$roomId"}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"ROOMS","FIELD1":"$roomName","FIELD2":"$readerId","FIELD3":"$speakerId","FIELD4":"$readerName","FIELD5":"$speakerName","FIELD6":"$roomId"}';
     final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -651,13 +641,12 @@ class ServerDataBloc {
   }
 
   Future<bool> deleteRoom(Room room) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"ROOMS","FIELD1":${room.id}}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"ROOMS","FIELD1":${room.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -672,34 +661,31 @@ class ServerDataBloc {
   }
 
   void requestPlayLists() async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
 
     serverDataProvider.publishData(
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"PLAYLISTS"}', 'APP/GET');
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"PLAYLISTS"}', 'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
   void requestPlayListsSong(PlayList playList) async {
-    String _id = await GetMac.macAddress;
     if (token == '' || token == null) {
       login();
       await Future.delayed(Duration(seconds: 1));
     }
 
     serverDataProvider.publishData(
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"${playList.plTableName}"}',
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"${playList.plTableName}"}',
         'APP/GET');
     //_cargandoController.sink.add(false);
   }
 
   Future<bool> createPlayList(String listName) async {
-    String _id = await GetMac.macAddress;
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":"FALSE","FIELD3":null,"FIELD4":null,"FIELD5":null}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$listName","FIELD2":"FALSE","FIELD3":null,"FIELD4":null,"FIELD5":null}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
@@ -714,9 +700,8 @@ class ServerDataBloc {
   }
 
   Future<bool> renamePlayList(String newname, PlayList playList) async {
-    String _id = await GetMac.macAddress;
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$newname","FIELD2":"FALSE","FIELD3":${playList.id}}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":"$newname","FIELD2":"FALSE","FIELD3":${playList.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/UPDATE');
     await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
@@ -731,9 +716,8 @@ class ServerDataBloc {
   }
 
   Future<bool> deletePlayList(PlayList playList) async {
-    String _id = await GetMac.macAddress;
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":${playList.id}}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"PLAYLISTS","FIELD1":${playList.id}}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 2));
     if (response.status != null) {
@@ -748,9 +732,8 @@ class ServerDataBloc {
   }
 
   Future<bool> addSongToPlayList(PlayList playList, List<int> songIds) async {
-    String _id = await GetMac.macAddress;
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$songIds}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$songIds}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -765,9 +748,8 @@ class ServerDataBloc {
   }
 
   Future<bool> addSongsToPlayList(PlayList playList) async {
-    String _id = await GetMac.macAddress;
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_songIds}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_songIds}';
     final resp = serverDataProvider.publishData(postData, 'APP/POST');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
@@ -782,9 +764,8 @@ class ServerDataBloc {
   }
 
   Future<bool> deleteSongFromPlayList(PlayList playList) async {
-    String _id = await GetMac.macAddress;
     final postData =
-        '{"AP_ID":"$_id","TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_ptxIds}';
+        '{"AP_ID":"$apId","TOKEN":"$token","TARGET":"${playList.plTableName}","FIELD1":$_ptxIds}';
     final resp = serverDataProvider.publishData(postData, 'APP/DELETE');
     await Future.delayed(Duration(seconds: 1));
     if (response.status != null) {
