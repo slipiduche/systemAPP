@@ -2221,7 +2221,7 @@ void errorPopUp(BuildContext _context, String message) {
                               ServerDataBloc().serverConnect(
                                   'SERVER/$apIdMain/AUTHORIZE',
                                   'SERVER/$apIdMain/RESPONSE',
-                                  'SERVER/$apIdMain/INFO');
+                                  'SERVER/INFO');
                               ServerDataBloc().initRadioService();
                             } else if (message == "Songs not uploaded") {
                               Navigator.of(_context).pop();

@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
         await Future.delayed(Duration(seconds: 10));
         _errorClosed = true;
         serverDataBloc.serverConnect('SERVER/$apIdMain/AUTHORIZE',
-            'SERVER/$apIdMain/RESPONSE', 'SERVER/$apIdMain/INFO');
+            'SERVER/$apIdMain/RESPONSE', 'SERVER/INFO');
         serverDataBloc.initRadioService();
       });
     }

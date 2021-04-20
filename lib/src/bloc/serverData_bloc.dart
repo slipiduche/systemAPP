@@ -39,7 +39,7 @@ class ServerDataBloc {
   Future<void> serverConnection() async {
     print('server......$apId');
     await serverConnect(
-        'SERVER/$apId/AUTHORIZE', 'SERVER/$apId/RESPONSE', 'SERVER/$apId/INFO');
+        'SERVER/$apId/AUTHORIZE', 'SERVER/$apId/RESPONSE', 'SERVER/INFO');
   }
 
   Future<void> initRadioService() async {

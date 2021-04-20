@@ -256,7 +256,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                           Expanded(
                                             child: Container(
                                               height: 40.0,
-                                              child: submitButton('Edit', () {
+                                              child: submitButton('Save', () {
                                                 _action(songId, tagId, context);
                                               }),
                                             ),
@@ -272,7 +272,7 @@ class _EditTagsPageState extends State<EditTagsPage> {
                                           Expanded(
                                             child: Container(
                                               height: 40.0,
-                                              child: submitButton('Edit', null),
+                                              child: submitButton('Save', null),
                                             ),
                                           ),
                                         ],

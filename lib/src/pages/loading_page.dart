@@ -112,7 +112,7 @@ class _LoadingPageState extends State<LoadingPage> {
         await Future.delayed(Duration(seconds: 10));
         _errorClosed = true;
         serverDataBloc.serverConnect('SERVER/$apIdMain/AUTHORIZE',
-            'SERVER/$apIdMain/RESPONSE', 'SERVER/$apIdMain/INFO');
+            'SERVER/$apIdMain/RESPONSE', 'SERVER/INFO');
         serverDataBloc.initRadioService();
       });
     } else if (_reconnect == false &&
